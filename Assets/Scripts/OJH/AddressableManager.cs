@@ -157,6 +157,7 @@ public class AddressableManager : MonoBehaviour
             _downPercentText.SetText("100 %");
             _downPercentSlider.value = 1f;
             _downPanel.SetActive(false);
+            Debug.Log("다운받을 파일이 없음!!!");
         }
     }
 
