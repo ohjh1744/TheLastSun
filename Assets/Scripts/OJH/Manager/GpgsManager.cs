@@ -12,17 +12,33 @@ using UnityEngine.UI;
 
 public class GpgsManager : MonoBehaviour
 {
+    private  static GpgsManager _instance;
+    public  static GpgsManager Instance { get { return _instance; } private set { } }
+
     private AppUpdateManager _appUpdateManager;
 
-    [SerializeField] private GameObject _updatePanel;
+    Coroutine updateRoutine;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        StartCoroutine(CheckForUpdate());
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    IEnumerator CheckForUpdate()
+
+    public void DoCheckForUpdate(GameObject panel)
+    {
+        updateRoutine =  StartCoroutine(CheckForUpdate(panel));
+    }
+
+    IEnumerator CheckForUpdate(GameObject panel)
     {
         Debug.Log("Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //인앱 업데이트 관리를 위한 클래스 인스턴스화
@@ -75,7 +91,7 @@ public class GpgsManager : MonoBehaviour
             {
                 Debug.Log("업데이트 없음!");
                 //Update 패널 꺼주기
-                _updatePanel.SetActive(false);
+                panel.SetActive(false);
                 //임시로 로그인 테스트용으로
                 // 나중에 리소스확인 후 로그인 넣을 예정
                 Login();

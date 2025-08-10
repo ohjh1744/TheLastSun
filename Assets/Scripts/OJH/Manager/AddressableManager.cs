@@ -27,7 +27,6 @@ public class AddressableManager : MonoBehaviour
     private long _downSize;
     private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
 
-
     private void Awake()
     {
         for(int i = 0; i < _label.Count; i++)

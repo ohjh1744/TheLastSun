@@ -52,29 +52,6 @@ public class UIBInder : MonoBehaviour
         }
     }
 
-    public void BindButtons()
-    {
-        Button[] buttons = GetComponentsInChildren<Button>(true);
-        foreach(Button button in buttons)
-        {
-            button.onClick.AddListener(() => SoundManager.Instance.PlayUI("mousedown2"));
-        }
-    }
-
-    public void BindButtonTexts()
-    {
-        Button[] buttons = GetComponentsInChildren<Button>(true);
-        foreach (Button button in buttons)
-        {
-            TextMeshProUGUI text = button.GetComponentInChildren<TextMeshProUGUI>();
-            if (text != null)
-            {
-                ChangeTextColor changeTextColor = button.gameObject.AddComponent<ChangeTextColor>();
-                changeTextColor.buttonText = text;
-            }
-        }
-    }
-
     // 이름이 name인 UI 게임오브젝트 가져오기
     // GetUI("Key") : Key 이름의 게임오브젝트 가져오기
     public GameObject GetUI(in string name)
