@@ -9,22 +9,7 @@ using UnityEngine.UI;
 
 public class AddressableManager : MonoBehaviour
 {
-
-    // 불러올 에셋들
-    //[SerializeField] private AssetReferenceGameObject _playerObject;
-    //[SerializeField] private AssetReferenceGameObject[] _monsterObjects;
-    //[SerializeField] private AssetReferenceGameObject _coinObject;
-    //[SerializeField] private AssetReferenceT<AudioClip> _bgmClip;
-    //[SerializeField] private AssetReferenceSprite _imageSprite;
-
-
-    //실제 Objects들
-    //[SerializeField] private GameObject _player;
-    //[SerializeField] private List<GameObject> _monsterList = new List<GameObject>();
-    //[SerializeField] private GameObject _coin;
-    //[SerializeField] private AudioSource _bgm;
-    //[SerializeField] private Image _image;
-
+ 
     //현재 다운진행을 보여주기 위한 UI
     [SerializeField] private GameObject _downPanel;
     [SerializeField] private TextMeshProUGUI _downPercentText;
@@ -33,17 +18,23 @@ public class AddressableManager : MonoBehaviour
     [SerializeField] private Button _downButton;
 
     //어드레서블 라벨
-    [SerializeField] private AssetLabelReference _defaultLabel;
-    [SerializeField] private AssetLabelReference _imageLabel;
-    //[SerializeField] private AssetLabelReference _soundLabel;
+    [SerializeField] private List<AssetLabelReference> _label;
+    private List<string> _labels;
 
-
+    //다운로드 및 체크 관련 변수들
+    Coroutine _downRoutine;
+    Coroutine _checkFileRoutine;
     private long _downSize;
     private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
 
-    Coroutine _routine;
 
-
+    private void Awake()
+    {
+        for(int i = 0; i < _label.Count; i++)
+        {
+            _labels.Add(_label[i].labelString);
+        }
+    }
     void Start()
     {
         StartCoroutine(InitAddressable());
@@ -59,79 +50,90 @@ public class AddressableManager : MonoBehaviour
 
         Debug.Log("어드레서블 초기화 완료");
 
-        StartCoroutine(CheckDownLoadFIle()); //다운받을 파일있는지 확인
-
     }
 
-    //private void GetAssets()
-    //{
-    //    //InstantiateAsync -> Object 생성함수.
-
-    //    // Player
-    //    _playerObject.InstantiateAsync().Completed += (obj) =>
-    //    {
-    //        _player = obj.Result;
-    //    };
-
-    //    //Monster
-    //    for (int i = 0; i < _monsterObjects.Length; i++)
-    //    {
-    //        _monsterObjects[i].InstantiateAsync().Completed += (obj) =>
-    //        {
-    //            _monsterList.Add(obj.Result);
-    //        };
-    //    }
-
-    //    //Coin
-    //    _coinObject.InstantiateAsync().Completed += (obj) =>
-    //    {
-    //        _coin = obj.Result;
-    //    };
+    //단순 Object 생성
+    public void GetObject(AssetReferenceGameObject assetObject, GameObject realObject)
+    {
+        assetObject.InstantiateAsync().Completed += (obj) =>
+        {
+            realObject = obj.Result;
+        };
+    }
 
 
-    //    //LoadAssetAsync -> 에셋 가져오기
-
-    //    //Sound Image 가지고와서 AudioSource에 넣기
-    //    _bgmClip.LoadAssetAsync().Completed += (clip) =>
-    //    {
-    //        _bgm.clip = clip.Result;
-    //        _bgm.loop = true;
-    //        _bgm.Play();
-    //    };
-
-    //    //Image가지고와서 UI에 추가하기
-    //    _imageSprite.LoadAssetAsync().Completed += (img) =>
-    //    {
-    //        _image.sprite = img.Result;
-    //    };
-
-    //}
-
-    //private void ReleaseAssets()
-    //{
-    //    // LoadAssetAsync <-> ReleaseAsset
-    //    _bgmClip.ReleaseAsset();
-    //    _imageSprite.ReleaseAsset();
+    //단순 Object 생성 후 List에 저장
+    public void GetObjectAndSave(AssetReferenceGameObject assetObject, List<GameObject> realObjects)
+    {
+        assetObject.InstantiateAsync().Completed += (obj) =>
+        {
+            realObjects.Add(obj.Result);
+        };
+    }
 
 
-    //    // InstantiateAsync <-> ReleaseInstance
-    //    Addressables.ReleaseInstance(_player);
-    //    for (int i = _monsterObjects.Length; i > 0; i--)
-    //    {
-    //        Addressables.ReleaseInstance(_monsterList[i - 1]);
-    //        _monsterList.RemoveAt(i - 1);
-    //    }
-    //    Addressables.ReleaseInstance(_coin);
-    //}
+    //List에 저장된 Object들 생성 후 List에 저장
+    public void GetObjectsAndSave(List<AssetReferenceGameObject> assetObjects, List<GameObject> realObjects)
+    {
+        for (int i = 0; i < assetObjects.Count; i++)
+        {
+            assetObjects[i].InstantiateAsync().Completed += (obj) =>
+            {
+                realObjects.Add(obj.Result);
+            };
+        }
+    }
+
+    //Sound 가져오기
+    public void LoadSound(AssetReferenceT<AudioClip> assetAudioClip, AudioSource audio)
+    {
+        assetAudioClip.LoadAssetAsync().Completed += (clip) =>
+        {
+            audio.clip = clip.Result;
+        };
+    }
+
+    //Sprite 가져오기
+    public void LoadSprite(AssetReferenceSprite assetImageSprite, Image _image)
+    {
+        assetImageSprite.LoadAssetAsync().Completed += (img) =>
+        {
+            _image.sprite = img.Result;
+        };
+    }
+
+    // 가져온 에셋 해제
+    public void ReleaseObject(AssetReference asset)
+    {
+        asset.ReleaseAsset();
+    }
+
+    //생성한 에셋 해제
+    public void ReleaseInstance(GameObject assetObjects)
+    {
+        Addressables.ReleaseInstance(assetObjects);
+    }
+
+    public void ReleaseInstances(List<GameObject> assetObjects)
+    {
+        for (int i = assetObjects.Count; i > 0; i--)
+        {
+            Addressables.ReleaseInstance(assetObjects[i - 1]);
+            assetObjects.RemoveAt(i - 1);
+        }
+    }
+
 
     // 다운받을 파일 여부 확인
-    IEnumerator CheckDownLoadFIle()
+    public void DoCheckDownLoadFile(TextMeshProUGUI downSizeText, TextMeshProUGUI downPercentText, Slider downPercentSlider, Button downButton)
     {
-        List<string> labels = new List<string>() { _defaultLabel.labelString, _imageLabel.labelString};
-
+        _checkFileRoutine = StartCoroutine(CheckDownLoadFIle(downSizeText, downPercentText, downPercentSlider, downButton)); //다운받을 파일있는지 확인
+    }
+    IEnumerator CheckDownLoadFIle(TextMeshProUGUI downSizeText, TextMeshProUGUI downPercentText, Slider downPercentSlider, Button downButton)
+    {
         _downSize = 0;
 
-        foreach (string label in labels)
+        foreach (string label in _labels)
         {
             // 라벨별로 다운로드할 사이즈 가져오기
             var handle = Addressables.GetDownloadSizeAsync(label);
@@ -147,18 +149,20 @@ public class AddressableManager : MonoBehaviour
         // 0보다 크다면 다운받을 파일이 존재하다는 것
         if (_downSize > decimal.Zero)
         {
-            _downSizeText.SetText(GetFileSize(_downSize));
-            _downButton.interactable = true;
+            downSizeText.SetText(GetFileSize(_downSize));
+            downButton.interactable = true;
         }
         // 다운받을 파일이 존재하지 않다면
         else
         {
-            _downSizeText.SetText("0 Bytes");
-            _downPercentText.SetText("100 %");
-            _downPercentSlider.value = 1f;
-            _downPanel.SetActive(false);
+            downSizeText.SetText("0 Bytes");
+            downPercentText.SetText("100 %");
+            downPercentSlider.value = 1f;
+            //_downPanel.SetActive(false);
             Debug.Log("다운받을 파일이 없음!!!");
         }
+
+        _checkFileRoutine = null;
     }
 
     //파일 사이즈 사이즈 크기에 맞는 단위로 표현하기 위한 함수
@@ -192,20 +196,18 @@ public class AddressableManager : MonoBehaviour
         return sb;
     }
 
-    public void DoDownLoad()
+    public void DoDownLoad(Slider downPercentSlider, GameObject downPanel, TextMeshProUGUI downPercentText)
     {
-        if (_routine == null)
+        if (_downRoutine == null)
         {
-            _routine = StartCoroutine(DownLoad());
+            _downRoutine = StartCoroutine(DownLoad(downPercentSlider, downPanel, downPercentText));
         }
     }
 
     //다운로드 시작
-    IEnumerator DownLoad()
+    IEnumerator DownLoad(Slider downPercentSlider, GameObject downPanel, TextMeshProUGUI downPercentText)
     {
-        List<string> labels = new List<string>() { _defaultLabel.labelString, _imageLabel.labelString};
-
-        foreach (string label in labels)
+        foreach (string label in _labels)
         {
             // 라벨별로 다운로드할 사이즈 가져오기
             var handle = Addressables.GetDownloadSizeAsync(label);
@@ -222,7 +224,7 @@ public class AddressableManager : MonoBehaviour
 
         // 위 포문을 통해 라벨별로 다운을 시작하고
         // 다운 과정을 UI로 표시
-        yield return CheckDownLoadStatus();
+        yield return CheckDownLoadStatus(downPercentSlider, downPanel, downPercentText);
     }
 
     // 어드레서블 라벨 별로 다운로드 받기
@@ -248,7 +250,7 @@ public class AddressableManager : MonoBehaviour
     }
 
     //현재 다운로드 상황 알려주기
-    IEnumerator CheckDownLoadStatus()
+    IEnumerator CheckDownLoadStatus(Slider downPercentSlider, GameObject downPanel, TextMeshProUGUI downPercentText)
     {
         StringBuilder sb = new StringBuilder();
         long total = 0;
@@ -259,25 +261,25 @@ public class AddressableManager : MonoBehaviour
             total += _patchMap.Sum(tmp => tmp.Value);
 
             // 슬라이더에 표시
-            _downPercentSlider.value = (float)total / (float)_downSize;
+            downPercentSlider.value = (float)total / (float)_downSize;
 
             // 텍스트에 표시
-            int curPatchValue = (int)(_downPercentSlider.value * 100);
+            int curPatchValue = (int)(downPercentSlider.value * 100);
             sb.Clear();
             sb.Append(curPatchValue);
             sb.Append("%");
-            _downPercentText.SetText(sb);
+            downPercentText.SetText(sb);
 
-            Debug.Log($"check 중! 현재 {_downPercentSlider.value}%, {total}Size만큼 다운받음");
+            Debug.Log($"check 중! 현재 {downPercentSlider.value}%, {total}Size만큼 다운받음");
 
             //다운로드가 다 완료 됏다면
             if (total == _downSize)
             {
                 // 다운로드 패널 꺼주기
-                _downPanel.SetActive(false);
-                // 다운로드 루틴 초기화
-                _routine = null;
+                downPanel.SetActive(false);
                 Debug.Log("다운로드 끝!");
+                // 다운로드 코루틴 초기화
+                _downRoutine = null;
                 break;
             }
 
