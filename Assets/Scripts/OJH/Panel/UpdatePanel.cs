@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class UpdatePanel : MonoBehaviour
 {
+    [SerializeField] private GameObject _downPanel;
     void Start()
     {
-        GpgsManager.Instance.DoCheckForUpdate(gameObject);
+        Debug.Log(GpgsManager.Instance);
+        GpgsManager.Instance.DoCheckForUpdate(_downPanel);
     }
  
 }

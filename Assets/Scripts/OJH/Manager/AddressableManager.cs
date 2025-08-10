@@ -9,34 +9,53 @@ using UnityEngine.UI;
 
 public class AddressableManager : MonoBehaviour
 {
- 
-    //현재 다운진행을 보여주기 위한 UI
-    [SerializeField] private GameObject _downPanel;
-    [SerializeField] private TextMeshProUGUI _downPercentText;
-    [SerializeField] private TextMeshProUGUI _downSizeText;
-    [SerializeField] private Slider _downPercentSlider;
-    [SerializeField] private Button _downButton;
+
+    public static AddressableManager _instance;
+    public static AddressableManager Instance {  get { return _instance;} set { _instance = value; } }
 
     //어드레서블 라벨
     [SerializeField] private List<AssetLabelReference> _label;
     private List<string> _labels;
 
     //다운로드 및 체크 관련 변수들
-    Coroutine _downRoutine;
-    Coroutine _checkFileRoutine;
+    private Coroutine _downRoutine;
+    private Coroutine _checkFileRoutine;
+    [SerializeField] private float _delayToMain;
+    private WaitForSeconds _delaySecondsToMain;
     private long _downSize;
     private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
+    
+
 
     private void Awake()
     {
-        for(int i = 0; i < _label.Count; i++)
+        if(_instance == null)
         {
-            _labels.Add(_label[i].labelString);
+            _instance = this;
+            Init();
+            DontDestroyOnLoad(this);
+            Debug.Log("어드레서블 초기화!");
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
     void Start()
     {
         StartCoroutine(InitAddressable());
+    }
+
+    private void Init()
+    {
+        _labels = new List<string>();
+        //라벨 설정
+        for (int i = 0; i < _label.Count; i++)
+        {
+            _labels.Add(_label[i].labelString);
+        }
+
+        _delaySecondsToMain = new WaitForSeconds(_delayToMain);
     }
 
     // 어드레서블 초기화 코드
@@ -124,11 +143,11 @@ public class AddressableManager : MonoBehaviour
 
 
     // 다운받을 파일 여부 확인
-    public void DoCheckDownLoadFile(TextMeshProUGUI downSizeText, TextMeshProUGUI downPercentText, Slider downPercentSlider, Button downButton)
+    public void DoCheckDownLoadFile(TextMeshProUGUI downSizeText, TextMeshProUGUI downPercentText, Slider downPercentSlider, Button downButton, GameObject nextPanel)
     {
-        _checkFileRoutine = StartCoroutine(CheckDownLoadFIle(downSizeText, downPercentText, downPercentSlider, downButton)); //다운받을 파일있는지 확인
+        _checkFileRoutine = StartCoroutine(CheckDownLoadFIle(downSizeText, downPercentText, downPercentSlider, downButton, nextPanel)); //다운받을 파일있는지 확인
     }
-    IEnumerator CheckDownLoadFIle(TextMeshProUGUI downSizeText, TextMeshProUGUI downPercentText, Slider downPercentSlider, Button downButton)
+    IEnumerator CheckDownLoadFIle(TextMeshProUGUI downSizeText, TextMeshProUGUI downPercentText, Slider downPercentSlider, Button downButton, GameObject nextPanel)
     {
         _downSize = 0;
 
@@ -157,7 +176,9 @@ public class AddressableManager : MonoBehaviour
             downSizeText.SetText("0 Bytes");
             downPercentText.SetText("100 %");
             downPercentSlider.value = 1f;
-            //_downPanel.SetActive(false);
+
+            yield return _delaySecondsToMain;
+            nextPanel.SetActive(true);
             Debug.Log("다운받을 파일이 없음!!!");
         }
 
@@ -195,16 +216,16 @@ public class AddressableManager : MonoBehaviour
         return sb;
     }
 
-    public void DoDownLoad(Slider downPercentSlider, GameObject downPanel, TextMeshProUGUI downPercentText)
+    public void DoDownLoad(Slider downPercentSlider, GameObject nextPanel, TextMeshProUGUI downPercentText)
     {
         if (_downRoutine == null)
         {
-            _downRoutine = StartCoroutine(DownLoad(downPercentSlider, downPanel, downPercentText));
+            _downRoutine = StartCoroutine(DownLoad(downPercentSlider, nextPanel, downPercentText));
         }
     }
 
     //다운로드 시작
-    IEnumerator DownLoad(Slider downPercentSlider, GameObject downPanel, TextMeshProUGUI downPercentText)
+    IEnumerator DownLoad(Slider downPercentSlider, GameObject nextPanel, TextMeshProUGUI downPercentText)
     {
         foreach (string label in _labels)
         {
@@ -223,7 +244,7 @@ public class AddressableManager : MonoBehaviour
 
         // 위 포문을 통해 라벨별로 다운을 시작하고
         // 다운 과정을 UI로 표시
-        yield return CheckDownLoadStatus(downPercentSlider, downPanel, downPercentText);
+        yield return CheckDownLoadStatus(downPercentSlider, nextPanel, downPercentText);
     }
 
     // 어드레서블 라벨 별로 다운로드 받기
@@ -249,7 +270,7 @@ public class AddressableManager : MonoBehaviour
     }
 
     //현재 다운로드 상황 알려주기
-    IEnumerator CheckDownLoadStatus(Slider downPercentSlider, GameObject downPanel, TextMeshProUGUI downPercentText)
+    IEnumerator CheckDownLoadStatus(Slider downPercentSlider, GameObject nextPanel, TextMeshProUGUI downPercentText)
     {
         StringBuilder sb = new StringBuilder();
         long total = 0;
@@ -274,8 +295,11 @@ public class AddressableManager : MonoBehaviour
             //다운로드가 다 완료 됏다면
             if (total == _downSize)
             {
-                // 다운로드 패널 꺼주기
-                downPanel.SetActive(false);
+   
+                yield return _delaySecondsToMain;
+
+                //다음 Panel 켜주기
+                nextPanel.SetActive(true);
                 Debug.Log("다운로드 끝!");
                 // 다운로드 코루틴 초기화
                 _downRoutine = null;

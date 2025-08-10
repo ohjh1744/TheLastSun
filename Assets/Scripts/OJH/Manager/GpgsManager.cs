@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class GpgsManager : MonoBehaviour
 {
     private  static GpgsManager _instance;
-    public  static GpgsManager Instance { get { return _instance; } private set { } }
+    public static GpgsManager Instance { get { return _instance; } set { _instance = value; } }
 
     private AppUpdateManager _appUpdateManager;
 
@@ -21,9 +21,10 @@ public class GpgsManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        Debug.Log("GPGSManager Awake");
+        if(_instance == null)
         {
-            Instance = this;
+            _instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -33,12 +34,12 @@ public class GpgsManager : MonoBehaviour
     }
 
 
-    public void DoCheckForUpdate(GameObject panel)
+    public void DoCheckForUpdate(GameObject nextPanel)
     {
-        updateRoutine =  StartCoroutine(CheckForUpdate(panel));
+        updateRoutine =  StartCoroutine(CheckForUpdate(nextPanel));
     }
 
-    IEnumerator CheckForUpdate(GameObject panel)
+    IEnumerator CheckForUpdate(GameObject nextPanel)
     {
         Debug.Log("Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //인앱 업데이트 관리를 위한 클래스 인스턴스화
@@ -90,11 +91,11 @@ public class GpgsManager : MonoBehaviour
             else if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateNotAvailable)
             {
                 Debug.Log("업데이트 없음!");
-                //Update 패널 꺼주기
-                panel.SetActive(false);
-                //임시로 로그인 테스트용으로
-                // 나중에 리소스확인 후 로그인 넣을 예정
+
+                //로그인하기
                 Login();
+                //다음 패널 열어주기
+                nextPanel.SetActive(true);
             }
         }
         else
