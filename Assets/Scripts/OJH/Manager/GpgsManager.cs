@@ -19,12 +19,17 @@ public class GpgsManager : MonoBehaviour
 
     Coroutine updateRoutine;
 
+    [SerializeField] private float _delayToFinish;
+
+    private WaitForSeconds _delayToFinishWs;
+
     private void Awake()
     {
         Debug.Log("GPGSManager Awake");
         if(_instance == null)
         {
             _instance = this;
+            _delayToFinishWs = new WaitForSeconds(_delayToFinish);
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -34,12 +39,15 @@ public class GpgsManager : MonoBehaviour
     }
 
 
-    public void DoCheckForUpdate(GameObject nextPanel)
+    public void DoCheckForUpdate(GameObject nextPanel, TextMeshProUGUI nextText)
     {
-        updateRoutine =  StartCoroutine(CheckForUpdate(nextPanel));
+        if(updateRoutine == null)
+        {
+            updateRoutine = StartCoroutine(CheckForUpdate(nextPanel, nextText));
+        }
     }
 
-    IEnumerator CheckForUpdate(GameObject nextPanel)
+    IEnumerator CheckForUpdate(GameObject nextPanel, TextMeshProUGUI nextText)
     {
         Debug.Log("Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //인앱 업데이트 관리를 위한 클래스 인스턴스화
@@ -92,16 +100,20 @@ public class GpgsManager : MonoBehaviour
             {
                 Debug.Log("업데이트 없음!");
 
+                yield return _delayToFinishWs;
                 //로그인하기
                 Login();
                 //다음 패널 열어주기
                 nextPanel.SetActive(true);
+                nextText.text = "Check Resource";
             }
         }
         else
         {
             Debug.Log("업데이트 오류" + appUpdateInfoOperation.Error);
         }
+
+        updateRoutine = null;
     }
 
     private void Login()
