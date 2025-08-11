@@ -15,14 +15,20 @@ public class AddressableManager : MonoBehaviour
 
     //어드레서블 라벨
     [SerializeField] private List<AssetLabelReference> _label;
+
     private List<string> _labels;
 
     //다운로드 및 체크 관련 변수들
     private Coroutine _downRoutine;
+
     private Coroutine _checkFileRoutine;
-    [SerializeField] private float _delayToMain;
-    private WaitForSeconds _delaySecondsToMain;
+
+    [SerializeField] private float _delayToFinish;
+
+    private WaitForSeconds _delayToFinishWs;
+
     private long _downSize;
+
     private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
     
 
@@ -55,7 +61,7 @@ public class AddressableManager : MonoBehaviour
             _labels.Add(_label[i].labelString);
         }
 
-        _delaySecondsToMain = new WaitForSeconds(_delayToMain);
+        _delayToFinishWs = new WaitForSeconds(_delayToFinish);
     }
 
     // 어드레서블 초기화 코드
@@ -145,7 +151,10 @@ public class AddressableManager : MonoBehaviour
     // 다운받을 파일 여부 확인
     public void DoCheckDownLoadFile(TextMeshProUGUI downSizeText, TextMeshProUGUI downPercentText, Slider downPercentSlider, Button downButton, GameObject nextPanel)
     {
-        _checkFileRoutine = StartCoroutine(CheckDownLoadFIle(downSizeText, downPercentText, downPercentSlider, downButton, nextPanel)); //다운받을 파일있는지 확인
+        if(_checkFileRoutine == null)
+        {
+            _checkFileRoutine = StartCoroutine(CheckDownLoadFIle(downSizeText, downPercentText, downPercentSlider, downButton, nextPanel)); //다운받을 파일있는지 확인
+        }
     }
     IEnumerator CheckDownLoadFIle(TextMeshProUGUI downSizeText, TextMeshProUGUI downPercentText, Slider downPercentSlider, Button downButton, GameObject nextPanel)
     {
@@ -177,7 +186,7 @@ public class AddressableManager : MonoBehaviour
             downPercentText.SetText("100 %");
             downPercentSlider.value = 1f;
 
-            yield return _delaySecondsToMain;
+            yield return _delayToFinishWs;
             nextPanel.SetActive(true);
             Debug.Log("다운받을 파일이 없음!!!");
         }
@@ -296,7 +305,7 @@ public class AddressableManager : MonoBehaviour
             if (total == _downSize)
             {
    
-                yield return _delaySecondsToMain;
+                yield return _delayToFinishWs;
 
                 //다음 Panel 켜주기
                 nextPanel.SetActive(true);
