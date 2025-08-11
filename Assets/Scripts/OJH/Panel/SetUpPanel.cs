@@ -16,6 +16,8 @@ public class SetUpPanel : UIBInder
     [SerializeField] private GameObject _downLoadPanel;
     [SerializeField] private GameObject _mainPanel;
 
+    private bool _isCheckDownLoad;
+
 
     private void Awake()
     {
@@ -30,7 +32,7 @@ public class SetUpPanel : UIBInder
     private void Update()
     {
         //Update체크 끝난후 DownLoadPanel이 나오면 그때 DownLoad체크
-        if (_downLoadPanel.activeSelf == true)
+        if (_downLoadPanel.activeSelf == true && _isCheckDownLoad == false)
         {
             DoCheckDownLoad();
         }
@@ -55,6 +57,7 @@ public class SetUpPanel : UIBInder
     }
     private void DoCheckDownLoad()
     {
+        _isCheckDownLoad = true;
         AddressableManager.Instance.DoCheckDownLoadFile(_downSizeText, _downPercentText, _downPercentSlider, _downLoadButton, _mainPanel);
     }
 
