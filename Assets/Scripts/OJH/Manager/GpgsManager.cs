@@ -19,6 +19,9 @@ public class GpgsManager : MonoBehaviour
 
     Coroutine updateRoutine;
 
+    // GPGS 클라우드에 저장할 데이터 파일 이름
+    private static string _saveFileName = "file.dat";
+
     private void Awake()
     {
         Debug.Log("GPGSManager Awake");
@@ -133,4 +136,118 @@ public class GpgsManager : MonoBehaviour
             Debug.Log("로그인 실패");
         }
     }
+
+    //클라우드에 Data저장하기
+    public void SaveData()
+    {
+        //클라우드 저장소와 상호작용 가능한 인터페이스
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        // 1번째 인자 파일이름, 2번째 인자 캐시에 데이터가 없거나 최신 데이터가 아니라면 네트워크를 통해 불러옴,
+        // 3번째 인자 마지막에 정상적으로 저장된 정보를 가져옴, 4번째 인자 콜백 함수
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLastKnownGood, OnSaveDataOpend);
+    }
+
+    //저장된 게임 데이터에 대한 요청 결과 상태를 다룬 인터페이스, 저장된 게임의 메타 데이터를 다룬 인터페이스
+    private void OnSaveDataOpend(SavedGameRequestStatus status, ISavedGameMetadata game)
+    {
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        if (status == SavedGameRequestStatus.Success)
+        {
+            Debug.Log("Save열기 성공");
+
+            var update = new SavedGameMetadataUpdate.Builder().Build();
+
+            //json
+            var json = JsonUtility.ToJson(PlayerController.Instance.PlayerData);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+
+            Debug.Log($"저장 데이터: {bytes}");
+
+            savedGameClient.CommitUpdate(game, update, bytes, OnSaveDataWritten);
+
+
+        }
+        else
+        {
+            Debug.Log("Save열기 실패");
+            Debug.Log($"{status}");
+        }
+
+    }
+
+    private void OnSaveDataWritten(SavedGameRequestStatus status, ISavedGameMetadata game)
+    {
+        if (status == SavedGameRequestStatus.Success)
+        {
+            Debug.Log("저장 성공");
+        }
+        else
+        {
+            Debug.Log("저장 실패");
+        }
+    }
+
+    //클라우드에서 Data 가져오기
+    public void LoadData()
+    {
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLastKnownGood, OnLoadDataOpend);
+    }
+
+    private void OnLoadDataOpend(SavedGameRequestStatus status, ISavedGameMetadata data)
+    {
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        if (status == SavedGameRequestStatus.Success)
+        {
+            Debug.Log("Load 열기 성공");
+
+            savedGameClient.ReadBinaryData(data, OnLoadDataRead);
+        }
+        else
+        {
+            Debug.Log("Load 열기 실패");
+        }
+    }
+
+    private void OnLoadDataRead(SavedGameRequestStatus status, byte[] loadedData)
+    {
+        string data = Encoding.UTF8.GetString(loadedData);
+
+        if (data == "")
+        {
+            Debug.Log("저장된 데이터가 없음");
+        }
+        else
+        {
+            Debug.Log($"Load Read Data: {data}");
+
+            //json
+            PlayerController.Instance.PlayerData = JsonUtility.FromJson<PlayerData>(data);
+        }
+    }
+
+
+    //모든 리더보드 UI 표시
+    public void ShowAllLeaderboard()
+    {
+        PlayGamesPlatform.Instance.ShowLeaderboardUI();
+    }
+
+    //시간 랭킹에 갱신
+    // gpgs에서 시간단위는 ms로 1000ms면 1초를 의미
+    public void UpdateTimeLeaderboard( float time, string leaderboardID)
+    {
+        //float에서 long으로 변환
+        // ex) 1.23f -> 1230ms(long)
+        long scoreToReport = (long)(time * 1000);
+
+        //Num 형식 리더보드 업데이트
+        PlayGamesPlatform.Instance.ReportScore(scoreToReport, leaderboardID, (bool success) => { Debug.Log("AddTime" + time); });
+    }
+
+
 }
