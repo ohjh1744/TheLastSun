@@ -1,18 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] int _moveSpeed = 4;
+
+    private Rigidbody2D _rigid;
+
+    private Transform _target;
+
+    private void Awake()
     {
-        
+        _target = GetComponentInParent<UnitController>().Target.transform;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        MoveToTarget();
+    }
+
+
+    public void MoveToTarget()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, _target.position, _moveSpeed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Monster"))
+        {
+            MonsterController monsterController = collision.GetComponent<MonsterController>();
+            if (monsterController != null)
+            {
+                monsterController.TakeDamage(1); 
+            }
+            Destroy(gameObject); 
+        }
     }
 }
