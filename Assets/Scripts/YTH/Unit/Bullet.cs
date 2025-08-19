@@ -13,15 +13,9 @@ public class Bullet : MonoBehaviour
         _target = GetComponentInParent<UnitController>().Target.transform;
     }
 
-    private void Start()
+    public void MoveToTarget(Vector2 targetPos)
     {
-        MoveToTarget();
-    }
-
-
-    public void MoveToTarget()
-    {
-        transform.position = Vector2.MoveTowards(transform.position, _target.position, _moveSpeed * Time.deltaTime);
+        transform.Translate(targetPos);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

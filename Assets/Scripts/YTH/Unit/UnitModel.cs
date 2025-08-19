@@ -20,6 +20,6 @@ public class UnitModel : MonoBehaviour
     [SerializeField] int _attackDelay;
     public int AttackDelay { get => _attackDelay; set => _attackDelay = value; }
 
-    [SerializeField] LayerMask _targetLayer => LayerMask.GetMask("Monster");
+    [SerializeField] LayerMask _targetLayer;
     public LayerMask TargetLayer { get => _targetLayer; }
 }

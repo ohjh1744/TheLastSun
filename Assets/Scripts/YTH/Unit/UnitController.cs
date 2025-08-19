@@ -10,11 +10,11 @@ public class UnitController : MonoBehaviour
 {
     [SerializeField] GameObject _bulletPrefab;
 
-    private State _currentState = State.Idle;
+    [SerializeField] State _currentState = State.Idle;
 
     private UnitModel _model;
 
-    private Rigidbody2D _rigidbody2D;
+    private Rigidbody2D _rigid;
 
     private Vector3 _targetPosition;
 
@@ -30,7 +30,7 @@ public class UnitController : MonoBehaviour
     private void Awake()
     {
         _model = GetComponent<UnitModel>();
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigid = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -46,15 +46,6 @@ public class UnitController : MonoBehaviour
             case State.Attack:
                 HandleAttack();
                 break;
-        }
-
-        // 예시: 마우스 클릭으로 이동 명령
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            _targetPosition = new Vector3(mouseWorld.x, mouseWorld.y, transform.position.z);
-            _hasMoveTarget = true;
-            _currentState = State.Move;
         }
     }
 
@@ -119,8 +110,7 @@ public class UnitController : MonoBehaviour
         }
 
         // AttackDelay를 초 단위로 환산하여 쿨타임 적용
-        float attackCooldown = _model.AttackDelay * 0.01f;
-        if (Time.time - _lastAttackTime > attackCooldown)
+        if (Time.time - _lastAttackTime > _model.AttackDelay)
         {
             _target = _enemyBuffer[0];
             if (_target != null)
@@ -132,11 +122,11 @@ public class UnitController : MonoBehaviour
     }
 
     private void ShootBullet(Vector2 targetPos)
-    {        // Bullet 프리팹을 Resources 폴더에 두고 불러오는 예시
+    {       
         GameObject bullet = Instantiate(_bulletPrefab, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity, transform);
-        Vector2 dir = targetPos;
+        bullet.GetComponent<Bullet>().MoveToTarget(targetPos);
     }
-      
+
 }
 
 
