@@ -259,7 +259,7 @@ public class GpgsManager : MonoBehaviour
         {
             savedGameClient.Delete(data);
             Debug.Log("데이터 삭제 성공");
-            PlayerController.Instance.PlayerData.SetClear();
+            PlayerController.Instance.SetClear();
         }
         else
         {

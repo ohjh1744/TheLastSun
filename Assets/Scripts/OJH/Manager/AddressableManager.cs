@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,14 +72,13 @@ public class AddressableManager : MonoBehaviour
     }
 
     //단순 Object 생성
-    public void GetObject(AssetReferenceGameObject assetObject, GameObject realObject)
+    public void GetObject(AssetReferenceGameObject assetObject, Action<GameObject> callBack)
     {
         assetObject.InstantiateAsync().Completed += (obj) =>
         {
-            realObject = obj.Result;
+            callBack(obj.Result);
         };
     }
-
 
     //단순 Object 생성 후 List에 저장
     public void GetObjectAndSave(AssetReferenceGameObject assetObject, List<GameObject> realObjects)
@@ -95,6 +95,7 @@ public class AddressableManager : MonoBehaviour
     {
         for (int i = 0; i < assetObjects.Count; i++)
         {
+
             assetObjects[i].InstantiateAsync().Completed += (obj) =>
             {
                 realObjects.Add(obj.Result);
