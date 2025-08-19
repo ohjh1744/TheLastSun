@@ -137,6 +137,9 @@ public class GpgsManager : MonoBehaviour
 
             Debug.Log($"로그인 성공{displayName}{userID}");
 
+            //로그인 성공후 유저데이터 가져오기
+            LoadData();
+
         }
         else
         {
