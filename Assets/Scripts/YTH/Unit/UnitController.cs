@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public enum State
 {
@@ -22,9 +20,12 @@ public class UnitController : MonoBehaviour
 
     private bool _hasMoveTarget = false;
 
-    // 모델에서 값을 가져오므로 별도 변수 제거
     private float _lastAttackTime = 0f;
+
     private Collider2D[] _enemyBuffer = new Collider2D[5];
+
+    private Collider2D _target;
+    public Collider2D Target => _target;
 
     private void Awake()
     {
@@ -98,18 +99,6 @@ public class UnitController : MonoBehaviour
                 _currentState = State.Idle;
             }
         }
-
-        // 이동 중에도 적 탐지
-        int count = Physics2D.OverlapCircleNonAlloc(
-            transform.position,
-            _model.AttackRange,
-            _enemyBuffer,
-            _model.TargetLayer
-        );
-        if (count > 0)
-        {
-            _currentState = State.Attack;
-        }
     }
 
     /// <summary>
@@ -133,26 +122,21 @@ public class UnitController : MonoBehaviour
         float attackCooldown = _model.AttackDelay * 0.01f;
         if (Time.time - _lastAttackTime > attackCooldown)
         {
-            Collider2D target = _enemyBuffer[0];
-            if (target != null)
+            _target = _enemyBuffer[0];
+            if (_target != null)
             {
-                ShootBullet(target.transform.position);
+                ShootBullet(_target.transform.position);
                 _lastAttackTime = Time.time;
             }
         }
     }
 
-    private void ShootBullet(Vector3 targetPos)
-    {
-        // Bullet 프리팹을 Resources 폴더에 두고 불러오는 예시
-        GameObject bulletPrefab = Resources.Load<GameObject>("Bullet");
-        if (bulletPrefab != null)
-        {
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            Vector2 dir = (targetPos - transform.position).normalized;
-            bullet.GetComponent<Rigidbody2D>().velocity = dir * 10f; // 속도 임의 지정
-        }
+    private void ShootBullet(Vector2 targetPos)
+    {        // Bullet 프리팹을 Resources 폴더에 두고 불러오는 예시
+        GameObject bullet = Instantiate(_bulletPrefab, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity, transform);
+        Vector2 dir = targetPos;
     }
+      
 }
 
 
