@@ -28,7 +28,6 @@ public class AddressableManager : MonoBehaviour
     private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
     
 
-
     private void Awake()
     {
         if(_instance == null)
@@ -230,6 +229,13 @@ public class AddressableManager : MonoBehaviour
     {
         if (_downRoutine == null)
         {
+            _downRoutine = StartCoroutine(DownLoad(downPercentSlider, doDownLoadPanel, mainPanel, downPercentText, _delayToFinishDownLoad));
+        }
+        //다운로드 다시 누르면 재수행
+        else
+        {
+            StopCoroutine(_downRoutine);
+            _downRoutine = null;
             _downRoutine = StartCoroutine(DownLoad(downPercentSlider, doDownLoadPanel, mainPanel, downPercentText, _delayToFinishDownLoad));
         }
     }
