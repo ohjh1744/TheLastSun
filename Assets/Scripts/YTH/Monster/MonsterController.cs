@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class MonsterController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+   private MonsterModel _model;
+
+    private void Awake()
     {
-        
+        _model = GetComponent<MonsterModel>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Init()
     {
-        
+        _model.CurHp = _model.MaxHp;
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        _model.CurHp -= damageAmount;
+        if (_model.CurHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }
