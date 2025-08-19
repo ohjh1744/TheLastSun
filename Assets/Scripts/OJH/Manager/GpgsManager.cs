@@ -115,17 +115,17 @@ public class GpgsManager : MonoBehaviour
 
     private void Login()
     {
-        PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+        /*PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);*/
     }
 
     internal void ProcessAuthentication(SignInStatus status)
     {
         if (status == SignInStatus.Success)
         {
-            string displayName = PlayGamesPlatform.Instance.GetUserDisplayName();
+           /* string displayName = PlayGamesPlatform.Instance.GetUserDisplayName();
             string userID = PlayGamesPlatform.Instance.GetUserId();
 
-            Debug.Log($"로그인 성공{displayName}{userID}");
+            Debug.Log($"로그인 성공{displayName}{userID}");*/
 
         }
         else
