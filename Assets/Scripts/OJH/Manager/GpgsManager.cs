@@ -243,6 +243,30 @@ public class GpgsManager : MonoBehaviour
         }
     }
 
+    //Data 삭제
+    public void DeleteData()
+    {
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLastKnownGood, OnDeleteSaveData);
+    }
+
+    private void OnDeleteSaveData(SavedGameRequestStatus status, ISavedGameMetadata data)
+    {
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        if (status == SavedGameRequestStatus.Success)
+        {
+            savedGameClient.Delete(data);
+            Debug.Log("데이터 삭제 성공");
+            PlayerController.Instance.PlayerData.SetClear();
+        }
+        else
+        {
+            Debug.Log("데이터 삭제 실패");
+        }
+    }
+
 
     //모든 리더보드 UI 표시
     public void ShowAllLeaderboard()
