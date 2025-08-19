@@ -37,6 +37,7 @@ public class SetUpPanel : UIBInder
     }
     private void Start()
     {
+        DoLogin();
         DoCheckUpdate();
     }
     private void Update()
@@ -75,14 +76,21 @@ public class SetUpPanel : UIBInder
 
     }
 
+    //네트워크 문제시 모든 버튼 비활성화
     private void SetInteractableFalse()
     {
         _downLoadButton.interactable = false;
     }
 
+    //네트워크 연결되면 모든 버튼 활성화
     private void SetInteractableTrue()
     {
         _downLoadButton.interactable = true;
+    }
+
+    private void DoLogin()
+    {
+        GpgsManager.Instance.Login();
     }
 
     //다운로드 가능한지 확인시작

@@ -105,8 +105,6 @@ public class GpgsManager : MonoBehaviour
             //업데이트가 없는 상태라면
             else if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateNotAvailable)
             {
-                //로그인하기
-                Login();
                 Debug.Log("업데이트 없음!");
 
                 yield return new WaitForSeconds(delayToFinishCurrentWork);
@@ -125,7 +123,7 @@ public class GpgsManager : MonoBehaviour
         _updateRoutine = null;
     }
 
-    private void Login()
+    public void Login()
     {
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
     }
