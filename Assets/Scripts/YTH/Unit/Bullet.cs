@@ -21,22 +21,18 @@ public class Bullet : MonoBehaviour
 
         transform.position += (Vector3)(_moveDir * _moveSpeed * Time.deltaTime);
 
-        // 목표 위치에 도달하면 파괴 (충돌 처리 전에 멈추지 않도록 약간의 거리 허용)
+       /* // 목표 위치에 도달하면 파괴 (충돌 처리 전에 멈추지 않도록 약간의 거리 허용)
         if (Vector2.Distance(transform.position, _targetPos) < 0.1f)
         {
             Destroy(gameObject);
-        }
+        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Monster"))
         {
-            MonsterController monsterController = collision.GetComponent<MonsterController>();
-            if (monsterController != null)
-            {
-                monsterController.TakeDamage(1);
-            }
+           collision.GetComponent<MonsterController>()?.TakeDamage(1);
             Destroy(gameObject);
         }
     }
