@@ -4,18 +4,28 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] int _moveSpeed = 4;
 
-    private Rigidbody2D _rigid;
+    private Vector2 _targetPos;
+    private Vector2 _moveDir;
+    private bool _isInitialized = false;
 
-    private Transform _target;
-
-    private void Awake()
+    public void Init(Vector2 targetPos)
     {
-        _target = GetComponentInParent<UnitController>().Target.transform;
+        _targetPos = targetPos;
+        _moveDir = ((Vector2)_targetPos - (Vector2)transform.position).normalized;
+        _isInitialized = true;
     }
 
-    public void MoveToTarget(Vector2 targetPos)
+    private void Update()
     {
-        transform.Translate(targetPos);
+        if (!_isInitialized) return;
+
+        transform.position += (Vector3)(_moveDir * _moveSpeed * Time.deltaTime);
+
+        // 목표 위치에 도달하면 파괴 (충돌 처리 전에 멈추지 않도록 약간의 거리 허용)
+        if (Vector2.Distance(transform.position, _targetPos) < 0.1f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -25,9 +35,9 @@ public class Bullet : MonoBehaviour
             MonsterController monsterController = collision.GetComponent<MonsterController>();
             if (monsterController != null)
             {
-                monsterController.TakeDamage(1); 
+                monsterController.TakeDamage(1);
             }
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 }

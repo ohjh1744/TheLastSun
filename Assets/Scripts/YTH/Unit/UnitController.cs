@@ -20,12 +20,11 @@ public class UnitController : MonoBehaviour
 
     private bool _hasMoveTarget = false;
 
-    private float _lastAttackTime = 0f;
-
     private Collider2D[] _enemyBuffer = new Collider2D[5];
 
-    private Collider2D _target;
-    public Collider2D Target => _target;
+    [SerializeField] Collider2D Target => _enemyBuffer.Length > 0 ? _enemyBuffer[0] : null;
+    
+    private float timter = 0;
 
     private void Awake()
     {
@@ -109,24 +108,19 @@ public class UnitController : MonoBehaviour
             return;
         }
 
-        // AttackDelay를 초 단위로 환산하여 쿨타임 적용
-        if (Time.time - _lastAttackTime > _model.AttackDelay)
+        timter += Time.deltaTime;
+
+        if (timter >= _model.AttackDelay && Target != null)
         {
-            _target = _enemyBuffer[0];
-            if (_target != null)
-            {
-                ShootBullet(_target.transform.position);
-                _lastAttackTime = Time.time;
-            }
+            ShootBullet(Target.transform.position);
+            timter = 0;
         }
     }
 
     private void ShootBullet(Vector2 targetPos)
     {       
-        GameObject bullet = Instantiate(_bulletPrefab, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity, transform);
-        bullet.GetComponent<Bullet>().MoveToTarget(targetPos);
+        GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
+        bullet.GetComponent<Bullet>().Init(targetPos);
     }
 
 }
-
-
