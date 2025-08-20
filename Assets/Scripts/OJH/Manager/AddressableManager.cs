@@ -19,15 +19,24 @@ public class AddressableManager : MonoBehaviour
 
     private List<string> _labels;
 
-    //다운로드 및 체크 관련 변수들
-    private Coroutine _downRoutine;
-
-    private Coroutine _checkFileRoutine;
-
     private long _downSize;
 
+    //다운받을 레이블의 정보들을 모아놓은 자료
     private Dictionary<string, long> _patchMap = new Dictionary<string, long>();
-    
+
+    private Coroutine _downLoadRoutine;
+
+    private Coroutine _checkDownLoadRoutine;
+
+    [SerializeField] private float _delayToStartCheckDownLoad;
+
+    [SerializeField] private float _delayTofinishDownLoad;
+
+    private WaitForSeconds _delayToStartCheckDownLoadWs;
+
+    private WaitForSeconds _delayTofinishDownLoadWs;
+
+
 
     private void Awake()
     {
@@ -51,6 +60,9 @@ public class AddressableManager : MonoBehaviour
     private void Init()
     {
         _labels = new List<string>();
+        _delayToStartCheckDownLoadWs = new WaitForSeconds(_delayToStartCheckDownLoad);
+        _delayTofinishDownLoadWs = new WaitForSeconds(_delayTofinishDownLoad);
+
         //라벨 설정
         for (int i = 0; i < _label.Count; i++)
         {
@@ -146,54 +158,41 @@ public class AddressableManager : MonoBehaviour
     // 다운받을 파일 여부 확인
     // 다운받을 파일이 없다면 MainPanel 열어주기
     // MainPanel이 nextPanel
-    public void DoCheckDownLoadFile(TextMeshProUGUI downSizeText, GameObject checkDownLoadPanel, GameObject doDownLoadPanel, GameObject mainPanel, float _delayToCheckDownLoad)
+    public void DoCheckDownLoadFile( Action<long> callback)
     {
-        if(_checkFileRoutine == null)
+        if (_checkDownLoadRoutine == null)
         {
-            _checkFileRoutine = StartCoroutine(CheckDownLoadFIle(downSizeText, checkDownLoadPanel, doDownLoadPanel,  mainPanel, _delayToCheckDownLoad)); //다운받을 파일있는지 확인
+            _checkDownLoadRoutine = StartCoroutine(CheckDownLoadFIle(callback)); // 다운로드할 파일 있는지 확인
         }
     }
-    IEnumerator CheckDownLoadFIle(TextMeshProUGUI downSizeText, GameObject checkDownLoadPanel, GameObject doDownLoadPanel, GameObject mainPanel, float _delayToCheckDownLoad)
+
+    // CheckDownLoadFIle 코루틴에서 _downSize를 계산하고 콜백을 호출
+    IEnumerator CheckDownLoadFIle( Action<long> callback)
     {
         _downSize = 0;
 
-        yield return new WaitForSeconds(_delayToCheckDownLoad);
+        yield return _delayToStartCheckDownLoadWs;
 
         foreach (string label in _labels)
         {
             // 라벨별로 다운로드할 사이즈 가져오기
             var handle = Addressables.GetDownloadSizeAsync(label);
 
-            //  작업이 완료될때까지 기다리기
+            // 작업이 완료될 때까지 기다리기
             yield return handle;
 
-            // 정상적으로 size가져오면 down로드해야할 사이즈에 추가해주기.
+            // 정상적으로 size를 가져오면 다운로딩할 사이즈에 추가해주기
             _downSize += handle.Result;
         }
 
+        // _downSize 값을 콜백을 통해 반환
+        callback(_downSize);
 
-        // 0보다 크다면 다운받을 파일이 존재하다는 것
-        if (_downSize > decimal.Zero)
-        {
-            //CheckDownLoad패널 닫아주고, 다운로드패널 열어주기
-            checkDownLoadPanel.SetActive(false);
-            doDownLoadPanel.SetActive(true);
-            downSizeText.SetText(GetFileSize(_downSize));
-        }
-        // 다운받을 파일이 존재하지 않다면
-        else
-        {
-            //CheckDownLoad패널 닫아주고, 바로 메인패널 열어주기
-            checkDownLoadPanel.SetActive(false);
-            mainPanel.SetActive(true);
-            Debug.Log("다운받을 파일이 없음!!!");
-        }
-
-        _checkFileRoutine = null;
+        _checkDownLoadRoutine = null;
     }
 
     //파일 사이즈 사이즈 크기에 맞는 단위로 표현하기 위한 함수
-    StringBuilder GetFileSize(long byteCnt)
+    public StringBuilder GetFileSize(long byteCnt)
     {
         StringBuilder sb = new StringBuilder();
 
@@ -226,22 +225,22 @@ public class AddressableManager : MonoBehaviour
     //다운로드 시작
     //다운로드 끝나면 MainPanel로 이동.
     //여기서 nextPanel은 MainPanel
-    public void DoDownLoad(Slider downPercentSlider, GameObject doDownLoadPanel, GameObject mainPanel, TextMeshProUGUI downPercentText, float _delayToFinishDownLoad)
+    public void DoDownLoad(Slider downPercentSlider, TextMeshProUGUI downPercentText,  Action<bool> callback)
     {
-        if (_downRoutine == null)
+        if (_downLoadRoutine == null)
         {
-            _downRoutine = StartCoroutine(DownLoad(downPercentSlider, doDownLoadPanel, mainPanel, downPercentText, _delayToFinishDownLoad));
+            _downLoadRoutine = StartCoroutine(DownLoad(downPercentSlider, downPercentText, callback));
         }
         //다운로드 다시 누르면 재수행
         else
         {
-            StopCoroutine(_downRoutine);
-            _downRoutine = null;
-            _downRoutine = StartCoroutine(DownLoad(downPercentSlider, doDownLoadPanel, mainPanel, downPercentText, _delayToFinishDownLoad));
+            StopCoroutine(_downLoadRoutine);
+            _downLoadRoutine = null;
+            _downLoadRoutine = StartCoroutine(DownLoad(downPercentSlider, downPercentText, callback));
         }
     }
 
-    IEnumerator DownLoad(Slider downPercentSlider, GameObject doDownLoadPanel,GameObject mainPanel, TextMeshProUGUI downPercentText, float _delayToFinishDownLoad)
+    IEnumerator DownLoad(Slider downPercentSlider, TextMeshProUGUI downPercentText, Action<bool> callback)
     {
         foreach (string label in _labels)
         {
@@ -260,7 +259,7 @@ public class AddressableManager : MonoBehaviour
 
         // 위 포문을 통해 라벨별로 다운을 시작하고
         // 다운 과정을 UI로 표시
-        yield return CheckDownLoadStatus(downPercentSlider, doDownLoadPanel, mainPanel, downPercentText, _delayToFinishDownLoad);
+        yield return CheckDownLoadStatus(downPercentSlider, downPercentText, callback);
     }
 
     // 어드레서블 라벨 별로 다운로드 받기
@@ -286,10 +285,12 @@ public class AddressableManager : MonoBehaviour
     }
 
     //현재 다운로드 상황 알려주기
-    IEnumerator CheckDownLoadStatus(Slider downPercentSlider, GameObject doDownLoadPanel, GameObject mainPanel, TextMeshProUGUI downPercentText, float _delayToFinishDownLoad)
+    // 
+    IEnumerator CheckDownLoadStatus(Slider downPercentSlider, TextMeshProUGUI downPercentText, Action<bool> finishDownLoadCallback)
     {
         StringBuilder sb = new StringBuilder();
         long total = 0;
+        bool isFinishDownLad;
 
         while (true)
         {
@@ -297,7 +298,7 @@ public class AddressableManager : MonoBehaviour
             total += _patchMap.Sum(tmp => tmp.Value);
 
             // 슬라이더에 표시
-            downPercentSlider.value = (float)total / (float)_downSize;
+            downPercentSlider.value = (float)total / (float)_downSize; 
 
             // 텍스트에 표시
             int curPatchValue = (int)(downPercentSlider.value * 100);
@@ -312,11 +313,10 @@ public class AddressableManager : MonoBehaviour
             if (total == _downSize)
             {
 
-                yield return new WaitForSeconds(_delayToFinishDownLoad);
+                yield return _delayTofinishDownLoadWs;
 
-                //DoDownLoadPanel 켜주기
-                doDownLoadPanel.SetActive(false);
-                mainPanel.SetActive(true);
+                isFinishDownLad = true;
+                finishDownLoadCallback(isFinishDownLad);
                 Debug.Log("다운로드 끝!");
                 break;
             }
@@ -327,6 +327,6 @@ public class AddressableManager : MonoBehaviour
         }
 
         // 다운로드 코루틴 초기화
-        _downRoutine = null;
+        _downLoadRoutine = null;
     }
 }

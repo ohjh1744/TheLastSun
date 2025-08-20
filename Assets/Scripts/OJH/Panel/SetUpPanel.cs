@@ -1,3 +1,4 @@
+using Google.Play.AppUpdate;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -18,17 +19,10 @@ public class SetUpPanel : UIBInder
     [SerializeField] private GameObject _doDownLoadPanel;
     [SerializeField] private GameObject _mainPanel;
 
-    [SerializeField] private float _delayToStartUpdate;
-    [SerializeField] private float _delayToFinishUpdate;
-    [SerializeField] private float _delayToStartDownLoad;
-    [SerializeField] private float _delayToFinishDownLoad;
-
     private Coroutine _routine;
+    //Update확인 전에 Network연결을 확인하기 위한 주기
     private WaitForSeconds _checkCanUpdateRateWs;
     [SerializeField] private float _checkCanUpdateRate;
-
-    private bool _isCheckDownLoad;
-
 
     private void Awake()
     {
@@ -50,13 +44,6 @@ public class SetUpPanel : UIBInder
             // 다운로드 상황에서 네트워크가 해지되었다가 다시 연결되면, 다운로드를 다시 할수있도록 하기위해서
             _downLoadButton.interactable = true;
             return;
-        }
-
-        //Update체크 끝난후 DownLoadPanel이 나오면 그때 DownLoad체크
-        // 다운로드 한번시작하면 버튼 숨기기
-        if (_updatePanel.activeSelf == false && _isCheckDownLoad == false)
-        {
-            DoCheckDownLoad();
         }
 
     }
@@ -99,7 +86,17 @@ public class SetUpPanel : UIBInder
             // 네트워크 연결되어있는 상태에서만
             if (NetworkCheckManager.Instance.IsConnected == true)
             {
-                GpgsManager.Instance.DoCheckForUpdate(_updatePanel, _checkDownLoadPanel, _delayToStartUpdate, _delayToFinishUpdate);
+                GpgsManager.Instance.DoCheckForUpdate((status =>
+                {
+                    if (status == UpdateAvailability.UpdateNotAvailable)
+                    {
+                        // 현재 Panel인 UpdatePanel 닫고, 다음 Panel인 DownPanel 열기
+                        _updatePanel?.SetActive(false);
+                        _checkDownLoadPanel?.SetActive(true);
+                        //Update 확인 끝나면 DownLoad 확인 시작
+                        DoCheckDownLoad();
+                    }
+                }));
                 break;
             }
             yield return _checkCanUpdateRate;
@@ -109,15 +106,41 @@ public class SetUpPanel : UIBInder
     }
     private void DoCheckDownLoad()
     {
-        _isCheckDownLoad = true;
-        AddressableManager.Instance.DoCheckDownLoadFile(_downSizeText, _checkDownLoadPanel, _doDownLoadPanel, _mainPanel, _delayToStartDownLoad);
+        AddressableManager.Instance.DoCheckDownLoadFile((downSIze) =>{
+            // 다운로드할 파일이 존재하면 다운로드 패널을 열기
+            if (downSIze > decimal.Zero)
+            {
+                // CheckDownLoad 패널을 닫고, 다운로드 패널을 열기, 다운받을 용량 Text 내용 Update.
+                _checkDownLoadPanel.SetActive(false);
+                _doDownLoadPanel.SetActive(true);
+                _downSizeText.SetText(AddressableManager.Instance.GetFileSize(downSIze));
+            }
+            // 다운받을 파일이 존재하지 않으면 메인 패널을 열기
+            else
+            {
+                // CheckDownLoad 패널을 닫고, 바로 메인 패널을 열기
+                _checkDownLoadPanel.SetActive(false);
+                _mainPanel.SetActive(true);
+                Debug.Log("다운받을 파일이 없음!!!");
+            }
+        });
     }
 
     private void DoDownLoad()
     {
         // 다운로드 시작 하면 버튼 상호작용 끄기
         _downLoadButton.interactable = false;
-        AddressableManager._instance.DoDownLoad(_downPercentSlider, _doDownLoadPanel, _mainPanel, _downPercentText, _delayToFinishDownLoad);
+
+        //다운로드가 완전히 끝나면 
+        AddressableManager._instance.DoDownLoad(_downPercentSlider, _downPercentText, (isDownFinish) =>
+        {
+            if (isDownFinish == true)
+            {
+                //DoDownLoadPanel 켜주기
+                _doDownLoadPanel.SetActive(false);
+                _mainPanel.SetActive(true);
+            }
+        });
     }
 
 

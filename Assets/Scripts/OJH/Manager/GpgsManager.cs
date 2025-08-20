@@ -3,6 +3,7 @@ using Google.Play.Common;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -19,19 +20,26 @@ public class GpgsManager : MonoBehaviour
 
     Coroutine _updateRoutine;
 
+    WaitForSeconds _delayToStartUpdateWs;
+
+    WaitForSeconds _delayToFinishUpdateWs;
+
+    [SerializeField] private float _delayToStartUpdate;
+
+    [SerializeField] private float _delayToFinishUpdate;
+
+
     // GPGS 클라우드에 저장할 데이터 파일 이름
     private static string _saveFileName = "file.dat";
 
 
-    private bool _isCheckUpdate = false;
-    public bool isCheckUpdate {get { return _isCheckUpdate; } set { _isCheckUpdate = value; } }
-
     private void Awake()
     {
-        Debug.Log("GPGSManager Awake");
+
         if(_instance == null)
         {
             _instance = this;
+            Init();
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -40,26 +48,34 @@ public class GpgsManager : MonoBehaviour
         }
     }
 
+    private void Init()
+    {
+        _delayToStartUpdateWs = new WaitForSeconds(_delayToStartUpdate);
+        _delayToFinishUpdateWs = new WaitForSeconds(_delayToFinishUpdate);
+    }
+
     // currentPanel은 UpdatePanel
     // nextPanel은 CheckDownLoadPanel
-    public void DoCheckForUpdate(GameObject updatePanel, GameObject checkDownLoadPanel, float delayToStartCurrentWork, float delayToFinishCurrentWork)
+    // DoCheckForUpdate 메서드에서 콜백을 통해 UpdateAvailability 값을 반환
+    public void DoCheckForUpdate(Action<UpdateAvailability> callback)
     {
-        if(_updateRoutine == null)
+        if (_updateRoutine == null)
         {
-            _updateRoutine = StartCoroutine(CheckForUpdate(updatePanel, checkDownLoadPanel, delayToStartCurrentWork, delayToFinishCurrentWork));
+            _updateRoutine = StartCoroutine(CheckForUpdate(callback));
         }
     }
 
-    IEnumerator CheckForUpdate(GameObject updatePanel, GameObject checkDownLoadPanel, float delayToStartCurrentWork, float delayToFinishCurrentWork)
+    // CheckForUpdate 코루틴에서 UpdateAvailability 값을 계산하고 콜백 호출
+    IEnumerator CheckForUpdate( Action<UpdateAvailability> callback)
     {
-        yield return new WaitForSeconds(delayToStartCurrentWork);
+        yield return _delayToStartUpdateWs;
 
-        Debug.Log("Check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //인앱 업데이트 관리를 위한 클래스 인스턴스화
+        Debug.Log("Check for update...");
+
+        // 인앱 업데이트 관리를 위한 클래스 인스턴스화
         _appUpdateManager = new AppUpdateManager();
 
-        PlayAsyncOperation<AppUpdateInfo, AppUpdateErrorCode> appUpdateInfoOperation =
-          _appUpdateManager.GetAppUpdateInfo();
+        PlayAsyncOperation<AppUpdateInfo, AppUpdateErrorCode> appUpdateInfoOperation = _appUpdateManager.GetAppUpdateInfo();
 
         // Wait until the asynchronous operation completes.
         yield return appUpdateInfoOperation;
@@ -68,13 +84,13 @@ public class GpgsManager : MonoBehaviour
         {
             var appUpdateInfoResult = appUpdateInfoOperation.GetResult();
 
-            //업데이트 가능 상태라면 
+            // 업데이트 가능 상태라면
             if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateAvailable)
             {
                 var appUpdateOptions = AppUpdateOptions.ImmediateAppUpdateOptions();
                 var startUpdateRequest = _appUpdateManager.StartUpdate(appUpdateInfoResult, appUpdateOptions);
 
-                //다운받기
+                // 다운로드 진행
                 while (!startUpdateRequest.IsDone)
                 {
                     if (startUpdateRequest.Status == AppUpdateStatus.Downloading)
@@ -88,40 +104,42 @@ public class GpgsManager : MonoBehaviour
                     yield return null;
                 }
 
-                //다운로드 완료후 업데이트를 실제로 적용.
+                // 다운로드 완료 후 업데이트 실제 적용
                 var result = _appUpdateManager.CompleteUpdate();
 
-                //완료되었는지 마지막 확인
+                // 완료되었는지 마지막 확인
                 while (!result.IsDone)
                 {
                     yield return new WaitForEndOfFrame();
                 }
 
                 Debug.Log("업데이트 완료");
-                _isCheckUpdate = true;
+
                 yield return (int)startUpdateRequest.Status;
 
+                // 업데이트 상태를 콜백으로 반환
+                callback(UpdateAvailability.UpdateAvailable);
             }
-            //업데이트가 없는 상태라면
+            // 업데이트가 없는 상태라면
             else if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateNotAvailable)
             {
                 Debug.Log("업데이트 없음!");
 
-                yield return new WaitForSeconds(delayToFinishCurrentWork);
+                yield return _delayToFinishUpdateWs;
 
-                //현재 Panel인 UpdatePanel 닫고, 다음 Panel인 DownPanel 열기
-                updatePanel?.SetActive(false);
-                checkDownLoadPanel?.SetActive(true);
-                _isCheckUpdate = true;
+                // 콜백으로 UpdateNotAvailable 상태를 반환
+                callback(UpdateAvailability.UpdateNotAvailable);
             }
         }
         else
         {
-            Debug.Log("업데이트 오류" + appUpdateInfoOperation.Error);
+            Debug.Log("업데이트 오류: " + appUpdateInfoOperation.Error);
         }
 
         _updateRoutine = null;
     }
+
+
 
     public void Login()
     {
@@ -138,8 +156,7 @@ public class GpgsManager : MonoBehaviour
             Debug.Log($"로그인 성공{displayName}{userID}");
 
             //로그인 성공후 유저데이터 가져오기
-            LoadData();
-
+            LoadData((status) => {});
         }
         else
         {
@@ -148,123 +165,130 @@ public class GpgsManager : MonoBehaviour
     }
 
     //클라우드에 Data저장하기
-    public void SaveData()
+    public void SaveData(Action<SavedGameRequestStatus> callback)
     {
-        //클라우드 저장소와 상호작용 가능한 인터페이스
+        // 클라우드 저장소와 상호작용 가능한 인터페이스
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
-        // 1번째 인자 파일이름, 2번째 네트워크 연결된 상태에서만 Data 저장및 불러오기 가능
-        // 3번째 인자 마지막에 정상적으로 저장된 정보를 가져옴, 4번째 인자 콜백 함수
-        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadNetworkOnly, ConflictResolutionStrategy.UseLastKnownGood, OnSaveDataOpend);
+        // 저장된 게임 데이터 파일을 열고 콜백 함수 지정
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadNetworkOnly, ConflictResolutionStrategy.UseLastKnownGood, (status, game) =>
+        {
+            if (status == SavedGameRequestStatus.Success)
+            {
+                Debug.Log("Save 열기 성공");
+
+                var update = new SavedGameMetadataUpdate.Builder().Build();
+
+                // Player 데이터를 JSON으로 직렬화
+                var json = JsonUtility.ToJson(PlayerController.Instance.PlayerData);
+                byte[] bytes = Encoding.UTF8.GetBytes(json);
+
+                // 게임 데이터를 커밋(저장)
+                savedGameClient.CommitUpdate(game, update, bytes, (writeStatus, writtenGame) =>
+                {
+                    if (writeStatus == SavedGameRequestStatus.Success)
+                    {
+                        // 저장 성공 콜백 호출
+                        Debug.Log("저장 성공");
+                        callback(SavedGameRequestStatus.Success);
+                    }
+                    else
+                    {
+                        // 저장 실패 콜백 호출
+                        Debug.Log("저장 실패");
+                        callback(SavedGameRequestStatus.InternalError);
+                    }
+                });
+            }
+            else
+            {
+                // Save 열기 실패 콜백 호출
+                Debug.Log("Save 열기 실패");
+                callback(SavedGameRequestStatus.InternalError);
+            }
+        });
     }
 
-    //저장된 게임 데이터에 대한 요청 결과 상태를 다룬 인터페이스, 저장된 게임의 메타 데이터를 다룬 인터페이스
-    private void OnSaveDataOpend(SavedGameRequestStatus status, ISavedGameMetadata game)
-    {
-        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
-        if (status == SavedGameRequestStatus.Success)
-        {
-            Debug.Log("Save열기 성공");
-
-            var update = new SavedGameMetadataUpdate.Builder().Build();
-
-            //json
-            var json = JsonUtility.ToJson(PlayerController.Instance.PlayerData);
-            byte[] bytes = Encoding.UTF8.GetBytes(json);
-
-            Debug.Log($"저장 데이터: {bytes}");
-
-            savedGameClient.CommitUpdate(game, update, bytes, OnSaveDataWritten);
-
-
-        }
-        else
-        {
-            NetworkCheckManager.Instance.NetWorkErrorPanel.SetActive(true);
-            Debug.Log("Save열기 실패");
-            Debug.Log($"{status}");
-        }
-
-    }
-
-    private void OnSaveDataWritten(SavedGameRequestStatus status, ISavedGameMetadata game)
-    {
-        if (status == SavedGameRequestStatus.Success)
-        {
-            Debug.Log("저장 성공");
-        }
-        else
-        {
-            NetworkCheckManager.Instance.NetWorkErrorPanel.SetActive(true);
-            Debug.Log("저장 실패");
-        }
-    }
-
-    //클라우드에서 Data 가져오기
-    public void LoadData()
+    // LoadData 함수에서 콜백을 사용하여 결과를 반환
+    public void LoadData(Action<SavedGameRequestStatus> callback)
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
-        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLastKnownGood, OnLoadDataOpend);
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork,
+            ConflictResolutionStrategy.UseLastKnownGood, (status, data) =>
+            {
+                if (status == SavedGameRequestStatus.Success)
+                {
+                    Debug.Log("Load 열기 성공");
+
+                    // 파일을 성공적으로 열었으면 데이터를 읽기
+                    savedGameClient.ReadBinaryData(data, (readStatus, loadedData) =>
+                    {
+                        if (readStatus == SavedGameRequestStatus.Success)
+                        {
+                            // 데이터 읽기 성공
+                            string json = Encoding.UTF8.GetString(loadedData);
+
+                            if (string.IsNullOrEmpty(json))
+                            {
+                                Debug.Log("저장된 데이터가 없음");
+                            }
+                            else
+                            {
+                                Debug.Log($"Load Read Data: {json}");
+
+                                // JSON 데이터를 PlayerData 객체로 변환
+                                PlayerController.Instance.PlayerData = JsonUtility.FromJson<PlayerData>(json);
+                            }
+
+                            // 데이터 읽기 결과를 콜백으로 반환
+                            callback(SavedGameRequestStatus.Success);
+                        }
+                        else
+                        {
+                            Debug.Log("데이터 읽기 실패");
+                            callback(SavedGameRequestStatus.InternalError);
+                        }
+                    });
+                }
+                else
+                {
+                    // 파일 열기 실패 콜백 호출
+                    Debug.Log("Load 열기 실패");
+                    callback(SavedGameRequestStatus.InternalError);
+                }
+            });
     }
 
-    private void OnLoadDataOpend(SavedGameRequestStatus status, ISavedGameMetadata data)
+    // DeleteData 함수에서 콜백을 사용하여 결과를 반환
+    public void DeleteData(Action<SavedGameRequestStatus> callback)
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
-        if (status == SavedGameRequestStatus.Success)
-        {
-            Debug.Log("Load 열기 성공");
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork,
+            ConflictResolutionStrategy.UseLastKnownGood, (status, data) =>
+            {
+                if (status == SavedGameRequestStatus.Success)
+                {
+                    // 파일을 성공적으로 열었으면 데이터를 삭제
+                    savedGameClient.Delete(data);
 
-            savedGameClient.ReadBinaryData(data, OnLoadDataRead);
-        }
-        else
-        {
-            NetworkCheckManager.Instance.NetWorkErrorPanel.SetActive(true);
-            Debug.Log("Load 열기 실패");
-        }
-    }
+                    Debug.Log("데이터 삭제 성공");
 
-    private void OnLoadDataRead(SavedGameRequestStatus status, byte[] loadedData)
-    {
-        string data = Encoding.UTF8.GetString(loadedData);
+                    // 플레이어 상태 초기화
+                    PlayerController.Instance.SetClear();
 
-        if (data == "")
-        {
-            Debug.Log("저장된 데이터가 없음");
-        }
-        else
-        {
-            Debug.Log($"Load Read Data: {data}");
-
-            //json
-            PlayerController.Instance.PlayerData = JsonUtility.FromJson<PlayerData>(data);
-        }
-    }
-
-    //Data 삭제
-    public void DeleteData()
-    {
-        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
-
-        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLastKnownGood, OnDeleteSaveData);
-    }
-
-    private void OnDeleteSaveData(SavedGameRequestStatus status, ISavedGameMetadata data)
-    {
-        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
-
-        if (status == SavedGameRequestStatus.Success)
-        {
-            savedGameClient.Delete(data);
-            Debug.Log("데이터 삭제 성공");
-            PlayerController.Instance.SetClear();
-        }
-        else
-        {
-            Debug.Log("데이터 삭제 실패");
-        }
+                    // 삭제 성공 콜백 호출
+                    callback(SavedGameRequestStatus.Success);
+                }
+                else
+                {
+                    // 파일 열기 실패 콜백 호출
+                    Debug.Log("데이터 삭제 실패");
+                    callback(SavedGameRequestStatus.InternalError);
+                }
+            });
     }
 
 

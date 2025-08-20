@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Threading.Tasks;
 
 public class NetworkCheckManager : MonoBehaviour
 {
@@ -11,17 +12,11 @@ public class NetworkCheckManager : MonoBehaviour
     private bool _isConnected;  // 인터넷 연결 상태를 나타내는 변수
     public bool IsConnected {  get { return _isConnected; } private set { } }
 
-    [SerializeField] private float _checkRate;
-
-    private WaitForSeconds _checkRateWs;
-
     [SerializeField] private GameObject _netWorkErrorPanel;
 
     public GameObject NetWorkErrorPanel { get { return _netWorkErrorPanel; } set { _netWorkErrorPanel = value; } }
 
-    private Coroutine _CheckAlwaysRoutine;
-
-    private Coroutine _CheckOnceRoutine;
+    [SerializeField] private int _checkConnectRate;
 
 
     private void Awake()
@@ -39,52 +34,25 @@ public class NetworkCheckManager : MonoBehaviour
 
     void Start()
     {
-        _checkRateWs = new WaitForSeconds(_checkRate);
         DoCheckInternetConnectionAlways();
     }
 
-    private void Update()
-    {
-        //네트워크 연결이 해제되어 경고패널이 뜬다면 네트워크항상체킹 중지
-        //_checkAlwaysRoutine조건을 넣은 이유는 NullReference 에러 막기위해서
-        if (_netWorkErrorPanel.activeSelf == true && _CheckAlwaysRoutine != null)
-        {
-            StopCoroutine(_CheckAlwaysRoutine);
-            _CheckAlwaysRoutine = null;
-        }
-        // 네트워크 연결이 다시 연결된다면 네트워크항상체킹 다시 시작 
-        else if(_netWorkErrorPanel.activeSelf == false)
-        {
-            DoCheckInternetConnectionAlways();
-        }
-    }
 
     // 매번 확인
-    private void DoCheckInternetConnectionAlways ()
+    private async Task DoCheckInternetConnectionAlways ()
     {
-        if (_CheckAlwaysRoutine == null)
-        {
-            _CheckAlwaysRoutine = StartCoroutine(CheckInternetConnectionAlways());
-        }
+        await CheckInternetConnectionAlwaysAsync();
     }
 
-    //한번만 확인
-    // 네트워크 연결이 false인 상태에서 다시 네트워크 연결 확인하는 함수
-    public void DoCheckInternetInNotConnection()
-    {
-        if(_CheckOnceRoutine == null)
-        {
-            _CheckOnceRoutine = StartCoroutine(CheckInternetInNotConnection());
-        }
-    }
 
-    IEnumerator CheckInternetConnectionAlways()
+    async Task CheckInternetConnectionAlwaysAsync()
     {
         while (true)
         {
-            UnityWebRequest request = UnityWebRequest.Get("https://www.google.com"); // 예시: 구글 페이지
+            UnityWebRequest request = UnityWebRequest.Get("https://www.google.com");
 
-            yield return request.SendWebRequest();
+            // 비동기 요청을 보내고 결과를 기다림
+            await SendWebRequestAsync(request);
 
             if (request.result == UnityWebRequest.Result.Success)
             {
@@ -93,7 +61,7 @@ public class NetworkCheckManager : MonoBehaviour
             }
             else
             {
-                _isConnected = false;  // 연결 실패
+                _isConnected = false;
                 _netWorkErrorPanel.SetActive(true);
                 Debug.Log("인터넷 연결 실패");
             }
@@ -101,36 +69,24 @@ public class NetworkCheckManager : MonoBehaviour
             // isConnected 값을 로그로 출력 (디버깅 용도)
             Debug.Log("인터넷 연결 상태: " + _isConnected);
 
-            yield return _checkRateWs;
+            // _checkRateWs 만큼 대기 (Task.Delay로 대체)
+            await Task.Delay(_checkConnectRate * 1000);
         }
     }
 
-    //네트워크에러뜬 상태에서 다시 체크
-    IEnumerator CheckInternetInNotConnection()
+    // UnityWebRequest의 비동기 처리를 Task로 감싸는 메서드
+    private Task SendWebRequestAsync(UnityWebRequest request)
     {
-        UnityWebRequest request = UnityWebRequest.Get("https://www.google.com"); // 예시: 구글 페이지
+        var tcs = new TaskCompletionSource<object>(); // TaskCompletionSource 생성
 
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.Success)
+        // 웹 요청을 보냄
+        request.SendWebRequest().completed += (op) =>
         {
-            _isConnected = true;  // 에러뜬 상태에서 다시 연결 성공
-            Debug.Log("인터넷 연결 확인됨");
-        }
-        else
-        {
-            _isConnected = false;  // 에러뜬 상태에서 또 연결 실패
-            Debug.Log("인터넷 연결 실패");
-        }
+            tcs.SetResult(null);
+        };
 
-        // isConnected 값을 로그로 출력 (디버깅 용도)
-        Debug.Log("인터넷 연결 상태: " + _isConnected);
-
-        yield return _checkRateWs;
-
-        _CheckOnceRoutine = null;
+        // 요청 반환 (완료될 때까지 기다림)
+        return tcs.Task;
     }
-
-
 
 }
