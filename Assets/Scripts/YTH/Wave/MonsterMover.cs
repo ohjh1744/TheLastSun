@@ -6,7 +6,7 @@ public class MonsterMover : MonoBehaviour
 {
     [SerializeField] List<Transform> _pathPoints;
 
-    private int _currentPointIndex = 0;
+    private int _curPointIndex = 0;
 
     private MonsterModel _model;
 
@@ -25,15 +25,15 @@ public class MonsterMover : MonoBehaviour
     /// </summary>
     IEnumerator MoveToNextPoint()
     {
-        while (_currentPointIndex < _pathPoints.Count)
+        while (_curPointIndex < _pathPoints.Count)
         {
-            Transform targetPoint = _pathPoints[_currentPointIndex + 1];
+            Transform targetPoint = _pathPoints[_curPointIndex + 1];
             while (Vector3.Distance(transform.position, targetPoint.position) > 0.1f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, _model.MoveSpeed * Time.deltaTime);
                 yield return null;
             }
-            _currentPointIndex++;
+            _curPointIndex++;
         }
 
         Destroy(gameObject);
