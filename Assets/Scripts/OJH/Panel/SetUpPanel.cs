@@ -37,6 +37,7 @@ public class SetUpPanel : UIBInder
     }
     private void Start()
     {
+        DoLogin();
         DoCheckUpdate();
     }
     private void Update()
@@ -44,14 +45,15 @@ public class SetUpPanel : UIBInder
         // 네트워크연결되어 있는 경우만 아래 동작 가능하도록 
         if(NetworkCheckManager.Instance.IsConnected == false)
         {
-            //네트워크 연결이 안되면 모든 버튼 못누르도록
-            SetInteractableFalse();
+            // true로 해논 이유는 
+            // 네트워크 팝업창이 뜨게 되면 다운버튼이 뒤로 숨겨지는데
+            // 다운로드 상황에서 네트워크가 해지되었다가 다시 연결되면, 다운로드를 다시 할수있도록 하기위해서
+            _downLoadButton.interactable = true;
             return;
         }
 
-        SetInteractableTrue();
-
         //Update체크 끝난후 DownLoadPanel이 나오면 그때 DownLoad체크
+        // 다운로드 한번시작하면 버튼 숨기기
         if (_updatePanel.activeSelf == false && _isCheckDownLoad == false)
         {
             DoCheckDownLoad();
@@ -71,18 +73,13 @@ public class SetUpPanel : UIBInder
         _downLoadButton = GetUI<Button>("DownLoadButton");
 
         //버튼 함수 연결
-        _downLoadButton.onClick.AddListener(() => AddressableManager._instance.DoDownLoad(_downPercentSlider, _doDownLoadPanel, _mainPanel, _downPercentText, _delayToFinishDownLoad));
+        _downLoadButton.onClick.AddListener(() => DoDownLoad());
 
     }
 
-    private void SetInteractableFalse()
+    private void DoLogin()
     {
-        _downLoadButton.interactable = false;
-    }
-
-    private void SetInteractableTrue()
-    {
-        _downLoadButton.interactable = true;
+        GpgsManager.Instance.Login();
     }
 
     //다운로드 가능한지 확인시작
@@ -114,6 +111,13 @@ public class SetUpPanel : UIBInder
     {
         _isCheckDownLoad = true;
         AddressableManager.Instance.DoCheckDownLoadFile(_downSizeText, _checkDownLoadPanel, _doDownLoadPanel, _mainPanel, _delayToStartDownLoad);
+    }
+
+    private void DoDownLoad()
+    {
+        // 다운로드 시작 하면 버튼 상호작용 끄기
+        _downLoadButton.interactable = false;
+        AddressableManager._instance.DoDownLoad(_downPercentSlider, _doDownLoadPanel, _mainPanel, _downPercentText, _delayToFinishDownLoad);
     }
 
 

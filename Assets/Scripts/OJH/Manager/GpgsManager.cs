@@ -105,8 +105,6 @@ public class GpgsManager : MonoBehaviour
             //업데이트가 없는 상태라면
             else if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateNotAvailable)
             {
-                //로그인하기
-                Login();
                 Debug.Log("업데이트 없음!");
 
                 yield return new WaitForSeconds(delayToFinishCurrentWork);
@@ -125,7 +123,7 @@ public class GpgsManager : MonoBehaviour
         _updateRoutine = null;
     }
 
-    private void Login()
+    public void Login()
     {
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
     }
@@ -138,6 +136,9 @@ public class GpgsManager : MonoBehaviour
             string userID = PlayGamesPlatform.Instance.GetUserId();
 
             Debug.Log($"로그인 성공{displayName}{userID}");
+
+            //로그인 성공후 유저데이터 가져오기
+            LoadData();
 
         }
         else
@@ -239,6 +240,30 @@ public class GpgsManager : MonoBehaviour
 
             //json
             PlayerController.Instance.PlayerData = JsonUtility.FromJson<PlayerData>(data);
+        }
+    }
+
+    //Data 삭제
+    public void DeleteData()
+    {
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLastKnownGood, OnDeleteSaveData);
+    }
+
+    private void OnDeleteSaveData(SavedGameRequestStatus status, ISavedGameMetadata data)
+    {
+        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+
+        if (status == SavedGameRequestStatus.Success)
+        {
+            savedGameClient.Delete(data);
+            Debug.Log("데이터 삭제 성공");
+            PlayerController.Instance.SetClear();
+        }
+        else
+        {
+            Debug.Log("데이터 삭제 실패");
         }
     }
 
