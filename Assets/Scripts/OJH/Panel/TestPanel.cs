@@ -1,3 +1,4 @@
+using GooglePlayGames.BasicApi.SavedGame;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -52,7 +53,21 @@ public class TestPanel : MonoBehaviour
     public void DoSaveData()
     {
         Debug.Log("SaveData하기");
-        GpgsManager.Instance.SaveData();
+        GpgsManager.Instance.SaveData((status) =>
+        {
+            if (status == SavedGameRequestStatus.Success)
+            {
+                //성공시 해야할 일
+                //ex)팝업창
+                Debug.Log("저장 성공!");
+            }
+            else
+            {
+                //실패시 해야할 일 
+                //ex)팝업창
+                Debug.Log("저장 실패!");
+            }
+        });
     }
 
     public void ShowAllLeaderbord()

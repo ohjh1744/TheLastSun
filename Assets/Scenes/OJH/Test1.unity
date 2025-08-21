@@ -479,7 +479,7 @@ MonoBehaviour:
   _retryConnectOKButton: {fileID: 0}
   _retryConnectStatusText: {fileID: 0}
   _retryConnectPanel: {fileID: 1121040103}
-  _delayCheckConnect: 2
+  _tryConnectDelay: 2
 --- !u!1 &245503857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,6 +1655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7195e9ed2c57096478462c43e7dbfe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _delayToStartUpdate: 2
+  _delayToFinishUpdate: 2
 --- !u!1 &895201232
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,10 +3378,6 @@ MonoBehaviour:
   _checkDownLoadPanel: {fileID: 1641141298}
   _doDownLoadPanel: {fileID: 968327064}
   _mainPanel: {fileID: 840599156}
-  _delayToStartUpdate: 2
-  _delayToFinishUpdate: 2
-  _delayToStartDownLoad: 2
-  _delayToFinishDownLoad: 2
   _checkCanUpdateRate: 1
 --- !u!1 &1624645765
 GameObject:
@@ -3522,8 +3520,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d6cb2a7d3ccae4989a0f3afc97c6a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _checkRate: 1
   _netWorkErrorPanel: {fileID: 98935340}
+  _checkConnectRate: 1
 --- !u!4 &1865357026
 Transform:
   m_ObjectHideFlags: 0
@@ -3783,6 +3781,8 @@ MonoBehaviour:
   _label:
   - m_LabelString: default
   - m_LabelString: Image
+  _delayToStartCheckDownLoad: 2
+  _delayTofinishDownLoad: 2
 --- !u!4 &2032080332
 Transform:
   m_ObjectHideFlags: 0
