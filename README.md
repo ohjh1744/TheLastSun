@@ -16,7 +16,8 @@ Android 2D Defense Game
 
 
 ### 인 게임씬 미리보기 🔎
-![KakaoTalk_20250822_100216592](https://github.com/user-attachments/assets/2604034f-a158-485e-9020-28d7dc5100bb)
+<img width="222" height="465" alt="image" src="https://github.com/user-attachments/assets/36abf8f2-729a-423c-b697-ba12b6bbdd9d" />
+
 
 
 ## 기술 스택 💻
