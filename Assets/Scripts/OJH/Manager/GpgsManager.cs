@@ -66,7 +66,7 @@ public class GpgsManager : MonoBehaviour
     }
 
     // CheckForUpdate 코루틴에서 UpdateAvailability 값을 계산하고 콜백 호출
-    IEnumerator CheckForUpdate( Action<UpdateAvailability> callback)
+    IEnumerator CheckForUpdate(Action<UpdateAvailability> callback)
     {
         yield return _delayToStartUpdateWs;
 
@@ -84,9 +84,19 @@ public class GpgsManager : MonoBehaviour
         {
             var appUpdateInfoResult = appUpdateInfoOperation.GetResult();
 
-            // 업데이트 가능 상태라면
-            if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateAvailable)
+            // 업데이트 가능 상태 or 이전에 업데이트를 했으나 완료되지 않은 상태 -> 업데이트 중 앱을 끄거나 중간에 문제가 생겨 앱이 다시 시작되었을때 발생.
+            // 구글에선  후자의 경우 이때 StartUpdate를 다시 호출하도록 유도하라고함.
+            // 지금 발생하는 문제는 업데이트창이 뜬 상태에서 업데이트를 안하고, 다시 업데이트를 시도하면 UpdateAvaiable 상태에서 다운안받고 다운완료로 뜸.
+            if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateAvailable || appUpdateInfoResult.UpdateAvailability == UpdateAvailability.DeveloperTriggeredUpdateInProgress)
             {
+                //테스트를 위해서 주석 추가
+                if(appUpdateInfoResult.UpdateAvailability == UpdateAvailability.DeveloperTriggeredUpdateInProgress)
+                {
+                    Debug.Log("업데이트 전에 진행한적 있음");
+                }
+                callback(UpdateAvailability.UpdateAvailable);
+
+                //실제 업데이트 창 띄우기
                 var appUpdateOptions = AppUpdateOptions.ImmediateAppUpdateOptions();
                 var startUpdateRequest = _appUpdateManager.StartUpdate(appUpdateInfoResult, appUpdateOptions);
 
@@ -116,9 +126,6 @@ public class GpgsManager : MonoBehaviour
                 Debug.Log("업데이트 완료");
 
                 yield return (int)startUpdateRequest.Status;
-
-                // 업데이트 상태를 콜백으로 반환
-                callback(UpdateAvailability.UpdateAvailable);
             }
             // 업데이트가 없는 상태라면
             else if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateNotAvailable)

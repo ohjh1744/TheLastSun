@@ -11,6 +11,7 @@ public class SetUpPanel : UIBInder
     //현재 다운진행을 보여주기 위한 UI
     private TextMeshProUGUI _downPercentText;
     private TextMeshProUGUI _downSizeText;
+    private TextMeshProUGUI _updateDetailText;
     private Slider _downPercentSlider;
     private Button _downLoadButton;
 
@@ -24,6 +25,11 @@ public class SetUpPanel : UIBInder
     private WaitForSeconds _checkCanUpdateRateWs;
     [SerializeField] private float _checkCanUpdateRate;
 
+
+    private Coroutine _routine2;
+
+    private bool _isUpdating;
+
     private void Awake()
     {
         BindAll();
@@ -32,11 +38,25 @@ public class SetUpPanel : UIBInder
     private void Start()
     {
         DoLogin();
-        DoCheckUpdate();
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        //업데이크 체크가 완료되지않았따면 업데이크 확인 시작
+        if(focus == true && _isUpdating == false)
+        {
+            DoCheckUpdate();
+        }
+
+        //업데이트 중에 뒤로가기를 했다면
+        if (focus == true && _isUpdating == true)
+        {
+            DoQuitWhenBackInUpdate();
+        }
     }
     private void Update()
     {
-        // 네트워크연결되어 있는 경우만 아래 동작 가능하도록 
+        // 네트워크연결되어 있지 않는 경우
         if(NetworkCheckManager.Instance.IsConnected == false)
         {
             // true로 해논 이유는 
@@ -45,7 +65,6 @@ public class SetUpPanel : UIBInder
             _downLoadButton.interactable = true;
             return;
         }
-
     }
 
     private void Init()
@@ -58,6 +77,7 @@ public class SetUpPanel : UIBInder
         _downSizeText = GetUI<TextMeshProUGUI>("DownSizeText");
         _downPercentSlider = GetUI<Slider>("DownPercentSlider");
         _downLoadButton = GetUI<Button>("DownLoadButton");
+        _updateDetailText = GetUI<TextMeshProUGUI>("UpdateDetailText");
 
         //버튼 함수 연결
         _downLoadButton.onClick.AddListener(() => DoDownLoad());
@@ -72,15 +92,17 @@ public class SetUpPanel : UIBInder
     //다운로드 가능한지 확인시작
     private void DoCheckUpdate()
     {
-        if(_routine == null)
+        if(_routine != null)
         {
-            _routine = StartCoroutine(CheckUpdate());
+            StopCoroutine(_routine);
         }
+        _routine = StartCoroutine(CheckUpdate());
     }
 
     // 네트워크가 연결되어있는지 확인 후 연결되면 Update시작하고 종료
     IEnumerator CheckUpdate()
     {
+        Debug.Log("업데이트 체크갑니다");
         while (true)
         {
             // 네트워크 연결되어있는 상태에서만
@@ -88,7 +110,15 @@ public class SetUpPanel : UIBInder
             {
                 GpgsManager.Instance.DoCheckForUpdate((status =>
                 {
-                    if (status == UpdateAvailability.UpdateNotAvailable)
+                    //업데이트 할것이 있어, 창이 뜨는 순간에 리턴됨.
+                    if (status == UpdateAvailability.UpdateAvailable)
+                    {
+                        Debug.Log("업데이트 텍스트 변환!");
+                        _isUpdating = true;
+                        Debug.Log($"isUpdating: {_isUpdating}");
+                    }
+                    //업데이트 할것이 없다면 리턴 됨
+                    else if (status == UpdateAvailability.UpdateNotAvailable)
                     {
                         // 현재 Panel인 UpdatePanel 닫고, 다음 Panel인 DownPanel 열기
                         _updatePanel?.SetActive(false);
@@ -99,11 +129,30 @@ public class SetUpPanel : UIBInder
                 }));
                 break;
             }
-            yield return _checkCanUpdateRate;
+            yield return _checkCanUpdateRateWs;
         }
 
         _routine = null;
     }
+
+    //업데이트 하는 도중에 뒤로갔을때 종료하기
+    private void DoQuitWhenBackInUpdate()
+    {
+        if(_routine2 == null)
+        {
+            _routine2 = StartCoroutine(QuitWhenBackInUpdate());
+        }
+    }
+
+    IEnumerator QuitWhenBackInUpdate()
+    {
+        _updateDetailText.text = "업데이트에 실패하여 앱이 종료 됩니다.";
+        yield return new WaitForSeconds(2f);
+
+        Application.Quit();
+        _routine2 = null;
+    }
+
     private void DoCheckDownLoad()
     {
         AddressableManager.Instance.DoCheckDownLoadFile((downSIze) =>{
