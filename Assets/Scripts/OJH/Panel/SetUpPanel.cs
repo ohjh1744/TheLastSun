@@ -8,25 +8,32 @@ using UnityEngine.UI;
 
 public class SetUpPanel : UIBInder
 {
-    //현재 다운진행을 보여주기 위한 UI
+
+    //업데이트 관련 UI
+    private TextMeshProUGUI _updateDetailText;
+
+    //다운로드 관련 UI
     private TextMeshProUGUI _downPercentText;
     private TextMeshProUGUI _downSizeText;
-    private TextMeshProUGUI _updateDetailText;
     private Slider _downPercentSlider;
     private Button _downLoadButton;
 
+    //패널
     [SerializeField] private GameObject _updatePanel;
     [SerializeField] private GameObject _checkDownLoadPanel;
     [SerializeField] private GameObject _doDownLoadPanel;
     [SerializeField] private GameObject _mainPanel;
 
-    private Coroutine _routine;
+    //코루틴
+    private Coroutine _checkUpdateRoutine;
     //Update확인 전에 Network연결을 확인하기 위한 주기
     private WaitForSeconds _checkCanUpdateRateWs;
     [SerializeField] private float _checkCanUpdateRate;
 
-
-    private Coroutine _routine2;
+    private Coroutine _quitRoutine;
+    //종료하기 하기까지의 딜레이 시간
+    private WaitForSeconds _quitDelayWs;
+    [SerializeField] private float _quitDelay;
 
     private bool _isUpdating;
 
@@ -37,7 +44,7 @@ public class SetUpPanel : UIBInder
     }
     private void Start()
     {
-        DoLogin();
+        Login();
     }
 
     private void OnApplicationFocus(bool focus)
@@ -45,13 +52,13 @@ public class SetUpPanel : UIBInder
         //업데이크 체크가 완료되지않았따면 업데이크 확인 시작
         if(focus == true && _isUpdating == false)
         {
-            DoCheckUpdate();
+            CheckUpdate();
         }
 
         //업데이트 중에 뒤로가기를 했다면
         if (focus == true && _isUpdating == true)
         {
-            DoQuitWhenBackInUpdate();
+            QuitWhenBackInUpdate();
         }
     }
     private void Update()
@@ -71,6 +78,7 @@ public class SetUpPanel : UIBInder
     {
         //Ws 초기화
         _checkCanUpdateRateWs = new WaitForSeconds(_checkCanUpdateRate);
+        _quitDelayWs = new WaitForSeconds(_quitDelay);
 
         //미리 변수 할당
         _downPercentText = GetUI<TextMeshProUGUI>("DownPercentText");
@@ -80,27 +88,27 @@ public class SetUpPanel : UIBInder
         _updateDetailText = GetUI<TextMeshProUGUI>("UpdateDetailText");
 
         //버튼 함수 연결
-        _downLoadButton.onClick.AddListener(() => DoDownLoad());
+        _downLoadButton.onClick.AddListener(() => DownLoad());
 
     }
 
-    private void DoLogin()
+    private void Login()
     {
         GpgsManager.Instance.Login();
     }
 
     //다운로드 가능한지 확인시작
-    private void DoCheckUpdate()
+    private void CheckUpdate()
     {
-        if(_routine != null)
+        if(_checkUpdateRoutine != null)
         {
-            StopCoroutine(_routine);
+            StopCoroutine(_checkUpdateRoutine);
         }
-        _routine = StartCoroutine(CheckUpdate());
+        _checkUpdateRoutine = StartCoroutine(OnCheckUpdate());
     }
 
     // 네트워크가 연결되어있는지 확인 후 연결되면 Update시작하고 종료
-    IEnumerator CheckUpdate()
+    IEnumerator OnCheckUpdate()
     {
         Debug.Log("업데이트 체크갑니다");
         while (true)
@@ -108,7 +116,7 @@ public class SetUpPanel : UIBInder
             // 네트워크 연결되어있는 상태에서만
             if (NetworkCheckManager.Instance.IsConnected == true)
             {
-                GpgsManager.Instance.DoCheckForUpdate((status =>
+                GpgsManager.Instance.CheckForUpdate((status =>
                 {
                     //업데이트 할것이 있어, 창이 뜨는 순간에 리턴됨.
                     if (status == UpdateAvailability.UpdateAvailable)
@@ -124,7 +132,7 @@ public class SetUpPanel : UIBInder
                         _updatePanel?.SetActive(false);
                         _checkDownLoadPanel?.SetActive(true);
                         //Update 확인 끝나면 DownLoad 확인 시작
-                        DoCheckDownLoad();
+                        CheckDownLoad();
                     }
                 }));
                 break;
@@ -132,28 +140,29 @@ public class SetUpPanel : UIBInder
             yield return _checkCanUpdateRateWs;
         }
 
-        _routine = null;
+        _checkUpdateRoutine = null;
     }
 
     //업데이트 하는 도중에 뒤로갔을때 종료하기
-    private void DoQuitWhenBackInUpdate()
+    private void QuitWhenBackInUpdate()
     {
-        if(_routine2 == null)
+        if(_quitRoutine == null)
         {
-            _routine2 = StartCoroutine(QuitWhenBackInUpdate());
+            _quitRoutine = StartCoroutine(OnQuitWhenBackInUpdate());
         }
     }
 
-    IEnumerator QuitWhenBackInUpdate()
+    IEnumerator OnQuitWhenBackInUpdate()
     {
         _updateDetailText.text = "업데이트에 실패하여 앱이 종료 됩니다.";
-        yield return new WaitForSeconds(2f);
+        yield return _quitDelayWs;
 
         Application.Quit();
-        _routine2 = null;
+        _quitRoutine = null;
     }
 
-    private void DoCheckDownLoad()
+    //다운로드 할것이 있는지 확인
+    private void CheckDownLoad()
     {
         AddressableManager.Instance.DoCheckDownLoadFile((downSIze) =>{
             // 다운로드할 파일이 존재하면 다운로드 패널을 열기
@@ -175,13 +184,14 @@ public class SetUpPanel : UIBInder
         });
     }
 
-    private void DoDownLoad()
+    //다운로드
+    private void DownLoad()
     {
         // 다운로드 시작 하면 버튼 상호작용 끄기
         _downLoadButton.interactable = false;
 
         //다운로드가 완전히 끝나면 
-        AddressableManager._instance.DoDownLoad(_downPercentSlider, _downPercentText, (isDownFinish) =>
+        AddressableManager._instance.DownLoad(_downPercentSlider, _downPercentText, (isDownFinish) =>
         {
             if (isDownFinish == true)
             {

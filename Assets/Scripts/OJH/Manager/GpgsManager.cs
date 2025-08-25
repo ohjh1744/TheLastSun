@@ -57,16 +57,16 @@ public class GpgsManager : MonoBehaviour
     // currentPanel은 UpdatePanel
     // nextPanel은 CheckDownLoadPanel
     // DoCheckForUpdate 메서드에서 콜백을 통해 UpdateAvailability 값을 반환
-    public void DoCheckForUpdate(Action<UpdateAvailability> callback)
+    public void CheckForUpdate(Action<UpdateAvailability> callback)
     {
         if (_updateRoutine == null)
         {
-            _updateRoutine = StartCoroutine(CheckForUpdate(callback));
+            _updateRoutine = StartCoroutine(OnCheckForUpdate(callback));
         }
     }
 
     // CheckForUpdate 코루틴에서 UpdateAvailability 값을 계산하고 콜백 호출
-    IEnumerator CheckForUpdate(Action<UpdateAvailability> callback)
+    IEnumerator OnCheckForUpdate(Action<UpdateAvailability> callback)
     {
         yield return _delayToStartUpdateWs;
 
@@ -150,10 +150,10 @@ public class GpgsManager : MonoBehaviour
 
     public void Login()
     {
-        PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+        PlayGamesPlatform.Instance.Authenticate(OnProcessAuthentication);
     }
 
-    internal void ProcessAuthentication(SignInStatus status)
+    internal void OnProcessAuthentication(SignInStatus status)
     {
         if (status == SignInStatus.Success)
         {

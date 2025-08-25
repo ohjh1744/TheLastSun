@@ -225,22 +225,22 @@ public class AddressableManager : MonoBehaviour
     //다운로드 시작
     //다운로드 끝나면 MainPanel로 이동.
     //여기서 nextPanel은 MainPanel
-    public void DoDownLoad(Slider downPercentSlider, TextMeshProUGUI downPercentText,  Action<bool> callback)
+    public void DownLoad(Slider downPercentSlider, TextMeshProUGUI downPercentText,  Action<bool> callback)
     {
         if (_downLoadRoutine == null)
         {
-            _downLoadRoutine = StartCoroutine(DownLoad(downPercentSlider, downPercentText, callback));
+            _downLoadRoutine = StartCoroutine(OnDownLoad(downPercentSlider, downPercentText, callback));
         }
         //다운로드 다시 누르면 재수행
         else
         {
             StopCoroutine(_downLoadRoutine);
             _downLoadRoutine = null;
-            _downLoadRoutine = StartCoroutine(DownLoad(downPercentSlider, downPercentText, callback));
+            _downLoadRoutine = StartCoroutine(OnDownLoad(downPercentSlider, downPercentText, callback));
         }
     }
 
-    IEnumerator DownLoad(Slider downPercentSlider, TextMeshProUGUI downPercentText, Action<bool> callback)
+    IEnumerator OnDownLoad(Slider downPercentSlider, TextMeshProUGUI downPercentText, Action<bool> callback)
     {
         foreach (string label in _labels)
         {
@@ -253,17 +253,17 @@ public class AddressableManager : MonoBehaviour
             // 패치할 내용이 있다면 다운받기
             if (handle.Result != decimal.Zero)
             {
-                StartCoroutine(DownLoadPerLabel(label));
+                StartCoroutine(OnDownLoadPerLabel(label));
             }
         }
 
         // 위 포문을 통해 라벨별로 다운을 시작하고
         // 다운 과정을 UI로 표시
-        yield return CheckDownLoadStatus(downPercentSlider, downPercentText, callback);
+        yield return OnCheckDownLoadStatus(downPercentSlider, downPercentText, callback);
     }
 
     // 어드레서블 라벨 별로 다운로드 받기
-    IEnumerator DownLoadPerLabel(string label)
+    IEnumerator OnDownLoadPerLabel(string label)
     {
         _patchMap.Add(label, 0); // 각레이블에 대한 다운 상태
 
@@ -286,7 +286,7 @@ public class AddressableManager : MonoBehaviour
 
     //현재 다운로드 상황 알려주기
     // 
-    IEnumerator CheckDownLoadStatus(Slider downPercentSlider, TextMeshProUGUI downPercentText, Action<bool> finishDownLoadCallback)
+    IEnumerator OnCheckDownLoadStatus(Slider downPercentSlider, TextMeshProUGUI downPercentText, Action<bool> finishDownLoadCallback)
     {
         StringBuilder sb = new StringBuilder();
         long total = 0;
