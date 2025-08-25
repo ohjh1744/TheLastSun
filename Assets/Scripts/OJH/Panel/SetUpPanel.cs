@@ -157,8 +157,8 @@ public class SetUpPanel : UIBInder
         _updateDetailText.text = "업데이트에 실패하여 앱이 종료 됩니다.";
         yield return _quitDelayWs;
 
-        Application.Quit();
         _quitRoutine = null;
+        Application.Quit();
     }
 
     //다운로드 할것이 있는지 확인
