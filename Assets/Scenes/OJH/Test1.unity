@@ -1512,6 +1512,7 @@ GameObject:
   - component: {fileID: 840599159}
   - component: {fileID: 840599158}
   - component: {fileID: 840599160}
+  - component: {fileID: 840599161}
   m_Layer: 5
   m_Name: MainPanel
   m_TagString: Untagged
@@ -1611,6 +1612,19 @@ MonoBehaviour:
   _object1List: []
   _object2List: []
   _stageImage: {fileID: 329736657}
+--- !u!114 &840599161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840599156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6857135d765a0db4b89717181f2fe427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 840599157}
 --- !u!1 &882868547
 GameObject:
   m_ObjectHideFlags: 0
@@ -3295,6 +3309,7 @@ GameObject:
   - component: {fileID: 1593684664}
   - component: {fileID: 1593684663}
   - component: {fileID: 1593684665}
+  - component: {fileID: 1593684666}
   m_Layer: 5
   m_Name: SetupPanel
   m_TagString: Untagged
@@ -3380,6 +3395,19 @@ MonoBehaviour:
   _mainPanel: {fileID: 840599156}
   _checkCanUpdateRate: 1
   _quitDelay: 2
+--- !u!114 &1593684666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593684661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6857135d765a0db4b89717181f2fe427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 1593684662}
 --- !u!1 &1624645765
 GameObject:
   m_ObjectHideFlags: 0
