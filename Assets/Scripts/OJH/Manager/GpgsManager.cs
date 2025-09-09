@@ -86,7 +86,6 @@ public class GpgsManager : MonoBehaviour
 
             // 업데이트 가능 상태 or 이전에 업데이트를 했으나 완료되지 않은 상태 -> 업데이트 중 앱을 끄거나 중간에 문제가 생겨 앱이 다시 시작되었을때 발생.
             // 구글에선  후자의 경우 이때 StartUpdate를 다시 호출하도록 유도하라고함.
-            // 지금 발생하는 문제는 업데이트창이 뜬 상태에서 업데이트를 안하고, 다시 업데이트를 시도하면 UpdateAvaiable 상태에서 다운안받고 다운완료로 뜸.
             if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateAvailable || appUpdateInfoResult.UpdateAvailability == UpdateAvailability.DeveloperTriggeredUpdateInProgress)
             {
                 //테스트를 위해서 주석 추가
@@ -222,7 +221,7 @@ public class GpgsManager : MonoBehaviour
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
-        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork,
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadNetworkOnly,
             ConflictResolutionStrategy.UseLastKnownGood, (status, data) =>
             {
                 if (status == SavedGameRequestStatus.Success)
@@ -273,7 +272,7 @@ public class GpgsManager : MonoBehaviour
     {
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
-        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadCacheOrNetwork,
+        savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadNetworkOnly,
             ConflictResolutionStrategy.UseLastKnownGood, (status, data) =>
             {
                 if (status == SavedGameRequestStatus.Success)
