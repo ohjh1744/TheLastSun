@@ -16,6 +16,7 @@ public class PlayerData
     //플레이어가 플레이 하기 위해 현재 고른 스테이지
     //이 변수를 활용해 인게임에서 그에 맞는 스테이지 불러오기
     //_currentStage 설정은 아웃게임에서 하기에 인게임에서는 신경x.
+    // 1~5 존재.
     [SerializeField] private int _currentStage;
 
     public int CurrentStage { get { return _currentStage;} set { _currentStage = value; OnCurrentStageChanged?.Invoke(); } }

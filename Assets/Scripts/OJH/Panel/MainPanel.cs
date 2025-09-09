@@ -8,7 +8,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 
-public enum EStage {First, Second, Third, Fourth, Fifth}
 
 public class MainPanel : UIBInder
 {
