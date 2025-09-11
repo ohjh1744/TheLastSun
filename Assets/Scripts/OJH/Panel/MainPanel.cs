@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using static GooglePlayGames.Editor.GPGSStrings;
 
 
 
@@ -14,15 +15,24 @@ public class MainPanel : UIBInder
     // 총 5개, stage1 ==1 , stage2 == 2 ...
     [SerializeField] private int _stageCount;
 
+    //Panel들
+    [SerializeField] private GameObject _bossBookPanel;
+
+    [SerializeField] private GameObject _settingPanel;
+
     //어드레서블 
-    [SerializeField] private AssetReferenceSprite[] _stageImageSprites;
+    [SerializeField] private AssetReferenceSprite[] _stageImageSprites; // 0은 left, 1은 right 버튼
 
     [SerializeField] private AssetReferenceSprite[] _stageChangeButtonSprites;
 
     [SerializeField] private AssetReferenceSprite _difficultyLevelSprite;
 
+    [SerializeField] private AssetReferenceSprite _bgImageSprite;
+
+    [SerializeField] private AssetReferenceSprite _commonButtonSprite; //랭킹, 보스도감, 설정 버튼에 적용할 이미지
+
     //Sprite 적용할 에셋들
-    private List<Button> _stageChangeButtons = new List<Button>();
+    private List<Button> _stageChangeButtons = new List<Button>(); //0은 left, 1은 right버튼
 
     private Image _stageImage;
 
@@ -57,8 +67,17 @@ public class MainPanel : UIBInder
 
     private void Init()
     {
-        //자주사용하는 UI불러오고 저장
+        //자주 사용하는 UI가져오고 저장
+        GetUI();
+        //버튼과 함수 연결
+        AddEvent();
+        //UI에 어드레서블 에셋 적용
+        LoadAsset();
+    }
 
+    private void GetUI()
+    {
+        //자주사용하는 UI불러오고 저장
         _stageLevelText = GetUI<TextMeshProUGUI>("StageLevelText");
         _stageNameText = GetUI<TextMeshProUGUI>("StageNameText");
 
@@ -78,13 +97,38 @@ public class MainPanel : UIBInder
         _bossBookButton = GetUI<Button>("BossBookButton");
         _settingButton = GetUI<Button>("SettingButton");
 
+    }
+
+    private void AddEvent()
+    {
         //버튼과 함수 연결
         _stageChangeButtons[0].onClick.AddListener(ChangeStagePrev);
         _stageChangeButtons[1].onClick.AddListener(ChangeStageNext);
+        _bossBookButton.onClick.AddListener(SetTrueBossBookPanel);
+        _settingButton.onClick.AddListener(SetTrueSettingPanel);
 
         //이벤트와 함수 연결
         PlayerController.Instance.PlayerData.OnCurrentStageChanged += ChangeStage;
+    }
 
+    //UI에 적용할 이미지들 불러오기
+    private void LoadAsset()
+    {
+        //백그라운드 이미지
+        Image image = GetComponent<Image>();
+        AddressableManager.Instance.LoadSprite(_bgImageSprite, image);
+
+        //스테이지 이미지 적용
+        ChangeStage();
+
+        //스테이지 전환 왼쪽, 오른쪽 버튼 이미지 적용
+        AddressableManager.Instance.LoadSprite(_stageChangeButtonSprites[0], _stageChangeButtons[0].image);
+        AddressableManager.Instance.LoadSprite(_stageChangeButtonSprites[1], _stageChangeButtons[1].image);
+
+        //랭킹, 보스도감, 설정 버튼들 이미지 적용
+        AddressableManager.Instance.LoadSprite(_commonButtonSprite, _rankCheckButton.image);
+        AddressableManager.Instance.LoadSprite(_commonButtonSprite, _bossBookButton.image);
+        AddressableManager.Instance.LoadSprite(_commonButtonSprite, _settingButton.image);
     }
 
     private void ChangeStagePrev()
@@ -139,7 +183,16 @@ public class MainPanel : UIBInder
             GetUI("DifficultyLevel2Images").SetActive(false);
             GetUI("DifficultyLevel3Images").SetActive(true);
         }
+    }
 
+    private void SetTrueBossBookPanel()
+    {
+        _bossBookPanel.SetActive(true);
+    }
+
+    private void SetTrueSettingPanel()
+    {
+        _settingPanel.SetActive(true);
     }
 
 
