@@ -20,9 +20,7 @@ public class MainPanel : UIBInder
 
     [SerializeField] private GameObject _settingPanel;
 
-    //어드레서블 
-    [SerializeField] private AssetReferenceSprite[] _stageImageSprites; // 0은 left, 1은 right 버튼
-
+    //어드레서블
     [SerializeField] private AssetReferenceSprite[] _stageChangeButtonSprites;
 
     [SerializeField] private AssetReferenceSprite _difficultyLevelSprite;
@@ -138,7 +136,7 @@ public class MainPanel : UIBInder
         GetUI<TextMeshProUGUI>("StageNameText").SetText(_sb);
 
         //Stage Image 변경
-        AddressableManager.Instance.LoadSprite(_stageImageSprites[PlayerController.Instance.PlayerData.CurrentStage], GetUI<Image>("StageImage"));
+        AddressableManager.Instance.LoadSprite(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageImageSprite, GetUI<Image>("StageImage"));
 
         //Stage difficulty 변경
         if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 1)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(menuName = "StageData")]
 public class StageData : ScriptableObject
@@ -13,4 +14,7 @@ public class StageData : ScriptableObject
 
     [SerializeField] private int _stageDifficulty;
     public int StageDifficulty { get { return _stageDifficulty; } private set { } }
+
+    [SerializeField] private AssetReferenceSprite _stageImageSprite;
+    public AssetReferenceSprite StageImageSprite { get { return _stageImageSprite; } private set { } }
 }

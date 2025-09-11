@@ -25,8 +25,6 @@ public class BossBookPanel : UIBInder
 
     [SerializeField] private AssetReferenceSprite _bossPortraitBgSprite;
 
-    [SerializeField] private AssetReferenceSprite[] _bossPortraitSprite;
-
     [SerializeField] private AssetReferenceSprite _bossBookStateSprite;
 
     [SerializeField] private AssetReferenceSprite _bossBookExplainTextBgSprite;
@@ -86,7 +84,7 @@ public class BossBookPanel : UIBInder
         for(int i = 0; i < _bossCount; i++)
         {
             AddressableManager.Instance.LoadSprite(_bossPortraitBgSprite, GetUI<Image>($"BossPortraitBgImage{i + 1}"));
-            AddressableManager.Instance.LoadSprite(_bossPortraitSprite[i], GetUI<Image>($"BossPortraitButton{i + 1}"));
+            AddressableManager.Instance.LoadSprite(_bossInfoDatas[i].BossPortraitSprite, GetUI<Image>($"BossPortraitButton{i + 1}"));
         }
 
         //보스 도감수집현황 Bg

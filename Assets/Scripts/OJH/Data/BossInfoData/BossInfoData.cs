@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 [CreateAssetMenu(menuName = "BossInfoData")]
 public class BossInfoData : ScriptableObject
@@ -13,4 +14,8 @@ public class BossInfoData : ScriptableObject
 
     [SerializeField] private string _bossLongInfo;
     public string BossLongInfo {  get { return _bossLongInfo; } private set { } }
+
+    [SerializeField] private AssetReferenceSprite _bossPortraitSprite;
+    public AssetReferenceSprite BossPortraitSprite { get { return _bossPortraitSprite; } private set { } }
+
 }
