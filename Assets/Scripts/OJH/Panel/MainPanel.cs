@@ -36,10 +36,8 @@ public class MainPanel : UIBInder
 
     private List<Image> _difficultyLevelImages = new List<Image>();
 
-    //Text들
-    private static string[] _stageLevelDetails = { "The First Sun", "The Second Sun", "The Third Sun", "The Fourth Sun", "The Last Sun"};
-
-    private static string[] _stageNameDetails = { "첫 번째 영역", "두 번째 영역", "세 번째 영역", "네 번째 영역", "다섯 번째 영역" };
+    //스테이지 Data
+    [SerializeField] private StageData[] _stageDatas;
 
     private StringBuilder _sb;
 
@@ -111,7 +109,7 @@ public class MainPanel : UIBInder
 
     private void ChangeStagePrev()
     {
-        if (PlayerController.Instance.PlayerData.CurrentStage == 1)
+        if (PlayerController.Instance.PlayerData.CurrentStage == 0)
         {
             return;
         }
@@ -120,7 +118,7 @@ public class MainPanel : UIBInder
 
     private void ChangeStageNext()
     {
-        if(PlayerController.Instance.PlayerData.CurrentStage == _stageCount)
+        if(PlayerController.Instance.PlayerData.CurrentStage == _stageCount-1)
         {
             return;
         }
@@ -131,31 +129,31 @@ public class MainPanel : UIBInder
     {
         //Stage Level
         _sb.Clear();
-        _sb.Append(_stageLevelDetails[PlayerController.Instance.PlayerData.CurrentStage]);
+        _sb.Append(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageLevel);
         GetUI<TextMeshProUGUI>("StageLevelText").SetText(_sb);
 
         //Name Text 변경
         _sb.Clear();
-        _sb.Append(_stageNameDetails[PlayerController.Instance.PlayerData.CurrentStage]);
+        _sb.Append(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageName);
         GetUI<TextMeshProUGUI>("StageNameText").SetText(_sb);
 
         //Stage Image 변경
         AddressableManager.Instance.LoadSprite(_stageImageSprites[PlayerController.Instance.PlayerData.CurrentStage], GetUI<Image>("StageImage"));
 
         //Stage difficulty 변경
-        if (PlayerController.Instance.PlayerData.CurrentStage == 1)
+        if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 1)
         {
             GetUI("DifficultyLevel1Images").SetActive(true);
             GetUI("DifficultyLevel2Images").SetActive(false);
             GetUI("DifficultyLevel3Images").SetActive(false);
         }
-        else if (PlayerController.Instance.PlayerData.CurrentStage == 2 || PlayerController.Instance.PlayerData.CurrentStage == 3)
+        else if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 2)
         {
             GetUI("DifficultyLevel1Images").SetActive(false);
             GetUI("DifficultyLevel2Images").SetActive(true);
             GetUI("DifficultyLevel3Images").SetActive(false);
         }
-        else if (PlayerController.Instance.PlayerData.CurrentStage == 4 || PlayerController.Instance.PlayerData.CurrentStage == 5)
+        else if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 3)
         {
             GetUI("DifficultyLevel1Images").SetActive(false);
             GetUI("DifficultyLevel2Images").SetActive(false);
