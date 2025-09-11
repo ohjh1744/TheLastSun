@@ -31,24 +31,12 @@ public class MainPanel : UIBInder
 
     [SerializeField] private AssetReferenceSprite _commonButtonSprite; //랭킹, 보스도감, 설정 버튼에 적용할 이미지
 
-    //Sprite 적용할 에셋들
+    //자주 사용하는 UI
     private List<Button> _stageChangeButtons = new List<Button>(); //0은 left, 1은 right버튼
-
-    private Image _stageImage;
 
     private List<Image> _difficultyLevelImages = new List<Image>();
 
-    private Button _rankCheckButton;
-
-    private Button _bossBookButton;
-
-    private Button _settingButton;
-
     //Text들
-    private TextMeshProUGUI _stageLevelText;
-
-    private TextMeshProUGUI _stageNameText;
-
     private static string[] _stageLevelDetails = { "The First Sun", "The Second Sun", "The Third Sun", "The Fourth Sun", "The Last Sun"};
 
     private static string[] _stageNameDetails = { "첫 번째 영역", "두 번째 영역", "세 번째 영역", "네 번째 영역", "다섯 번째 영역" };
@@ -78,13 +66,8 @@ public class MainPanel : UIBInder
     private void GetUI()
     {
         //자주사용하는 UI불러오고 저장
-        _stageLevelText = GetUI<TextMeshProUGUI>("StageLevelText");
-        _stageNameText = GetUI<TextMeshProUGUI>("StageNameText");
-
         _stageChangeButtons.Add(GetUI<Button>("StageChangeLeftButton"));
         _stageChangeButtons.Add(GetUI<Button>("StageChangeRightButton"));
-
-        _stageImage = GetUI<Image>("StageImage");
 
         _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel1Image"));
         _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel2Image"));
@@ -92,11 +75,6 @@ public class MainPanel : UIBInder
         _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel3Image"));
         _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel3Image_2"));
         _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel3Image_3"));
-
-        _rankCheckButton = GetUI<Button>("RankCheckButton");
-        _bossBookButton = GetUI<Button>("BossBookButton");
-        _settingButton = GetUI<Button>("SettingButton");
-
     }
 
     private void AddEvent()
@@ -104,8 +82,8 @@ public class MainPanel : UIBInder
         //버튼과 함수 연결
         _stageChangeButtons[0].onClick.AddListener(ChangeStagePrev);
         _stageChangeButtons[1].onClick.AddListener(ChangeStageNext);
-        _bossBookButton.onClick.AddListener(SetTrueBossBookPanel);
-        _settingButton.onClick.AddListener(SetTrueSettingPanel);
+        GetUI<Button>("BossBookButton").onClick.AddListener(SetTrueBossBookPanel);
+        GetUI<Button>("SettingButton").onClick.AddListener(SetTrueSettingPanel);
 
         //이벤트와 함수 연결
         PlayerController.Instance.PlayerData.OnCurrentStageChanged += ChangeStage;
@@ -126,9 +104,9 @@ public class MainPanel : UIBInder
         AddressableManager.Instance.LoadSprite(_stageChangeButtonSprites[1], _stageChangeButtons[1].image);
 
         //랭킹, 보스도감, 설정 버튼들 이미지 적용
-        AddressableManager.Instance.LoadSprite(_commonButtonSprite, _rankCheckButton.image);
-        AddressableManager.Instance.LoadSprite(_commonButtonSprite, _bossBookButton.image);
-        AddressableManager.Instance.LoadSprite(_commonButtonSprite, _settingButton.image);
+        AddressableManager.Instance.LoadSprite(_commonButtonSprite, GetUI<Button>("RankCheckButton").image);
+        AddressableManager.Instance.LoadSprite(_commonButtonSprite, GetUI<Button>("BossBookButton").image);
+        AddressableManager.Instance.LoadSprite(_commonButtonSprite, GetUI<Button>("SettingButton").image);
     }
 
     private void ChangeStagePrev()
@@ -154,15 +132,15 @@ public class MainPanel : UIBInder
         //Stage Level
         _sb.Clear();
         _sb.Append(_stageLevelDetails[PlayerController.Instance.PlayerData.CurrentStage]);
-        _stageLevelText.SetText(_sb);
+        GetUI<TextMeshProUGUI>("StageLevelText").SetText(_sb);
 
         //Name Text 변경
         _sb.Clear();
         _sb.Append(_stageNameDetails[PlayerController.Instance.PlayerData.CurrentStage]);
-        _stageNameText.SetText(_sb);
+        GetUI<TextMeshProUGUI>("StageNameText").SetText(_sb);
 
         //Stage Image 변경
-        AddressableManager.Instance.LoadSprite(_stageImageSprites[PlayerController.Instance.PlayerData.CurrentStage], _stageImage);
+        AddressableManager.Instance.LoadSprite(_stageImageSprites[PlayerController.Instance.PlayerData.CurrentStage], GetUI<Image>("StageImage"));
 
         //Stage difficulty 변경
         if (PlayerController.Instance.PlayerData.CurrentStage == 1)

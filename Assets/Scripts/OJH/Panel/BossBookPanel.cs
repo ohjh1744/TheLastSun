@@ -14,8 +14,6 @@ public class BossBookPanel : UIBInder
 
     [SerializeField] private BossInfoData[] _bossInfoDatas;
 
-    private Button _setFalseButton;
-
     private List<Button> _bossPortraitButton = new List<Button>();
 
     private StringBuilder _sb = new StringBuilder();
@@ -57,11 +55,9 @@ public class BossBookPanel : UIBInder
         LoadAsset();
     }
 
-    //자주 사용하는 UI 가져오기
+    //자주 사용하는 UI 가져오고 저장
     private void GetUI()
     {
-        _setFalseButton = GetUI<Button>("BossBookSetFalseButton");
-
         for(int i = 0; i < _bossCount; i++)
         {
             _bossPortraitButton[i] = GetUI<Button>($"BossPortraitBgImage{i+1}");
@@ -71,7 +67,7 @@ public class BossBookPanel : UIBInder
     private void AddEvent()
     {
         //버튼 이벤트 연결
-        _setFalseButton.onClick.AddListener(SetFalsePanel);
+        GetUI<Button>("BossBookSetFalseButton").onClick.AddListener(SetFalsePanel);
         
         //보스 초상화 눌렀을때 설명 뜨도록
         for(int i = 0; i < _bossPortraitButton.Count; i++)
