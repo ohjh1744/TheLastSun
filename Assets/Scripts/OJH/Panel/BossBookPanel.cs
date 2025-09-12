@@ -118,7 +118,7 @@ public class BossBookPanel : UIBInder
         _bossBookExplainContext.SetActive(true);
 
         //보스 초상화 표시
-        AddressableManager.Instance.LoadSprite(_bossPortraitSprite[bossIndex], GetUI<Image>("BossBookExplainPortraitImage"));
+        AddressableManager.Instance.LoadSprite(_bossInfoDatas[bossIndex].BossPortraitSprite, GetUI<Image>("BossBookExplainPortraitImage"));
 
         //보스 이름 및 설명 표시
         _sb.Clear();

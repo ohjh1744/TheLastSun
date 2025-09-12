@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 
 public class NetworkErrorPanel : UIBInder
 {
-    [SerializeField] private Button _networkErrorRetryButton;
-    [SerializeField] private Button _retryConnectOKButton;
-    [SerializeField] private TextMeshProUGUI _retryConnectStatusText;
     [SerializeField] private GameObject _retryConnectPanel;
 
     [SerializeField] private int _tryConnectDelay;
@@ -38,12 +35,8 @@ public class NetworkErrorPanel : UIBInder
 
     private void Start()
     {
-        _networkErrorRetryButton = GetUI<Button>("NetworkErrorRetryButton");
-        _retryConnectOKButton = GetUI<Button>("RetryConnectOKButton");
-        _retryConnectStatusText = GetUI<TextMeshProUGUI>("RetryConnectStatusText");
-
-        _networkErrorRetryButton.onClick.AddListener(() => DoRetry());
-        _retryConnectOKButton.onClick.AddListener(() => CloseRetryConnectPanel());
+        GetUI<Button>("NetworkErrorRetryButton").onClick.AddListener(() => DoRetry());
+        GetUI<Button>("RetryConnectOKButton").onClick.AddListener(() => CloseRetryConnectPanel());
     }
 
     //네트워크 재연결 시도 하기
@@ -82,8 +75,8 @@ public class NetworkErrorPanel : UIBInder
             _sb.Clear();
             _sb.Append("인터넷 연결에 실패했습니다.");
             //돌아가기 OK 버튼 활성화
-            _retryConnectStatusText.SetText(_sb);
-            _retryConnectOKButton.gameObject.SetActive(true);
+            GetUI<TextMeshProUGUI>("RetryConnectStatusText").SetText(_sb);
+            GetUI<Button>("RetryConnectOKButton").gameObject.SetActive(true);
         }
 
         _isTryConnect = false;
@@ -98,7 +91,7 @@ public class NetworkErrorPanel : UIBInder
         _sb.Append("인터넷 연결 시도 중입니다.");
         //ok버튼 누를시 Text, 버튼 초기화해주고 Panel 꺼주기
         _retryConnectPanel.gameObject.SetActive(false);
-        _retryConnectStatusText.SetText(_sb);
-        _retryConnectOKButton.gameObject.SetActive(false);
+        GetUI<TextMeshProUGUI>("RetryConnectStatusText").SetText(_sb);
+        GetUI<Button>("RetryConnectOKButton").gameObject.SetActive(false);
     }
 }

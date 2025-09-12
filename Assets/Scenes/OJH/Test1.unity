@@ -825,9 +825,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e63ff36a2f60ab2459d615ed64731a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _networkErrorRetryButton: {fileID: 0}
-  _retryConnectOKButton: {fileID: 0}
-  _retryConnectStatusText: {fileID: 0}
   _retryConnectPanel: {fileID: 1121040103}
   _tryConnectDelay: 2
 --- !u!1 &104993192
@@ -930,7 +927,6 @@ MonoBehaviour:
   _stageCount: 5
   _bossBookPanel: {fileID: 1532270566}
   _settingPanel: {fileID: 843940661}
-  _stageImageSprites: []
   _stageChangeButtonSprites: []
   _difficultyLevelSprite:
     m_AssetGUID: 
@@ -3398,7 +3394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &871308640
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7203,7 +7199,6 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  _bossPortraitSprite: []
   _bossBookStateSprite:
     m_AssetGUID: 
     m_SubObjectName: 
