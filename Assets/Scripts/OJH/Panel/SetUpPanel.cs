@@ -8,16 +8,6 @@ using UnityEngine.UI;
 
 public class SetUpPanel : UIBInder
 {
-
-    //업데이트 관련 UI
-    private TextMeshProUGUI _updateDetailText;
-
-    //다운로드 관련 UI
-    private TextMeshProUGUI _downPercentText;
-    private TextMeshProUGUI _downSizeText;
-    private Slider _downPercentSlider;
-    private Button _downLoadButton;
-
     //패널
     [SerializeField] private GameObject _updatePanel;
     [SerializeField] private GameObject _checkDownLoadPanel;
@@ -69,7 +59,7 @@ public class SetUpPanel : UIBInder
             // true로 해논 이유는 
             // 네트워크 팝업창이 뜨게 되면 다운버튼이 뒤로 숨겨지는데
             // 다운로드 상황에서 네트워크가 해지되었다가 다시 연결되면, 다운로드를 다시 할수있도록 하기위해서
-            _downLoadButton.interactable = true;
+            GetUI<Button>("DownLoadButton").interactable = true;
             return;
         }
     }
@@ -80,15 +70,9 @@ public class SetUpPanel : UIBInder
         _checkCanUpdateRateWs = new WaitForSeconds(_checkCanUpdateRate);
         _quitDelayWs = new WaitForSeconds(_quitDelay);
 
-        //미리 변수 할당
-        _downPercentText = GetUI<TextMeshProUGUI>("DownPercentText");
-        _downSizeText = GetUI<TextMeshProUGUI>("DownSizeText");
-        _downPercentSlider = GetUI<Slider>("DownPercentSlider");
-        _downLoadButton = GetUI<Button>("DownLoadButton");
-        _updateDetailText = GetUI<TextMeshProUGUI>("UpdateDetailText");
 
         //버튼 함수 연결
-        _downLoadButton.onClick.AddListener(() => DownLoad());
+        GetUI<Button>("DownLoadButton").onClick.AddListener(() => DownLoad());
 
     }
 
@@ -154,7 +138,7 @@ public class SetUpPanel : UIBInder
 
     IEnumerator OnQuitWhenBackInUpdate()
     {
-        _updateDetailText.text = "업데이트에 실패하여 앱이 종료 됩니다.";
+        GetUI<TextMeshProUGUI>("UpdateDetailText").text = "업데이트에 실패하여 앱이 종료 됩니다.";
         yield return _quitDelayWs;
 
         _quitRoutine = null;
@@ -171,7 +155,7 @@ public class SetUpPanel : UIBInder
                 // CheckDownLoad 패널을 닫고, 다운로드 패널을 열기, 다운받을 용량 Text 내용 Update.
                 _checkDownLoadPanel.SetActive(false);
                 _doDownLoadPanel.SetActive(true);
-                _downSizeText.SetText(AddressableManager.Instance.GetFileSize(downSIze));
+                GetUI<TextMeshProUGUI>("DownSizeText").SetText(AddressableManager.Instance.GetFileSize(downSIze));
             }
             // 다운받을 파일이 존재하지 않으면 메인 패널을 열기
             else
@@ -188,10 +172,10 @@ public class SetUpPanel : UIBInder
     private void DownLoad()
     {
         // 다운로드 시작 하면 버튼 상호작용 끄기
-        _downLoadButton.interactable = false;
+        GetUI<Button>("DownLoadButton").interactable = false;
 
         //다운로드가 완전히 끝나면 
-        AddressableManager._instance.DownLoad(_downPercentSlider, _downPercentText, (isDownFinish) =>
+        AddressableManager._instance.DownLoad(GetUI<Slider>("DownPercentSlider"), GetUI<TextMeshProUGUI>("DownPercentText"), (isDownFinish) =>
         {
             if (isDownFinish == true)
             {
