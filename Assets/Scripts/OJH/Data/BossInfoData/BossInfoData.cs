@@ -15,7 +15,10 @@ public class BossInfoData : ScriptableObject
     [SerializeField] private string _bossLongInfo;
     public string BossLongInfo {  get { return _bossLongInfo; } private set { } }
 
-    [SerializeField] private AssetReferenceSprite _bossPortraitSprite;
-    public AssetReferenceSprite BossPortraitSprite { get { return _bossPortraitSprite; } private set { } }
+    [SerializeField] private AssetReferenceSprite _bossUnLockPortraitSprite;
+    public AssetReferenceSprite BossUnLockPortraitSprite { get { return _bossUnLockPortraitSprite; } private set { } }
+
+    [SerializeField] private AssetReferenceSprite _bossLockPortraitSprite;
+    public AssetReferenceSprite BossLockPortraitSprite { get { return _bossLockPortraitSprite; } private set { } }
 
 }
