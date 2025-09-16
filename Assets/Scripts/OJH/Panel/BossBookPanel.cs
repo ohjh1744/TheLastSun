@@ -31,6 +31,8 @@ public class BossBookPanel : UIBInder
 
     [SerializeField] private AssetReferenceSprite _bossBookSetFalseSprite;
 
+    [SerializeField] private AssetReferenceSprite _bossBookSetFalseBgSprite;
+
 
     private void Awake()
     {
@@ -39,11 +41,6 @@ public class BossBookPanel : UIBInder
     void Start()
     {
         Init();
-    }
-
-    private void OnEnable()
-    {
-        //처리하지않는 보스버튼은 비활성화 처리하기
     }
 
     private void Init()
@@ -80,11 +77,20 @@ public class BossBookPanel : UIBInder
         Image image = GetComponent<Image>();
         AddressableManager.Instance.LoadSprite(_bgSprite, image); //배경
 
-        //보스초상화 배경 및 초상화 
+        //보스 초상화 배경 및 초상화 
         for(int i = 0; i < _bossCount; i++)
         {
             AddressableManager.Instance.LoadSprite(_bossPortraitBgSprite, GetUI<Image>($"BossPortraitBgImage{i + 1}"));
-            AddressableManager.Instance.LoadSprite(_bossInfoDatas[i].BossPortraitSprite, GetUI<Image>($"BossPortraitButton{i + 1}"));
+            //해당 보스 클리어한 경우
+            if (PlayerController.Instance.PlayerData.IsClearStage[i] == true)
+            {
+                AddressableManager.Instance.LoadSprite(_bossInfoDatas[i].BossUnLockPortraitSprite, GetUI<Image>($"BossPortraitButton{i + 1}"));
+            }
+            //해당 보스 클리어 못한 경우
+            else if (PlayerController.Instance.PlayerData.IsClearStage[i] == false)
+            {
+                AddressableManager.Instance.LoadSprite(_bossInfoDatas[i].BossLockPortraitSprite, GetUI<Image>($"BossPortraitButton{i + 1}"));
+            }
         }
 
         //보스 도감수집현황 Bg
@@ -105,6 +111,9 @@ public class BossBookPanel : UIBInder
         //보스 도감 X버튼
         AddressableManager.Instance.LoadSprite(_bossBookSetFalseSprite, GetUI<Image>("BossBookSetFalseButton"));
 
+        //보스 도감 X버튼 Bg
+        AddressableManager.Instance.LoadSprite(_bossBookSetFalseBgSprite, GetUI<Image>("BossBookSetFalseBgImage"));
+
     }
 
     private void SetFalsePanel()
@@ -117,24 +126,39 @@ public class BossBookPanel : UIBInder
         //버튼 누를시 _bossBookExplainContext활성화 후 보스 초상화, 이름, 설명 표기 
         _bossBookExplainContext.SetActive(true);
 
-        //보스 초상화 표시
-        AddressableManager.Instance.LoadSprite(_bossInfoDatas[bossIndex].BossPortraitSprite, GetUI<Image>("BossBookExplainPortraitImage"));
+        //해당 보스 클리어한 경우
+        if (PlayerController.Instance.PlayerData.IsClearStage[bossIndex] == true)
+        {
+            //보스 해제초상화 표시
+            AddressableManager.Instance.LoadSprite(_bossInfoDatas[bossIndex].BossUnLockPortraitSprite, GetUI<Image>("BossBookExplainPortraitImage"));
 
-        //보스 이름 및 설명 표시
-        _sb.Clear();
-        _sb.Append(_bossInfoDatas[bossIndex].BossName);
-        GetUI<TextMeshProUGUI>("BossBookExplainBossNameText").SetText(_sb);
+            //보스 이름 및 설명 표시
+            _sb.Clear();
+            _sb.Append(_bossInfoDatas[bossIndex].BossName);
+            GetUI<TextMeshProUGUI>("BossBookExplainBossNameText").SetText(_sb);
 
-        _sb.Clear();
-        _sb.Append(_bossInfoDatas[bossIndex].BossShortInfo);
-        GetUI<TextMeshProUGUI>("BossBookExplainBossShortInfoText").SetText(_sb);
+            _sb.Clear();
+            _sb.Append(_bossInfoDatas[bossIndex].BossShortInfo);
+            GetUI<TextMeshProUGUI>("BossBookExplainBossShortInfoText").SetText(_sb);
 
-        _sb.Clear();
-        _sb.Append(_bossInfoDatas[bossIndex].BossLongInfo);
-        GetUI<TextMeshProUGUI>("BossBookExplainBossLongInfoText").SetText(_sb);
+            _sb.Clear();
+            _sb.Append(_bossInfoDatas[bossIndex].BossLongInfo);
+            GetUI<TextMeshProUGUI>("BossBookExplainBossLongInfoText").SetText(_sb);
+        }
+        //해당 보스 클리어 못한 경우
+        else if (PlayerController.Instance.PlayerData.IsClearStage[bossIndex] == false)
+        {
+            //보스 잠금초상화 표시
+            AddressableManager.Instance.LoadSprite(_bossInfoDatas[bossIndex].BossLockPortraitSprite, GetUI<Image>("BossBookExplainPortraitImage"));
+
+            //보스 이름 및 설명 ???표시
+            _sb.Clear();
+            _sb.Append("???");
+            GetUI<TextMeshProUGUI>("BossBookExplainBossNameText").SetText(_sb);
+            GetUI<TextMeshProUGUI>("BossBookExplainBossShortInfoText").SetText(_sb);
+            GetUI<TextMeshProUGUI>("BossBookExplainBossLongInfoText").SetText(_sb);
+        }
     }
-
-
 
 
 }

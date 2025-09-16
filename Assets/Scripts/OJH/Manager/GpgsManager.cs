@@ -59,10 +59,12 @@ public class GpgsManager : MonoBehaviour
     // DoCheckForUpdate 메서드에서 콜백을 통해 UpdateAvailability 값을 반환
     public void CheckForUpdate(Action<UpdateAvailability> callback)
     {
-        if (_updateRoutine == null)
+        if (_updateRoutine != null)
         {
-            _updateRoutine = StartCoroutine(OnCheckForUpdate(callback));
+            StopCoroutine(_updateRoutine);
         }
+        _updateRoutine = StartCoroutine(OnCheckForUpdate(callback));
+
     }
 
     // CheckForUpdate 코루틴에서 UpdateAvailability 값을 계산하고 콜백 호출

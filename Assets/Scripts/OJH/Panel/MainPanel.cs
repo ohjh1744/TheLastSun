@@ -11,10 +11,9 @@ using UnityEngine.UI;
 
 public class MainPanel : UIBInder
 {
-    // 총 5개, stage1 ==1 , stage2 == 2 ...
-    [SerializeField] private int _stageCount;
-
     //Panel들
+    [SerializeField] private GameObject _setUpPanel;
+
     [SerializeField] private GameObject _bossBookPanel;
 
     [SerializeField] private GameObject _settingPanel;
@@ -27,6 +26,11 @@ public class MainPanel : UIBInder
     [SerializeField] private AssetReferenceSprite _bgImageSprite;
 
     [SerializeField] private AssetReferenceSprite _commonButtonSprite; //랭킹, 보스도감, 설정 버튼에 적용할 이미지
+
+    [SerializeField] private AssetReferenceT<AudioClip> _bgmClip;
+
+    //bgm AudioSource
+    [SerializeField] private AudioSource _audio;
 
     //자주 사용하는 UI
     private List<Button> _stageChangeButtons = new List<Button>(); //0은 left, 1은 right버튼
@@ -48,8 +52,19 @@ public class MainPanel : UIBInder
         Init();
     }
 
+    private void Update()
+    {
+        SetAllButtons();
+    }
+
     private void Init()
     {
+        //SetupPanel 꺼주기
+        _setUpPanel.SetActive(false);
+
+        //Bgm 켜주기
+        AddressableManager.Instance.LoadSound(_bgmClip, _audio);
+
         //자주 사용하는 UI가져오고 저장
         GetUI();
         //버튼과 함수 연결
@@ -77,6 +92,7 @@ public class MainPanel : UIBInder
         //버튼과 함수 연결
         _stageChangeButtons[0].onClick.AddListener(ChangeStagePrev);
         _stageChangeButtons[1].onClick.AddListener(ChangeStageNext);
+        GetUI<Button>("CheckRankButton").onClick.AddListener(SetTrueRankLeaderBoards);
         GetUI<Button>("BossBookButton").onClick.AddListener(SetTrueBossBookPanel);
         GetUI<Button>("SettingButton").onClick.AddListener(SetTrueSettingPanel);
 
@@ -115,7 +131,7 @@ public class MainPanel : UIBInder
 
     private void ChangeStageNext()
     {
-        if(PlayerController.Instance.PlayerData.CurrentStage == _stageCount-1)
+        if(PlayerController.Instance.PlayerData.CurrentStage == _stageDatas.Length -1)
         {
             return;
         }
@@ -158,6 +174,12 @@ public class MainPanel : UIBInder
         }
     }
 
+    private void SetTrueRankLeaderBoards()
+    {
+        Debug.Log("모든리더보기");
+        GpgsManager.Instance.ShowAllLeaderboard();
+    }
+
     private void SetTrueBossBookPanel()
     {
         _bossBookPanel.SetActive(true);
@@ -168,7 +190,22 @@ public class MainPanel : UIBInder
         _settingPanel.SetActive(true);
     }
 
-
+    //설정 패널 켜지면 메인 패널 모든 버튼 비활성화
+    private void SetAllButtons()
+    {
+        if (_settingPanel.activeSelf == true)
+        {
+            GetUI<Button>("CheckRankButton").interactable = false;
+            GetUI<Button>("BossBookButton").interactable = false;
+            GetUI<Button>("SettingButton").interactable = false;
+        }
+        else if(_settingPanel.activeSelf == false)
+        {
+            GetUI<Button>("CheckRankButton").interactable = true;
+            GetUI<Button>("BossBookButton").interactable = true;
+            GetUI<Button>("SettingButton").interactable = true;
+        }
+    }
 
 
 }
