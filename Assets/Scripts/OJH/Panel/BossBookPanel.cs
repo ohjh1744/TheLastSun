@@ -31,6 +31,8 @@ public class BossBookPanel : UIBInder
 
     [SerializeField] private AssetReferenceSprite _bossBookSetFalseSprite;
 
+    [SerializeField] private AssetReferenceSprite _bossBookSetFalseBgSprite;
+
 
     private void Awake()
     {
@@ -108,6 +110,9 @@ public class BossBookPanel : UIBInder
 
         //보스 도감 X버튼
         AddressableManager.Instance.LoadSprite(_bossBookSetFalseSprite, GetUI<Image>("BossBookSetFalseButton"));
+
+        //보스 도감 X버튼 Bg
+        AddressableManager.Instance.LoadSprite(_bossBookSetFalseBgSprite, GetUI<Image>("BossBookSetFalseBgImage"));
 
     }
 
