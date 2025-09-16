@@ -23,8 +23,10 @@ public class PlayerData
     //각 스테이지 클리어 여부
     //스테이지 클리어했다면 인게임에서 해당 변수 true로 변경하고 저장하기 GPGSManager(SaveData)
     [SerializeField] private bool[] _isClearStage;
-
     public bool[] IsClearStage {  get { return _isClearStage; } set { _isClearStage = value; } }
+
+    [SerializeField] private bool _isSound;
+    public bool IsSound { get { return _isSound; } set { _isSound = value; } }
 
 
     //이벤트
