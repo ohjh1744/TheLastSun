@@ -15,6 +15,8 @@ public class MainPanel : UIBInder
     [SerializeField] private int _stageCount;
 
     //Panel들
+    [SerializeField] private GameObject _setUpPanel;
+
     [SerializeField] private GameObject _bossBookPanel;
 
     [SerializeField] private GameObject _settingPanel;
@@ -50,6 +52,9 @@ public class MainPanel : UIBInder
 
     private void Init()
     {
+        //SetupPanel 꺼주기
+        _setUpPanel.SetActive(false);
+
         //자주 사용하는 UI가져오고 저장
         GetUI();
         //버튼과 함수 연결
