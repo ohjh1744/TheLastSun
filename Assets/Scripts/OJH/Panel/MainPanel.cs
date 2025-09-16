@@ -52,6 +52,11 @@ public class MainPanel : UIBInder
         Init();
     }
 
+    private void Update()
+    {
+        SetAllButtons();
+    }
+
     private void Init()
     {
         //SetupPanel 꺼주기
@@ -185,7 +190,22 @@ public class MainPanel : UIBInder
         _settingPanel.SetActive(true);
     }
 
-
+    //설정 패널 켜지면 메인 패널 모든 버튼 비활성화
+    private void SetAllButtons()
+    {
+        if (_settingPanel.activeSelf == true)
+        {
+            GetUI<Button>("CheckRankButton").interactable = false;
+            GetUI<Button>("BossBookButton").interactable = false;
+            GetUI<Button>("SettingButton").interactable = false;
+        }
+        else if(_settingPanel.activeSelf == false)
+        {
+            GetUI<Button>("CheckRankButton").interactable = true;
+            GetUI<Button>("BossBookButton").interactable = true;
+            GetUI<Button>("SettingButton").interactable = true;
+        }
+    }
 
 
 }
