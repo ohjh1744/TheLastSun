@@ -78,6 +78,7 @@ public class MainPanel : UIBInder
         //버튼과 함수 연결
         _stageChangeButtons[0].onClick.AddListener(ChangeStagePrev);
         _stageChangeButtons[1].onClick.AddListener(ChangeStageNext);
+        GetUI<Button>("CheckRankButton").onClick.AddListener(SetTrueRankLeaderBoards);
         GetUI<Button>("BossBookButton").onClick.AddListener(SetTrueBossBookPanel);
         GetUI<Button>("SettingButton").onClick.AddListener(SetTrueSettingPanel);
 
@@ -157,6 +158,12 @@ public class MainPanel : UIBInder
             GetUI("DifficultyLevel2Images").SetActive(false);
             GetUI("DifficultyLevel3Images").SetActive(true);
         }
+    }
+
+    private void SetTrueRankLeaderBoards()
+    {
+        Debug.Log("모든리더보기");
+        GpgsManager.Instance.ShowAllLeaderboard();
     }
 
     private void SetTrueBossBookPanel()
