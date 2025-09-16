@@ -27,6 +27,11 @@ public class MainPanel : UIBInder
 
     [SerializeField] private AssetReferenceSprite _commonButtonSprite; //랭킹, 보스도감, 설정 버튼에 적용할 이미지
 
+    [SerializeField] private AssetReferenceT<AudioClip> _bgmClip;
+
+    //bgm AudioSource
+    [SerializeField] private AudioSource _audio;
+
     //자주 사용하는 UI
     private List<Button> _stageChangeButtons = new List<Button>(); //0은 left, 1은 right버튼
 
@@ -51,6 +56,10 @@ public class MainPanel : UIBInder
     {
         //SetupPanel 꺼주기
         _setUpPanel.SetActive(false);
+
+        //Bgm 켜주기
+        AddressableManager.Instance.LoadSound(_bgmClip, _audio);
+
         //자주 사용하는 UI가져오고 저장
         GetUI();
         //버튼과 함수 연결
