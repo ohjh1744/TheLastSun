@@ -924,7 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b11f49fceaa2bc43985ad31f9cb4330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stageCount: 5
+  _setUpPanel: {fileID: 1593684661}
   _bossBookPanel: {fileID: 1532270566}
   _settingPanel: {fileID: 843940661}
   _stageChangeButtonSprites: []
@@ -3394,7 +3394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &871308640
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7311,7 +7311,6 @@ MonoBehaviour:
   _doDownLoadPanel: {fileID: 968327064}
   _mainPanel: {fileID: 871308639}
   _checkCanUpdateRate: 1
-  _quitDelay: 2
 --- !u!114 &1593684666
 MonoBehaviour:
   m_ObjectHideFlags: 0
