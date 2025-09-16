@@ -73,16 +73,20 @@ public class SettingPanel : UIBInder
 
     private void ReviewButton()
     {
-        string marketUrl = "market://details?id=" + _packageName;
-        string webUrl = "https://play.google.com/store/apps/details?id=" + _packageName;
+        //string marketUrl = "market://details?id=" + _packageName;
+        //string webUrl = "https://play.google.com/store/apps/details?id=" + _packageName;
 
-        try
-        {
-            Application.OpenURL(marketUrl);
-        }
-        catch
-        {
-            Application.OpenURL(webUrl);
-        }
+        //try
+        //{
+        //    Application.OpenURL(marketUrl);
+        //}
+        //catch
+        //{
+        //    Application.OpenURL(webUrl);
+        //}
+
+        string testUrl = "https://play.google.com/store/apps/details?id=com.OJH.TheLastSun&hl=en-US&ah=ycKdRomcQYMd4i9uVCop1W5Jqgc&pli=1";
+        Application.OpenURL(testUrl);
+
     }
 }
