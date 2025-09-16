@@ -11,9 +11,6 @@ using UnityEngine.UI;
 
 public class MainPanel : UIBInder
 {
-    // 총 5개, stage1 ==1 , stage2 == 2 ...
-    [SerializeField] private int _stageCount;
-
     //Panel들
     [SerializeField] private GameObject _setUpPanel;
 
@@ -54,7 +51,6 @@ public class MainPanel : UIBInder
     {
         //SetupPanel 꺼주기
         _setUpPanel.SetActive(false);
-
         //자주 사용하는 UI가져오고 저장
         GetUI();
         //버튼과 함수 연결
@@ -120,7 +116,7 @@ public class MainPanel : UIBInder
 
     private void ChangeStageNext()
     {
-        if(PlayerController.Instance.PlayerData.CurrentStage == _stageCount-1)
+        if(PlayerController.Instance.PlayerData.CurrentStage == _stageDatas.Length -1)
         {
             return;
         }
