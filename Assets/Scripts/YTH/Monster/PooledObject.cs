@@ -6,8 +6,6 @@ public class PooledObject : MonoBehaviour
 {
     public ObjectPool returnPool;
 
-    private float timer;
-
     public void ReturnPool()
     {
         if (returnPool == null)

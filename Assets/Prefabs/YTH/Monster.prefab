@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3665075425546192895}
   - component: {fileID: 2739978387519654374}
   - component: {fileID: 5037193468950678969}
+  - component: {fileID: 2011596548107100891}
   m_Layer: 6
   m_Name: Monster
   m_TagString: Monster
@@ -32,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.97, y: 2.48, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -206,3 +207,16 @@ MonoBehaviour:
   _maxHp: 5
   _curHp: 5
   _moveSpeed: 1
+--- !u!114 &2011596548107100891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4639574573216934329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47967504d46311c40b8b9edcfe21c272, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  returnPool: {fileID: 0}

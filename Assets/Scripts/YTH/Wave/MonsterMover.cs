@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterMover : MonoBehaviour
 {
-    [SerializeField] List<Transform> _pathPoints;
+    private Transform[] _pathPoints => FindObjectOfType<MonsterSpawner>().PathPoints;
 
     private int _curPointIndex = 0;
 
@@ -25,7 +25,7 @@ public class MonsterMover : MonoBehaviour
     /// </summary>
     IEnumerator MoveToNextPoint()
     {
-        while (_curPointIndex < _pathPoints.Count)
+        while (_curPointIndex < _pathPoints.Length)
         {
             Transform targetPoint = _pathPoints[_curPointIndex + 1];
             while (Vector3.Distance(transform.position, targetPoint.position) > 0.1f)
