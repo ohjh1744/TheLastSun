@@ -18,7 +18,7 @@ public class UnitController : MonoBehaviour
 
     private Vector3 _targetPosition;
 
-    private bool _hasMoveTarget = false;
+    private bool _hasTarget = false;
 
     private Collider2D[] _enemyBuffer = new Collider2D[5];
 
@@ -63,7 +63,7 @@ public class UnitController : MonoBehaviour
         {
             _currentState = State.Attack;
         }
-        else if (_hasMoveTarget)
+        else if (_hasTarget)
         {
             _currentState = State.Move;
         }
@@ -74,7 +74,7 @@ public class UnitController : MonoBehaviour
     /// </summary>
     private void HandleMove()
     {
-        if (_hasMoveTarget)
+        if (_hasTarget)
         {
             Vector3 direction = (_targetPosition - transform.position).normalized;
             float distance = Vector3.Distance(transform.position, _targetPosition);
@@ -85,7 +85,7 @@ public class UnitController : MonoBehaviour
             }
             else
             {
-                _hasMoveTarget = false;
+                _hasTarget = false;
                 _currentState = State.Idle;
             }
         }
@@ -104,7 +104,7 @@ public class UnitController : MonoBehaviour
         );
         if (count == 0)
         {
-            _currentState = _hasMoveTarget ? State.Move : State.Idle;
+            _currentState = _hasTarget ? State.Move : State.Idle;
             return;
         }
 
