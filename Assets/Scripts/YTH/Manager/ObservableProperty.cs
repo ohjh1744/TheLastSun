@@ -3,7 +3,8 @@ using UnityEngine.Events;
 
 namespace DesignPattern
 {
-    [System.Serializable]public class ObservableProperty<T>
+    [System.Serializable]
+    public class ObservableProperty<T>
     {
         [SerializeField] private T _value;
         public T Value
