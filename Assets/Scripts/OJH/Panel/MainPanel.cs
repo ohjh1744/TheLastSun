@@ -92,6 +92,7 @@ public class MainPanel : UIBInder
         //버튼과 함수 연결
         _stageChangeButtons[0].onClick.AddListener(ChangeStagePrev);
         _stageChangeButtons[1].onClick.AddListener(ChangeStageNext);
+        GetUI<Button>("PlayButton").onClick.AddListener(PlayGame);
         GetUI<Button>("CheckRankButton").onClick.AddListener(SetTrueRankLeaderBoards);
         GetUI<Button>("BossBookButton").onClick.AddListener(SetTrueBossBookPanel);
         GetUI<Button>("SettingButton").onClick.AddListener(SetTrueSettingPanel);
@@ -172,6 +173,11 @@ public class MainPanel : UIBInder
             GetUI("DifficultyLevel2Images").SetActive(false);
             GetUI("DifficultyLevel3Images").SetActive(true);
         }
+    }
+
+    private void PlayGame()
+    {
+        SceneChanger.Instance.ChangeScene("Test2");
     }
 
     private void SetTrueRankLeaderBoards()

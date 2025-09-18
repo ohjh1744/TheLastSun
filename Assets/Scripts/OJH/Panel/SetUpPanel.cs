@@ -144,7 +144,7 @@ public class SetUpPanel : UIBInder
         {
             if (isDownFinish == true)
             {
-                //DoDownLoadPanel 难林扁
+                //MainPanel 难林扁
                 _doDownLoadPanel.SetActive(false);
                 _mainPanel.SetActive(true);
             }
