@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SetUpPanel : UIBInder
@@ -12,7 +13,6 @@ public class SetUpPanel : UIBInder
     [SerializeField] private GameObject _updatePanel;
     [SerializeField] private GameObject _checkDownLoadPanel;
     [SerializeField] private GameObject _doDownLoadPanel;
-    [SerializeField] private GameObject _mainPanel;
 
     //코루틴
     //Update확인 전에 Network연결을 확인하기 위한 주기
@@ -125,10 +125,11 @@ public class SetUpPanel : UIBInder
             // 다운받을 파일이 존재하지 않으면 메인 패널을 열기
             else
             {
-                // CheckDownLoad 패널을 닫고, 바로 메인 패널을 열기
-                _checkDownLoadPanel.SetActive(false);
-                _mainPanel.SetActive(true);
                 Debug.Log("다운받을 파일이 없음!!!");
+                // CheckDownLoad 패널을 닫고, 
+                _checkDownLoadPanel.SetActive(false);
+                //MainPanel씬으로 이동
+                SceneManager.LoadScene(1);
             }
         });
     }
@@ -144,9 +145,8 @@ public class SetUpPanel : UIBInder
         {
             if (isDownFinish == true)
             {
-                //MainPanel 켜주기
-                _doDownLoadPanel.SetActive(false);
-                _mainPanel.SetActive(true);
+                //MainPanel씬으로 이동
+                SceneManager.LoadScene(1);
             }
         });
     }

@@ -93,17 +93,18 @@ public class AddressableManager : MonoBehaviour
     }
 
     //단순 Object 생성 후 List에 저장
-    public void GetObjectAndSave(AssetReferenceGameObject assetObject, List<GameObject> realObjects)
+    public void GetObjectAndSave(AssetReferenceGameObject assetObject, List<GameObject> realObjects, Action callBack)
     {
         assetObject.InstantiateAsync().Completed += (obj) =>
         {
             realObjects.Add(obj.Result);
+            callBack();
         };
     }
 
 
     //List에 저장된 Object들 생성 후 List에 저장
-    public void GetObjectsAndSave(List<AssetReferenceGameObject> assetObjects, List<GameObject> realObjects)
+    public void GetObjectsAndSave(List<AssetReferenceGameObject> assetObjects, List<GameObject> realObjects, Action callBack)
     {
         for (int i = 0; i < assetObjects.Count; i++)
         {
@@ -111,25 +112,37 @@ public class AddressableManager : MonoBehaviour
             assetObjects[i].InstantiateAsync().Completed += (obj) =>
             {
                 realObjects.Add(obj.Result);
+                callBack();
             };
         }
     }
 
     //Sound 가져오기
-    public void LoadSound(AssetReferenceT<AudioClip> assetAudioClip, AudioSource audio)
+    public void LoadSound(AssetReferenceT<AudioClip> assetAudioClip, AudioSource audio, Action callBack)
     {
         assetAudioClip.LoadAssetAsync().Completed += (clip) =>
         {
             audio.clip = clip.Result;
+            callBack();
         };
     }
 
-    //Sprite 가져오기
-    public void LoadSprite(AssetReferenceSprite assetImageSprite, Image _image)
+    //Sprite 가져와서 이미지에 참조
+    public void LoadSprite(AssetReferenceSprite assetImageSprite, Image image, Action callBack)
     {
         assetImageSprite.LoadAssetAsync().Completed += (img) =>
         {
-            _image.sprite = img.Result;
+            image.sprite = img.Result;
+            callBack();
+        };
+    }
+
+    //Sprite 가져와서 Sprite에 참조
+    public void LoadOnlySprite(AssetReferenceSprite assetImageSprite,  Action<Sprite> callBack)
+    {
+        assetImageSprite.LoadAssetAsync().Completed += (sprite) =>
+        {
+            callBack(sprite.Result);
         };
     }
 

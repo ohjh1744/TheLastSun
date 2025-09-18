@@ -6,8 +6,16 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
-public class BossBookPanel : UIBInder
+public class BossBookPanel : UIBInder, IAssetLoadable
 {
+    //어드레서블을 통해 불러와 적용할 에셋 개수
+    [SerializeField] private int _loadAssetUICount;
+    public int LoadAssetUICount { get { return _loadAssetUICount; } set { _loadAssetUICount = value; } }
+
+    //현재 어드레서블을 통해 적용끝난 에셋 개수
+    private int _clearLoadAssetCount;
+    public int ClearLoadAssetCount { get { return _clearLoadAssetCount; } set { _clearLoadAssetCount = value; } }
+
     [SerializeField] private int _bossCount;
 
     [SerializeField] private GameObject _bossBookExplainContext; // 버튼 누를 시 활성화
@@ -15,6 +23,9 @@ public class BossBookPanel : UIBInder
     [SerializeField] private BossInfoData[] _bossInfoDatas;
 
     private List<Button> _bossPortraitButton = new List<Button>();
+
+    //보스 초상화 Sprite List에 저장
+    private List<Sprite> _bossPortraitSprites = new List<Sprite>();
 
     private StringBuilder _sb = new StringBuilder();
 
@@ -75,44 +86,47 @@ public class BossBookPanel : UIBInder
     private void LoadAsset()
     {
         Image image = GetComponent<Image>();
-        AddressableManager.Instance.LoadSprite(_bgSprite, image); //배경
+        AddressableManager.Instance.LoadSprite(_bgSprite, image, () => { _clearLoadAssetCount++; }); //배경
 
         //보스 초상화 배경 및 초상화 
         for(int i = 0; i < _bossCount; i++)
         {
-            AddressableManager.Instance.LoadSprite(_bossPortraitBgSprite, GetUI<Image>($"BossPortraitBgImage{i + 1}"));
+            AddressableManager.Instance.LoadSprite(_bossPortraitBgSprite, GetUI<Image>($"BossPortraitBgImage{i + 1}"), () => { _clearLoadAssetCount++; });
             //해당 보스 클리어한 경우
             if (PlayerController.Instance.PlayerData.IsClearStage[i] == true)
             {
-                AddressableManager.Instance.LoadSprite(_bossInfoDatas[i].BossUnLockPortraitSprite, GetUI<Image>($"BossPortraitButton{i + 1}"));
+                AddressableManager.Instance.LoadOnlySprite(_bossInfoDatas[i].BossUnLockPortraitSprite,  (sprite) => { _clearLoadAssetCount++; _bossPortraitSprites.Add(sprite); });
+                GetUI<Image>($"BossPortraitButton{i + 1}").sprite = _bossPortraitSprites[i];
             }
             //해당 보스 클리어 못한 경우
             else if (PlayerController.Instance.PlayerData.IsClearStage[i] == false)
             {
-                AddressableManager.Instance.LoadSprite(_bossInfoDatas[i].BossLockPortraitSprite, GetUI<Image>($"BossPortraitButton{i + 1}"));
+                AddressableManager.Instance.LoadOnlySprite(_bossInfoDatas[i].BossLockPortraitSprite, (sprite) => { _clearLoadAssetCount++; _bossPortraitSprites.Add(sprite); });
+                GetUI<Image>($"BossPortraitButton{i + 1}").sprite = _bossPortraitSprites[i];
             }
         }
 
         //보스 도감수집현황 Bg
-        AddressableManager.Instance.LoadSprite(_bossBookStateSprite, GetUI<Image>("BossBookStateImage"));
+        AddressableManager.Instance.LoadSprite(_bossBookStateSprite, GetUI<Image>("BossBookStateImage"), () => { _clearLoadAssetCount++; });
 
         //보스 도감 스크롤뷰 Bg
-        AddressableManager.Instance.LoadSprite(_smallBgSprite, GetUI<Image>("BossBookScrollView"));
+        AddressableManager.Instance.LoadSprite(_smallBgSprite, GetUI<Image>("BossBookScrollView"), () => { _clearLoadAssetCount++; });
 
         //보스 도감 설명 Bg
-        AddressableManager.Instance.LoadSprite(_smallBgSprite, GetUI<Image>("BossBookExplainBgImage"));
+        AddressableManager.Instance.LoadSprite(_smallBgSprite, GetUI<Image>("BossBookExplainBgImage"), () => { _clearLoadAssetCount++; });
 
         //보스 도감 설명 초상화 Bg
-        AddressableManager.Instance.LoadSprite(_bossPortraitBgSprite, GetUI<Image>("BossBookExplainPortraitBgImage"));
+        AddressableManager.Instance.LoadSprite(_bossPortraitBgSprite, GetUI<Image>("BossBookExplainPortraitBgImage"), () => { _clearLoadAssetCount++; });
 
         //보스 도감 설명 Text Bg
-        AddressableManager.Instance.LoadSprite(_bossBookExplainTextBgSprite, GetUI<Image>("BossBookExplainTextBgImage"));
+        AddressableManager.Instance.LoadSprite(_bossBookExplainTextBgSprite, GetUI<Image>("BossBookExplainTextBgImage"), () => { _clearLoadAssetCount++; });
 
         //보스 도감 X버튼
-        AddressableManager.Instance.LoadSprite(_bossBookSetFalseSprite, GetUI<Image>("BossBookSetFalseButton"));
+        AddressableManager.Instance.LoadSprite(_bossBookSetFalseSprite, GetUI<Image>("BossBookSetFalseButton"), () => { _clearLoadAssetCount++; });
 
         //보스 도감 X버튼 Bg
-        AddressableManager.Instance.LoadSprite(_bossBookSetFalseBgSprite, GetUI<Image>("BossBookSetFalseBgImage"));
+        AddressableManager.Instance.LoadSprite(_bossBookSetFalseBgSprite, GetUI<Image>("BossBookSetFalseBgImage"), () => { _clearLoadAssetCount++; });
+
 
     }
 
@@ -123,15 +137,12 @@ public class BossBookPanel : UIBInder
 
     private void ShowBossInfo(int bossIndex)
     {
-        //버튼 누를시 _bossBookExplainContext활성화 후 보스 초상화, 이름, 설명 표기 
-        _bossBookExplainContext.SetActive(true);
+        //보스 초상화 표시
+        GetUI<Image>("BossBookExplainPortraitImage").sprite = _bossPortraitSprites[bossIndex];
 
         //해당 보스 클리어한 경우
         if (PlayerController.Instance.PlayerData.IsClearStage[bossIndex] == true)
         {
-            //보스 해제초상화 표시
-            AddressableManager.Instance.LoadSprite(_bossInfoDatas[bossIndex].BossUnLockPortraitSprite, GetUI<Image>("BossBookExplainPortraitImage"));
-
             //보스 이름 및 설명 표시
             _sb.Clear();
             _sb.Append(_bossInfoDatas[bossIndex].BossName);
@@ -148,9 +159,6 @@ public class BossBookPanel : UIBInder
         //해당 보스 클리어 못한 경우
         else if (PlayerController.Instance.PlayerData.IsClearStage[bossIndex] == false)
         {
-            //보스 잠금초상화 표시
-            AddressableManager.Instance.LoadSprite(_bossInfoDatas[bossIndex].BossLockPortraitSprite, GetUI<Image>("BossBookExplainPortraitImage"));
-
             //보스 이름 및 설명 ???표시
             _sb.Clear();
             _sb.Append("???");

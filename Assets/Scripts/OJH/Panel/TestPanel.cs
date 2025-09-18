@@ -45,9 +45,9 @@ public class TestPanel : MonoBehaviour
         {
             _object = result;
         });
-        AddressableManager.Instance.GetObjectAndSave(_test1Object, _object1List);
-        AddressableManager.Instance.GetObjectsAndSave(_test2Objects, _object2List);
-        AddressableManager.Instance.LoadSprite(_stageImageSprite, _stageImage);
+        AddressableManager.Instance.GetObjectAndSave(_test1Object, _object1List, () => { });
+        AddressableManager.Instance.GetObjectsAndSave(_test2Objects, _object2List, () => { });
+        AddressableManager.Instance.LoadSprite(_stageImageSprite, _stageImage, () => { });
     }
 
     public void DoSaveData()
