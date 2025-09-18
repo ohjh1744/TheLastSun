@@ -133,6 +133,7 @@ public class AddressableManager : MonoBehaviour
         assetImageSprite.LoadAssetAsync().Completed += (img) =>
         {
             image.sprite = img.Result;
+            image.gameObject.SetActive(true);
             callBack();
         };
     }
