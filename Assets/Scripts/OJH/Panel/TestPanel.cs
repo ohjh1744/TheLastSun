@@ -80,6 +80,17 @@ public class TestPanel : MonoBehaviour
     {
         Debug.Log("랭킹 넣기");
         //시간 , 원하는 리더보드 입력.
-        GpgsManager.Instance.UpdateTimeLeaderboard(15000, _leaderboardString[0]);
+        GpgsManager.Instance.UpdateTimeLeaderboard(15000, _leaderboardString[0], (success) =>
+        {
+            if(success == true)
+            {
+                //성공시
+            }
+            else
+            {
+                //실패시
+                //ex) 다시 시도
+            }
+        });
     }
 }
