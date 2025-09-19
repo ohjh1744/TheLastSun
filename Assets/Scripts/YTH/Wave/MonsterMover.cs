@@ -1,14 +1,17 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterMover : MonoBehaviour
 {
-    [SerializeField] List<Transform> _pathPoints;
+    private Transform[] _pathPoints => FindObjectOfType<MonsterSpawner>().PathPoints;
 
     private int _curPointIndex = 0;
 
     private MonsterModel _model;
+
+    private PooledObject _pooledObject => GetComponent<PooledObject>();
 
     private void Awake()
     {
@@ -17,7 +20,14 @@ public class MonsterMover : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(MoveToNextPoint());
+        //StartCoroutine(MoveToNextPoint());
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.Append(transform.DOMoveX(3, 3f).SetEase(Ease.Linear))
+                .Append(transform.DOMoveY(-3, 3f).SetEase(Ease.Linear))
+                .Append(transform.DOMoveX(-3, 3f).SetEase(Ease.Linear))
+                .Append(transform.DOMoveY(3, 3f).SetEase(Ease.Linear))
+                .OnComplete(() => _pooledObject.ReturnPool());
     }
 
     /// <summary>
@@ -25,7 +35,7 @@ public class MonsterMover : MonoBehaviour
     /// </summary>
     IEnumerator MoveToNextPoint()
     {
-        while (_curPointIndex < _pathPoints.Count)
+        while (_curPointIndex < _pathPoints.Length)
         {
             Transform targetPoint = _pathPoints[_curPointIndex + 1];
             while (Vector3.Distance(transform.position, targetPoint.position) > 0.1f)

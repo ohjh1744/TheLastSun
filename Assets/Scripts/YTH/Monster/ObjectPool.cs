@@ -32,6 +32,7 @@ public class ObjectPool : MonoBehaviour
         instance.returnPool = this;
         instance.transform.position = position;
         instance.transform.rotation = rotation;
+        instance.transform.parent = transform;
         instance.gameObject.SetActive(true);
 
         return instance;
