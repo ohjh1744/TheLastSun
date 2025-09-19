@@ -2,15 +2,34 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
 
-public class SettingPanel : UIBInder
+public class SettingPanel : UIBInder, IAssetLoadable
 {
+    //어드레서블을 통해 불러와 적용할 에셋 개수
+    [SerializeField] private int _loadAssetUICount;
+    public int LoadAssetUICount { get { return _loadAssetUICount; } set { _loadAssetUICount = value; } }
+
+    //현재 어드레서블을 통해 적용끝난 에셋 개수
+     private int _clearLoadAssetCount;
+    public int ClearLoadAssetCount { get { return _clearLoadAssetCount; } set { _clearLoadAssetCount = value; } }
+
     //bgm AudioSource
     [SerializeField] private AudioSource _audio;
 
     [SerializeField] private GameObject _CreditPanel;
 
     StringBuilder _sb  = new StringBuilder();
+
+    //어드레서블
+    [SerializeField] private AssetReferenceSprite _setFalseBgSprite;
+
+    [SerializeField] private AssetReferenceSprite _setFalseSprite;
+
+    [SerializeField] private AssetReferenceSprite _buttonSprite;
+
+    [SerializeField] private AssetReferenceSprite _settingNameBgSprite;
+
 
     private string _packageName;
 
@@ -28,10 +47,28 @@ public class SettingPanel : UIBInder
 
         _packageName = Application.identifier;
 
+        AddEvent();
+        LoadAsset();
+    }
+    private void AddEvent()
+    {
         GetUI<Button>("SettingSetFalseButton").onClick.AddListener(SetFalsePanel);
         GetUI<Button>("SetFalseMusicButton").onClick.AddListener(SetFalseSound);
         GetUI<Button>("ShowCreditButton").onClick.AddListener(SetTrueCredit);
         GetUI<Button>("ReviewButton").onClick.AddListener(ReviewButton);
+    }
+
+    private void LoadAsset()
+    {
+        AddressableManager.Instance.LoadSprite(_settingNameBgSprite, GetUI<Image>("SettingNameBgImage"), () => { _clearLoadAssetCount++; });
+
+        AddressableManager.Instance.LoadSprite(_setFalseBgSprite, GetUI<Image>("SettingSetFalseBgImage"), () => { _clearLoadAssetCount++; });
+        AddressableManager.Instance.LoadSprite(_setFalseSprite, GetUI<Button>("SettingSetFalseButton").image, () => { _clearLoadAssetCount++; });
+
+        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("SetFalseMusicButton").image, () => { _clearLoadAssetCount++; });
+        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("ShowCreditButton").image, () => { _clearLoadAssetCount++; });
+        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("ReviewButton").image, () => { _clearLoadAssetCount++; });
+
     }
 
     private void SetFalsePanel()
