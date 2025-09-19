@@ -1,3 +1,4 @@
+using GooglePlayGames.BasicApi.SavedGame;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -5,6 +6,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -190,7 +192,21 @@ public class MainPanel : UIBInder, IAssetLoadable
 
     private void PlayGame()
     {
-        SceneChanger.Instance.ChangeScene("Test2");
+        //현재 Player Data저장하고 씬넘기기
+        GpgsManager.Instance.SaveData((status) =>
+        {
+            if (status == SavedGameRequestStatus.Success)
+            {
+                //전투씬(인게임)으로 넘기기
+                SceneManager.LoadScene(2);
+                Debug.Log("저장성공 후 게임씬으로 이동");
+            }
+            else
+            {
+                //실패시 해야할 일 
+                Debug.Log("문제발생으로 저장실패 후 게임씬이동못함");
+            }
+        });
     }
 
     private void SetTrueRankLeaderBoards()
