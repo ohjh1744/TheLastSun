@@ -46,6 +46,20 @@ public class SettingPanel : UIBInder, IAssetLoadable
     {
 
         _packageName = Application.identifier;
+        
+        //사운드 Text 초기화
+        if(PlayerController.Instance.PlayerData.IsSound == true)
+        {
+            _sb.Clear();
+            _sb.Append("사운드ON");
+            GetUI<TextMeshProUGUI>("SetFalseMusicButtonText").SetText(_sb);
+        }
+        else
+        {
+            _sb.Clear();
+            _sb.Append("사운드OFF");
+            GetUI<TextMeshProUGUI>("SetFalseMusicButtonText").SetText(_sb);
+        }
 
         AddEvent();
         LoadAsset();
@@ -53,7 +67,7 @@ public class SettingPanel : UIBInder, IAssetLoadable
     private void AddEvent()
     {
         GetUI<Button>("SettingSetFalseButton").onClick.AddListener(SetFalsePanel);
-        GetUI<Button>("SetFalseMusicButton").onClick.AddListener(SetFalseSound);
+        GetUI<Button>("SetFalseMusicButton").onClick.AddListener(SetSound);
         GetUI<Button>("ShowCreditButton").onClick.AddListener(SetTrueCredit);
         GetUI<Button>("ReviewButton").onClick.AddListener(ReviewButton);
     }
@@ -76,7 +90,7 @@ public class SettingPanel : UIBInder, IAssetLoadable
         gameObject.SetActive(false);
     }
 
-    private void SetFalseSound()
+    private void SetSound()
     {
         if (PlayerController.Instance.PlayerData.IsSound == true)
         {
