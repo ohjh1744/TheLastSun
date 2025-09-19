@@ -308,14 +308,26 @@ public class GpgsManager : MonoBehaviour
 
     //시간 랭킹에 갱신
     // gpgs에서 시간단위는 ms로 1000ms면 1초를 의미
-    public void UpdateTimeLeaderboard( float time, string leaderboardID)
+    public void UpdateTimeLeaderboard( float time, string leaderboardID, Action<bool> callback)
     {
         //float에서 long으로 변환
         // ex) 1.23f -> 1230ms(long)
         long scoreToReport = (long)(time * 1000);
 
         //Num 형식 리더보드 업데이트
-        PlayGamesPlatform.Instance.ReportScore(scoreToReport, leaderboardID, (bool success) => { Debug.Log("AddTime" + time); });
+        PlayGamesPlatform.Instance.ReportScore(scoreToReport, leaderboardID, (bool success) =>
+        {
+            if (success == true)
+            {
+                Debug.Log($"리더보드 업데이트 성공: {time}s ({scoreToReport}ms)");
+                callback(success);
+            }
+            else
+            {
+                Debug.LogError("리더보드 업데이트 실패!");
+                callback(success);
+            }
+        });
     }
 
 
