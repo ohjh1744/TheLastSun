@@ -1,10 +1,15 @@
+using Google.Play.Common.LoadingScreen;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using TMPro;
 using UnityEditor;
+using UnityEditor.Hardware;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum IAssetLoad {Main, BossBook, Setting }
-public class PreMainPanel : MonoBehaviour
+public class LoadingPanel : UIBInder
 {
     //어드레서블을 통해 불러와 적용할 에셋 개수
     [SerializeField] private IAssetLoadable[] _assetLoadablePanels;
@@ -14,12 +19,13 @@ public class PreMainPanel : MonoBehaviour
     [SerializeField] private GameObject _settingPanel;
 
     private Coroutine _routine;
-    private WaitForSeconds _finishDelayWs;
-    [SerializeField] private float _finishDelay;
+    [SerializeField] private float _fakeLoadingTime;
+
+    StringBuilder _sb = new StringBuilder();
 
     private void Awake()
     {
-        _finishDelayWs = new WaitForSeconds(_finishDelay);
+        BindAll();
     }
     private void Start()
     {
@@ -28,6 +34,7 @@ public class PreMainPanel : MonoBehaviour
 
     IEnumerator CheckLoadAsset()
     {
+        //각 패널들 어드레서블 로드 완료되었는지 체크
         while (true)
         {
             bool isAnyNotClearLoad = false;
@@ -52,7 +59,28 @@ public class PreMainPanel : MonoBehaviour
         }
 
 
-        yield return _finishDelayWs;
+        //Fake Loading
+        float time = 0f;
+        while (time < _fakeLoadingTime)
+        {
+            Debug.Log("yeah");
+            time += Time.deltaTime;
+            GetUI<Slider>("LoadingSlider").value = time / _fakeLoadingTime;
+            _sb.Clear();
+            _sb.Append("Loading ");
+            int percent = Mathf.FloorToInt(GetUI<Slider>("LoadingSlider").value * 100);
+            if (percent == 100)
+            {
+                _sb.Append(99);
+            }
+            else
+            {
+                _sb.Append(percent);
+            }
+            _sb.Append("%");
+            GetUI<TextMeshProUGUI>("LoadingText").SetText(_sb);
+            yield return null;
+        }
 
         // 다 되었따면 MainPanel 제외하고 다 꺼주기
         _boosBookPanel.SetActive(false);
