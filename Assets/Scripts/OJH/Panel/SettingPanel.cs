@@ -22,6 +22,8 @@ public class SettingPanel : UIBInder, IAssetLoadable
     StringBuilder _sb  = new StringBuilder();
 
     //어드레서블
+    [SerializeField] private AssetReferenceSprite _bgImageSprite;
+
     [SerializeField] private AssetReferenceSprite _setFalseBgSprite;
 
     [SerializeField] private AssetReferenceSprite _setFalseSprite;
@@ -74,6 +76,9 @@ public class SettingPanel : UIBInder, IAssetLoadable
 
     private void LoadAsset()
     {
+        Image image = GetComponent<Image>();
+        AddressableManager.Instance.LoadSprite(_bgImageSprite, image, () => { _clearLoadAssetCount++; });
+
         AddressableManager.Instance.LoadSprite(_settingNameBgSprite, GetUI<Image>("SettingNameBgImage"), () => { _clearLoadAssetCount++; });
 
         AddressableManager.Instance.LoadSprite(_setFalseBgSprite, GetUI<Image>("SettingSetFalseBgImage"), () => { _clearLoadAssetCount++; });
