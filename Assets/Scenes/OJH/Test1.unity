@@ -3971,10 +3971,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerData:
-    _clearTimes: []
+    _clearTimes:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
     _currentStage: 0
-    _isClearStage: 
-    _isSound: 0
+    _isClearStage: 0000000000
+    _isSound: 1
 --- !u!4 &2135362000
 Transform:
   m_ObjectHideFlags: 0
