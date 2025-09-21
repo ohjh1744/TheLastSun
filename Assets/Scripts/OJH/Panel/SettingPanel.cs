@@ -103,37 +103,27 @@ public class SettingPanel : UIBInder, IAssetLoadable
     {
         if (PlayerController.Instance.PlayerData.IsSound == true)
         {
-            //변수 false로 변경
+            //변수 false로 변경 및 저장
             PlayerController.Instance.PlayerData.IsSound = false;
-            GpgsManager.Instance.SaveData((status) =>
-            {
-                if (status == SavedGameRequestStatus.Success)
-                {
-                    //사운드 끄기
-                    _audio.Stop();
-                    //Text 변환
-                    _sb.Clear();
-                    _sb.Append("사운드OFF");
-                    GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
-                }
-            });
+            GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
+            //사운드 끄기
+            _audio.Stop();
+            //Text 변환
+            _sb.Clear();
+            _sb.Append("사운드OFF");
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
         else if (PlayerController.Instance.PlayerData.IsSound == false)
         {
-            //변수 false로 변경
+            //변수 false로 변경 및 저장
             PlayerController.Instance.PlayerData.IsSound = true;
-            GpgsManager.Instance.SaveData((status) =>
-            {
-                if (status == SavedGameRequestStatus.Success)
-                {
-                    //사운드 켜기
-                    _audio.Play();
-                    //Text 변환
-                    _sb.Clear();
-                    _sb.Append("사운드ON");
-                    GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
-                }
-            });
+            GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
+            //사운드 켜기
+            _audio.Play();
+            //Text 변환
+            _sb.Clear();
+            _sb.Append("사운드ON");
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
 
     }
