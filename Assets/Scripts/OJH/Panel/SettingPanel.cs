@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
-
+using GooglePlayGames.BasicApi.SavedGame;
 public class SettingPanel : UIBInder, IAssetLoadable
 {
     //어드레서블을 통해 불러와 적용할 에셋 개수
@@ -103,25 +103,27 @@ public class SettingPanel : UIBInder, IAssetLoadable
     {
         if (PlayerController.Instance.PlayerData.IsSound == true)
         {
+            //변수 false로 변경 및 저장
+            PlayerController.Instance.PlayerData.IsSound = false;
+            GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
             //사운드 끄기
             _audio.Stop();
             //Text 변환
             _sb.Clear();
             _sb.Append("사운드OFF");
             GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
-            //변수 false로 변경
-            PlayerController.Instance.PlayerData.IsSound = false;
         }
         else if (PlayerController.Instance.PlayerData.IsSound == false)
         {
+            //변수 false로 변경 및 저장
+            PlayerController.Instance.PlayerData.IsSound = true;
+            GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
             //사운드 켜기
             _audio.Play();
             //Text 변환
             _sb.Clear();
             _sb.Append("사운드ON");
             GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
-            //변수 false로 변경
-            PlayerController.Instance.PlayerData.IsSound = true;
         }
 
     }

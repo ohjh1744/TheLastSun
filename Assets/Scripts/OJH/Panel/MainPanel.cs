@@ -256,7 +256,8 @@ public class MainPanel : UIBInder, IAssetLoadable
     //설정 패널 켜지면 메인 패널 모든 버튼 비활성화
     private void SetAllButtons()
     {
-        if (_settingPanel.activeSelf == true)
+        //설정패널 or 네트워크에러패널이 뜨는 경우
+        if (_settingPanel.activeSelf == true || NetworkCheckManager.Instance.IsConnected == false)
         {
             GetUI<Button>("CheckRankButton").interactable = false;
             GetUI<Button>("BossBookButton").interactable = false;
@@ -264,7 +265,8 @@ public class MainPanel : UIBInder, IAssetLoadable
             GetUI<Button>("StageChangeLeftButton").interactable = false;
             GetUI<Button>("StageChangeRightButton").interactable = false;
         }
-        else if(_settingPanel.activeSelf == false)
+        // 설정패널 or 네트워크에러창이 꺼진 경우
+        else if(_settingPanel.activeSelf == false || NetworkCheckManager.Instance.IsConnected == true)
         {
             GetUI<Button>("CheckRankButton").interactable = true;
             GetUI<Button>("BossBookButton").interactable = true;
