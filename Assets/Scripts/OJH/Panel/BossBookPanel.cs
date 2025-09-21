@@ -76,9 +76,9 @@ public class BossBookPanel : UIBInder, IAssetLoadable
         //보스 초상화 눌렀을때 설명 뜨도록
         for(int i = 0; i < _bossPortraitButton.Count; i++)
         {
-            _bossPortraitButton[i].onClick.AddListener(() => ShowBossInfo(i));
+            int index = i;
+            _bossPortraitButton[i].onClick.AddListener(() => ShowBossInfo(index));
         }
-
     }
 
     private void LoadAsset()
@@ -139,7 +139,11 @@ public class BossBookPanel : UIBInder, IAssetLoadable
 
     private void ShowBossInfo(int bossIndex)
     {
+        //설명 내용 set true
+        _bossBookExplainContext.SetActive(true);
+
         //보스 초상화 표시
+        Debug.Log(bossIndex);
         GetUI<Image>("BossBookExplainPortraitImage").sprite = _bossPortraitSprites[bossIndex];
 
         //해당 보스 클리어한 경우

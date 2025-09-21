@@ -28,7 +28,9 @@ public class MainPanel : UIBInder, IAssetLoadable
     [SerializeField] private GameObject _settingPanel;
 
     //어드레서블
-    [SerializeField] private AssetReferenceSprite _stageChangeButtonSprite;
+    [SerializeField] private AssetReferenceSprite _stageChangeLeftButtonSprite;
+
+    [SerializeField] private AssetReferenceSprite _stageChangeRightButtonSprite;
 
     [SerializeField] private AssetReferenceSprite _difficultyLevelSprite;
 
@@ -48,7 +50,7 @@ public class MainPanel : UIBInder, IAssetLoadable
     //스테이지 Data
     [SerializeField] private StageData[] _stageDatas;
 
-    private StringBuilder _sb;
+    private StringBuilder _sb = new StringBuilder();
 
     private void Awake()
     {
@@ -114,20 +116,31 @@ public class MainPanel : UIBInder, IAssetLoadable
         //스테이지 Sprite들 List에 저장하고 플레이어가 선택한 스테이지 이미지로 표기
         for(int i = 0; i < _stageDatas.Length; i++)
         {
-            AddressableManager.Instance.LoadOnlySprite(_stageDatas[i].StageImageSprite, (sprite) => { _clearLoadAssetCount++; _stageSprites.Add(sprite);
-                if (PlayerController.Instance.PlayerData.CurrentStage == i)
+            int index = i;
+            AddressableManager.Instance.LoadOnlySprite(_stageDatas[i].StageImageSprite, (sprite) => { 
+                _clearLoadAssetCount++; 
+                _stageSprites.Add(sprite);
+                if (PlayerController.Instance.PlayerData.CurrentStage == index)
                 {
+                    //Stage Level 설정
+                    _sb.Clear();
+                    _sb.Append(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageLevel);
+                    GetUI<TextMeshProUGUI>("StageLevelText").SetText(_sb);
+
+                    //Stage name 설정
+                    _sb.Clear();
+                    _sb.Append(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageName);
+                    GetUI<TextMeshProUGUI>("StageNameText").SetText(_sb);
+
+                    //이미지 설정
                     GetUI<Image>("StageImage").sprite = sprite;
                 }
             });
         }
 
         //스테이지 전환 왼쪽, 오른쪽 버튼 이미지 적용
-        AddressableManager.Instance.LoadOnlySprite(_stageChangeButtonSprite, (sprite) => { 
-            _clearLoadAssetCount++; 
-            GetUI<Image>("StageChangeLeftButton").sprite = sprite; 
-            GetUI<Image>("StageChangeRightButton").sprite = sprite; 
-        });
+        AddressableManager.Instance.LoadSprite(_stageChangeLeftButtonSprite, GetUI<Button>("StageChangeLeftButton").image, () => { _clearLoadAssetCount++; });
+        AddressableManager.Instance.LoadSprite(_stageChangeRightButtonSprite, GetUI<Button>("StageChangeRightButton").image, () => { _clearLoadAssetCount++; });
 
         //난이도 이미지 적용 해골
         AddressableManager.Instance.LoadOnlySprite(_difficultyLevelSprite, (sprite) => {
@@ -209,6 +222,9 @@ public class MainPanel : UIBInder, IAssetLoadable
         {
             if (status == SavedGameRequestStatus.Success)
             {
+                //이벤트와 함수 해제
+                PlayerController.Instance.PlayerData.OnCurrentStageChanged -= ChangeStage;
+
                 //전투씬(인게임)으로 넘기기
                 SceneManager.LoadScene(2);
                 Debug.Log("저장성공 후 게임씬으로 이동");
@@ -245,12 +261,16 @@ public class MainPanel : UIBInder, IAssetLoadable
             GetUI<Button>("CheckRankButton").interactable = false;
             GetUI<Button>("BossBookButton").interactable = false;
             GetUI<Button>("SettingButton").interactable = false;
+            GetUI<Button>("StageChangeLeftButton").interactable = false;
+            GetUI<Button>("StageChangeRightButton").interactable = false;
         }
         else if(_settingPanel.activeSelf == false)
         {
             GetUI<Button>("CheckRankButton").interactable = true;
             GetUI<Button>("BossBookButton").interactable = true;
             GetUI<Button>("SettingButton").interactable = true;
+            GetUI<Button>("StageChangeLeftButton").interactable = true;
+            GetUI<Button>("StageChangeRightButton").interactable = true;
         }
     }
 

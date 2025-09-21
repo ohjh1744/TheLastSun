@@ -71,7 +71,6 @@ public class LoadingPanel : UIBInder
         float time = 0f;
         while (time < _fakeLoadingTime)
         {
-            Debug.Log("yeah");
             time += Time.deltaTime;
             GetUI<Slider>("LoadingSlider").value = time / _fakeLoadingTime;
             _sb.Clear();
