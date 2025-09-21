@@ -52,6 +52,12 @@ public class BossBookPanel : UIBInder, IAssetLoadable
         Init();
     }
 
+    private void OnDisable()
+    {
+        _bossBookExplainContext.SetActive(false);
+    }
+
+
     private void Init()
     {
         GetUI();
