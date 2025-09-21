@@ -36,15 +36,13 @@ public class AddressableManager : MonoBehaviour
 
     private WaitForSeconds _delayTofinishDownLoadWs;
 
-
-
     private void Awake()
     {
         if(_instance == null)
         {
             _instance = this;
             Init();
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
             Debug.Log("어드레서블 초기화!");
         }
         else

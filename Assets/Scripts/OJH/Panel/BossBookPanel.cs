@@ -105,7 +105,7 @@ public class BossBookPanel : UIBInder, IAssetLoadable
         });
 
         //보스 초상화 적용
-        for(int i = 0; i < _bossInfoDatas.Length; i++)
+        for (int i = 0; i < _bossInfoDatas.Length; i++)
         {
             int index = i;
             //해당 보스 클리어한 경우
@@ -134,8 +134,6 @@ public class BossBookPanel : UIBInder, IAssetLoadable
 
         //보스 도감 X버튼 Bg
         AddressableManager.Instance.LoadSprite(_bossBookSetFalseBgSprite, GetUI<Image>("BossBookSetFalseBgImage"), () => { _clearLoadAssetCount++; });
-
-
     }
 
     private void SetFalsePanel()

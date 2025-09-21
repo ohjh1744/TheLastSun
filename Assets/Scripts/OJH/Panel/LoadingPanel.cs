@@ -42,6 +42,30 @@ public class LoadingPanel : UIBInder
 
     IEnumerator CheckLoadAsset()
     {
+        //이유는 불문명하지만 PC에서는 문제가 없으나 안드로이드에서 Awake -start 싱글톤 참조 문제 발생
+        //초기화 될때가지 기다림
+        Debug.Log("로드에셋체크 시작!!!!!");
+        while (true)
+        {
+            if(AddressableManager.Instance != null && PlayerController.Instance != null && NetworkCheckManager.Instance != null && GpgsManager.Instance != null)
+            {
+                Debug.Log($"어드레서블매니저: {AddressableManager.Instance}");
+                Debug.Log($"어드레서블매니저: {PlayerController.Instance} ");
+                Debug.Log($"어드레서블매니저: {NetworkCheckManager.Instance} ");
+                Debug.Log($"어드레서블매니저:  {GpgsManager.Instance}");
+                break;
+            }
+            yield return null;
+        }
+
+        //패널들 모두 true.
+        for(int i = 0; i < _panels.Length; i++)
+        {
+            _panels[i].SetActive(true);
+        }
+
+        Debug.Log("초기화 완료!");
+
         //각 패널들 어드레서블 로드 완료되었는지 체크
         while (true)
         {
@@ -66,7 +90,6 @@ public class LoadingPanel : UIBInder
             yield return null;
         }
 
-
         //Fake Loading
         float time = 0f;
         while (time < _fakeLoadingTime)
@@ -88,10 +111,15 @@ public class LoadingPanel : UIBInder
             yield return null;
         }
 
-        // 다 되었따면 MainPanel 제외하고 다 꺼주기
-        _panels[(int)IAssetLoad.BossBook].SetActive(false);
-        _panels[(int)IAssetLoad.Setting].SetActive(false);
-        _panels[(int)IAssetLoad.Credit].SetActive(false);
+        //다 완료되면 MainPanel 제외하고 다 꺼주기
+        for(int i = 0; i < _panels.Length; i++)
+        {
+            if(i == (int)IAssetLoad.Main)
+            {
+                continue;
+            }
+            _panels[i].SetActive(false);
+        }
         gameObject.SetActive(false);
     }
 
