@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
-using UnityEditor;
-using UnityEditor.Hardware;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +42,8 @@ public class LoadingPanel : UIBInder
 
     IEnumerator CheckLoadAsset()
     {
+        Debug.Log("로드에셋체크 시작!!!!!");
+
         //각 패널들 어드레서블 로드 완료되었는지 체크
         while (true)
         {
@@ -68,16 +68,13 @@ public class LoadingPanel : UIBInder
             yield return null;
         }
 
-
         //Fake Loading
         float time = 0f;
         while (time < _fakeLoadingTime)
         {
-            Debug.Log("yeah");
             time += Time.deltaTime;
             GetUI<Slider>("LoadingSlider").value = time / _fakeLoadingTime;
             _sb.Clear();
-            _sb.Append("Loading ");
             int percent = Mathf.FloorToInt(GetUI<Slider>("LoadingSlider").value * 100);
             if (percent == 100)
             {
@@ -92,10 +89,15 @@ public class LoadingPanel : UIBInder
             yield return null;
         }
 
-        // 다 되었따면 MainPanel 제외하고 다 꺼주기
-        _panels[(int)IAssetLoad.BossBook].SetActive(false);
-        _panels[(int)IAssetLoad.Setting].SetActive(false);
-        _panels[(int)IAssetLoad.Credit].SetActive(false);
+        //다 완료되면 MainPanel 제외하고 다 꺼주기
+        for(int i = 0; i < _panels.Length; i++)
+        {
+            if(i == (int)IAssetLoad.Main)
+            {
+                continue;
+            }
+            _panels[i].SetActive(false);
+        }
         gameObject.SetActive(false);
     }
 

@@ -32,7 +32,6 @@ public class SettingPanel : UIBInder, IAssetLoadable
 
     [SerializeField] private AssetReferenceSprite _settingNameBgSprite;
 
-
     private string _packageName;
 
     private void Awake()
@@ -54,13 +53,13 @@ public class SettingPanel : UIBInder, IAssetLoadable
         {
             _sb.Clear();
             _sb.Append("사운드ON");
-            GetUI<TextMeshProUGUI>("SetFalseMusicButtonText").SetText(_sb);
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
         else
         {
             _sb.Clear();
             _sb.Append("사운드OFF");
-            GetUI<TextMeshProUGUI>("SetFalseMusicButtonText").SetText(_sb);
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
 
         AddEvent();
@@ -69,7 +68,7 @@ public class SettingPanel : UIBInder, IAssetLoadable
     private void AddEvent()
     {
         GetUI<Button>("SettingSetFalseButton").onClick.AddListener(SetFalsePanel);
-        GetUI<Button>("SetFalseMusicButton").onClick.AddListener(SetSound);
+        GetUI<Button>("SetMusicButton").onClick.AddListener(SetSound);
         GetUI<Button>("ShowCreditButton").onClick.AddListener(SetTrueCredit);
         GetUI<Button>("ReviewButton").onClick.AddListener(ReviewButton);
     }
@@ -82,11 +81,16 @@ public class SettingPanel : UIBInder, IAssetLoadable
         AddressableManager.Instance.LoadSprite(_settingNameBgSprite, GetUI<Image>("SettingNameBgImage"), () => { _clearLoadAssetCount++; });
 
         AddressableManager.Instance.LoadSprite(_setFalseBgSprite, GetUI<Image>("SettingSetFalseBgImage"), () => { _clearLoadAssetCount++; });
+
         AddressableManager.Instance.LoadSprite(_setFalseSprite, GetUI<Button>("SettingSetFalseButton").image, () => { _clearLoadAssetCount++; });
 
-        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("SetFalseMusicButton").image, () => { _clearLoadAssetCount++; });
-        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("ShowCreditButton").image, () => { _clearLoadAssetCount++; });
-        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("ReviewButton").image, () => { _clearLoadAssetCount++; });
+        AddressableManager.Instance.LoadOnlySprite(_buttonSprite, (sprite) => { 
+            _clearLoadAssetCount++;
+            GetUI<Image>("SetMusicButton").sprite = sprite;
+            GetUI<Image>("ShowCreditButton").sprite = sprite;
+            GetUI<Image>("ReviewButton").sprite = sprite;
+        });
+
 
     }
 
@@ -104,7 +108,7 @@ public class SettingPanel : UIBInder, IAssetLoadable
             //Text 변환
             _sb.Clear();
             _sb.Append("사운드OFF");
-            GetUI<TextMeshProUGUI>("SetFalseMusicButtonText").SetText(_sb);
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
             //변수 false로 변경
             PlayerController.Instance.PlayerData.IsSound = false;
         }
@@ -115,7 +119,7 @@ public class SettingPanel : UIBInder, IAssetLoadable
             //Text 변환
             _sb.Clear();
             _sb.Append("사운드ON");
-            GetUI<TextMeshProUGUI>("SetFalseMusicButtonText").SetText(_sb);
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
             //변수 false로 변경
             PlayerController.Instance.PlayerData.IsSound = true;
         }

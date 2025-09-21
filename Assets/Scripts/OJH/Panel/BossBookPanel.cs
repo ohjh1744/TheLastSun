@@ -16,16 +16,12 @@ public class BossBookPanel : UIBInder, IAssetLoadable
     private int _clearLoadAssetCount;
     public int ClearLoadAssetCount { get { return _clearLoadAssetCount; } set { _clearLoadAssetCount = value; } }
 
-    [SerializeField] private int _bossCount;
-
     [SerializeField] private GameObject _bossBookExplainContext; // 버튼 누를 시 활성화
 
     [SerializeField] private BossInfoData[] _bossInfoDatas;
 
+    //보스 버튼 LIst에 저장
     private List<Button> _bossPortraitButton = new List<Button>();
-
-    //보스 초상화 Sprite List에 저장
-    private List<Sprite> _bossPortraitSprites = new List<Sprite>();
 
     private StringBuilder _sb = new StringBuilder();
 
@@ -44,6 +40,8 @@ public class BossBookPanel : UIBInder, IAssetLoadable
 
     [SerializeField] private AssetReferenceSprite _bossBookSetFalseBgSprite;
 
+    //보스 초상화 Sprite List에 저장
+    private List<Sprite> _bossPortraitSprites = new List<Sprite>();
 
     private void Awake()
     {
@@ -53,6 +51,12 @@ public class BossBookPanel : UIBInder, IAssetLoadable
     {
         Init();
     }
+
+    private void OnDisable()
+    {
+        _bossBookExplainContext.SetActive(false);
+    }
+
 
     private void Init()
     {
@@ -64,9 +68,9 @@ public class BossBookPanel : UIBInder, IAssetLoadable
     //자주 사용하는 UI 가져오고 저장
     private void GetUI()
     {
-        for(int i = 0; i < _bossCount; i++)
+        for(int i = 0; i < _bossInfoDatas.Length; i++)
         {
-            _bossPortraitButton[i] = GetUI<Button>($"BossPortraitBgImage{i+1}");
+            _bossPortraitButton.Add(GetUI<Button>($"BossPortraitButton{i+1}"));
         }
     }
 
@@ -78,9 +82,9 @@ public class BossBookPanel : UIBInder, IAssetLoadable
         //보스 초상화 눌렀을때 설명 뜨도록
         for(int i = 0; i < _bossPortraitButton.Count; i++)
         {
-            _bossPortraitButton[i].onClick.AddListener(() => ShowBossInfo(i));
+            int index = i;
+            _bossPortraitButton[i].onClick.AddListener(() => ShowBossInfo(index));
         }
-
     }
 
     private void LoadAsset()
@@ -88,35 +92,39 @@ public class BossBookPanel : UIBInder, IAssetLoadable
         Image image = GetComponent<Image>();
         AddressableManager.Instance.LoadSprite(_bgSprite, image, () => { _clearLoadAssetCount++; }); //배경
 
-        //보스 초상화 배경 및 초상화 
-        for(int i = 0; i < _bossCount; i++)
-        {
-            AddressableManager.Instance.LoadSprite(_bossPortraitBgSprite, GetUI<Image>($"BossPortraitBgImage{i + 1}"), () => { _clearLoadAssetCount++; });
-            //해당 보스 클리어한 경우
-            if (PlayerController.Instance.PlayerData.IsClearStage[i] == true)
+        //보스 초상화 배경 및 도감 설명 초상화 배경 적용
+        AddressableManager.Instance.LoadOnlySprite(_bossPortraitBgSprite, (sprite) => {
+            _clearLoadAssetCount++;
+            for(int i = 0; i < _bossInfoDatas.Length; i++)
             {
-                AddressableManager.Instance.LoadOnlySprite(_bossInfoDatas[i].BossUnLockPortraitSprite,  (sprite) => { _clearLoadAssetCount++; _bossPortraitSprites.Add(sprite); });
-                GetUI<Image>($"BossPortraitButton{i + 1}").sprite = _bossPortraitSprites[i];
+                GetUI<Image>($"BossPortraitBgImage{i + 1}").sprite = sprite;
+            }
+
+            //보스 도감 설명 초상화
+            GetUI<Image>("BossBookExplainPortraitBgImage").sprite = sprite;
+        });
+
+        //보스 초상화 적용
+        for (int i = 0; i < _bossInfoDatas.Length; i++)
+        {
+            int index = i;
+            //해당 보스 클리어한 경우
+            if (PlayerController.Instance.PlayerData.IsClearStage[index] == true)
+            {
+                AddressableManager.Instance.LoadOnlySprite(_bossInfoDatas[index].BossUnLockPortraitSprite,  (sprite) => { _clearLoadAssetCount++; _bossPortraitSprites.Add(sprite); GetUI<Image>($"BossPortraitButton{index + 1}").sprite = _bossPortraitSprites[index]; });
             }
             //해당 보스 클리어 못한 경우
-            else if (PlayerController.Instance.PlayerData.IsClearStage[i] == false)
+            else if (PlayerController.Instance.PlayerData.IsClearStage[index] == false)
             {
-                AddressableManager.Instance.LoadOnlySprite(_bossInfoDatas[i].BossLockPortraitSprite, (sprite) => { _clearLoadAssetCount++; _bossPortraitSprites.Add(sprite); });
-                GetUI<Image>($"BossPortraitButton{i + 1}").sprite = _bossPortraitSprites[i];
+                AddressableManager.Instance.LoadOnlySprite(_bossInfoDatas[index].BossLockPortraitSprite, (sprite) => { _clearLoadAssetCount++; _bossPortraitSprites.Add(sprite); GetUI<Image>($"BossPortraitButton{index + 1}").sprite = _bossPortraitSprites[index]; });
             }
         }
 
         //보스 도감수집현황 Bg
         AddressableManager.Instance.LoadSprite(_bossBookStateSprite, GetUI<Image>("BossBookStateImage"), () => { _clearLoadAssetCount++; });
 
-        //보스 도감 스크롤뷰 Bg
-        AddressableManager.Instance.LoadSprite(_smallBgSprite, GetUI<Image>("BossBookScrollView"), () => { _clearLoadAssetCount++; });
-
-        //보스 도감 설명 Bg
-        AddressableManager.Instance.LoadSprite(_smallBgSprite, GetUI<Image>("BossBookExplainBgImage"), () => { _clearLoadAssetCount++; });
-
-        //보스 도감 설명 초상화 Bg
-        AddressableManager.Instance.LoadSprite(_bossPortraitBgSprite, GetUI<Image>("BossBookExplainPortraitBgImage"), () => { _clearLoadAssetCount++; });
+        //보스 도감 스크롤뷰 Bg, 보스 도감 설명 Bg
+        AddressableManager.Instance.LoadOnlySprite(_smallBgSprite, (sprite) => { _clearLoadAssetCount++; GetUI<Image>("BossBookScrollView").sprite = sprite; GetUI<Image>("BossBookExplainBgImage").sprite = sprite; });
 
         //보스 도감 설명 Text Bg
         AddressableManager.Instance.LoadSprite(_bossBookExplainTextBgSprite, GetUI<Image>("BossBookExplainTextBgImage"), () => { _clearLoadAssetCount++; });
@@ -126,8 +134,6 @@ public class BossBookPanel : UIBInder, IAssetLoadable
 
         //보스 도감 X버튼 Bg
         AddressableManager.Instance.LoadSprite(_bossBookSetFalseBgSprite, GetUI<Image>("BossBookSetFalseBgImage"), () => { _clearLoadAssetCount++; });
-
-
     }
 
     private void SetFalsePanel()
@@ -137,7 +143,11 @@ public class BossBookPanel : UIBInder, IAssetLoadable
 
     private void ShowBossInfo(int bossIndex)
     {
+        //설명 내용 set true
+        _bossBookExplainContext.SetActive(true);
+
         //보스 초상화 표시
+        Debug.Log(bossIndex);
         GetUI<Image>("BossBookExplainPortraitImage").sprite = _bossPortraitSprites[bossIndex];
 
         //해당 보스 클리어한 경우
