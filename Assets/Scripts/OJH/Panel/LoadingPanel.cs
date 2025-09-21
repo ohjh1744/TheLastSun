@@ -77,7 +77,6 @@ public class LoadingPanel : UIBInder
             time += Time.deltaTime;
             GetUI<Slider>("LoadingSlider").value = time / _fakeLoadingTime;
             _sb.Clear();
-            _sb.Append("Loading ");
             int percent = Mathf.FloorToInt(GetUI<Slider>("LoadingSlider").value * 100);
             if (percent == 100)
             {
