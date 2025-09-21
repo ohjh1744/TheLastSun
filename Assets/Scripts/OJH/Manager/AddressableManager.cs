@@ -130,6 +130,7 @@ public class AddressableManager : MonoBehaviour
     //Sprite 가져와서 이미지에 참조
     public void LoadSprite(AssetReferenceSprite assetImageSprite, Image image, Action callBack)
     {
+
         assetImageSprite.LoadAssetAsync().Completed += (img) =>
         {
             image.sprite = img.Result;
