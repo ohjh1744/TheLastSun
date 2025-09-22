@@ -24,11 +24,11 @@
 
 public static class GPGSIds
 {
-        public const string leaderboard_first_sun_record = "CgkIj5erndAeEAIQAw"; // <GPGSID>
-        public const string leaderboard_second_sun_record = "CgkIj5erndAeEAIQBA"; // <GPGSID>
-        public const string leaderboard_fourth_sun_record = "CgkIj5erndAeEAIQBw"; // <GPGSID>
-        public const string leaderboard_fifth_sun_record = "CgkIj5erndAeEAIQBg"; // <GPGSID>
-        public const string leaderboard_third_sun_record = "CgkIj5erndAeEAIQBQ"; // <GPGSID>
+        public const string leaderboard_the_last_sun_record = "CgkIj5erndAeEAIQBg"; // <GPGSID>
+        public const string leaderboard_the_fourth_sun_record = "CgkIj5erndAeEAIQBw"; // <GPGSID>
+        public const string leaderboard_the_second_sun_record = "CgkIj5erndAeEAIQBA"; // <GPGSID>
+        public const string leaderboard_the_third_sun_record = "CgkIj5erndAeEAIQBQ"; // <GPGSID>
+        public const string leaderboard_the_first_sun_record = "CgkIj5erndAeEAIQAw"; // <GPGSID>
 
 }
 
