@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 95725372}
   - component: {fileID: 95725374}
   - component: {fileID: 95725373}
+  - component: {fileID: 95725375}
   m_Layer: 5
   m_Name: UpdateText
   m_TagString: Untagged
@@ -384,6 +385,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95725371}
   m_CullTransparentMesh: 1
+--- !u!114 &95725375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95725371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 894ecfd30dbb5a74faa2f1c0e34cd985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 0}
+  _xMove: 0
+  _yMove: 20
+  _moveTime: 0.5
+  _pauseDuration: 1
 --- !u!1 &106064262
 GameObject:
   m_ObjectHideFlags: 0
@@ -817,6 +835,7 @@ GameObject:
   - component: {fileID: 496800997}
   - component: {fileID: 496800999}
   - component: {fileID: 496800998}
+  - component: {fileID: 496801000}
   m_Layer: 5
   m_Name: CheckDownLoadText
   m_TagString: Untagged
@@ -940,6 +959,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496800996}
   m_CullTransparentMesh: 1
+--- !u!114 &496801000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496800996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 894ecfd30dbb5a74faa2f1c0e34cd985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 0}
+  _xMove: 0
+  _yMove: 20
+  _moveTime: 0.5
+  _pauseDuration: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

@@ -4289,6 +4289,7 @@ GameObject:
   - component: {fileID: 939549235}
   - component: {fileID: 939549237}
   - component: {fileID: 939549236}
+  - component: {fileID: 939549238}
   m_Layer: 5
   m_Name: LoadingPanelText
   m_TagString: Untagged
@@ -4412,6 +4413,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939549234}
   m_CullTransparentMesh: 1
+--- !u!114 &939549238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939549234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 894ecfd30dbb5a74faa2f1c0e34cd985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 939549235}
+  _xMove: 0
+  _yMove: 20
+  _moveTime: 0.5
+  _pauseDuration: 1
 --- !u!1 &940597656
 GameObject:
   m_ObjectHideFlags: 0
