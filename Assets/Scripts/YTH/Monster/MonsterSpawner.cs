@@ -5,16 +5,9 @@ public class MonsterSpawner : MonoBehaviour
 {
     [SerializeField] int _spawnCount;
 
-    private Transform _spawnPoint;
+     [SerializeField] Transform _spawnPoint;
 
-    public Transform[] PathPoints;
-     
     private ObjectPool _objectPool => GetComponent<ObjectPool>();
-
-    private void Awake()
-    {
-        _spawnPoint = PathPoints[0];
-    }
 
     private void Start()
     {

@@ -10,11 +10,9 @@ public class UnitController : MonoBehaviour
 {
     [SerializeField] GameObject _bulletPrefab;
 
-    [SerializeField] State _currentState = State.Idle;
+    public State CurrentState = State.Idle;
 
     private UnitModel _model;
-
-    private Rigidbody2D _rigid;
 
     private Vector3 _targetPosition;
 
@@ -29,12 +27,11 @@ public class UnitController : MonoBehaviour
     private void Awake()
     {
         _model = GetComponent<UnitModel>();
-        _rigid = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        switch (_currentState)
+        switch (CurrentState)
         {
             case State.Idle:
                 HandleIdle();
@@ -61,11 +58,11 @@ public class UnitController : MonoBehaviour
         );
         if (count > 0)
         {
-            _currentState = State.Attack;
+            CurrentState = State.Attack;
         }
         else if (_hasTarget)
         {
-            _currentState = State.Move;
+            CurrentState = State.Move;
         }
     }
 
@@ -86,7 +83,7 @@ public class UnitController : MonoBehaviour
             else
             {
                 _hasTarget = false;
-                _currentState = State.Idle;
+                CurrentState = State.Idle;
             }
         }
     }
@@ -104,7 +101,7 @@ public class UnitController : MonoBehaviour
         );
         if (count == 0)
         {
-            _currentState = _hasTarget ? State.Move : State.Idle;
+            CurrentState = _hasTarget ? State.Move : State.Idle;
             return;
         }
 
