@@ -248,6 +248,8 @@ public class GpgsManager : MonoBehaviour
 
                                 // JSON 데이터를 PlayerData 객체로 변환
                                 PlayerController.Instance.PlayerData = JsonUtility.FromJson<PlayerData>(json);
+
+                                Debug.Log($"Load Player Data: {JsonUtility.ToJson(PlayerController.Instance.PlayerData)}");
                             }
 
                             // 데이터 읽기 결과를 콜백으로 반환
