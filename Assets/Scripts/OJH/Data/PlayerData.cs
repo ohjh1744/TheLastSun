@@ -28,7 +28,9 @@ public class PlayerData
     [SerializeField] private bool _isSound;
     public bool IsSound { get { return _isSound; } set { _isSound = value; } }
 
-
+    //아래 배열처럼 new int[]식으로 크기를 정해주어야, 나중에 배열길이 Update되어도 마이그레이션가능
+    //[SerializeField] private int[] _tests = new int[6];
+    //public int[] Tests { get { return _tests; } set { _tests = value; } }
     //이벤트
     public event UnityAction OnCurrentStageChanged;
 }
