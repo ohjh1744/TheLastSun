@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     //Data 클리어 Test중에 아마 사용할 함수
     public void SetClear()
     {
-        for (int i = 0; i < _playerData.ClearTimes.Count; i++)
+        for (int i = 0; i < _playerData.ClearTimes.Length; i++)
         {
             _playerData.ClearTimes[i] = 0;
             _playerData.IsClearStage[i] = false;

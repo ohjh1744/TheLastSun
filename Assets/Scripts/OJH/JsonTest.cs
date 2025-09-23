@@ -37,10 +37,10 @@ public class JsonTest : MonoBehaviour
         string json = File.ReadAllText(path.ToString());
         PlayerData _oldData = JsonUtility.FromJson<PlayerData>(json);
 
-        //이런식으로 
-        for(int i = 0; i < PlayerController.Instance.PlayerData.ClearTimes.Count; i++)
+        //기존 배열의크기보다 늘어난 경우 이런식으로 해결 가능
+        for(int i = 0; i < PlayerController.Instance.PlayerData.ClearTimes.Length; i++)
         {
-            if(i < _oldData.ClearTimes.Count)
+            if(i < _oldData.ClearTimes.Length)
             {
                 PlayerController.Instance.PlayerData.ClearTimes[i] = _oldData.ClearTimes[i];
             }
@@ -51,9 +51,7 @@ public class JsonTest : MonoBehaviour
         }
 
         Debug.Log(json);
-        PlayerController.Instance.PlayerData = _oldData;
         Debug.Log(JsonUtility.ToJson(PlayerController.Instance.PlayerData));
-
         Debug.Log(path);
 
     }

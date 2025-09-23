@@ -10,8 +10,8 @@ public class PlayerData
 {
     //각 스테이지별 플레이어가 클리어한 타임 
     //클리어시,인게임에서 해당변수 Update하고, 이 기록을 GPGSManager 함수활용해 저장하고(SaveData), 또 업데이트하기(UpdateTimeLeaderboard)
-    [SerializeField] private List<float> _clearTimes;
-    public List<float> ClearTimes { get { return _clearTimes; } set { _clearTimes = value; } }
+    [SerializeField] private float[] _clearTimes;
+    public float[] ClearTimes { get { return _clearTimes; } set { _clearTimes = value; } }
 
     //플레이어가 플레이 하기 위해 현재 고른 스테이지
     //이 변수를 활용해 인게임에서 그에 맞는 스테이지 불러오기
@@ -22,8 +22,8 @@ public class PlayerData
 
     //각 스테이지 클리어 여부
     //스테이지 클리어했다면 인게임에서 해당 변수 true로 변경하고 저장하기 GPGSManager(SaveData)
-    [SerializeField] private List<bool> _isClearStage;
-    public List<bool> IsClearStage {  get { return _isClearStage; } set { _isClearStage = value; } }
+    [SerializeField] private bool[] _isClearStage;
+    public bool[] IsClearStage {  get { return _isClearStage; } set { _isClearStage = value; } }
 
     [SerializeField] private bool _isSound;
     public bool IsSound { get { return _isSound; } set { _isSound = value; } }
