@@ -38,9 +38,9 @@ public class JsonTest : MonoBehaviour
         PlayerData _oldData = JsonUtility.FromJson<PlayerData>(json);
 
         //이런식으로 
-        for(int i = 0; i < PlayerController.Instance.PlayerData.ClearTimes.Length; i++)
+        for(int i = 0; i < PlayerController.Instance.PlayerData.ClearTimes.Count; i++)
         {
-            if(i < _oldData.ClearTimes.Length)
+            if(i < _oldData.ClearTimes.Count)
             {
                 PlayerController.Instance.PlayerData.ClearTimes[i] = _oldData.ClearTimes[i];
             }
@@ -49,7 +49,9 @@ public class JsonTest : MonoBehaviour
                 PlayerController.Instance.PlayerData.ClearTimes[i] = 0;
             }
         }
-       
+
+        Debug.Log(json);
+        PlayerController.Instance.PlayerData = _oldData;
         Debug.Log(JsonUtility.ToJson(PlayerController.Instance.PlayerData));
 
         Debug.Log(path);
