@@ -7,13 +7,26 @@ public class GameManager : MonoBehaviour
     private PlayerData _playerData;
 
     private float _clearTime;
+
     private bool _isTimerRunning = false;
+
+    private bool _isPause;
+    public bool IsPause
+    {
+        get => _isPause;
+        set
+        {
+            _isPause = value;
+            Time.timeScale = _isPause ? 0 : CurrentGameSpeed;
+        }
+    }
+
+    public int CurrentGameSpeed = 1;
 
     private void Awake()
     {
         SetSingleton();
     }
- 
 
     #region 싱글톤 세팅
     public void SetSingleton()
@@ -32,17 +45,13 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // 타이머가 동작 중일 때만 시간 누적
         if (_isTimerRunning)
         {
             _clearTime += Time.deltaTime;
         }
     }
 
-    /// <summary>
-    /// 게임 시작 시 타이머를 초기화하고 시작
-    /// </summary>
-    public void StartTimer()
+    private void StartTimer()
     {
         _clearTime = 0f;
         _isTimerRunning = true;
@@ -53,19 +62,25 @@ public class GameManager : MonoBehaviour
         _isTimerRunning = false;
     }
 
-    public void SetGameSpeed(float value)
+    public void SetGameSpeed()
     {
-        Time.timeScale = value;
+        CurrentGameSpeed = CurrentGameSpeed >= 3 ? 1 : CurrentGameSpeed + 1;
+        Time.timeScale = CurrentGameSpeed;
+    }
+
+    public void PauseGame()
+    {
+        IsPause = !_isPause;
     }
 
     public void ClearStage()
     {
         _playerData.IsClearStage[_playerData.CurrentStage] = true;
-        StopTimer(); // 스테이지 클리어 시 타이머 멈춤
-        RecordClearTime(); // 클리어 시간 기록
+        StopTimer();
+        RecordClearTime();
     }
 
-    public void RecordClearTime()
+    private void RecordClearTime()
     {
         _playerData.ClearTimes[_playerData.CurrentStage] = _clearTime;
     }
