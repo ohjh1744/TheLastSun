@@ -28,8 +28,7 @@ public class PlayerData
     [SerializeField] private bool _isSound;
     public bool IsSound { get { return _isSound; } set { _isSound = value; } }
 
-    //아래 배열처럼 new int[]식으로 크기를 정해주어야, 나중에 배열길이 Update되어도 마이그레이션가능
-    // 또한 이전 Data에는 포함되지 않은 배열이었을 경우, 아래와 같이 지정해주어야 그대로 유지. 안하면 배열크기 초기화 됨
+    // 전 Data에는 포함되지 않은 배열이었을 경우, 아래와 같이 크기를 지정해주어야 그대로 유지. 안하면 이전 json을  Data에 적용시,배열크기 초기화 됨
     // List로 하는것이 더 안전한 방법인듯 함
     //[SerializeField] private int[] _tests = new int[6];
     //public int[] Tests { get { return _tests; } set { _tests = value; } }
