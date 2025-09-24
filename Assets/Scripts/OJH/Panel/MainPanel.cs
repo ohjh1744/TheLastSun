@@ -21,7 +21,6 @@ public class MainPanel : UIBInder, IAssetLoadable
     private int _clearLoadAssetCount;
     public int ClearLoadAssetCount { get { return _clearLoadAssetCount; }  set { _clearLoadAssetCount = value; } }
 
-
     //Panel들
     [SerializeField] private GameObject _bossBookPanel;
 
@@ -39,7 +38,7 @@ public class MainPanel : UIBInder, IAssetLoadable
     [SerializeField] private AssetReferenceSprite _commonButtonSprite; //랭킹, 보스도감, 설정 버튼에 적용할 이미지
 
     [SerializeField] private AssetReferenceT<AudioClip> _bgmClip;
- 
+
     private List<Image> _difficultyLevelImages = new List<Image>();
 
     private List<Sprite> _stageSprites = new List<Sprite>();
@@ -122,12 +121,12 @@ public class MainPanel : UIBInder, IAssetLoadable
                 _stageSprites.Add(sprite);
                 if (PlayerController.Instance.PlayerData.CurrentStage == index)
                 {
-                    //Stage Level 설정
+                    //Stage Level 표시
                     _sb.Clear();
                     _sb.Append(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageLevel);
                     GetUI<TextMeshProUGUI>("StageLevelText").SetText(_sb);
 
-                    //Stage name 설정
+                    //Stage name 표시
                     _sb.Clear();
                     _sb.Append(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageName);
                     GetUI<TextMeshProUGUI>("StageNameText").SetText(_sb);
@@ -142,13 +141,28 @@ public class MainPanel : UIBInder, IAssetLoadable
         AddressableManager.Instance.LoadSprite(_stageChangeLeftButtonSprite, GetUI<Button>("StageChangeLeftButton").image, () => { _clearLoadAssetCount++; });
         AddressableManager.Instance.LoadSprite(_stageChangeRightButtonSprite, GetUI<Button>("StageChangeRightButton").image, () => { _clearLoadAssetCount++; });
 
-        //난이도 이미지 적용 해골
+        //난이도 이미지 적용 
         AddressableManager.Instance.LoadOnlySprite(_difficultyLevelSprite, (sprite) => {
             _clearLoadAssetCount++;
             for(int i = 0; i < _difficultyLevelImages.Count; i++)
             {
                 _difficultyLevelImages[i].sprite = sprite;
             }
+
+            //이미지 가지고온뒤 CUrrentStage에 따른 해골 난이도 이미지 표시
+            if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 1)
+            {
+                GetUI("DifficultyLevel1Images").SetActive(true);
+            }
+            else if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 2)
+            {
+                GetUI("DifficultyLevel2Images").SetActive(true);
+            }
+            else if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 3)
+            {
+                GetUI("DifficultyLevel3Images").SetActive(true);
+            }
+
         });
 
         //플레이, 랭킹, 보스도감, 설정 버튼들 이미지 적용
