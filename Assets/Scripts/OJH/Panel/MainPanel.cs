@@ -13,6 +13,8 @@ using UnityEngine.UI;
 
 public class MainPanel : UIBInder, IAssetLoadable
 {
+    private enum EMainButton { StageChangeLeftButton, StageChangeRightButton, PlayButton, CheckRankButton, BossBookButton, SettingButton , Length};
+
     //어드레서블을 통해 불러와 적용할 에셋 개수
     [SerializeField] private int _loadAssetUICount;
     public int LoadAssetUICount { get { return _loadAssetUICount; }  set { _loadAssetUICount = value; } }
@@ -39,14 +41,19 @@ public class MainPanel : UIBInder, IAssetLoadable
 
     [SerializeField] private AssetReferenceT<AudioClip> _bgmClip;
 
-    private List<Image> _difficultyLevelImages = new List<Image>();
-
+    //자주 사용하는 ui 혹은 object 저장
     private List<Sprite> _stageSprites = new List<Sprite>();
 
-    //bgm AudioSource
+    private List<Button> _buttons = new List<Button>();
+
+    [SerializeField] private List<Image> _difficultyLevelImages;
+
+    private GameObject _currentDifficultyLevelImage;
+
+    //오디오
     [SerializeField] private AudioSource _audio;
 
-    //스테이지 Data
+    //스테이지Data
     [SerializeField] private StageData[] _stageDatas;
 
     private StringBuilder _sb = new StringBuilder();
@@ -79,26 +86,28 @@ public class MainPanel : UIBInder, IAssetLoadable
     private void GetUI()
     {
         //자주사용하는 UI불러오고 저장
-        _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel1Image"));
-        _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel2Image"));
-        _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel2Image_2"));
-        _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel3Image"));
-        _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel3Image_2"));
-        _difficultyLevelImages.Add(GetUI<Image>("DifficultyLevel3Image_3"));
+        for(int i = 0; i < _difficultyLevelImages.Count; i++)
+        {
+            _difficultyLevelImages[i] = GetUI<Image>($"DifficultyLevelImage{i+1}");
+        }
+        for(int i = 0; i < (int)EMainButton.Length; i++)
+        {
+            _buttons.Add(GetUI<Button>($"{((EMainButton)i).ToString()}"));
+        }
     }
 
     private void AddEvent()
     {
         //버튼과 함수 연결
-        GetUI<Button>("StageChangeLeftButton").onClick.AddListener(ChangeStagePrev);
-        GetUI<Button>("StageChangeRightButton").onClick.AddListener(ChangeStageNext);
-        GetUI<Button>("PlayButton").onClick.AddListener(PlayGame);
-        GetUI<Button>("CheckRankButton").onClick.AddListener(SetTrueRankLeaderBoards);
-        GetUI<Button>("BossBookButton").onClick.AddListener(SetTrueBossBookPanel);
-        GetUI<Button>("SettingButton").onClick.AddListener(SetTrueSettingPanel);
+        _buttons[(int)EMainButton.StageChangeLeftButton].onClick.AddListener(() => ChangeStageNum(false));
+        _buttons[(int)EMainButton.StageChangeRightButton].onClick.AddListener(() => ChangeStageNum(true));
+        _buttons[(int)EMainButton.PlayButton].onClick.AddListener(PlayGame);
+        _buttons[(int)EMainButton.CheckRankButton].onClick.AddListener(SetTrueRankLeaderBoards);
+        _buttons[(int)EMainButton.BossBookButton].onClick.AddListener(() => SetTruePanel(_bossBookPanel));
+        _buttons[(int)EMainButton.SettingButton].onClick.AddListener(() => SetTruePanel(_settingPanel));
 
         //이벤트와 함수 연결
-        PlayerController.Instance.PlayerData.OnCurrentStageChanged += ChangeStage;
+        PlayerController.Instance.PlayerData.OnCurrentStageChanged += ChangeStageDetail;
     }
 
     //UI에 적용할 이미지들 불러오기
@@ -121,18 +130,7 @@ public class MainPanel : UIBInder, IAssetLoadable
                 _stageSprites.Add(sprite);
                 if (PlayerController.Instance.PlayerData.CurrentStage == index)
                 {
-                    //Stage Level 표시
-                    _sb.Clear();
-                    _sb.Append(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageLevel);
-                    GetUI<TextMeshProUGUI>("StageLevelText").SetText(_sb);
-
-                    //Stage name 표시
-                    _sb.Clear();
-                    _sb.Append(_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageName);
-                    GetUI<TextMeshProUGUI>("StageNameText").SetText(_sb);
-
-                    //이미지 설정
-                    GetUI<Image>("StageImage").sprite = sprite;
+                    ChangeStateLevelNameImage(sprite);
                 }
             });
         }
@@ -149,19 +147,8 @@ public class MainPanel : UIBInder, IAssetLoadable
                 _difficultyLevelImages[i].sprite = sprite;
             }
 
-            //이미지 가지고온뒤 CUrrentStage에 따른 해골 난이도 이미지 표시
-            if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 1)
-            {
-                GetUI("DifficultyLevel1Images").SetActive(true);
-            }
-            else if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 2)
-            {
-                GetUI("DifficultyLevel2Images").SetActive(true);
-            }
-            else if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 3)
-            {
-                GetUI("DifficultyLevel3Images").SetActive(true);
-            }
+            //난이도 표시
+            ChangeStageDifficulty(GetUI($"DifficultyLevel{_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty}Images"));
 
         });
 
@@ -175,25 +162,28 @@ public class MainPanel : UIBInder, IAssetLoadable
         });
     }
 
-    private void ChangeStagePrev()
+    // 스테이지 변경
+    private void ChangeStageNum(bool isNext)
     {
-        if (PlayerController.Instance.PlayerData.CurrentStage == 0)
+        if (PlayerController.Instance.PlayerData.CurrentStage > 0 && isNext == false)
         {
-            return;
+            PlayerController.Instance.PlayerData.CurrentStage--;
         }
-        PlayerController.Instance.PlayerData.CurrentStage--;
+        else if (PlayerController.Instance.PlayerData.CurrentStage <_stageDatas.Length - 1 && isNext == true)
+        {
+            PlayerController.Instance.PlayerData.CurrentStage++;
+        }
     }
 
-    private void ChangeStageNext()
+    //스테이지 변경에 따른 수정
+    private void ChangeStageDetail()
     {
-        if(PlayerController.Instance.PlayerData.CurrentStage == _stageDatas.Length -1)
-        {
-            return;
-        }
-        PlayerController.Instance.PlayerData.CurrentStage++;
+        ChangeStateLevelNameImage(_stageSprites[PlayerController.Instance.PlayerData.CurrentStage]);
+        ChangeStageDifficulty(GetUI($"DifficultyLevel{_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty}Images"));
     }
 
-    private void ChangeStage()
+    //Stage Level, Name , Sprite 변경
+    private void ChangeStateLevelNameImage (Sprite stageSprite)
     {
         //Stage Level
         _sb.Clear();
@@ -206,27 +196,18 @@ public class MainPanel : UIBInder, IAssetLoadable
         GetUI<TextMeshProUGUI>("StageNameText").SetText(_sb);
 
         //Stage Image 변경
-        GetUI<Image>("StageImage").sprite = _stageSprites[PlayerController.Instance.PlayerData.CurrentStage];
+        GetUI<Image>("StageImage").sprite = stageSprite;
+    }
 
-        //Stage difficulty 변경
-        if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 1)
+    //Stage difficulty 변경
+    private void ChangeStageDifficulty(GameObject newDifficultyLevel)
+    {
+        if(_currentDifficultyLevelImage != null)
         {
-            GetUI("DifficultyLevel1Images").SetActive(true);
-            GetUI("DifficultyLevel2Images").SetActive(false);
-            GetUI("DifficultyLevel3Images").SetActive(false);
+            _currentDifficultyLevelImage.SetActive(false);
         }
-        else if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 2)
-        {
-            GetUI("DifficultyLevel1Images").SetActive(false);
-            GetUI("DifficultyLevel2Images").SetActive(true);
-            GetUI("DifficultyLevel3Images").SetActive(false);
-        }
-        else if (_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty == 3)
-        {
-            GetUI("DifficultyLevel1Images").SetActive(false);
-            GetUI("DifficultyLevel2Images").SetActive(false);
-            GetUI("DifficultyLevel3Images").SetActive(true);
-        }
+        _currentDifficultyLevelImage = newDifficultyLevel;
+        _currentDifficultyLevelImage.SetActive(true);
     }
 
     private void PlayGame()
@@ -240,7 +221,7 @@ public class MainPanel : UIBInder, IAssetLoadable
                 if (status == SavedGameRequestStatus.Success)
                 {
                     //이벤트와 함수 해제
-                    PlayerController.Instance.PlayerData.OnCurrentStageChanged -= ChangeStage;
+                    PlayerController.Instance.PlayerData.OnCurrentStageChanged -= ChangeStageDetail;
 
                     //전투씬(인게임)으로 넘기기
                     SceneManager.LoadScene(2);
@@ -248,7 +229,6 @@ public class MainPanel : UIBInder, IAssetLoadable
                 }
                 else
                 {
-                    //실패시 해야할 일 
                     Debug.Log("문제발생으로 저장실패 후 게임씬이동못함");
                 }
             });
@@ -261,14 +241,9 @@ public class MainPanel : UIBInder, IAssetLoadable
         GpgsManager.Instance.ShowAllLeaderboard();
     }
 
-    private void SetTrueBossBookPanel()
+    private void SetTruePanel(GameObject panel)
     {
-        _bossBookPanel.SetActive(true);
-    }
-
-    private void SetTrueSettingPanel()
-    {
-        _settingPanel.SetActive(true);
+        panel.SetActive(true);
     }
 
     //설정 패널 켜지면 메인 패널 모든 버튼 비활성화
@@ -277,22 +252,18 @@ public class MainPanel : UIBInder, IAssetLoadable
         //설정패널 or 네트워크에러패널이 뜨는 경우
         if (_settingPanel.activeSelf == true || NetworkCheckManager.Instance.IsConnected == false)
         {
-            GetUI<Button>("PlayButton").interactable = false;
-            GetUI<Button>("CheckRankButton").interactable = false;
-            GetUI<Button>("BossBookButton").interactable = false;
-            GetUI<Button>("SettingButton").interactable = false;
-            GetUI<Button>("StageChangeLeftButton").interactable = false;
-            GetUI<Button>("StageChangeRightButton").interactable = false;
+            for(int i = 0; i < (int)EMainButton.Length; i++)
+            {
+                _buttons[i].interactable = false;
+            }
         }
         // 설정패널 or 네트워크에러창이 꺼진 경우
         else if(_settingPanel.activeSelf == false || NetworkCheckManager.Instance.IsConnected == true)
         {
-            GetUI<Button>("PlayButton").interactable = true;
-            GetUI<Button>("CheckRankButton").interactable = true;
-            GetUI<Button>("BossBookButton").interactable = true;
-            GetUI<Button>("SettingButton").interactable = true;
-            GetUI<Button>("StageChangeLeftButton").interactable = true;
-            GetUI<Button>("StageChangeRightButton").interactable = true;
+            for (int i = 0; i < (int)EMainButton.Length; i++)
+            {
+                _buttons[i].interactable = true;
+            }
         }
     }
 
@@ -300,15 +271,11 @@ public class MainPanel : UIBInder, IAssetLoadable
     {
         if (PlayerController.Instance.PlayerData.IsSound == false)
         {
-            //사운드 끄기
             _audio.Stop();
         }
         else if (PlayerController.Instance.PlayerData.IsSound == true)
         {
-            //사운드 켜기
             _audio.Play();
         }
     }
-
-
 }
