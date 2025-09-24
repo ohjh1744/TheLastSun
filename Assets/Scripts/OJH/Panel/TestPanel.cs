@@ -33,11 +33,11 @@ public class TestPanel : MonoBehaviour
         _object1List = new List<GameObject>();
         _object2List = new List<GameObject>();
         _leaderboardString = new List<string>();
-        _leaderboardString.Add(GPGSIds.leaderboard_clear_time_of_the_first_sun);
-        _leaderboardString.Add(GPGSIds.leaderboard_clear_time_of_the_second_sun);
-        _leaderboardString.Add(GPGSIds.leaderboard_clear_time_of_the_third_sun);
-        _leaderboardString.Add(GPGSIds.leaderboard_clear_time_of_the_fourth_sun);
-        _leaderboardString.Add(GPGSIds.leaderboard_clear_time_of_the_last_sun);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_first_sun_record);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_second_sun_record);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_third_sun_record);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_fourth_sun_record);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_last_sun_record);
 
 
         //어드레서블 매니저를 활용한 오브젝트 생성 유형들, 이미지가져오기 등

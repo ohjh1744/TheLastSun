@@ -36,15 +36,13 @@ public class AddressableManager : MonoBehaviour
 
     private WaitForSeconds _delayTofinishDownLoadWs;
 
-
-
     private void Awake()
     {
         if(_instance == null)
         {
             _instance = this;
             Init();
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
             Debug.Log("어드레서블 초기화!");
         }
         else
@@ -130,6 +128,7 @@ public class AddressableManager : MonoBehaviour
     //Sprite 가져와서 이미지에 참조
     public void LoadSprite(AssetReferenceSprite assetImageSprite, Image image, Action callBack)
     {
+
         assetImageSprite.LoadAssetAsync().Completed += (img) =>
         {
             image.sprite = img.Result;

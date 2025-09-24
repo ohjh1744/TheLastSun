@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
-
+using GooglePlayGames.BasicApi.SavedGame;
 public class SettingPanel : UIBInder, IAssetLoadable
 {
     //어드레서블을 통해 불러와 적용할 에셋 개수
@@ -22,6 +22,8 @@ public class SettingPanel : UIBInder, IAssetLoadable
     StringBuilder _sb  = new StringBuilder();
 
     //어드레서블
+    [SerializeField] private AssetReferenceSprite _bgImageSprite;
+
     [SerializeField] private AssetReferenceSprite _setFalseBgSprite;
 
     [SerializeField] private AssetReferenceSprite _setFalseSprite;
@@ -29,7 +31,6 @@ public class SettingPanel : UIBInder, IAssetLoadable
     [SerializeField] private AssetReferenceSprite _buttonSprite;
 
     [SerializeField] private AssetReferenceSprite _settingNameBgSprite;
-
 
     private string _packageName;
 
@@ -46,6 +47,20 @@ public class SettingPanel : UIBInder, IAssetLoadable
     {
 
         _packageName = Application.identifier;
+        
+        //사운드 Text 초기화
+        if(PlayerController.Instance.PlayerData.IsSound == true)
+        {
+            _sb.Clear();
+            _sb.Append("사운드ON");
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
+        }
+        else
+        {
+            _sb.Clear();
+            _sb.Append("사운드OFF");
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
+        }
 
         AddEvent();
         LoadAsset();
@@ -53,21 +68,29 @@ public class SettingPanel : UIBInder, IAssetLoadable
     private void AddEvent()
     {
         GetUI<Button>("SettingSetFalseButton").onClick.AddListener(SetFalsePanel);
-        GetUI<Button>("SetFalseMusicButton").onClick.AddListener(SetFalseSound);
+        GetUI<Button>("SetMusicButton").onClick.AddListener(SetSound);
         GetUI<Button>("ShowCreditButton").onClick.AddListener(SetTrueCredit);
         GetUI<Button>("ReviewButton").onClick.AddListener(ReviewButton);
     }
 
     private void LoadAsset()
     {
+        Image image = GetComponent<Image>();
+        AddressableManager.Instance.LoadSprite(_bgImageSprite, image, () => { _clearLoadAssetCount++; });
+
         AddressableManager.Instance.LoadSprite(_settingNameBgSprite, GetUI<Image>("SettingNameBgImage"), () => { _clearLoadAssetCount++; });
 
         AddressableManager.Instance.LoadSprite(_setFalseBgSprite, GetUI<Image>("SettingSetFalseBgImage"), () => { _clearLoadAssetCount++; });
+
         AddressableManager.Instance.LoadSprite(_setFalseSprite, GetUI<Button>("SettingSetFalseButton").image, () => { _clearLoadAssetCount++; });
 
-        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("SetFalseMusicButton").image, () => { _clearLoadAssetCount++; });
-        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("ShowCreditButton").image, () => { _clearLoadAssetCount++; });
-        AddressableManager.Instance.LoadSprite(_buttonSprite, GetUI<Button>("ReviewButton").image, () => { _clearLoadAssetCount++; });
+        AddressableManager.Instance.LoadOnlySprite(_buttonSprite, (sprite) => { 
+            _clearLoadAssetCount++;
+            GetUI<Image>("SetMusicButton").sprite = sprite;
+            GetUI<Image>("ShowCreditButton").sprite = sprite;
+            GetUI<Image>("ReviewButton").sprite = sprite;
+        });
+
 
     }
 
@@ -76,29 +99,31 @@ public class SettingPanel : UIBInder, IAssetLoadable
         gameObject.SetActive(false);
     }
 
-    private void SetFalseSound()
+    private void SetSound()
     {
         if (PlayerController.Instance.PlayerData.IsSound == true)
         {
+            //변수 false로 변경 및 저장
+            PlayerController.Instance.PlayerData.IsSound = false;
+            GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
             //사운드 끄기
             _audio.Stop();
             //Text 변환
             _sb.Clear();
             _sb.Append("사운드OFF");
-            GetUI<TextMeshProUGUI>("SetFalseMusicButtonText").SetText(_sb);
-            //변수 false로 변경
-            PlayerController.Instance.PlayerData.IsSound = false;
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
         else if (PlayerController.Instance.PlayerData.IsSound == false)
         {
+            //변수 false로 변경 및 저장
+            PlayerController.Instance.PlayerData.IsSound = true;
+            GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
             //사운드 켜기
             _audio.Play();
             //Text 변환
             _sb.Clear();
             _sb.Append("사운드ON");
-            GetUI<TextMeshProUGUI>("SetFalseMusicButtonText").SetText(_sb);
-            //변수 false로 변경
-            PlayerController.Instance.PlayerData.IsSound = true;
+            GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
 
     }
