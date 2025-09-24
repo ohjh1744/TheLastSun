@@ -5,7 +5,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using TMPro;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;

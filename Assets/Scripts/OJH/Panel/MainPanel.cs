@@ -218,23 +218,27 @@ public class MainPanel : UIBInder, IAssetLoadable
     private void PlayGame()
     {
         //현재 Player Data저장하고 씬넘기기
-        GpgsManager.Instance.SaveData((status) =>
+        // 앞서 1차방어막으로 네트워크팝업창이 뜨긴하겠으나 한번더 안전하게 네트워크 체크
+        if (NetworkCheckManager.Instance.IsConnected == true)
         {
-            if (status == SavedGameRequestStatus.Success)
+            GpgsManager.Instance.SaveData((status) =>
             {
-                //이벤트와 함수 해제
-                PlayerController.Instance.PlayerData.OnCurrentStageChanged -= ChangeStage;
+                if (status == SavedGameRequestStatus.Success)
+                {
+                    //이벤트와 함수 해제
+                    PlayerController.Instance.PlayerData.OnCurrentStageChanged -= ChangeStage;
 
-                //전투씬(인게임)으로 넘기기
-                SceneManager.LoadScene(2);
-                Debug.Log("저장성공 후 게임씬으로 이동");
-            }
-            else
-            {
-                //실패시 해야할 일 
-                Debug.Log("문제발생으로 저장실패 후 게임씬이동못함");
-            }
-        });
+                    //전투씬(인게임)으로 넘기기
+                    SceneManager.LoadScene(2);
+                    Debug.Log("저장성공 후 게임씬으로 이동");
+                }
+                else
+                {
+                    //실패시 해야할 일 
+                    Debug.Log("문제발생으로 저장실패 후 게임씬이동못함");
+                }
+            });
+        }
     }
 
     private void SetTrueRankLeaderBoards()
@@ -259,6 +263,7 @@ public class MainPanel : UIBInder, IAssetLoadable
         //설정패널 or 네트워크에러패널이 뜨는 경우
         if (_settingPanel.activeSelf == true || NetworkCheckManager.Instance.IsConnected == false)
         {
+            GetUI<Button>("PlayButton").interactable = false;
             GetUI<Button>("CheckRankButton").interactable = false;
             GetUI<Button>("BossBookButton").interactable = false;
             GetUI<Button>("SettingButton").interactable = false;
@@ -268,6 +273,7 @@ public class MainPanel : UIBInder, IAssetLoadable
         // 설정패널 or 네트워크에러창이 꺼진 경우
         else if(_settingPanel.activeSelf == false || NetworkCheckManager.Instance.IsConnected == true)
         {
+            GetUI<Button>("PlayButton").interactable = true;
             GetUI<Button>("CheckRankButton").interactable = true;
             GetUI<Button>("BossBookButton").interactable = true;
             GetUI<Button>("SettingButton").interactable = true;

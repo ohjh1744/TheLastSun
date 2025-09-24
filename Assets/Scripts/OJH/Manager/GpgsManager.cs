@@ -179,6 +179,7 @@ public class GpgsManager : MonoBehaviour
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
         // 저장된 게임 데이터 파일을 열고 콜백 함수 지정
+        //ReadNetworkOnly로 해도 네트워크연결이 안된상태에서도 success를 반환하는 것 같음 
         savedGameClient.OpenWithAutomaticConflictResolution(_saveFileName, DataSource.ReadNetworkOnly, ConflictResolutionStrategy.UseLastKnownGood, (status, game) =>
         {
             if (status == SavedGameRequestStatus.Success)
