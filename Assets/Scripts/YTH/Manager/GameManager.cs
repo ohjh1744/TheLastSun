@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 
     private PlayerData _playerData;
 
-    private float _clearTime;
+    public float ClearTime;
 
     private bool _isTimerRunning = false;
 
@@ -47,13 +47,13 @@ public class GameManager : MonoBehaviour
     {
         if (_isTimerRunning)
         {
-            _clearTime += Time.deltaTime;
+            ClearTime += Time.deltaTime;
         }
     }
 
     private void StartTimer()
     {
-        _clearTime = 0f;
+        ClearTime = 0f;
         _isTimerRunning = true;
     }
 
@@ -82,6 +82,6 @@ public class GameManager : MonoBehaviour
 
     private void RecordClearTime()
     {
-        _playerData.ClearTimes[_playerData.CurrentStage] = _clearTime;
+        _playerData.ClearTimes[_playerData.CurrentStage] = ClearTime;
     }
 }
