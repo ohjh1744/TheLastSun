@@ -5,47 +5,28 @@ using UnityEngine;
 
 public class MonsterMover : MonoBehaviour
 {
-    private Transform[] _pathPoints => FindObjectOfType<MonsterSpawner>().PathPoints;
-
-    private int _curPointIndex = 0;
-
     private MonsterModel _model;
 
-    private PooledObject _pooledObject => GetComponent<PooledObject>();
+    private PooledObject _pooledObject;
 
     private void Awake()
     {
         _model = GetComponent<MonsterModel>();
+        _pooledObject = GetComponent<PooledObject>();
     }
 
     private void Start()
     {
-        //StartCoroutine(MoveToNextPoint());
+        // 이동 거리(3 → -3 또는 -3 → 3)는 6, 시간 = 거리 / 속도
+        float moveDistance = 6f;
+        float moveTime = (_model != null && _model.MoveSpeed > 0) ? moveDistance / _model.MoveSpeed : 3f;
+
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(transform.DOMoveX(3, 3f).SetEase(Ease.Linear))
-                .Append(transform.DOMoveY(-3, 3f).SetEase(Ease.Linear))
-                .Append(transform.DOMoveX(-3, 3f).SetEase(Ease.Linear))
-                .Append(transform.DOMoveY(3, 3f).SetEase(Ease.Linear))
+        sequence.Append(transform.DOMoveX(3, moveTime).SetEase(Ease.Linear))
+                .Append(transform.DOMoveY(-3, moveTime).SetEase(Ease.Linear))
+                .Append(transform.DOMoveX(-3, moveTime).SetEase(Ease.Linear))
+                .Append(transform.DOMoveY(3, moveTime).SetEase(Ease.Linear))
                 .OnComplete(() => _pooledObject.ReturnPool());
-    }
-
-    /// <summary>
-    /// 정해진 경로를 따라 몬스터가 움직임
-    /// </summary>
-    IEnumerator MoveToNextPoint()
-    {
-        while (_curPointIndex < _pathPoints.Length)
-        {
-            Transform targetPoint = _pathPoints[_curPointIndex + 1];
-            while (Vector3.Distance(transform.position, targetPoint.position) > 0.1f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, _model.MoveSpeed * Time.deltaTime);
-                yield return null;
-            }
-            _curPointIndex++;
-        }
-
-        Destroy(gameObject);
     }
 }

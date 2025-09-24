@@ -6,7 +6,22 @@ public class GameManager : MonoBehaviour
 
     private PlayerData _playerData;
 
-    private float _clearTime;
+    public float ClearTime;
+
+    private bool _isTimerRunning = false;
+
+    private bool _isPause;
+    public bool IsPause
+    {
+        get => _isPause;
+        set
+        {
+            _isPause = value;
+            Time.timeScale = _isPause ? 0 : CurrentGameSpeed;
+        }
+    }
+
+    public int CurrentGameSpeed = 1;
 
     private void Awake()
     {
@@ -30,21 +45,43 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        _clearTime += Time.deltaTime;
+        if (_isTimerRunning)
+        {
+            ClearTime += Time.deltaTime;
+        }
     }
 
-    public void SetGameSpeed(float value)
+    private void StartTimer()
     {
-        Time.timeScale = value;
+        ClearTime = 0f;
+        _isTimerRunning = true;
+    }
+
+    public void StopTimer()
+    {
+        _isTimerRunning = false;
+    }
+
+    public void SetGameSpeed()
+    {
+        CurrentGameSpeed = CurrentGameSpeed >= 3 ? 1 : CurrentGameSpeed + 1;
+        Time.timeScale = CurrentGameSpeed;
+    }
+
+    public void PauseGame()
+    {
+        IsPause = !_isPause;
     }
 
     public void ClearStage()
     {
         _playerData.IsClearStage[_playerData.CurrentStage] = true;
+        StopTimer();
+        RecordClearTime();
     }
 
-    public void RecordClearTime()
+    private void RecordClearTime()
     {
-        _playerData.ClearTimes[_playerData.CurrentStage] = _clearTime;
+        _playerData.ClearTimes[_playerData.CurrentStage] = ClearTime;
     }
 }
