@@ -20,6 +20,7 @@ public class SetUpPanel : UIBInder
     private Coroutine _checkUpdateRoutine;
     private WaitForSeconds _checkCanUpdateRateWs;
 
+    private bool _isUpdateCheck;
 
     private void Awake()
     {
@@ -93,8 +94,10 @@ public class SetUpPanel : UIBInder
                         Debug.Log("업데이트 필요!");
                     }
                     //업데이트 할것이 없다면
-                    else if (status == UpdateAvailability.UpdateNotAvailable)
+                    else if (status == UpdateAvailability.UpdateNotAvailable && _isUpdateCheck == false)
                     {
+                        //간혹 정말 낮은 확률로 다운로드창까지 가서 _checkDownLoadPanel이 true가 되는 문제가 발생하여, 한번더 안전하게 해당 변수 추가
+                        _isUpdateCheck = true;
                         // 현재 Panel인 UpdatePanel 닫고, 다음 Panel인 DownPanel 열기
                         _updatePanel.SetActive(false);
                         _checkDownLoadPanel.SetActive(true);
