@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 
@@ -32,6 +33,8 @@ public class MainPanel : UIBInder, IAssetLoadable
     [SerializeField] private AssetReferenceSprite _stageChangeLeftButtonSprite;
 
     [SerializeField] private AssetReferenceSprite _stageChangeRightButtonSprite;
+
+    [SerializeField] private AssetReferenceSprite _LockSprite;
 
     [SerializeField] private AssetReferenceSprite _difficultyLevelSprite;
 
@@ -126,9 +129,12 @@ public class MainPanel : UIBInder, IAssetLoadable
         Image image = GetComponent<Image>();
         AddressableManager.Instance.LoadSprite(_bgImageSprite, image, () => { _clearLoadAssetCount++; });
 
+        //LockImage
+        AddressableManager.Instance.LoadSprite(_LockSprite, GetUI<Image>("LockImage"), () => { _clearLoadAssetCount++; });
+
         //스테이지 이미지
         //스테이지 Sprite들 List에 저장하고 플레이어가 선택한 스테이지 이미지로 표기
-        for(int i = 0; i < _stageDatas.Length; i++)
+        for (int i = 0; i < _stageDatas.Length; i++)
         {
             int index = i;
             AddressableManager.Instance.LoadOnlySprite(_stageDatas[i].StageImageSprite, (sprite) => { 
@@ -140,6 +146,7 @@ public class MainPanel : UIBInder, IAssetLoadable
                 }
             });
         }
+
 
         //스테이지 전환 왼쪽, 오른쪽 버튼 이미지 적용
         AddressableManager.Instance.LoadSprite(_stageChangeLeftButtonSprite, GetUI<Button>("StageChangeLeftButton").image, () => { _clearLoadAssetCount++; });
@@ -208,10 +215,12 @@ public class MainPanel : UIBInder, IAssetLoadable
         if (PlayerController.Instance.PlayerData.CurrentStage == 0  || PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage - 1] == true)
         {
             GetUI<Image>("StageImage").color = _unLockStageColor;
+            GetUI<Image>("LockImage").gameObject.SetActive(false);
         }
         else
         {
             GetUI<Image>("StageImage").color = _LockStageColor;
+            GetUI<Image>("LockImage").gameObject.SetActive(true);
         }
     }
 
