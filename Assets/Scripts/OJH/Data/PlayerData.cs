@@ -28,6 +28,9 @@ public class PlayerData
     [SerializeField] private bool _isSound;
     public bool IsSound { get { return _isSound; } set { _isSound = value; } }
 
+    [SerializeField] private bool _isTutorial;
+    public bool IsTutorial { get { return _isTutorial; } set { _isTutorial = value; } }
+
     // 전 Data에는 포함되지 않은 배열이었을 경우, 아래와 같이 크기를 지정해주어야 그대로 유지. 안하면 이전 json을  Data에 적용시,배열크기 초기화 됨
     // List로 하는것이 더 안전한 방법인듯 함
     //[SerializeField] private int[] _tests = new int[6];
