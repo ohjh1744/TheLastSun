@@ -65,6 +65,7 @@ public class MainPanel : UIBInder, IAssetLoadable
 
     private void Start()
     {
+        Debug.Log($"PlayerData: {JsonUtility.ToJson(PlayerController.Instance.PlayerData)}");
         Init();
     }
 
