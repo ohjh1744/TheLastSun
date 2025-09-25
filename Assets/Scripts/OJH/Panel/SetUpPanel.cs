@@ -13,6 +13,7 @@ public class SetUpPanel : UIBInder
     [SerializeField] private GameObject _updatePanel;
     [SerializeField] private GameObject _checkDownLoadPanel;
     [SerializeField] private GameObject _doDownLoadPanel;
+    [SerializeField] private GameObject _doDownLoadQuitGamePanel;
 
     //코루틴
     //Update확인 전에 Network연결을 확인하기 위한 주기
@@ -20,6 +21,7 @@ public class SetUpPanel : UIBInder
     private Coroutine _checkUpdateRoutine;
     private WaitForSeconds _checkCanUpdateRateWs;
 
+    private bool _isUpdateCheck;
 
     private void Awake()
     {
@@ -42,15 +44,8 @@ public class SetUpPanel : UIBInder
 
     private void Update()
     {
-        // 네트워크연결되어 있지 않는 경우
-        if(NetworkCheckManager.Instance.IsConnected == false)
-        {
-            // true로 해논 이유는 
-            // 네트워크 팝업창이 뜨게 되면 다운버튼이 뒤로 숨겨지는데
-            // 다운로드 상황에서 네트워크가 해지되었다가 다시 연결되면, 다운로드를 다시 할수있도록 하기위해서
-            GetUI<Button>("DownLoadButton").interactable = true;
-            return;
-        }
+
+        FailDownLoadForNetworkError();
     }
 
     private void Init()
@@ -93,8 +88,10 @@ public class SetUpPanel : UIBInder
                         Debug.Log("업데이트 필요!");
                     }
                     //업데이트 할것이 없다면
-                    else if (status == UpdateAvailability.UpdateNotAvailable)
+                    else if (status == UpdateAvailability.UpdateNotAvailable && _isUpdateCheck == false)
                     {
+                        //간혹 정말 낮은 확률로 다운로드창까지 가서 _checkDownLoadPanel이 true가 되는 문제가 발생하여, 한번더 안전하게 해당 변수 추가
+                        _isUpdateCheck = true;
                         // 현재 Panel인 UpdatePanel 닫고, 다음 Panel인 DownPanel 열기
                         _updatePanel.SetActive(false);
                         _checkDownLoadPanel.SetActive(true);
@@ -149,6 +146,15 @@ public class SetUpPanel : UIBInder
                 SceneManager.LoadScene(1);
             }
         });
+    }
+
+    //다운로드 중에 네트워크 오류 시 QuitGamePanel 띄우기
+    private void FailDownLoadForNetworkError()
+    {
+        if(NetworkCheckManager.Instance.IsConnected == false && _doDownLoadPanel.activeSelf == true)
+        {
+            _doDownLoadQuitGamePanel.SetActive(true);
+        }
     }
 
 }
