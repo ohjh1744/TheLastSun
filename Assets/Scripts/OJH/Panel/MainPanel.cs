@@ -50,6 +50,11 @@ public class MainPanel : UIBInder, IAssetLoadable
 
     private GameObject _currentDifficultyLevelImage;
 
+    //Stage Color
+    [SerializeField] private Color _unLockStageColor;
+
+    [SerializeField] private Color _LockStageColor;
+
     //오디오
     [SerializeField] private AudioSource _audio;
 
@@ -198,6 +203,16 @@ public class MainPanel : UIBInder, IAssetLoadable
 
         //Stage Image 변경
         GetUI<Image>("StageImage").sprite = stageSprite;
+
+        //첫번째 스테이지와 이전스테이지클리어시 해당스테이지는 Lock해제
+        if (PlayerController.Instance.PlayerData.CurrentStage == 0  || PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage - 1] == true)
+        {
+            GetUI<Image>("StageImage").color = _unLockStageColor;
+        }
+        else
+        {
+            GetUI<Image>("StageImage").color = _LockStageColor;
+        }
     }
 
     //Stage difficulty 변경

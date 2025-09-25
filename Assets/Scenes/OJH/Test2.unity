@@ -4450,6 +4450,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _unLockStageColor: {r: 1, g: 1, b: 1, a: 1}
+  _LockStageColor: {r: 0.64705884, g: 0.64705884, b: 0.64705884, a: 1}
   _audio: {fileID: 1036237414}
   _stageDatas:
   - {fileID: 11400000, guid: 7006bfb629bc5a34dadbcbe4016fb72c, type: 2}
@@ -4965,6 +4967,7 @@ MonoBehaviour:
     _currentStage: 0
     _isClearStage: 0000000000
     _isSound: 1
+    _isTutorial: 0
 --- !u!4 &884284141
 Transform:
   m_ObjectHideFlags: 0
