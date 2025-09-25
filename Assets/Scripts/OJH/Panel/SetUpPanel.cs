@@ -13,6 +13,7 @@ public class SetUpPanel : UIBInder
     [SerializeField] private GameObject _updatePanel;
     [SerializeField] private GameObject _checkDownLoadPanel;
     [SerializeField] private GameObject _doDownLoadPanel;
+    [SerializeField] private GameObject _doDownLoadQuitGamePanel;
 
     //코루틴
     //Update확인 전에 Network연결을 확인하기 위한 주기
@@ -43,15 +44,8 @@ public class SetUpPanel : UIBInder
 
     private void Update()
     {
-        // 네트워크연결되어 있지 않는 경우
-        if(NetworkCheckManager.Instance.IsConnected == false)
-        {
-            // true로 해논 이유는 
-            // 네트워크 팝업창이 뜨게 되면 다운버튼이 뒤로 숨겨지는데
-            // 다운로드 상황에서 네트워크가 해지되었다가 다시 연결되면, 다운로드를 다시 할수있도록 하기위해서
-            GetUI<Button>("DownLoadButton").interactable = true;
-            return;
-        }
+
+        FailDownLoadForNetworkError();
     }
 
     private void Init()
@@ -152,6 +146,15 @@ public class SetUpPanel : UIBInder
                 SceneManager.LoadScene(1);
             }
         });
+    }
+
+    //다운로드 중에 네트워크 오류 시 QuitGamePanel 띄우기
+    private void FailDownLoadForNetworkError()
+    {
+        if(NetworkCheckManager.Instance.IsConnected == false && _doDownLoadPanel.activeSelf == true)
+        {
+            _doDownLoadQuitGamePanel.SetActive(true);
+        }
     }
 
 }
