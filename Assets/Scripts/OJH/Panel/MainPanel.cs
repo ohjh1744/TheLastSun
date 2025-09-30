@@ -16,6 +16,7 @@ public class MainPanel : UIBInder, IAssetLoadable
 {
     private enum EMainButton { StageChangeLeftButton, StageChangeRightButton, PlayButton, CheckRankButton, BossBookButton, SettingButton , Length};
 
+    #region IAssetLoadable 
     //어드레서블을 통해 불러와 적용할 에셋 개수
     [SerializeField] private int _loadAssetUICount;
     public int LoadAssetUICount { get { return _loadAssetUICount; }  set { _loadAssetUICount = value; } }
@@ -23,12 +24,19 @@ public class MainPanel : UIBInder, IAssetLoadable
     //현재 어드레서블을 통해 적용끝난 에셋 개수
     private int _clearLoadAssetCount;
     public int ClearLoadAssetCount { get { return _clearLoadAssetCount; }  set { _clearLoadAssetCount = value; } }
+    #endregion
 
+    #region On Off Objects
     //Panel들
     [SerializeField] private GameObject _bossBookPanel;
 
     [SerializeField] private GameObject _settingPanel;
 
+    //난이도 관련 이미지 Object
+    private GameObject _currentDifficultyLevelImage;
+    #endregion
+
+    #region Addressable Assets
     //어드레서블
     [SerializeField] private AssetReferenceSprite _stageChangeLeftButtonSprite;
 
@@ -43,20 +51,16 @@ public class MainPanel : UIBInder, IAssetLoadable
     [SerializeField] private AssetReferenceSprite _commonButtonSprite; //랭킹, 보스도감, 설정 버튼에 적용할 이미지
 
     [SerializeField] private AssetReferenceT<AudioClip> _bgmClip;
+    #endregion
 
-    //자주 사용하는 ui 혹은 object 저장
+    #region 저장하여 관리하는 UIs
+    //한꺼번에 관리할때 편리한 UI관련 변수
     private List<Sprite> _stageSprites = new List<Sprite>();
 
     private List<Button> _buttons = new List<Button>();
 
     [SerializeField] private List<Image> _difficultyLevelImages;
-
-    private GameObject _currentDifficultyLevelImage;
-
-    //Stage Color
-    [SerializeField] private Color _unLockStageColor;
-
-    [SerializeField] private Color _LockStageColor;
+    #endregion
 
     //오디오
     [SerializeField] private AudioSource _audio;
@@ -84,11 +88,8 @@ public class MainPanel : UIBInder, IAssetLoadable
 
     private void Init()
     {
-        //자주 사용하는 UI가져오고 저장
         GetUI();
-        //버튼과 함수 연결
         AddEvent();
-        //UI에 어드레서블 에셋 적용
         LoadAsset();
     }
 
@@ -142,7 +143,7 @@ public class MainPanel : UIBInder, IAssetLoadable
                 _stageSprites.Add(sprite);
                 if (PlayerController.Instance.PlayerData.CurrentStage == index)
                 {
-                    ChangeStateLevelNameImage(sprite);
+                    ChangeStageLevelNameImage(sprite);
                 }
             });
         }
@@ -191,12 +192,12 @@ public class MainPanel : UIBInder, IAssetLoadable
     //스테이지 변경에 따른 수정
     private void ChangeStageDetail()
     {
-        ChangeStateLevelNameImage(_stageSprites[PlayerController.Instance.PlayerData.CurrentStage]);
+        ChangeStageLevelNameImage(_stageSprites[PlayerController.Instance.PlayerData.CurrentStage]);
         ChangeStageDifficulty(GetUI($"DifficultyLevel{_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty}Images"));
     }
 
     //Stage Level, Name , Sprite 변경
-    private void ChangeStateLevelNameImage (Sprite stageSprite)
+    private void ChangeStageLevelNameImage (Sprite stageSprite)
     {
         //Stage Level
         _sb.Clear();
@@ -214,12 +215,12 @@ public class MainPanel : UIBInder, IAssetLoadable
         //첫번째 스테이지와 이전스테이지클리어시 해당스테이지는 Lock해제
         if (PlayerController.Instance.PlayerData.CurrentStage == 0  || PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage - 1] == true)
         {
-            GetUI<Image>("StageImage").color = _unLockStageColor;
+            GetUI<Image>("StageImage").color = _stageDatas[PlayerController.Instance.PlayerData.CurrentStage].UnLockStageColor;
             GetUI<Image>("LockImage").gameObject.SetActive(false);
         }
         else
         {
-            GetUI<Image>("StageImage").color = _LockStageColor;
+            GetUI<Image>("StageImage").color = _stageDatas[PlayerController.Instance.PlayerData.CurrentStage].LockStageColor;
             GetUI<Image>("LockImage").gameObject.SetActive(true);
         }
     }
@@ -271,7 +272,6 @@ public class MainPanel : UIBInder, IAssetLoadable
         panel.SetActive(true);
     }
 
-    //설정 패널 켜지면 메인 패널 모든 버튼 비활성화
     private void SetAllButtons()
     {
         //설정패널 or 네트워크에러패널이 뜨는 경우
