@@ -10,6 +10,12 @@ public class TutorialManager : MonoBehaviour
 
     private int _currentStep = 0;
 
+    private void Start()
+    {
+        if (!PlayerController.Instance.PlayerData.IsTutorial)
+            StartTutorial();
+    }
+
     public void StartTutorial()
     {
         Time.timeScale = 0f;
@@ -48,6 +54,7 @@ public class TutorialManager : MonoBehaviour
             Time.timeScale = 1f;
             for (int i = 0; i < tutorialSteps.Length; i++)
                 tutorialSteps[i].SetActive(false);
+            PlayerController.Instance.PlayerData.IsTutorial = true;
         }
     }
 }
