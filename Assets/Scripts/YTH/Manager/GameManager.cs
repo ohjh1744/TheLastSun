@@ -83,9 +83,24 @@ public class GameManager : MonoBehaviour
 
     public void ClearStage()
     {
-        _playerData.IsClearStage[_playerData.CurrentStage] = true;
         StopTimer();
-        RecordClearTime();
+
+        if (NetworkCheckManager.Instance.IsConnected)
+        {
+            GpgsManager.Instance.SaveData((status) =>
+            { 
+                if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success)
+                {
+                    _playerData.IsClearStage[_playerData.CurrentStage] = true;
+                    RecordClearTime();
+                }
+                else
+                {
+                    Debug.Log("네트워크 연결 실패...");
+                    //TODO: 시도할 수 있는 로직 추가
+                }
+            });
+        }
     }
 
     public void FailStage()

@@ -100,6 +100,7 @@ public class MonsterSpawner : MonoBehaviour
         {
             GameManager.Instance.ClearStage();
         }
+        
     }
 
     private void SpawnMonster(bool isBoss)
