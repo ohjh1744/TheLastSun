@@ -1,11 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class MonsterModel : MonoBehaviour
 {
+    [SerializeField] bool _isBoss;
+    public bool IsBoss { get => _isBoss; set => _isBoss = value; }
+
+    [SerializeField] int _rewardJewel;
+    public int RewardJewel { get => IsBoss ? 1 : 12; }
+
     [SerializeField] int _maxHp;
     public int MaxHp { get => _maxHp; set => _maxHp = value; }
 
