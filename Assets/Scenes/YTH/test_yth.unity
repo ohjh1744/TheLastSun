@@ -5917,6 +5917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 744a19fa007ea7046a2753adc4c91dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Jewel: 0
   ClearTime: 0
   CurrentGameSpeed: 1
 --- !u!4 &1811198130
@@ -6053,8 +6054,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088f7ca9392b1e84c942f4ecd07ed595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnCount: 20
+  _spawnedMonsterCount: 0
+  _totalWave: 100
+  _monstersPerWave: 12
   _spawnPoint: {fileID: 787045454}
+  _monsterPrefab: {fileID: 4639574573216934329, guid: 66d52272e0c0f444297bf9ea0a4d2e60, type: 3}
+  _bossPrefabs:
+  - {fileID: 5480494077954243468, guid: d007ed85f4c0e854d9188fe381853d0f, type: 3}
+  - {fileID: 8307003832319650056, guid: 625f2925c3d462f4098757a2a869b7d9, type: 3}
+  - {fileID: 4326980193726960987, guid: d1431986cb3048146b13d73384310d27, type: 3}
+  _spawnBoss: 0
 --- !u!1 &1915577381
 GameObject:
   m_ObjectHideFlags: 0

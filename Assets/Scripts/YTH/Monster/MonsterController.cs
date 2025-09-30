@@ -1,23 +1,19 @@
-using DesignPattern;
-using Google.Play.Common;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class MonsterController : MonoBehaviour
 {
-   private MonsterModel _model => GetComponent<MonsterModel>();
+    private MonsterModel _model => GetComponent<MonsterModel>();
     private PooledObject _pooledObject => GetComponent<PooledObject>();
 
-    // private void Awake()
-    // {
-    //     _model = GetComponent<MonsterModel>();
-    // }
-
+    private MonsterSpawner _monsterSpawner;
 
     public Action OnDie;
+
+    private void Awake()
+    {
+        _monsterSpawner = GetComponentInParent<MonsterSpawner>();
+    }
 
     public void Init()
     {
@@ -35,6 +31,8 @@ public class MonsterController : MonoBehaviour
 
     private void Die()
     {
-        Destroy(gameObject);
+        _pooledObject.ReturnPool();
+        GameManager.Instance.Jewel += _model.RewardJewel;
+        _monsterSpawner._spawnedMonsterCount--;
     }
 }

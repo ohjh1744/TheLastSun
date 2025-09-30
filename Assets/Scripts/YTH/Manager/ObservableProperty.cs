@@ -17,7 +17,7 @@ namespace DesignPattern
                 Notify();
             }
         }
-        private UnityEvent<T> _onValueChanged = new();
+        public UnityEvent<T> _onValueChanged = new();
 
         public ObservableProperty(T value = default)
         {
