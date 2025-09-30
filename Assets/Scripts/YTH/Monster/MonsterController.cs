@@ -32,7 +32,8 @@ public class MonsterController : MonoBehaviour
     private void Die()
     {
         GameManager.Instance.Jewel += _model.RewardJewel;
-        _monsterSpawner._aliveMonsterCount--;
+        // null 로 인해 잠시 주석
+       /* _monsterSpawner._aliveMonsterCount--;*/
         _pooledObject.ReturnPool();
     }
 }

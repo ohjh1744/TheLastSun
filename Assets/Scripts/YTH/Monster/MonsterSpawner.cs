@@ -18,7 +18,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] List<GameObject> _bossPrefabs;
 
     private ObservableProperty<int> AliveMonsterCount => new ObservableProperty<int>(_aliveMonsterCount);
-    private ObservableProperty<int> CurWave = new ObservableProperty<int>(1);
+    public ObservableProperty<int> CurWave = new ObservableProperty<int>(1);
     private ObservableProperty<int> DeadMonsterCount => new ObservableProperty<int>(_deadMonsterCount);
 
     private ObjectPool _objectPool;
@@ -44,14 +44,14 @@ public class MonsterSpawner : MonoBehaviour
  
     private void Subscribe()
     {
-        _currentWave.Subscribe(OnWaveChanged);
+        CurWave.Subscribe(OnWaveChanged);
         AliveMonsterCount.Subscribe(OnStageFail);
         DeadMonsterCount.Subscribe(OnClearStage);
     }
 
     private void UnSubscribe()
     {
-        _currentWave.Unsubscribe(OnWaveChanged);
+        CurWave.Unsubscribe(OnWaveChanged);
         AliveMonsterCount.Unsubscribe(OnStageFail);
         DeadMonsterCount.Unsubscribe(OnClearStage);
     }

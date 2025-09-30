@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InGameUI : UIBInder
 {
+    [SerializeField] MonsterSpawner _monsterSpawnmer;
+
     [Header("Top Panel")]
     private Button _stopButton;
     private Button _speedButton;
@@ -15,8 +15,6 @@ public class InGameUI : UIBInder
 
     [Header("Bottom Panel")]
     private TMPro.TMP_Text _curMonsterCountText;
-
-    private System.Action _pauseAction;
 
     private void Awake()
     {
@@ -42,14 +40,16 @@ public class InGameUI : UIBInder
     {
         _stopButton.onClick.AddListener(GameManager.Instance.PauseGame);
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
+        _monsterSpawnmer.CurWave.Subscribe(OnWaveChanged);
 
-        SetGameSpeedText(); // 시작 시 1X로 초기화
+        SetGameSpeedText();
     }
 
     private void OnDestroy()
     {
         _stopButton.onClick.RemoveListener(GameManager.Instance.PauseGame);
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
+        _monsterSpawnmer.CurWave.Unsubscribe(OnWaveChanged);
     }
 
     private void Update()
@@ -66,5 +66,11 @@ public class InGameUI : UIBInder
     private void SetGameSpeedText()
     {
         _gameSpeedText.text = $"{GameManager.Instance.CurrentGameSpeed}X";
+    }
+
+    // 웨이브 변경 시 호출될 콜백
+    private void OnWaveChanged(int wave)
+    {
+        _waveText.text = $"Wave {wave}";
     }
 }

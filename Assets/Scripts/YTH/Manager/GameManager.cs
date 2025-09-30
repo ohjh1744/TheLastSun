@@ -4,7 +4,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private PlayerData _playerData;
+    private PlayerData _playerData => PlayerController.Instance.PlayerData;
+
+    public int Jewel;
 
     public float ClearTime;
 
@@ -43,6 +45,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    private void Start()
+    {
+        StartTimer();
+    }
+
     private void Update()
     {
         if (_isTimerRunning)
@@ -71,6 +78,7 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         IsPause = !_isPause;
+        Debug.Log("IsPause: " + IsPause);
     }
 
     public void ClearStage()
@@ -80,8 +88,18 @@ public class GameManager : MonoBehaviour
         RecordClearTime();
     }
 
+    public void FailStage()
+    {
+
+    }
+
     private void RecordClearTime()
     {
         _playerData.ClearTimes[_playerData.CurrentStage] = ClearTime;
+    }
+
+    public bool TutorialCompleted()
+    {
+        return _playerData.IsTutorial = true;
     }
 }

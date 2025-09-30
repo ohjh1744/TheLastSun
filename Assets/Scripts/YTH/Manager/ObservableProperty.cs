@@ -17,7 +17,7 @@ namespace DesignPattern
                 Notify();
             }
         }
-        public UnityEvent<T> _onValueChanged = new();
+        public UnityEvent<T> OnValueChanged = new();
 
         public ObservableProperty(T value = default)
         {
@@ -26,22 +26,22 @@ namespace DesignPattern
 
         public void Subscribe(UnityAction<T> action)
         {
-            _onValueChanged.AddListener(action);
+            OnValueChanged.AddListener(action);
         }
 
         public void Unsubscribe(UnityAction<T> action)
         {
-            _onValueChanged.RemoveListener(action);
+            OnValueChanged.RemoveListener(action);
         }
 
         public void UnsbscribeAll()
         {
-            _onValueChanged.RemoveAllListeners();
+            OnValueChanged.RemoveAllListeners();
         }
 
         private void Notify()
         {
-            _onValueChanged?.Invoke(Value);
+            OnValueChanged?.Invoke(Value);
         }
     }
 }
