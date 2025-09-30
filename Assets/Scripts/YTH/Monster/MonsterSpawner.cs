@@ -18,7 +18,7 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] List<GameObject> _bossPrefabs;
 
     private ObservableProperty<int> AliveMonsterCount => new ObservableProperty<int>(_aliveMonsterCount);
-    private ObservableProperty<int> _currentWave = new ObservableProperty<int>(1);
+    private ObservableProperty<int> CurWave = new ObservableProperty<int>(1);
     private ObservableProperty<int> DeadMonsterCount => new ObservableProperty<int>(_deadMonsterCount);
 
     private ObjectPool _objectPool;
@@ -64,7 +64,7 @@ public class MonsterSpawner : MonoBehaviour
 
     IEnumerator WaveRoutine()
     {
-        while (_currentWave.Value <= _totalWave)
+        while (CurWave.Value <= _totalWave)
         {
             for (int i = 0; i < _monstersPerWave; i++)
             {
@@ -72,7 +72,7 @@ public class MonsterSpawner : MonoBehaviour
                 yield return _spawnDelay;
             }
 
-            _currentWave.Value++;
+            CurWave.Value++;
             yield return _waveDelay; // 웨이브 간 대기
         }
     }

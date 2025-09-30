@@ -10,13 +10,17 @@ public class RandomSpawnUnitController : MonoBehaviour
     [SerializeField] GameObject[] _legendUnits;   // 전설
     [SerializeField] GameObject[] _epicUnits;     // 에픽
 
-    private Vector2[] _spawnPos;
-    private int _posIndex = 0;
+    private UnitSpawner _unitSpawner;
+
+    private void Awake()
+    {
+        _unitSpawner = GetComponent<UnitSpawner>();
+    }
 
     public void SpawnRandomUnit()
     {
         GameObject unitPrefab = GetRandomUnit();
-        Instantiate(unitPrefab, _spawnPos[_posIndex], Quaternion.identity);
+        _unitSpawner.SpawnUnit(unitPrefab);
     }
 
     /// <summary>
