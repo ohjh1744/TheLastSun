@@ -116,7 +116,7 @@ public class UnitController : MonoBehaviour
 
     private void ShootBullet(Vector2 targetPos)
     {       
-        GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity, transform);
         bullet.GetComponent<Bullet>().Init(targetPos);
     }
 

@@ -4,7 +4,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private PlayerData _playerData;
+    private PlayerData _playerData => PlayerController.Instance.PlayerData;
+
+    public int Jewel;
 
     public float ClearTime;
 
@@ -43,6 +45,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    private void Start()
+    {
+        StartTimer();
+    }
+
     private void Update()
     {
         if (_isTimerRunning)
@@ -71,17 +78,43 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         IsPause = !_isPause;
+        Debug.Log("IsPause: " + IsPause);
     }
 
     public void ClearStage()
     {
-        _playerData.IsClearStage[_playerData.CurrentStage] = true;
         StopTimer();
-        RecordClearTime();
+
+        if (NetworkCheckManager.Instance.IsConnected)
+        {
+            GpgsManager.Instance.SaveData((status) =>
+            { 
+                if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success)
+                {
+                    _playerData.IsClearStage[_playerData.CurrentStage] = true;
+                    RecordClearTime();
+                }
+                else
+                {
+                    Debug.Log("네트워크 연결 실패...");
+                    //TODO: 시도할 수 있는 로직 추가
+                }
+            });
+        }
+    }
+
+    public void FailStage()
+    {
+
     }
 
     private void RecordClearTime()
     {
         _playerData.ClearTimes[_playerData.CurrentStage] = ClearTime;
+    }
+
+    public bool TutorialCompleted()
+    {
+        return _playerData.IsTutorial = true;
     }
 }
