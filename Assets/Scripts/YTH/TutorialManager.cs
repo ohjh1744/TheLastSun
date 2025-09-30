@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
+    // 패널에 버튼 컴포넌트가 있어야 함
     [SerializeField] GameObject[] tutorialSteps;
 
     private int _currentStep = 0;
