@@ -1,5 +1,4 @@
-<img width="285" height="598" alt="image" src="https://github.com/user-attachments/assets/3e254c4c-3b03-4edb-8c0c-e37e755ecfdd" /># TheLastSun
-Android 2D Defense Game
+아즈텍 신화의 다섯개의 태양을 배경으로한 Android 2D Defense Game
 
 프로젝트 관리 : https://ionian-army-8a2.notion.site/The-Last-Sun-Indians-1913b9c6dab48095beeecaa87f7aa03e?source=copy_link
 
