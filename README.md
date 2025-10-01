@@ -1,4 +1,4 @@
-# TheLastSun
+<img width="285" height="598" alt="image" src="https://github.com/user-attachments/assets/3e254c4c-3b03-4edb-8c0c-e37e755ecfdd" /># TheLastSun
 Android 2D Defense Game
 
 프로젝트 관리 : https://ionian-army-8a2.notion.site/The-Last-Sun-Indians-1913b9c6dab48095beeecaa87f7aa03e?source=copy_link
@@ -17,7 +17,11 @@ Android 2D Defense Game
 
 
 ### 인 게임씬 미리보기 🔎
-<img width="222" height="465" alt="image" src="https://github.com/user-attachments/assets/36abf8f2-729a-423c-b697-ba12b6bbdd9d" />
+<img width="282" height="597" alt="image" src="https://github.com/user-attachments/assets/53ac4814-4126-4c41-afb7-5d33f9fbd2a7" />
+<img width="285" height="598" alt="image" src="https://github.com/user-attachments/assets/85237302-8fca-45a2-9eca-11a34e85f22d" />
+<img width="288" height="599" alt="image" src="https://github.com/user-attachments/assets/491d2aa0-03bc-4e25-9fad-c52fbae75b98" />
+<img width="290" height="571" alt="image" src="https://github.com/user-attachments/assets/ad5ea0fd-741a-4806-81f6-91ddb4e42204" />
+<img width="290" height="565" alt="image" src="https://github.com/user-attachments/assets/827fed47-d9d4-4866-b42a-2d4feef9d337" />
 
 
 
