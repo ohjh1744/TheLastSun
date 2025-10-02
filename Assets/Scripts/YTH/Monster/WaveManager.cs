@@ -1,9 +1,10 @@
 using DesignPattern;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class MonsterSpawner : MonoBehaviour
+public class WaveManager : MonoBehaviour
 {
     [Header("Don't Set")]
     public int _spawnedMonsterCount = 0;
@@ -16,14 +17,16 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField] int _monstersPerWave = 12;
     [SerializeField] Transform _spawnPoint;
     [SerializeField] List<GameObject> _bossPrefabs;
-
+    
+    //수정할것
+    //public ObservableProperty<int> SpawnedMonsterCount = new ObservableProperty<int>(_spawnedMonsterCount);
     private ObservableProperty<int> AliveMonsterCount => new ObservableProperty<int>(_aliveMonsterCount);
     public ObservableProperty<int> CurWave = new ObservableProperty<int>(1);
     private ObservableProperty<int> DeadMonsterCount => new ObservableProperty<int>(_deadMonsterCount);
 
     private ObjectPool _objectPool;
 
-    private WaitForSeconds _spawnDelay = new(2f);
+    private WaitForSeconds _spawnDelay = new(1f);
     private WaitForSeconds _waveDelay = new(3f);
 
     private void Awake()
@@ -46,6 +49,7 @@ public class MonsterSpawner : MonoBehaviour
     {
         CurWave.Subscribe(OnWaveChanged);
         AliveMonsterCount.Subscribe(OnStageFail);
+        AliveMonsterCount.Subscribe(OnWarning);
         DeadMonsterCount.Subscribe(OnClearStage);
     }
 
@@ -54,6 +58,7 @@ public class MonsterSpawner : MonoBehaviour
         CurWave.Unsubscribe(OnWaveChanged);
         AliveMonsterCount.Unsubscribe(OnStageFail);
         DeadMonsterCount.Unsubscribe(OnClearStage);
+        AliveMonsterCount.Unsubscribe(OnWarning);
     }
     #endregion
 
@@ -68,7 +73,8 @@ public class MonsterSpawner : MonoBehaviour
         {
             for (int i = 0; i < _monstersPerWave; i++)
             {
-                SpawnMonster(isBoss: false);
+                int moveSpeed = _monstersPerWave - i; // 12, 11, ..., 1
+                SpawnMonster(isBoss: false, moveSpeed);
                 yield return _spawnDelay;
             }
 
@@ -94,6 +100,14 @@ public class MonsterSpawner : MonoBehaviour
         }
     }
 
+    private void OnWarning(int count)
+    {
+        if (count == 40)
+        {
+            //팝업 온
+        }
+    }
+
     private void OnClearStage(int count)
     {
         if (count >= _totalWave * _monstersPerWave)
@@ -103,7 +117,7 @@ public class MonsterSpawner : MonoBehaviour
         
     }
 
-    private void SpawnMonster(bool isBoss)
+    private void SpawnMonster(bool isBoss, int moveSpeed = 1)
     {
         if (isBoss)
         {
@@ -116,6 +130,13 @@ public class MonsterSpawner : MonoBehaviour
         {
             // 일반 몬스터 풀에서 소환
             PooledObject pooledObject = _objectPool.GetPool(_spawnPoint.position, Quaternion.identity);
+
+            // MonsterModel의 MoveSpeed를 소환 순서에 따라 할당
+            MonsterModel model = pooledObject.GetComponent<MonsterModel>();
+            if (model != null)
+            {
+                model.MoveSpeed = moveSpeed;
+            }
         }
         _spawnedMonsterCount++;
         _aliveMonsterCount++;

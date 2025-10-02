@@ -17,16 +17,21 @@ public class MonsterMover : MonoBehaviour
 
     private void Start()
     {
-        // 이동 거리(3 → -3 또는 -3 → 3)는 6, 시간 = 거리 / 속도
+        StartMoveSequence();
+    }
+
+    private void StartMoveSequence()
+    {
         float moveDistance = 6f;
         float moveTime = (_model != null && _model.MoveSpeed > 0) ? moveDistance / _model.MoveSpeed : 3f;
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.Append(transform.DOMoveX(3, moveTime).SetEase(Ease.Linear))
-                .Append(transform.DOMoveY(-3, moveTime).SetEase(Ease.Linear))
-                .Append(transform.DOMoveX(-3, moveTime).SetEase(Ease.Linear))
+        // 이동 거리(3 → -3 또는 -3 → 3)는 6, 시간 = 거리 / 속도
+        sequence.Append(transform.DOMoveY(-3, moveTime).SetEase(Ease.Linear))
+                .Append(transform.DOMoveX(3, moveTime).SetEase(Ease.Linear))
                 .Append(transform.DOMoveY(3, moveTime).SetEase(Ease.Linear))
-                .OnComplete(() => _pooledObject.ReturnPool());
+                .Append(transform.DOMoveX(-3, moveTime).SetEase(Ease.Linear))
+                .OnComplete(StartMoveSequence);
     }
 }

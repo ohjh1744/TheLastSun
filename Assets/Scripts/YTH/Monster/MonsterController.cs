@@ -6,13 +6,13 @@ public class MonsterController : MonoBehaviour
     private MonsterModel _model => GetComponent<MonsterModel>();
     private PooledObject _pooledObject => GetComponent<PooledObject>();
 
-    private MonsterSpawner _monsterSpawner;
+    private WaveManager _monsterSpawner;
 
     public Action OnDie;
 
     private void Awake()
     {
-        _monsterSpawner = GetComponentInParent<MonsterSpawner>();
+        _monsterSpawner = GetComponentInParent<WaveManager>();
     }
 
     public void Init()
