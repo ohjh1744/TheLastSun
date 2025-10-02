@@ -18,9 +18,9 @@ public class WaveManager : MonoBehaviour
     [SerializeField] Transform _spawnPoint;
     [SerializeField] List<GameObject> _bossPrefabs;
     
-    //수정할것
-    //public ObservableProperty<int> SpawnedMonsterCount = new ObservableProperty<int>(_spawnedMonsterCount);
+    public ObservableProperty<int> SpawnedMonsterCount => new ObservableProperty<int>(_spawnedMonsterCount);
     private ObservableProperty<int> AliveMonsterCount => new ObservableProperty<int>(_aliveMonsterCount);
+
     public ObservableProperty<int> CurWave = new ObservableProperty<int>(1);
     private ObservableProperty<int> DeadMonsterCount => new ObservableProperty<int>(_deadMonsterCount);
 
@@ -51,6 +51,7 @@ public class WaveManager : MonoBehaviour
         AliveMonsterCount.Subscribe(OnStageFail);
         AliveMonsterCount.Subscribe(OnWarning);
         DeadMonsterCount.Subscribe(OnClearStage);
+        SpawnedMonsterCount.Subscribe(OnWarning);
     }
 
     private void UnSubscribe()
@@ -59,6 +60,7 @@ public class WaveManager : MonoBehaviour
         AliveMonsterCount.Unsubscribe(OnStageFail);
         DeadMonsterCount.Unsubscribe(OnClearStage);
         AliveMonsterCount.Unsubscribe(OnWarning);
+        SpawnedMonsterCount.Unsubscribe(OnWarning);
     }
     #endregion
 
@@ -104,7 +106,7 @@ public class WaveManager : MonoBehaviour
     {
         if (count == 40)
         {
-            //팝업 온
+            UIManager.Instance.ShowPanelTemp("WarningPanel", 3);
         }
     }
 
@@ -114,7 +116,6 @@ public class WaveManager : MonoBehaviour
         {
             GameManager.Instance.ClearStage();
         }
-        
     }
 
     private void SpawnMonster(bool isBoss, int moveSpeed = 1)

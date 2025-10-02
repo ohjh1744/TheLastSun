@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -67,6 +68,15 @@ public class UIManager : MonoBehaviour
     {
         foreach (var kv in _panelDict)
             kv.Value.SetActive(kv.Key == panelName);
+    }
+
+    public void ShowPanelTemp(string panelName, float duration)
+    {
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.AppendCallback(() => ShowPanel(panelName))
+                .AppendInterval(duration)
+                .AppendCallback(() => HidePanel(panelName));
     }
 }
 
