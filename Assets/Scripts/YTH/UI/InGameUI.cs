@@ -3,7 +3,11 @@ using UnityEngine.UI;
 
 public class InGameUI : UIBInder
 {
-    [SerializeField] MonsterSpawner _monsterSpawnmer;
+    [SerializeField] WaveManager _monsterSpawnmer;
+    [SerializeField] WaveManager _waveManager;
+
+    [HideInInspector] public GameObject _warningPanel;
+    [HideInInspector] public GameObject _gameOverPanel;
 
     [Header("Top Panel")]
     private Button _stopButton;
@@ -20,10 +24,15 @@ public class InGameUI : UIBInder
     {
         BindAll();
         InitUI();
+
+        AddPanelList(_warningPanel, _gameOverPanel);
     }
 
     private void InitUI()
     {
+        _warningPanel = GetUI("WarningPanel");
+        _gameOverPanel = GetUI("GameOverPanel");
+
         // Top Panel
         _stopButton = GetUI<Button>("StopButton");
         _speedButton = GetUI<Button>("SpeedButton");
@@ -72,5 +81,23 @@ public class InGameUI : UIBInder
     private void OnWaveChanged(int wave)
     {
         _waveText.text = $"Wave {wave}";
+    }
+
+    private void OnCurMonsterCountTextChangerd()
+    {
+       // 수정할것
+       /* _waveManager._spawnedMonsterCount.*/
+    }
+
+    /// <summary>
+    /// UIManager의 Panels 리스트에 패널 추가
+    /// </summary>
+    /// <param name="panel"></param>
+    private void AddPanelList(params GameObject[] panel)
+    {
+        foreach (var p in panel)
+        {   
+            UIManager.Instance.Panels.Add(p);
+        }
     }
 }
