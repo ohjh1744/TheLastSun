@@ -1,82 +1,58 @@
 using UnityEngine;
 
+/// <summary>
+/// 여러 유닛을 씬에서 선택/이동시키는 전역형 컨트롤(선택된 유닛 이동 중 공격 금지)
+/// </summary>
 public class UnitMoveManager2D : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f; // 유닛 이동 속도
+    [SerializeField] private float moveSpeed = 5f;
 
-    private Vector2 startPosition;
-    private Vector2 endPosition;
-    private bool isMoving = false;
+    private Camera _cam;
+    private UnitController _selectedController;
+    private Vector3 _targetPos;
+    private bool _isMoving = false;
 
-    private Camera mainCam;
-
-    private GameObject target;
-
-    void Start()
+    private void Start()
     {
-        mainCam = Camera.main;
+        _cam = Camera.main;
     }
 
-    void Update()
+    private void Update()
     {
-        // 마우스 클릭 시 유닛 선택 레이 (2D)
+        // 유닛 선택
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-
-            // 레이 시각화 (빨간색)
-            Debug.DrawRay(mousePos, Vector2.zero, Color.red, 1f);
-
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+            Vector3 mp = _cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Mathf.Abs(_cam.transform.position.z)));
+            Vector2 mp2 = mp;
+            RaycastHit2D hit = Physics2D.Raycast(mp2, Vector2.zero);
 
             if (hit.collider != null)
             {
-                Debug.Log("Unit Selected!");
-                startPosition = hit.collider.gameObject.transform.position;
-                target = hit.collider.gameObject;
+                _selectedController = hit.collider.GetComponent<UnitController>();
+                if (_selectedController != null)
+                {
+                    _selectedController.BeginManualSelect(); // 공격 억제
+                }
             }
         }
 
-        // 드래그 종료 시 이동할 위치 결정
-        if (Input.GetMouseButtonUp(0) && target != null)
+        // 이동 목적지 확정
+        if (Input.GetMouseButtonUp(0) && _selectedController != null)
         {
-            Vector2 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-
-            // 레이 시각화 (파란색)
-            Debug.DrawRay(mousePos, Vector2.zero, Color.blue, 1f);
-
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
-            if (hit.collider != null)
-            {
-                endPosition = hit.point;
-                isMoving = true;
-                Debug.Log("Move To: " + endPosition);
-
-                // 충돌 지점 표시 (초록색)
-                Debug.DrawLine(mousePos, hit.point, Color.green, 1f);
-            }
-            else
-            {
-                // 땅 같은 레이어 없이 그냥 클릭 위치로 이동
-                endPosition = mousePos;
-                isMoving = true;
-            }
+            Vector3 movepPoint = _cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Mathf.Abs(_cam.transform.position.z)));
+            movepPoint.z = _selectedController.transform.position.z;
+            _targetPos = movepPoint;
+            _selectedController.SetManualMoveTarget(_targetPos); 
+            _isMoving = true;
         }
 
-        // 이동 로직
-        if (isMoving && target != null)
+        if (_isMoving && _selectedController != null)
         {
-            target.transform.position = Vector2.MoveTowards(
-                target.transform.position,
-                endPosition,
-                moveSpeed * Time.deltaTime
-            );
-
-            if (Vector2.Distance(target.transform.position, endPosition) < 0.05f)
+            float dist = Vector3.Distance(_selectedController.transform.position, _targetPos);
+            if (dist < 0.06f)
             {
-                isMoving = false;
-                target = null; // 이동 완료 후 타겟 초기화
+                _isMoving = false;
+                _selectedController = null;
             }
         }
     }

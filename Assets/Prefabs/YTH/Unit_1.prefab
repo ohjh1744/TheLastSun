@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2112708254919750218
 Transform:
   m_ObjectHideFlags: 0
@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.000000014901, y: 0, z: 0}
-  m_LocalScale: {x: 1.9999999, y: 2, z: 1.9999999}
+  m_LocalScale: {x: 2, y: 2, z: 0.33333334}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5145229210562980214}
@@ -250,6 +250,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 5591075122848540527, guid: c36ad6560c295fa4eb8251efe7a574f3, type: 3}
   CurrentState: 0
+  _debugDraw: 1
+  _circleSegments: 128
+  _idleColor: {r: 0, g: 0.7, b: 1, a: 0.6}
+  _moveColor: {r: 0.2, g: 1, b: 0.2, a: 0.6}
+  _attackColor: {r: 1, g: 0.2, b: 0.2, a: 0.6}
+  _enemyLineColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &8114856380354472018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 3
   _attackSpeed: 8
-  _damage: 1
+  _damage: 10
   _attakRange: 4
   _attackDelay: 1
   _targetLayer:

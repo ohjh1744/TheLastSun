@@ -5,6 +5,7 @@ public class InGameUI : UIBInder
 {
     [SerializeField] WaveManager _monsterSpawnmer;
     [SerializeField] WaveManager _waveManager;
+    [SerializeField] RandomSpawnUnitController _unitSpawner;
 
     [HideInInspector] public GameObject _warningPanel;
     [HideInInspector] public GameObject _gameOverPanel;
@@ -19,21 +20,20 @@ public class InGameUI : UIBInder
 
     [Header("Bottom Panel")]
     private TMPro.TMP_Text _curMonsterCountText;
+    private TMPro.TMP_Text _jewelText;
+    private Button _randomSppawnButton;
 
     private void Awake()
     {
         BindAll();
         InitUI();
-
-        AddPanelList(_warningPanel, _gameOverPanel);
     }
 
     private void InitUI()
     {
+        // Top Panel
         _warningPanel = GetUI("WarningPanel");
         _gameOverPanel = GetUI("GameOverPanel");
-
-        // Top Panel
         _stopButton = GetUI<Button>("StopButton");
         _speedButton = GetUI<Button>("SpeedButton");
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
@@ -43,27 +43,50 @@ public class InGameUI : UIBInder
 
         // Bottom Panel
         _curMonsterCountText = GetUI<TMPro.TMP_Text>("CurMonsterCountText");
+        _jewelText = GetUI<TMPro.TMP_Text>("JewelText");
+        _randomSppawnButton = GetUI<Button>("RandomSpawnButton");
     }
 
     private void Start()
     {
+        // Top Panel
+        AddPanelList(_warningPanel, _gameOverPanel);
+
         _stopButton.onClick.AddListener(GameManager.Instance.PauseGame);
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
-        _monsterSpawnmer.CurWave.Subscribe(OnWaveChanged);
+
+        _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
+        _waveManager.SpawnedMonsterCountChanged += OnCurMonsterCountChanged;
+
+        // Bottom Panel
+        GameManager.Instance.JewelChanged += OnJewelChanged;
+        OnJewelChanged(GameManager.Instance.Jewel);
+
+        _randomSppawnButton.onClick.AddListener(_unitSpawner.SpawnRandomUnit);
+
 
         SetGameSpeedText();
     }
 
     private void OnDestroy()
     {
+        // Top Panel
         _stopButton.onClick.RemoveListener(GameManager.Instance.PauseGame);
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
-        _monsterSpawnmer.CurWave.Unsubscribe(OnWaveChanged);
+
+        _monsterSpawnmer.CurWaveChanged -= OnWaveChanged;
+        _waveManager.SpawnedMonsterCountChanged -= OnCurMonsterCountChanged;
+
+        // Bottom Panel
+        if (GameManager.Instance != null)
+            GameManager.Instance.JewelChanged -= OnJewelChanged;
+
+        _randomSppawnButton.onClick.RemoveListener(_unitSpawner.SpawnRandomUnit);
     }
 
     private void Update()
     {
-        _timeText.text = $"Time : {System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\:mm\\:ss}";
+        _timeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\:mm\\:ss}";
     }
 
     private void OnSpeedButtonClicked()
@@ -78,26 +101,26 @@ public class InGameUI : UIBInder
     }
 
     // 웨이브 변경 시 호출될 콜백
-    private void OnWaveChanged(int wave)
+    public void OnWaveChanged(int wave)
     {
         _waveText.text = $"Wave {wave}";
     }
 
-    private void OnCurMonsterCountTextChangerd()
+    public void OnCurMonsterCountChanged(int count)
     {
-       // 수정할것
-       /* _waveManager._spawnedMonsterCount.*/
+        _curMonsterCountText.text = $"{count}/1200";
     }
 
-    /// <summary>
-    /// UIManager의 Panels 리스트에 패널 추가
-    /// </summary>
-    /// <param name="panel"></param>
     private void AddPanelList(params GameObject[] panel)
     {
         foreach (var p in panel)
-        {   
+        {
             UIManager.Instance.Panels.Add(p);
         }
+    }
+
+    private void OnJewelChanged(int jewel)
+    {
+        _jewelText.text = jewel.ToString();
     }
 }

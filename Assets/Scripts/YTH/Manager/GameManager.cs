@@ -1,12 +1,30 @@
+using DG.Tweening;
+using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private PlayerData _playerData => PlayerController.Instance.PlayerData;
+    public event Action<int> JewelChanged;
 
-    public int Jewel;
+    private int _jewel = 1000;
+    public int Jewel
+    {
+        get => _jewel;
+        set
+        {
+            if (_jewel != value)
+            {
+                _jewel = value;
+                JewelChanged?.Invoke(_jewel);
+            }
+        }
+    }
+
+    private PlayerData _playerData => PlayerController.Instance.PlayerData;
 
     public float ClearTime;
 
@@ -84,33 +102,57 @@ public class GameManager : MonoBehaviour
     public void ClearStage()
     {
         StopTimer();
+        StartCoroutine(WaitForNetworkAndSave());
+    }
 
-        if (NetworkCheckManager.Instance.IsConnected)
+    private IEnumerator WaitForNetworkAndSave()
+    {
+        // 네트워크 연결될 때까지 0.5초 간격으로 대기
+        while (!NetworkCheckManager.Instance.IsConnected)
         {
-            GpgsManager.Instance.SaveData((status) =>
-            { 
-                if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success)
-                {
-                    _playerData.IsClearStage[_playerData.CurrentStage] = true;
-                    RecordClearTime();
-                }
-                else
-                {
-                    Debug.Log("네트워크 연결 실패...");
-                    //TODO: 시도할 수 있는 로직 추가
-                }
-            });
+            yield return new WaitForSeconds(0.5f);
         }
+
+        // 연결되었으므로 저장 진행
+        GpgsManager.Instance.SaveData((status) =>
+        {
+            if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success)
+            {
+                _playerData.IsClearStage[_playerData.CurrentStage] = true;
+                RecordClearTime();
+            }
+            else
+            {
+                Debug.Log("네트워크 연결 실패...");
+                // TODO: 재시도 로직 등
+            }
+        });
     }
 
     public void FailStage()
     {
+        Debug.Log("Stage Failed");
 
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameOverPanel", 3))
+            .AppendInterval(3)
+            .AppendCallback(()=> SceneManager.LoadScene(1));
     }
 
+    /// <summary>
+    /// 기록이 없거나(0), 더 짧은 시간일 때만 저장
+    /// </summary>
     private void RecordClearTime()
     {
-        _playerData.ClearTimes[_playerData.CurrentStage] = ClearTime;
+        int stage = _playerData.CurrentStage;
+        float prevTime = _playerData.ClearTimes[stage];
+
+       
+        if (prevTime == 0f || ClearTime < prevTime)
+        {
+            _playerData.ClearTimes[stage] = ClearTime;
+        }
     }
 
     public bool TutorialCompleted()

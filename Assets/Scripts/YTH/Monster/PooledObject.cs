@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PooledObject : MonoBehaviour
 {
-    public ObjectPool returnPool;
+    [HideInInspector] public ObjectPool returnPool;
 
     public void ReturnPool()
     {

@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 /// <summary>
 /// 사용 예시
@@ -18,11 +17,34 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    private InGameUI _uiList;
-
-    [HideInInspector] public List<GameObject> Panels;
+    public List<GameObject> Panels;
 
     private Dictionary<string, GameObject> _panelDict;
+
+    //테스트용코드 추후 삭제
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            ShowOnlyPanel("WarningPanel");
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            ShowOnlyPanel("GameOverPanel");
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            HideAllPanels();
+    }
+
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -30,7 +52,10 @@ public class UIManager : MonoBehaviour
         foreach (var panel in Panels)
         {
             if (panel != null)
+            {
                 _panelDict[panel.name] = panel;
+                Debug.Log($"패널 등록: {panel.name}");
+            }
         }
     }
 
