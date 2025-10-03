@@ -5,6 +5,7 @@ public class InGameUI : UIBInder
 {
     [SerializeField] WaveManager _monsterSpawnmer;
     [SerializeField] WaveManager _waveManager;
+    [SerializeField] UnitSpawner _unitSpawner;
 
     [HideInInspector] public GameObject _warningPanel;
     [HideInInspector] public GameObject _gameOverPanel;
@@ -19,6 +20,7 @@ public class InGameUI : UIBInder
 
     [Header("Bottom Panel")]
     private TMPro.TMP_Text _curMonsterCountText;
+    private TMPro.TMP_Text _jewelText;
 
     private void Awake()
     {
@@ -37,6 +39,7 @@ public class InGameUI : UIBInder
         _waveText = GetUI<TMPro.TMP_Text>("WaveText");
         _timeText = GetUI<TMPro.TMP_Text>("TimeText");
         _curMonsterCountText = GetUI<TMPro.TMP_Text>("CurMonsterCountText");
+        _jewelText = GetUI<TMPro.TMP_Text>("JewelText");
     }
 
     private void Start()
@@ -46,9 +49,13 @@ public class InGameUI : UIBInder
         _stopButton.onClick.AddListener(GameManager.Instance.PauseGame);
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
 
-        // 이벤트 구독
         _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
         _waveManager.SpawnedMonsterCountChanged += OnCurMonsterCountChanged;
+
+        // Jewel 변경 이벤트 구독
+        GameManager.Instance.JewelChanged += OnJewelChanged;
+        // 시작 시 초기값 반영
+        OnJewelChanged(GameManager.Instance.Jewel);
 
         SetGameSpeedText();
     }
@@ -60,6 +67,10 @@ public class InGameUI : UIBInder
 
         _monsterSpawnmer.CurWaveChanged -= OnWaveChanged;
         _waveManager.SpawnedMonsterCountChanged -= OnCurMonsterCountChanged;
+
+        // Jewel 변경 이벤트 해제
+        if (GameManager.Instance != null)
+            GameManager.Instance.JewelChanged -= OnJewelChanged;
     }
 
     private void Update()
@@ -95,5 +106,10 @@ public class InGameUI : UIBInder
         {
             UIManager.Instance.Panels.Add(p);
         }
+    }
+
+    private void OnJewelChanged(int jewel)
+    {
+        _jewelText.text = jewel.ToString();
     }
 }

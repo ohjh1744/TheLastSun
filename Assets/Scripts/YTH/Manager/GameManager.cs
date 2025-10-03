@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,9 +8,23 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private PlayerData _playerData => PlayerController.Instance.PlayerData;
+    public event Action<int> JewelChanged;
 
-    public int Jewel;
+    private int _jewel;
+    public int Jewel
+    {
+        get => _jewel;
+        set
+        {
+            if (_jewel != value)
+            {
+                _jewel = value;
+                JewelChanged?.Invoke(_jewel);
+            }
+        }
+    }
+
+    private PlayerData _playerData => PlayerController.Instance.PlayerData;
 
     public float ClearTime;
 

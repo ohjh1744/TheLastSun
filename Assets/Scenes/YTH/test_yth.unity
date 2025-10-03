@@ -671,7 +671,7 @@ GameObject:
   - component: {fileID: 197507929}
   - component: {fileID: 197507930}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: MonsterCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -978,6 +978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _monsterSpawnmer: {fileID: 1878090938}
   _waveManager: {fileID: 1878090938}
+  _unitSpawner: {fileID: 1842989779}
   _warningPanel: {fileID: 0}
   _gameOverPanel: {fileID: 0}
 --- !u!1 &304299628
@@ -1580,7 +1581,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &610383877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3033,7 +3034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1028461839
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3066,7 +3067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 0.8901961, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5102,7 +5103,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1535324597
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5135,7 +5136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.14642143, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6284,7 +6285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 744a19fa007ea7046a2753adc4c91dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Jewel: 0
   ClearTime: 0
   CurrentGameSpeed: 1
 --- !u!4 &1811198130
@@ -6314,7 +6314,7 @@ GameObject:
   - component: {fileID: 1842989779}
   - component: {fileID: 1842989781}
   m_Layer: 0
-  m_Name: UnitManager
+  m_Name: UnitSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6863,7 +6863,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2012596019
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6896,7 +6896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7197,6 +7197,10 @@ PrefabInstance:
     - target: {fileID: 5145229210562980214, guid: eb677a568a07cf94192ebdefc4ae9e38, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114856380354472018, guid: eb677a568a07cf94192ebdefc4ae9e38, type: 3}
+      propertyPath: _damage
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
