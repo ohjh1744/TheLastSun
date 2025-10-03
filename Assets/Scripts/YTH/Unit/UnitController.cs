@@ -154,14 +154,15 @@ public class UnitController : MonoBehaviour
 
         int count = Physics2D.OverlapCircleNonAlloc(
             transform.position,
-            _model.AttackRange *0.5f,
+            _model.AttackRange * 0.5f,
             _enemyBuffer,
             _model.TargetLayer
         );
 
-        // 디버깅용 라인
+        //======== 디버깅용 라인 =========
         _lastEnemyCount = count;
         DebugDrawEnemyLines(count);
+        //================================
 
         if (count == 0)
         {
@@ -172,7 +173,18 @@ public class UnitController : MonoBehaviour
         _attackTimer += Time.deltaTime;
         if (_attackTimer >= _model.AttackDelay && Target != null)
         {
-            ShootBullet(Target.transform.position);
+            if (_model.AttackType == AttakcType.Melee)
+            {
+                foreach (var col in _enemyBuffer)
+                {
+                    if (col == null) continue;
+                    col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
+                }
+            }
+            else if (_model.AttackType == AttakcType.Ranged)
+            {
+                ShootBullet(Target.transform.position);
+            }
             _attackTimer = 0;
         }
     }
