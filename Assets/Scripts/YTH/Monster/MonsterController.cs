@@ -34,7 +34,7 @@ public class MonsterController : MonoBehaviour
     {
         GameManager.Instance.Jewel += _model.RewardJewel;
        
-        WaveManager.Instance.AliveMonsterCount--;
+        WaveManager.Instance.OnMonsterDie();
         _pooledObject.ReturnPool();
     }
 }
