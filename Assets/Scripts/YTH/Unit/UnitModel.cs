@@ -1,12 +1,21 @@
 using UnityEngine;
 
 
+public enum AttakcType
+{
+    Melee,
+    Ranged
+}
+
 [System.Serializable]
 public class UnitModel : MonoBehaviour
 {
     public int MoveSpeed = 3;
 
     [Header("공격 관련 ")]
+
+    [SerializeField] AttakcType _attackType;
+    public AttakcType AttackType { get => _attackType; }
 
     [SerializeField] int _attackSpeed;
     public int AttackSpeed { get => _attackSpeed; set => _attackSpeed = value; }
@@ -20,6 +29,6 @@ public class UnitModel : MonoBehaviour
     [SerializeField] int _attackDelay;
     public int AttackDelay { get => _attackDelay; set => _attackDelay = value; }
 
-    [SerializeField] LayerMask _targetLayer;
+    private LayerMask _targetLayer = 1 << 6;
     public LayerMask TargetLayer { get => _targetLayer; }
 }

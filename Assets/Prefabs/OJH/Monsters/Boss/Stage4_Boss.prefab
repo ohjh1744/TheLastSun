@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: -8023970473096495316}
   - component: {fileID: -8459123019758421673}
   - component: {fileID: 6394497536831091234}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stage4_Boss
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -226,4 +226,3 @@ MonoBehaviour:
   _isBoss: 1
   _maxHp: 10
   _curHp: 10
-  _moveSpeed: 0

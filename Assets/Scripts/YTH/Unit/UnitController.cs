@@ -159,6 +159,7 @@ public class UnitController : MonoBehaviour
             _model.TargetLayer
         );
 
+        // 디버깅용 라인
         _lastEnemyCount = count;
         DebugDrawEnemyLines(count);
 
