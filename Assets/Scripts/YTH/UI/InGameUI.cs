@@ -21,6 +21,7 @@ public class InGameUI : UIBInder
     [Header("Bottom Panel")]
     private TMPro.TMP_Text _curMonsterCountText;
     private TMPro.TMP_Text _jewelText;
+    private Button _randomSppawnButton;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class InGameUI : UIBInder
 
     private void InitUI()
     {
+        // Top Panel
         _warningPanel = GetUI("WarningPanel");
         _gameOverPanel = GetUI("GameOverPanel");
         _stopButton = GetUI<Button>("StopButton");
@@ -38,12 +40,16 @@ public class InGameUI : UIBInder
         _monsterNameText = GetUI<TMPro.TMP_Text>("MonsterNameText");
         _waveText = GetUI<TMPro.TMP_Text>("WaveText");
         _timeText = GetUI<TMPro.TMP_Text>("TimeText");
+
+        // Bottom Panel
         _curMonsterCountText = GetUI<TMPro.TMP_Text>("CurMonsterCountText");
         _jewelText = GetUI<TMPro.TMP_Text>("JewelText");
+        _randomSppawnButton = GetUI<Button>("RandomSpawnButton");
     }
 
     private void Start()
     {
+        // Top Panel
         AddPanelList(_warningPanel, _gameOverPanel);
 
         _stopButton.onClick.AddListener(GameManager.Instance.PauseGame);
@@ -52,25 +58,30 @@ public class InGameUI : UIBInder
         _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
         _waveManager.SpawnedMonsterCountChanged += OnCurMonsterCountChanged;
 
-        // Jewel 변경 이벤트 구독
+        // Bottom Panel
         GameManager.Instance.JewelChanged += OnJewelChanged;
-        // 시작 시 초기값 반영
         OnJewelChanged(GameManager.Instance.Jewel);
+
+        _randomSppawnButton.onClick.AddListener(_unitSpawner.SpawnRandomUnit);
+
 
         SetGameSpeedText();
     }
 
     private void OnDestroy()
     {
+        // Top Panel
         _stopButton.onClick.RemoveListener(GameManager.Instance.PauseGame);
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
 
         _monsterSpawnmer.CurWaveChanged -= OnWaveChanged;
         _waveManager.SpawnedMonsterCountChanged -= OnCurMonsterCountChanged;
 
-        // Jewel 변경 이벤트 해제
+        // Bottom Panel
         if (GameManager.Instance != null)
             GameManager.Instance.JewelChanged -= OnJewelChanged;
+
+        _randomSppawnButton.onClick.RemoveListener(_unitSpawner.SpawnRandomUnit);
     }
 
     private void Update()
