@@ -1,4 +1,4 @@
-using DesignPattern;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,63 +6,78 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    public static WaveManager Instance { get; private set; }
+
+    private InGameUI _inGameUi;
+
     [Header("Don't Set")]
-    public int _spawnedMonsterCount = 0;
-    public int _spawnBoss;
-    public int _aliveMonsterCount = 0;
-    public int _deadMonsterCount = 0;
+    public int SpawnedMonsterCount = 0;
+    public int SpawnBoss;
+    public int AliveMonsterCount = 0;
+    public int DeadMonsterCount = 0;
 
     [Header("Set")]
     [SerializeField] int _totalWave = 100;
     [SerializeField] int _monstersPerWave = 12;
     [SerializeField] Transform _spawnPoint;
     [SerializeField] List<GameObject> _bossPrefabs;
-    
-    public ObservableProperty<int> SpawnedMonsterCount => new ObservableProperty<int>(_spawnedMonsterCount);
-    private ObservableProperty<int> AliveMonsterCount => new ObservableProperty<int>(_aliveMonsterCount);
-
-    public ObservableProperty<int> CurWave = new ObservableProperty<int>(1);
-    private ObservableProperty<int> DeadMonsterCount => new ObservableProperty<int>(_deadMonsterCount);
 
     private ObjectPool _objectPool;
 
     private WaitForSeconds _spawnDelay = new(1f);
     private WaitForSeconds _waveDelay = new(3f);
 
+    // 이벤트 선언
+    public event Action<int> SpawnedMonsterCountChanged;
+    public event Action<int> AliveMonsterCountChanged;
+    public event Action<int> CurWaveChanged;
+
+    private int _curWave = 1;
+    public int CurWave
+    {
+        get => _curWave;
+        private set
+        {
+            _curWave = value;
+            CurWaveChanged?.Invoke(_curWave);
+        }
+    }
+
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        _inGameUi = FindObjectOfType<InGameUI>();
         _objectPool = GetComponent<ObjectPool>();
     }
 
-    #region 옵저버 패턴 구독
     private void OnEnable()
     {
-        Subscribe();
+        // 이벤트 구독
+        CurWaveChanged += OnWaveChanged;
+        AliveMonsterCountChanged += OnStageFail;
+        AliveMonsterCountChanged += OnWarning;
+        SpawnedMonsterCountChanged += OnWarning;
+        SpawnedMonsterCountChanged += _inGameUi.OnCurMonsterCountChanged;
     }
 
     private void OnDisable()
     {
-        UnSubscribe();
+        // 이벤트 해제
+        CurWaveChanged -= OnWaveChanged;
+        AliveMonsterCountChanged -= OnStageFail;
+        AliveMonsterCountChanged -= OnWarning;
+        SpawnedMonsterCountChanged -= OnWarning;
+        SpawnedMonsterCountChanged -= _inGameUi.OnCurMonsterCountChanged;
     }
- 
-    private void Subscribe()
-    {
-        CurWave.Subscribe(OnWaveChanged);
-        AliveMonsterCount.Subscribe(OnStageFail);
-        AliveMonsterCount.Subscribe(OnWarning);
-        DeadMonsterCount.Subscribe(OnClearStage);
-        SpawnedMonsterCount.Subscribe(OnWarning);
-    }
-
-    private void UnSubscribe()
-    {
-        CurWave.Unsubscribe(OnWaveChanged);
-        AliveMonsterCount.Unsubscribe(OnStageFail);
-        DeadMonsterCount.Unsubscribe(OnClearStage);
-        AliveMonsterCount.Unsubscribe(OnWarning);
-        SpawnedMonsterCount.Unsubscribe(OnWarning);
-    }
-    #endregion
 
     private void Start()
     {
@@ -71,8 +86,15 @@ public class WaveManager : MonoBehaviour
 
     IEnumerator WaveRoutine()
     {
-        while (CurWave.Value <= _totalWave)
+        while (CurWave <= _totalWave)
         {
+            Debug.Log($"CurWave: {CurWave}, 보스 체크: {CurWave == 10 || CurWave == 30 || CurWave == 50 || CurWave == 70 || CurWave == 100}");
+            // 보스 웨이브 체크 및 보스 소환
+            if (CurWave == 10 || CurWave == 30 || CurWave == 50 || CurWave == 70 || CurWave == 100)
+            {
+                SpawnMonster(isBoss: true);
+            }
+
             for (int i = 0; i < _monstersPerWave; i++)
             {
                 int moveSpeed = _monstersPerWave - i; // 12, 11, ..., 1
@@ -80,18 +102,15 @@ public class WaveManager : MonoBehaviour
                 yield return _spawnDelay;
             }
 
-            CurWave.Value++;
+            CurWave++;
             yield return _waveDelay; // 웨이브 간 대기
         }
     }
 
-    // 웨이브 변경 이벤트 핸들러
+    // OnWaveChanged는 UI 등 외부 구독용으로만 사용
     private void OnWaveChanged(int wave)
     {
-        if (wave == 10 || wave == 30 || wave == 50 || wave == 70 || wave == 100)
-        {
-            SpawnMonster(isBoss: true);
-        }
+        // 필요시 UI 갱신 등만 처리
     }
 
     private void OnStageFail(int count)
@@ -123,8 +142,8 @@ public class WaveManager : MonoBehaviour
         if (isBoss)
         {
             // 보스 몬스터 소환
-            GameObject BossInstance = Instantiate(_bossPrefabs[_spawnBoss], _spawnPoint.position, Quaternion.identity);
-            _spawnBoss++;
+            GameObject BossInstance = Instantiate(_bossPrefabs[SpawnBoss], _spawnPoint.position, Quaternion.identity);
+            SpawnBoss++;
             Debug.Log("보스 소환");
         }
         else
@@ -139,7 +158,17 @@ public class WaveManager : MonoBehaviour
                 model.MoveSpeed = moveSpeed;
             }
         }
-        _spawnedMonsterCount++;
-        _aliveMonsterCount++;
+        SpawnedMonsterCount++;
+        SpawnedMonsterCountChanged?.Invoke(SpawnedMonsterCount);
+
+        AliveMonsterCount++;
+        AliveMonsterCountChanged?.Invoke(AliveMonsterCount);
+    }
+
+    // 몬스터가 죽을 때(예시)
+    public void OnMonsterDie()
+    {
+        AliveMonsterCount--;
+        AliveMonsterCountChanged?.Invoke(AliveMonsterCount);
     }
 }

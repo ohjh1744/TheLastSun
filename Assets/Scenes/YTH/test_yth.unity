@@ -798,7 +798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &250607190
 RectTransform:
   m_ObjectHideFlags: 0
@@ -870,7 +870,6 @@ GameObject:
   - component: {fileID: 280352505}
   - component: {fileID: 280352504}
   - component: {fileID: 280352508}
-  - component: {fileID: 280352509}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -953,6 +952,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1744838943}
   - {fileID: 797773748}
   - {fileID: 1260077116}
   - {fileID: 1777289980}
@@ -977,22 +977,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monsterSpawnmer: {fileID: 1878090938}
-  _waveManager: {fileID: 0}
+  _waveManager: {fileID: 1878090938}
   _warningPanel: {fileID: 0}
   _gameOverPanel: {fileID: 0}
---- !u!114 &280352509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 280352503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7505ba1516837d74188513852213f371, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Panels: []
 --- !u!1 &304299628
 GameObject:
   m_ObjectHideFlags: 0
@@ -5844,6 +5831,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727639854}
   m_CullTransparentMesh: 1
+--- !u!1 &1744838942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1744838943}
+  - component: {fileID: 1744838944}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1744838943
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744838942}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -307.67316, y: -840.7197, z: -28.60138}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 280352507}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1744838944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744838942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7505ba1516837d74188513852213f371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Panels:
+  - {fileID: 1777289979}
+  - {fileID: 250607189}
 --- !u!1 &1757273162
 GameObject:
   m_ObjectHideFlags: 0
@@ -6131,7 +6165,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1777289980
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6364,19 +6398,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73677e5701b433641ae96ccdb6a6f4dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pool:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  pool: []
   prefab: {fileID: 2011596548107100891, guid: 66d52272e0c0f444297bf9ea0a4d2e60, type: 3}
-  size: 20
+  size: 50
 --- !u!4 &1878090937
 Transform:
   m_ObjectHideFlags: 0
@@ -6405,22 +6429,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088f7ca9392b1e84c942f4ecd07ed595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnedMonsterCount: 0
-  _spawnBoss: 0
-  _aliveMonsterCount: 0
-  _deadMonsterCount: 0
+  SpawnedMonsterCount: 0
+  SpawnBoss: 0
+  AliveMonsterCount: 0
+  DeadMonsterCount: 0
   _totalWave: 100
   _monstersPerWave: 12
   _spawnPoint: {fileID: 787045454}
   _bossPrefabs:
-  - {fileID: 5480494077954243468, guid: d007ed85f4c0e854d9188fe381853d0f, type: 3}
-  - {fileID: 8307003832319650056, guid: 625f2925c3d462f4098757a2a869b7d9, type: 3}
-  - {fileID: 4326980193726960987, guid: d1431986cb3048146b13d73384310d27, type: 3}
-  CurWave:
-    _value: 1
-    OnValueChanged:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 4639574573216934329, guid: 1608b17829796dc4eba8e317c8d5a92b, type: 3}
+  - {fileID: 4639574573216934329, guid: 1608b17829796dc4eba8e317c8d5a92b, type: 3}
+  - {fileID: 4639574573216934329, guid: 1608b17829796dc4eba8e317c8d5a92b, type: 3}
+  - {fileID: 4639574573216934329, guid: 1608b17829796dc4eba8e317c8d5a92b, type: 3}
+  - {fileID: 4639574573216934329, guid: 1608b17829796dc4eba8e317c8d5a92b, type: 3}
 --- !u!1 &1915577381
 GameObject:
   m_ObjectHideFlags: 0
