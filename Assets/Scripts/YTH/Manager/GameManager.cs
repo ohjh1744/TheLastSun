@@ -103,15 +103,17 @@ public class GameManager : MonoBehaviour
     {
         StopTimer();
 
+        _playerData.IsClearStage[_playerData.CurrentStage] = true;
 
         Sequence sequence = DOTween.Sequence();
-
         sequence.AppendCallback(() => StopTimer())
             .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()))
             .AppendCallback(() => UIManager.Instance.ShowPanelTemp("ClearPanel", 3))
             .AppendInterval(3)
             //TODO: 3초 후 메인 씬으로 이동을 버튼 눌러 메인으로 이동하는 것으로 변경
             .AppendCallback(() => SceneManager.LoadScene(1));
+
+
     }
 
     private IEnumerator WaitForNetworkAndSave()
@@ -127,7 +129,6 @@ public class GameManager : MonoBehaviour
         {
             if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success)
             {
-                _playerData.IsClearStage[_playerData.CurrentStage] = true;
                 RecordClearTime();
             }
             else
