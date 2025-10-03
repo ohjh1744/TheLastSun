@@ -13,7 +13,7 @@ public class WaveManager : MonoBehaviour
     public int SpawnedMonsterCount = 0;
     public int AliveMonsterCount = 0;
     public int _toSpawnBossindex;
-    private int _deaddMonsterCount = 0;
+    [SerializeField] int _deaddMonsterCount = 0;
     [SerializeField]
     public int DeaddMonsterCount
     {
@@ -176,6 +176,7 @@ public class WaveManager : MonoBehaviour
     public void OnMonsterDie()
     {
         AliveMonsterCount--;
+        DeaddMonsterCount++;
         AliveMonsterCountChanged?.Invoke(AliveMonsterCount);
     }
 }
