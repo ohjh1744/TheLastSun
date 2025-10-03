@@ -21,7 +21,7 @@ public class UnitSpawner : MonoBehaviour
 
     public void SpawnUnit(GameObject unitPrefab)
     {
-        Instantiate(unitPrefab, _spawnPoint[_curSpawnPoint], Quaternion.identity);
+        Instantiate(unitPrefab, _spawnPoint[_curSpawnPoint], Quaternion.identity, transform);
 
         _curSpawnPoint = (_curSpawnPoint >= 3) ? 0 : _curSpawnPoint + 1;
     }
