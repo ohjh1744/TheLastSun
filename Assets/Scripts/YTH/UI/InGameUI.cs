@@ -24,32 +24,31 @@ public class InGameUI : UIBInder
     {
         BindAll();
         InitUI();
-
-        AddPanelList(_warningPanel, _gameOverPanel);
     }
 
     private void InitUI()
     {
         _warningPanel = GetUI("WarningPanel");
         _gameOverPanel = GetUI("GameOverPanel");
-
-        // Top Panel
         _stopButton = GetUI<Button>("StopButton");
         _speedButton = GetUI<Button>("SpeedButton");
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
         _monsterNameText = GetUI<TMPro.TMP_Text>("MonsterNameText");
         _waveText = GetUI<TMPro.TMP_Text>("WaveText");
         _timeText = GetUI<TMPro.TMP_Text>("TimeText");
-
-        // Bottom Panel
         _curMonsterCountText = GetUI<TMPro.TMP_Text>("CurMonsterCountText");
     }
 
     private void Start()
     {
+        AddPanelList(_warningPanel, _gameOverPanel);
+
         _stopButton.onClick.AddListener(GameManager.Instance.PauseGame);
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
-        _monsterSpawnmer.CurWave.Subscribe(OnWaveChanged);
+
+        // 이벤트 구독
+        _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
+        _waveManager.SpawnedMonsterCountChanged += OnCurMonsterCountChanged;
 
         SetGameSpeedText();
     }
@@ -58,12 +57,14 @@ public class InGameUI : UIBInder
     {
         _stopButton.onClick.RemoveListener(GameManager.Instance.PauseGame);
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
-        _monsterSpawnmer.CurWave.Unsubscribe(OnWaveChanged);
+
+        _monsterSpawnmer.CurWaveChanged -= OnWaveChanged;
+        _waveManager.SpawnedMonsterCountChanged -= OnCurMonsterCountChanged;
     }
 
     private void Update()
     {
-        _timeText.text = $"Time : {System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\:mm\\:ss}";
+        _timeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\:mm\\:ss}";
     }
 
     private void OnSpeedButtonClicked()
@@ -78,25 +79,20 @@ public class InGameUI : UIBInder
     }
 
     // 웨이브 변경 시 호출될 콜백
-    private void OnWaveChanged(int wave)
+    public void OnWaveChanged(int wave)
     {
         _waveText.text = $"Wave {wave}";
     }
 
-    private void OnCurMonsterCountTextChangerd()
+    public void OnCurMonsterCountChanged(int count)
     {
-       // 수정할것
-       /* _waveManager._spawnedMonsterCount.*/
+        _curMonsterCountText.text = $"{count}/1200";
     }
 
-    /// <summary>
-    /// UIManager의 Panels 리스트에 패널 추가
-    /// </summary>
-    /// <param name="panel"></param>
     private void AddPanelList(params GameObject[] panel)
     {
         foreach (var p in panel)
-        {   
+        {
             UIManager.Instance.Panels.Add(p);
         }
     }
