@@ -18,7 +18,8 @@ public class UnitPointerHandler : MonoBehaviour,
     {
         _attackRange = transform.Find("AttackRange")?.gameObject;
         if (_attackRange != null)
-            _attackRange.transform.localScale = Vector3.one * _model.AttackRange * 2;
+            _attackRange.transform.localPosition = Vector3.zero;
+        _attackRange.transform.localScale = Vector3.one * _model.AttackRange * 2;
         _attackRange.SetActive(false);
 
 
