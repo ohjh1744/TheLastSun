@@ -20,6 +20,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] int _totalWave = 100;
     [SerializeField] int _monstersPerWave = 12;
     [SerializeField] Transform _spawnPoint;
+    [HideInInspector] public Transform SpawnPoint => _spawnPoint;
     [SerializeField] List<GameObject> _bossPrefabs;
 
     private ObjectPool _objectPool;

@@ -7,11 +7,18 @@ public class MonsterController : MonoBehaviour
     private MonsterModel _model => GetComponent<MonsterModel>();
     private PooledObject _pooledObject => GetComponent<PooledObject>();
 
+    private WaveManager _waveManager => WaveManager.Instance;
+
     public Action OnDie;
 
+    private void OnEnable()
+    {
+        Init();
+    }
     public void Init()
     {
         _model.CurHp = _model.MaxHp;
+        transform.localPosition = _waveManager.SpawnPoint.position;
     }
 
     public void TakeDamage(int damageAmount)
