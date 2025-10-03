@@ -5,7 +5,7 @@ public class InGameUI : UIBInder
 {
     [SerializeField] WaveManager _monsterSpawnmer;
     [SerializeField] WaveManager _waveManager;
-    [SerializeField] UnitSpawner _unitSpawner;
+    [SerializeField] RandomSpawnUnitController _unitSpawner;
 
     [HideInInspector] public GameObject _warningPanel;
     [HideInInspector] public GameObject _gameOverPanel;
