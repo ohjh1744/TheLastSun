@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public event Action<int> JewelChanged;
 
-    private int _jewel;
+    private int _jewel = 1000;
     public int Jewel
     {
         get => _jewel;

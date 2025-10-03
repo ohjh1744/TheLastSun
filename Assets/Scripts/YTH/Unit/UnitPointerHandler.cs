@@ -19,6 +19,9 @@ public class UnitPointerHandler : MonoBehaviour,
         _attackRange = transform.Find("AttackRange")?.gameObject;
         if (_attackRange != null)
             _attackRange.transform.localScale = Vector3.one * _model.AttackRange * 2;
+        _attackRange.SetActive(false);
+
+
         _cam = Camera.main;
     }
 

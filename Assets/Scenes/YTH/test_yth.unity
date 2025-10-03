@@ -6365,9 +6365,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _requiredJewl: 12
-  _normalUnits: []
-  _legendUnits: []
-  _epicUnits: []
+  _normalUnits:
+  - {fileID: 3716241083439229597, guid: a60f9a3ce27850f44ac0ce0a988e47c5, type: 3}
+  - {fileID: 3716241083439229597, guid: cb53e4767dce5d94794a44ba074cf961, type: 3}
+  - {fileID: 3716241083439229597, guid: e6e4da666ea29e34e829e0649f589cd2, type: 3}
+  - {fileID: 3716241083439229597, guid: 40b7e9244fcbf934a8210bdff1a4d5cc, type: 3}
+  _legendUnits:
+  - {fileID: 3716241083439229597, guid: 6aef00508666f554185d19abe35d7f1d, type: 3}
+  - {fileID: 3716241083439229597, guid: 105ad419e41fcf7468e894f3d0abc84d, type: 3}
+  - {fileID: 3716241083439229597, guid: 99e265a51a4ad0b4382828b8dab943f1, type: 3}
+  - {fileID: 3716241083439229597, guid: 8282d76e70ef44844bd4318f74e52207, type: 3}
+  _epicUnits:
+  - {fileID: 3716241083439229597, guid: 6a741a35a67245e48bcdabf1697832a5, type: 3}
+  - {fileID: 3716241083439229597, guid: 49cc76ad98018914595d6e94df44ec32, type: 3}
+  - {fileID: 3716241083439229597, guid: e774f195776fca04eb4e69805b911240, type: 3}
+  - {fileID: 3716241083439229597, guid: 31b874ee9639e884f81acd57ae1313a1, type: 3}
 --- !u!1 &1878090935
 GameObject:
   m_ObjectHideFlags: 0
