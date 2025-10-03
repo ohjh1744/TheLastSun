@@ -102,7 +102,16 @@ public class GameManager : MonoBehaviour
     public void ClearStage()
     {
         StopTimer();
-        StartCoroutine(WaitForNetworkAndSave());
+
+
+        Sequence sequence = DOTween.Sequence();
+
+        sequence.AppendCallback(() => StopTimer())
+            .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()))
+            .AppendCallback(() => UIManager.Instance.ShowPanelTemp("ClearPanel", 3))
+            .AppendInterval(3)
+            //TODO: 3초 후 메인 씬으로 이동을 버튼 눌러 메인으로 이동하는 것으로 변경
+            .AppendCallback(() => SceneManager.LoadScene(1));
     }
 
     private IEnumerator WaitForNetworkAndSave()
@@ -137,7 +146,7 @@ public class GameManager : MonoBehaviour
 
         sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameOverPanel", 3))
             .AppendInterval(3)
-            .AppendCallback(()=> SceneManager.LoadScene(1));
+            .AppendCallback(() => SceneManager.LoadScene(1));
     }
 
     /// <summary>
@@ -148,7 +157,7 @@ public class GameManager : MonoBehaviour
         int stage = _playerData.CurrentStage;
         float prevTime = _playerData.ClearTimes[stage];
 
-       
+
         if (prevTime == 0f || ClearTime < prevTime)
         {
             _playerData.ClearTimes[stage] = ClearTime;
