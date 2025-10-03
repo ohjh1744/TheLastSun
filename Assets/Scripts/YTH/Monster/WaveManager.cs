@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -12,9 +11,25 @@ public class WaveManager : MonoBehaviour
 
     [Header("Don't Set")]
     public int SpawnedMonsterCount = 0;
-    public int SpawnBoss;
     public int AliveMonsterCount = 0;
-    public int DeadMonsterCount = 0;
+    public int _toSpawnBossindex;
+    private int _deaddMonsterCount = 0;
+    [SerializeField]
+    public int DeaddMonsterCount
+    {
+        get => _deaddMonsterCount;
+        set
+        {
+            _deaddMonsterCount = value;
+            if (_deaddMonsterCount == _totalWave * _monstersPerWave)
+            {
+                ClearStage?.Invoke();
+            }
+        }
+    }
+
+    private int _curWave = 1;
+    public int CurWave { get => _curWave; private set { _curWave = value; CurWaveChanged?.Invoke(_curWave); } }
 
     [Header("Set")]
     [SerializeField] int _totalWave = 100;
@@ -32,17 +47,9 @@ public class WaveManager : MonoBehaviour
     public event Action<int> SpawnedMonsterCountChanged;
     public event Action<int> AliveMonsterCountChanged;
     public event Action<int> CurWaveChanged;
+    public event Action ClearStage;
 
-    private int _curWave = 1;
-    public int CurWave
-    {
-        get => _curWave;
-        private set
-        {
-            _curWave = value;
-            CurWaveChanged?.Invoke(_curWave);
-        }
-    }
+
 
     private void Awake()
     {
@@ -68,6 +75,7 @@ public class WaveManager : MonoBehaviour
         AliveMonsterCountChanged += OnWarning;
         SpawnedMonsterCountChanged += OnWarning;
         SpawnedMonsterCountChanged += _inGameUi.OnCurMonsterCountChanged;
+        ClearStage += OnClearStage;
     }
 
     private void OnDisable()
@@ -78,6 +86,7 @@ public class WaveManager : MonoBehaviour
         AliveMonsterCountChanged -= OnWarning;
         SpawnedMonsterCountChanged -= OnWarning;
         SpawnedMonsterCountChanged -= _inGameUi.OnCurMonsterCountChanged;
+        ClearStage -= OnClearStage;
     }
 
     private void Start()
@@ -130,12 +139,9 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private void OnClearStage(int count)
+    private void OnClearStage()
     {
-        if (count >= _totalWave * _monstersPerWave)
-        {
-            GameManager.Instance.ClearStage();
-        }
+        GameManager.Instance.ClearStage();
     }
 
     private void SpawnMonster(bool isBoss, int moveSpeed = 1)
@@ -143,8 +149,8 @@ public class WaveManager : MonoBehaviour
         if (isBoss)
         {
             // 보스 몬스터 소환
-            GameObject BossInstance = Instantiate(_bossPrefabs[SpawnBoss], _spawnPoint.position, Quaternion.identity);
-            SpawnBoss++;
+            GameObject BossInstance = Instantiate(_bossPrefabs[_toSpawnBossindex], _spawnPoint.position, Quaternion.identity);
+            _toSpawnBossindex++;
             Debug.Log("보스 소환");
         }
         else

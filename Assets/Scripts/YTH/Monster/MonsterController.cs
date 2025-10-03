@@ -15,10 +15,10 @@ public class MonsterController : MonoBehaviour
     {
         Init();
     }
+
     public void Init()
     {
         _model.CurHp = _model.MaxHp;
-        transform.localPosition = _waveManager.SpawnPoint.position;
     }
 
     public void TakeDamage(int damageAmount)
@@ -34,7 +34,9 @@ public class MonsterController : MonoBehaviour
     {
         GameManager.Instance.Jewel += _model.RewardJewel;
        
-        WaveManager.Instance.AliveMonsterCount--;
+        WaveManager.Instance.OnMonsterDie();
+        transform.localPosition = _waveManager.SpawnPoint.position;
+
         _pooledObject.ReturnPool();
     }
 }
