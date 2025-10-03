@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,10 +8,27 @@ public class TutorialManager : MonoBehaviour
 
     private int _currentStep = 0;
 
+    private void Awake()
+    {
+        for (int i = 0; i < tutorialSteps.Length; i++)
+        {
+            tutorialSteps[i].SetActive(false);
+        }
+    }
+
     private void Start()
     {
         if (!PlayerController.Instance.PlayerData.IsTutorial)
+        {
             StartTutorial();
+        }
+        else
+        {
+            for (int i = 0; i < tutorialSteps.Length; i++)
+            {
+                tutorialSteps[i].SetActive(false);
+            }
+        }
     }
 
     public void StartTutorial()
@@ -22,8 +37,9 @@ public class TutorialManager : MonoBehaviour
         _currentStep = 0;
 
         for (int i = 0; i < tutorialSteps.Length; i++)
+        {
             tutorialSteps[i].SetActive(i == 0);
-
+        }
         AddClickEvent(tutorialSteps[0]);
     }
 
@@ -47,13 +63,15 @@ public class TutorialManager : MonoBehaviour
             tutorialSteps[_currentStep].SetActive(true);
             AddClickEvent(tutorialSteps[_currentStep]);
         }
-        
+
         else
         {
             // 튜토리얼 종료
             Time.timeScale = 1f;
             for (int i = 0; i < tutorialSteps.Length; i++)
+            {
                 tutorialSteps[i].SetActive(false);
+            }
             PlayerController.Instance.PlayerData.IsTutorial = true;
         }
     }
