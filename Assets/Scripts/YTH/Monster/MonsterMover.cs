@@ -6,13 +6,17 @@ using UnityEngine;
 public class MonsterMover : MonoBehaviour
 {
     private MonsterModel _model;
+    private WaveManager _waveManager;
 
-    private PooledObject _pooledObject;
+    private Sequence _seq;
+
+    float moveDistance;
+    float moveTime;
 
     private void Awake()
     {
         _model = GetComponent<MonsterModel>();
-        _pooledObject = GetComponent<PooledObject>();
+        _waveManager = GetComponentInParent<WaveManager>();
     }
 
     private void Start()
@@ -20,18 +24,71 @@ public class MonsterMover : MonoBehaviour
         StartMoveSequence();
     }
 
+    private void OnEnable()
+    {
+        if (_waveManager != null && _waveManager.SpawnPoint != null)
+            transform.localPosition = _waveManager.SpawnPoint.localPosition;
+
+        StartMoveSequence();
+    }
+
+    private void OnDisable()
+    {
+        if (_seq != null && _seq.IsActive())
+        {
+            _seq.Kill();
+            _seq = null;
+        }
+        DOTween.Kill(transform);
+    }
+
+    private void OnDestroy()
+    {
+        if (_seq != null && _seq.IsActive())
+        {
+            _seq.Kill();
+            _seq = null;
+        }
+        DOTween.Kill(transform);
+    }
+
     private void StartMoveSequence()
     {
-        float moveDistance = 6f;
-        float moveTime = (_model != null && _model.MoveSpeed > 0) ? moveDistance / _model.MoveSpeed : 3f;
+        if (_seq != null && _seq.IsActive())
+        {
+            _seq.Kill();
+            _seq = null;
+        }
 
-        Sequence sequence = DOTween.Sequence();
+        moveDistance = 6f;
+        moveTime = (_model != null && _model.MoveSpeed > 0) ? moveDistance / _model.MoveSpeed : 3f;
 
-        // 이동 거리(3 → -3 또는 -3 → 3)는 6, 시간 = 거리 / 속도
-        sequence.Append(transform.DOMoveY(-3, moveTime).SetEase(Ease.Linear))
-                .Append(transform.DOMoveX(3, moveTime).SetEase(Ease.Linear))
-                .Append(transform.DOMoveY(3, moveTime).SetEase(Ease.Linear))
-                .Append(transform.DOMoveX(-3, moveTime).SetEase(Ease.Linear))
-                .OnComplete(StartMoveSequence);
+        float half = moveDistance * 0.5f;
+
+        // 현재 로컬 위치를 12시로 정사각형 중심 계산
+        Vector3 start = transform.localPosition; // TopCenter
+        Vector3 center = start + Vector3.down * half;
+
+        float z = transform.localPosition.z;
+        Vector3 topCenter   = new(center.x,        center.y + half, z); // 시작점(12시)
+        Vector3 topRight    = new(center.x + half, center.y + half, z);
+        Vector3 bottomRight = new(center.x + half, center.y - half, z);
+        Vector3 bottomLeft  = new(center.x - half, center.y - half, z);
+        Vector3 topLeft     = new(center.x - half, center.y + half, z);
+
+        float tHalf = half / (_model != null && _model.MoveSpeed > 0 ? _model.MoveSpeed : 2f);
+        float tSide = moveDistance / (_model != null && _model.MoveSpeed > 0 ? _model.MoveSpeed : 2f);
+
+        transform.localPosition = topCenter;
+
+        _seq = DOTween.Sequence()
+            .SetAutoKill(false);
+
+        _seq.Append(transform.DOLocalMove(topLeft,     tHalf).SetEase(Ease.Linear))   
+            .Append(transform.DOLocalMove(bottomLeft,  tSide).SetEase(Ease.Linear))   
+            .Append(transform.DOLocalMove(bottomRight, tSide).SetEase(Ease.Linear))   
+            .Append(transform.DOLocalMove(topRight,    tSide).SetEase(Ease.Linear))   
+            .Append(transform.DOLocalMove(topCenter,   tHalf).SetEase(Ease.Linear))   
+            .SetLoops(-1, LoopType.Restart);
     }
 }
