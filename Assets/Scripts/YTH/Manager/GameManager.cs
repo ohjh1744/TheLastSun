@@ -65,7 +65,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        WaveManager.Instance.ClearStage += ClearStage;
+
         StartTimer();
+    }
+
+    private void OnDestroy()
+    {
+        WaveManager.Instance.ClearStage -= ClearStage;
     }
 
     private void Update()
@@ -73,6 +80,11 @@ public class GameManager : MonoBehaviour
         if (_isTimerRunning)
         {
             ClearTime += Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UIManager.Instance.ShowPanel("ClearPanel");
         }
     }
 
@@ -101,13 +113,16 @@ public class GameManager : MonoBehaviour
 
     public void ClearStage()
     {
-        StopTimer();
-
-        _playerData.IsClearStage[_playerData.CurrentStage] = true;
+        Debug.Log("Å¬¸®¾î~~~~~~~~~~~~~~~~~~~");
+        if (_playerData != null)
+        {
+            _playerData.IsClearStage[_playerData.CurrentStage] = true;
+        }
 
         Sequence sequence = DOTween.Sequence();
+
         sequence.AppendCallback(() => StopTimer())
-          /*  .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()))*/
+            /*  .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()))*/
             .AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"));
     }
 
