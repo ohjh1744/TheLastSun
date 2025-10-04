@@ -74,7 +74,7 @@ public class WaveManager : MonoBehaviour
         AliveMonsterCountChanged += OnStageFail;
         AliveMonsterCountChanged += OnWarning;
         SpawnedMonsterCountChanged += OnWarning;
-        SpawnedMonsterCountChanged += _inGameUi.OnCurMonsterCountChanged;
+        SpawnedMonsterCountChanged += _inGameUi.OnAliveMonsterCountChanged;
         ClearStage += OnClearStage;
     }
 
@@ -85,7 +85,7 @@ public class WaveManager : MonoBehaviour
         AliveMonsterCountChanged -= OnStageFail;
         AliveMonsterCountChanged -= OnWarning;
         SpawnedMonsterCountChanged -= OnWarning;
-        SpawnedMonsterCountChanged -= _inGameUi.OnCurMonsterCountChanged;
+        SpawnedMonsterCountChanged -= _inGameUi.OnAliveMonsterCountChanged;
         ClearStage -= OnClearStage;
     }
 

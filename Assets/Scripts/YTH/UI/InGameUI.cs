@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InGameUI : UIBInder
@@ -42,6 +43,10 @@ public class InGameUI : UIBInder
     private Button _tribe2Button;
     private Button _tribe3Button;
 
+    // Clear Panel
+    private Button _loadMainSceneButton;
+
+
     private void Awake()
     {
         BindAll();
@@ -81,6 +86,9 @@ public class InGameUI : UIBInder
         _tribe1Button = GetUI<Button>("Tribe1Button"); //TODO : 버튼 클릭시 해당 부족 유닛만 보이게
         _tribe2Button = GetUI<Button>("Tribe2Button");
         _tribe3Button = GetUI<Button>("Tribe3Button");
+
+        // Clear Panel
+       _loadMainSceneButton = GetUI<Button>("LoadMainSceneButton");
     }
 
     private void Start()
@@ -88,11 +96,19 @@ public class InGameUI : UIBInder
         // Top Panel
         AddPanelList(_warningPanel, _gameOverPanel);
 
-        _stopButton.onClick.AddListener(GameManager.Instance.PauseGame);
+        _stopButton.onClick.AddListener(() =>
+        {
+            GameManager.Instance.PauseGame();
+            if (GameManager.Instance.IsPause)
+                DisableAllButtons(excludeStop: true);
+            else
+                EnableAllButtons();
+        });
+
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
 
         _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
-        _waveManager.SpawnedMonsterCountChanged += OnCurMonsterCountChanged;
+        _waveManager.AliveMonsterCountChanged += OnAliveMonsterCountChanged;
 
         // Bottom Panel
         GameManager.Instance.JewelChanged += OnJewelChanged;
@@ -105,17 +121,20 @@ public class InGameUI : UIBInder
         _closeSellUnitButton.onClick.AddListener(() => _unitSellPanel.SetActive(false));
         /*_sellNornalButton.onClick.AddListener(() => _unitSpawnerController.SellUnit(_targetUnit));*/
 
+
+        // Clear Panel
+        _loadMainSceneButton.onClick.AddListener(() => SceneManager.LoadScene(1));
         SetGameSpeedText();
     }
 
     private void OnDestroy()
     {
         // Top Panel
-        _stopButton.onClick.RemoveListener(GameManager.Instance.PauseGame);
+        _stopButton.onClick.RemoveAllListeners();
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
 
         _monsterSpawnmer.CurWaveChanged -= OnWaveChanged;
-        _waveManager.SpawnedMonsterCountChanged -= OnCurMonsterCountChanged;
+        _waveManager.AliveMonsterCountChanged -= OnAliveMonsterCountChanged;
 
         // Bottom Panel
         if (GameManager.Instance != null)
@@ -126,11 +145,33 @@ public class InGameUI : UIBInder
 
         // Unit Sell Panel
         _closeSellUnitButton.onClick.RemoveAllListeners();
+
+        // Clear Panel
+        _loadMainSceneButton .onClick.RemoveAllListeners();
     }
 
     private void Update()
     {
         _timeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\:mm\\:ss}";
+    }
+
+    private void DisableAllButtons(bool excludeStop = true)
+    {
+        Button[] buttons = GetComponentsInChildren<Button>(true);
+        foreach (Button btn in buttons)
+        {
+            if (excludeStop && btn == _stopButton) continue;
+            btn.interactable = false;
+        }
+    }
+
+    private void EnableAllButtons()
+    {
+        Button[] buttons = GetComponentsInChildren<Button>(true);
+        foreach (Button btn in buttons)
+        {
+            btn.interactable = true;
+        }
     }
 
     private void OnSpeedButtonClicked()
@@ -150,9 +191,8 @@ public class InGameUI : UIBInder
         _waveText.text = $"Wave {wave}";
     }
 
-    public void OnCurMonsterCountChanged(int count)
+    public void OnAliveMonsterCountChanged(int count)
     {
-        Debug.Log($"OnCurMonsterCountChanged: {count}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         _curMonsterCountText.text = $"{count}/1200";
     }
 
