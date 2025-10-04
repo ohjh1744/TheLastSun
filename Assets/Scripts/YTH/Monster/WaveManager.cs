@@ -26,6 +26,8 @@ public class WaveManager : MonoBehaviour
     private int _curWave = 1;
     public int CurWave { get => _curWave; private set { _curWave = value; CurWaveChanged?.Invoke(_curWave); } }
 
+
+
     [Header("Set")]
     [SerializeField] int _totalWave = 100;
     [SerializeField] int _monstersPerWave = 12;
@@ -35,8 +37,9 @@ public class WaveManager : MonoBehaviour
 
     private ObjectPool _objectPool;
 
-    private WaitForSeconds _spawnDelay = new(6f);
-    private WaitForSeconds _waveDelay = new(3f);
+    // 웨이브 및 몬스터 소환 딜레이
+    private WaitForSeconds _spawnDelay = new(1f);
+    private WaitForSeconds _waveDelay = new(6f);
 
     // 이벤트 선언
     public event Action<int> SpawnedMonsterCountChanged;
