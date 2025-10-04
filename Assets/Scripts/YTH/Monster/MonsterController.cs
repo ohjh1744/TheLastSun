@@ -9,8 +9,6 @@ public class MonsterController : MonoBehaviour
 
     private WaveManager _waveManager => WaveManager.Instance;
 
-    public Action OnDie;
-
     private void OnEnable()
     {
         Init();

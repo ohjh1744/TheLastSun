@@ -10,23 +10,18 @@ public class WaveManager : MonoBehaviour
     private InGameUI _inGameUi;
 
     [Header("Don't Set")]
-    public int SpawnedMonsterCount = 0;
-    public int AliveMonsterCount = 0;
     public int _toSpawnBossindex;
+
+    [SerializeField] int _spawnedMonsterCount = 0;
+    public int SpawnedMonsterCount { get => _spawnedMonsterCount; set { _spawnedMonsterCount = value; SpawnedMonsterCountChanged?.Invoke(_spawnedMonsterCount); } }
+   
+    [SerializeField] int _aliveMonsterCount = 0;
+    public int AliveMonsterCount { get=> _aliveMonsterCount; set { _aliveMonsterCount = value; AliveMonsterCountChanged?.Invoke(_aliveMonsterCount); } }
+
     [SerializeField] int _deaddMonsterCount = 0;
-    [SerializeField]
-    public int DeaddMonsterCount
-    {
+    public int DeaddMonsterCount {
         get => _deaddMonsterCount;
-        set
-        {
-            _deaddMonsterCount = value;
-            if (_deaddMonsterCount == _totalWave * _monstersPerWave)
-            {
-                ClearStage?.Invoke();
-            }
-        }
-    }
+        set { _deaddMonsterCount = value; if (_deaddMonsterCount >= _totalWave * _monstersPerWave) { ClearStage?.Invoke(); }} }
 
     private int _curWave = 1;
     public int CurWave { get => _curWave; private set { _curWave = value; CurWaveChanged?.Invoke(_curWave); } }
@@ -40,12 +35,12 @@ public class WaveManager : MonoBehaviour
 
     private ObjectPool _objectPool;
 
-    private WaitForSeconds _spawnDelay = new(1f);
+    private WaitForSeconds _spawnDelay = new(6f);
     private WaitForSeconds _waveDelay = new(3f);
 
     // 이벤트 선언
     public event Action<int> SpawnedMonsterCountChanged;
-    public event Action<int> AliveMonsterCountChanged;
+    public event Action<int> AliveMonsterCountChanged; //TODO: 살아있는 몬스터 수 변경이 제대로 이루어지지 않음; 마이너스가 됨 수정필요 
     public event Action<int> CurWaveChanged;
     public event Action ClearStage;
 
@@ -165,11 +160,8 @@ public class WaveManager : MonoBehaviour
                 model.MoveSpeed = moveSpeed;
             }
         }
-        SpawnedMonsterCount++;
-        SpawnedMonsterCountChanged?.Invoke(SpawnedMonsterCount);
-
-        AliveMonsterCount++;
-        AliveMonsterCountChanged?.Invoke(AliveMonsterCount);
+        OnMonsterSpawn();
+      
     }
 
     // 몬스터가 죽을 때(예시)
@@ -177,6 +169,11 @@ public class WaveManager : MonoBehaviour
     {
         AliveMonsterCount--;
         DeaddMonsterCount++;
-        AliveMonsterCountChanged?.Invoke(AliveMonsterCount);
+    }
+
+    public void OnMonsterSpawn()
+    {
+        SpawnedMonsterCount++;
+        AliveMonsterCount++;
     }
 }
