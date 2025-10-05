@@ -36,9 +36,20 @@ public class GameManager : MonoBehaviour
 
     public int CurrentGameSpeed = 1;
 
+    [Header("각 스테이지 사운드")]
+    [SerializeField] AudioClip _stage1;
+    [SerializeField] AudioClip _stage2;
+    [SerializeField] AudioClip _stage3;
+    [SerializeField] AudioClip _stage4;
+    [SerializeField] AudioClip _stage5;
+
+    private AudioSource _audioSource;
+
     private void Awake()
     {
         SetSingleton();
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     #region 싱글톤 세팅
@@ -59,7 +70,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         WaveManager.Instance.ClearStage += ClearStage;
-
+        PlayStageBGM(_playerData.CurrentStage);
         StartTimer();
     }
 
@@ -102,6 +113,34 @@ public class GameManager : MonoBehaviour
     {
         IsPause = !_isPause;
         Debug.Log("IsPause: " + IsPause);
+    }
+
+    public void PlayStageBGM(int stage)
+    {
+        if (!_playerData.IsSound) return;
+        switch (stage)
+        {
+            case 0:
+                _audioSource.clip = _stage1;
+                break;
+            case 1:
+                _audioSource.clip = _stage2;
+                break;
+            case 2:
+                _audioSource.clip = _stage3;
+                break;
+            case 3:
+                _audioSource.clip = _stage4;
+                break;
+            case 4:
+                _audioSource.clip = _stage5;
+                break;
+            default:
+                Debug.LogWarning("Invalid stage number for BGM.");
+                return;
+        }
+        _audioSource.loop = true;
+        _audioSource.Play();
     }
 
     public void SetSound()
@@ -177,4 +216,6 @@ public class GameManager : MonoBehaviour
     {
         return _playerData.IsTutorial = true;
     }
+
+   
 }
