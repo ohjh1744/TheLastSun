@@ -104,6 +104,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("IsPause: " + IsPause);
     }
 
+    public void SetSound()
+    {
+        _playerData.IsSound = !_playerData.IsSound;
+    }
+
     public void ClearStage()
     {
         Debug.Log("Å¬¸®¾î~~~~~~~~~~~~~~~~~~~");

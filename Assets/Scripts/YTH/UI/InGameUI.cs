@@ -20,6 +20,9 @@ public class InGameUI : UIBInder
     [Header("Top Panel")]
     private Button _stopButton;
     private Button _speedButton;
+    private Button _soundButton;
+        private GameObject _soundOnImage;
+        private GameObject _soundOffImage;
     private TMPro.TMP_Text _gameSpeedText;
     private TMPro.TMP_Text _monsterNameText;
     private TMPro.TMP_Text _waveText;
@@ -64,6 +67,9 @@ public class InGameUI : UIBInder
         // Top Panel
         _stopButton = GetUI<Button>("StopButton");
         _speedButton = GetUI<Button>("SpeedButton");
+        _soundButton = GetUI<Button>("SoundButton");
+            _soundOnImage = GetUI("SoundOnImage");
+            _soundOffImage = GetUI("SoundOffImage");
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
         _monsterNameText = GetUI<TMPro.TMP_Text>("MonsterNameText");
         _waveText = GetUI<TMPro.TMP_Text>("WaveText");
@@ -96,16 +102,10 @@ public class InGameUI : UIBInder
         // Top Panel
         AddPanelList(_warningPanel, _gameOverPanel);
 
-        _stopButton.onClick.AddListener(() =>
-        {
-            GameManager.Instance.PauseGame();
-            if (GameManager.Instance.IsPause)
-                DisableAllButtons(excludeStop: true);
-            else
-                EnableAllButtons();
-        });
+        _stopButton.onClick.AddListener(OnPauseGame);
 
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
+        _soundButton.onClick.AddListener(OnSoundButtonClicked);
 
         _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
         _waveManager.AliveMonsterCountChanged += OnAliveMonsterCountChanged;
@@ -132,6 +132,7 @@ public class InGameUI : UIBInder
         // Top Panel
         _stopButton.onClick.RemoveAllListeners();
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
+        _soundButton.onClick.RemoveAllListeners();
 
         _monsterSpawnmer.CurWaveChanged -= OnWaveChanged;
         _waveManager.AliveMonsterCountChanged -= OnAliveMonsterCountChanged;
@@ -180,6 +181,21 @@ public class InGameUI : UIBInder
         SetGameSpeedText();
     }
 
+    private void OnSoundButtonClicked()
+    {
+        GameManager.Instance.SetSound();
+        if (PlayerController.Instance.PlayerData.IsSound)
+        {
+            _soundOnImage.SetActive(true);
+            _soundOffImage.SetActive(false);
+        }
+        else
+        {
+            _soundOnImage.SetActive(false);
+            _soundOffImage.SetActive(true);
+        }
+    }
+
     private void SetGameSpeedText()
     {
         _gameSpeedText.text = $"{GameManager.Instance.CurrentGameSpeed}X";
@@ -207,5 +223,14 @@ public class InGameUI : UIBInder
     private void OnJewelChanged(int jewel)
     {
         _jewelText.text = jewel.ToString();
+    }
+
+    public void OnPauseGame()
+    {
+        GameManager.Instance.PauseGame();
+        if (GameManager.Instance.IsPause)
+            DisableAllButtons(excludeStop: true);
+        else
+            EnableAllButtons();
     }
 }
