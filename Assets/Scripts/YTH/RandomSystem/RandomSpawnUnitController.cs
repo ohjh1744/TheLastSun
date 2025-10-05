@@ -14,7 +14,7 @@ public class RandomSpawnUnitController : MonoBehaviour
 {
     [SerializeField] int _requiredJewl = 12;
 
-    [Header("»Ì±â È®·ü")]
+    [Header("»Ì±â È®·ü(%)")]
     [SerializeField] float _normalWeight = 50f;    
     [SerializeField] float _rareWeight = 30f;      
     [SerializeField] float _ancientWeight = 15f;   

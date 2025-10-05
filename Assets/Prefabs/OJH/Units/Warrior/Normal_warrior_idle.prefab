@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -354166634428127196}
   - component: {fileID: -1745685804192989427}
   - component: {fileID: -1162335998589109602}
+  - component: {fileID: 5065080808800463985}
   m_Layer: 0
   m_Name: Normal_warrior_idle
   m_TagString: Untagged
@@ -205,6 +206,26 @@ MonoBehaviour:
   _damage: 10
   _attakRange: 4
   _attackDelay: 1
+--- !u!114 &5065080808800463985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044665190448823389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c059319daa47b344bb2b7f9d997886b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bulletPrefab: {fileID: 5591075122848540527, guid: c36ad6560c295fa4eb8251efe7a574f3, type: 3}
+  CurrentState: 0
+  _debugDraw: 1
+  _circleSegments: 32
+  _idleColor: {r: 0, g: 0.7, b: 1, a: 0.6}
+  _moveColor: {r: 0.2, g: 1, b: 0.2, a: 0.6}
+  _attackColor: {r: 1, g: 0.2, b: 0.2, a: 0.6}
+  _enemyLineColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &2973268883964535486
 PrefabInstance:
   m_ObjectHideFlags: 0
