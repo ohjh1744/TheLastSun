@@ -74,7 +74,6 @@ public class UnitPointerHandler : MonoBehaviour,
 
         bool inside = IsInsideBounds(_lastDragWorldPos);
 
-        // 경계 밖이어도 마우스를 떼지 않는 한 유닛은 마우스를 그대로 따라감
         transform.position = _lastDragWorldPos;
 
         if (inside)
@@ -94,13 +93,10 @@ public class UnitPointerHandler : MonoBehaviour,
         Vector3 releaseWorldPos = _cam.ScreenToWorldPoint(targetPos);
         releaseWorldPos.z = 0;
 
-        // 오버레이 정리
         ResetOverlay();
 
-        // 경계 밖에서 마우스를 떼면 이동하지 않고 시작점으로 복귀
         if (!IsInsideBounds(releaseWorldPos))
         {
-            // 즉시 복귀
             transform.position = _dragStartPos;
 
             // 같은 프레임 내 다른 시스템이 이동을 걸어도 무시되도록 프레임 끝에 한 번 더 스냅 + 이동 취소
