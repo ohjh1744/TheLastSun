@@ -28,7 +28,8 @@ public class InGameUI : UIBInder
     private TMPro.TMP_Text _timeText;
 
     [Header("Bottom Panel")]
-    private TMPro.TMP_Text _curMonsterCountText;
+    private Slider _aliveMonsterCountSlider;
+    private TMPro.TMP_Text _aliveMonsterCountText;
     private TMPro.TMP_Text _jewelText;
     private Button _randomSppawnButton;
     private Button _unitSellButton;
@@ -86,7 +87,8 @@ public class InGameUI : UIBInder
         _timeText = GetUI<TMPro.TMP_Text>("TimeText");
 
         // Bottom Panel
-        _curMonsterCountText = GetUI<TMPro.TMP_Text>("CurMonsterCountText");
+        _aliveMonsterCountSlider = GetUI<Slider>("AliveMonsterCountSlider");
+        _aliveMonsterCountText = GetUI<TMPro.TMP_Text>("CurMonsterCountText");
         _jewelText = GetUI<TMPro.TMP_Text>("JewelText");
         _randomSppawnButton = GetUI<Button>("RandomSpawnButton");
         _unitSellButton = GetUI<Button>("SellUnitButton");
@@ -130,6 +132,7 @@ public class InGameUI : UIBInder
         _waveManager.AliveMonsterCountChanged += OnAliveMonsterCountChanged;
 
         // Bottom Panel
+        _waveManager.AliveMonsterCountChanged += SetAliveMonsterCountSlider;
         GameManager.Instance.JewelChanged += OnJewelChanged;
         OnJewelChanged(GameManager.Instance.Jewel);
 
@@ -177,6 +180,8 @@ public class InGameUI : UIBInder
 
         // Clear Panel
         _loadMainSceneButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+
+        SetAliveMonsterCountSlider(0);
         SetGameSpeedText();
     }
 
@@ -268,7 +273,7 @@ public class InGameUI : UIBInder
 
     public void OnAliveMonsterCountChanged(int count)
     {
-        _curMonsterCountText.text = $"{count}/1200";
+        _aliveMonsterCountText.text = $"{count}/1200";
     }
 
     private void AddPanelList(params GameObject[] panel)
@@ -334,5 +339,11 @@ public class InGameUI : UIBInder
     {
         if (_unitSellPanel != null && _unitSellPanel.activeSelf)
             SetSellPanel(_currentSellIndex);
+    }
+
+    public void SetAliveMonsterCountSlider(int count)
+    {
+        _aliveMonsterCountSlider.maxValue = _waveManager.ClearCondition;
+        _aliveMonsterCountSlider.value = count;
     }
 }
