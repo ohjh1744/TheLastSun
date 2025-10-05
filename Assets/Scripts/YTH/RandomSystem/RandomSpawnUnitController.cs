@@ -29,6 +29,14 @@ public class RandomSpawnUnitController : MonoBehaviour
     [SerializeField] GameObject[] _legendUnits;
     [SerializeField] GameObject[] _epicUnits;
     [SerializeField] GameObject[] _goldUnits;
+    public GameObject[] NormalUnits => _normalUnits;
+    public GameObject[] RareUnits => _rareUnits;
+    public GameObject[] AncientUnits => _ancientUnits;
+    public GameObject[] LegendUnits => _legendUnits;
+    public GameObject[] EpicUnits => _epicUnits;
+    public GameObject[] GoldUnits => _goldUnits;
+
+    
 
     private UnitSpawner _unitSpawner;
 
@@ -39,7 +47,7 @@ public class RandomSpawnUnitController : MonoBehaviour
 
     public void SpawnRandomUnit()
     {
-        var unitPrefab = GetRandomUnit();
+        GameObject unitPrefab = GetRandomUnit();
         if (unitPrefab != null)
         {
             _unitSpawner.SpawnUnit(unitPrefab);
