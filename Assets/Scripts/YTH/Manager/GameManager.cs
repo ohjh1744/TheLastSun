@@ -14,14 +14,7 @@ public class GameManager : MonoBehaviour
     public int Jewel
     {
         get => _jewel;
-        set
-        {
-            if (_jewel != value)
-            {
-                _jewel = value;
-                JewelChanged?.Invoke(_jewel);
-            }
-        }
+        set { if (_jewel != value) { _jewel = value; JewelChanged?.Invoke(_jewel); } }
     }
 
     private PlayerData _playerData => PlayerController.Instance.PlayerData;
