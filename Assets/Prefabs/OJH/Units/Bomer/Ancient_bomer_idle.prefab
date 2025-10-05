@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 3
-  _attackType: 0
+  _attackType: 1
   _attackSpeed: 8
   _damage: 10
   _attakRange: 4
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c059319daa47b344bb2b7f9d997886b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 5591075122848540527, guid: c36ad6560c295fa4eb8251efe7a574f3, type: 3}
+  _bulletPrefab: {fileID: 1716387695609692421, guid: c8702ab5dc1ddb44daa37426f8ee9fd0, type: 3}
   CurrentState: 0
   _debugDraw: 0
   _circleSegments: 32
