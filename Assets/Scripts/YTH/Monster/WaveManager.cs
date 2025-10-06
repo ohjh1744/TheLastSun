@@ -66,7 +66,6 @@ public class WaveManager : MonoBehaviour
 
     private void OnEnable()
     {
-        CurWaveChanged += OnWaveChanged;
         AliveMonsterCountChanged += OnStageFail;
         AliveMonsterCountChanged += OnWarning;
         AliveMonsterCountChanged += OnWarning2;
@@ -75,7 +74,6 @@ public class WaveManager : MonoBehaviour
 
     private void OnDisable()
     {
-        CurWaveChanged -= OnWaveChanged;
         AliveMonsterCountChanged -= OnStageFail;
         AliveMonsterCountChanged -= OnWarning;
         AliveMonsterCountChanged -= OnWarning2;

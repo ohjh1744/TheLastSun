@@ -195,8 +195,7 @@ public class GameManager : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
 
         sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameEndPanel", 3))
-            .AppendInterval(3)
-            .AppendCallback(() => SceneManager.LoadScene(1));
+                .AppendCallback(() => SetGameEndHandler?.Invoke());
     }
 
     /// <summary>
