@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System; // 이벤트용
 
 public class UnitSpawner : MonoBehaviour
 {
@@ -11,8 +12,14 @@ public class UnitSpawner : MonoBehaviour
     // 프리팹별 수량
     public Dictionary<GameObject, int> SpawnedUnitsDic = new();
 
-    // 인스턴스 -> 프리팹 역매핑
-    private readonly Dictionary<GameObject, GameObject> _instanceToPrefab = new();
+    // 외부(UI)에서 읽기 전용으로 접근
+    public IReadOnlyDictionary<GameObject, int> UnitsCountDic => SpawnedUnitsDic;
+
+    // 수량 변경 이벤트(UI 갱신용)
+    public event Action UnitsCountChanged;
+
+    // 프리팹 -> 실제 생성된 인스턴스 목록
+    private readonly Dictionary<GameObject, List<GameObject>> _spawnedInstances = new();
 
     private void Awake()
     {
@@ -22,8 +29,7 @@ public class UnitSpawner : MonoBehaviour
             _spawnPoint[i] = transform.GetChild(i).position;
         }
 
-        if (transform.childCount > 4)
-            _parent = transform.GetChild(4);
+        _parent = transform.GetChild(4);
     }
 
     public GameObject SpawnUnit(GameObject unitPrefab)
@@ -34,80 +40,90 @@ public class UnitSpawner : MonoBehaviour
             return null;
         }
 
-        Vector3 pos = _spawnPoint[_curSpawnPoint];
-        _curSpawnPoint = (_curSpawnPoint >= 3) ? 0 : _curSpawnPoint + 1;
+        GameObject instance = Instantiate(unitPrefab, SetSpawnPos(), Quaternion.identity, _parent);
 
-        Transform parent = _parent != null ? _parent : transform;
-        GameObject instance = Instantiate(unitPrefab, pos, Quaternion.identity, parent);
-
-        // 카운트 및 매핑 저장
-        if (SpawnedUnitsDic.ContainsKey(unitPrefab))
-            SpawnedUnitsDic[unitPrefab]++;
-        else
-            SpawnedUnitsDic[unitPrefab] = 1;
-
-        _instanceToPrefab[instance] = unitPrefab;
+        SaveSpawnedUnitsDic(unitPrefab);
+        SaveSpawnedInstance(unitPrefab, instance);
 
         return instance;
     }
 
-    /// <summary>
-    /// 버튼에 연결: 지정된 프리팹 유형의 인스턴스 중 1개만 판매(파괴)
-    /// </summary>
-    public void SellUnit(GameObject prefab)
+    private Vector2 SetSpawnPos()
     {
-        if (prefab == null)
+        Vector2 pos = _spawnPoint[_curSpawnPoint];
+        _curSpawnPoint = (_curSpawnPoint >= 3) ? 0 : _curSpawnPoint + 1;
+
+        return pos;
+    }
+
+    // 유닛 스폰 시 딕셔너리에 저장(프리팹별 카운트)
+    private void SaveSpawnedUnitsDic(GameObject spawnUnit)
+    {
+        if (SpawnedUnitsDic.ContainsKey(spawnUnit))
+            SpawnedUnitsDic[spawnUnit]++;
+        else
+            SpawnedUnitsDic[spawnUnit] = 1;
+
+        UnitsCountChanged?.Invoke();
+    }
+
+    // 유닛 스폰 시 인스턴스 목록에 저장
+    private void SaveSpawnedInstance(GameObject prefab, GameObject instance)
+    {
+        if (!_spawnedInstances.TryGetValue(prefab, out var list))
         {
-            Debug.LogWarning("[UnitSpawner] SellUnit: 전달된 프리팹이 null");
+            list = new List<GameObject>(4);
+            _spawnedInstances[prefab] = list;
+        }
+        list.Add(instance);
+    }
+
+    // 유닛 판매 시 수량 감소(프리팹별 카운트)
+    public void RemoveSpawnedUnitsDic(GameObject unit)
+    {
+        if (SpawnedUnitsDic.ContainsKey(unit))
+        {
+            SpawnedUnitsDic[unit]--;
+            if (SpawnedUnitsDic[unit] <= 0)
+                SpawnedUnitsDic.Remove(unit);
+
+            UnitsCountChanged?.Invoke();
+        }
+    }
+
+    // 유닛 판매 함수: 프리팹 기준으로 인스턴스 한 개 파괴
+    public void SellUnit(GameObject unitPrefab)
+    {
+        if (unitPrefab == null)
+        {
+            Debug.LogWarning("[UnitSpawner] SellUnit: 프리팹이 null 입니다.");
             return;
         }
 
-        // 해당 프리팹에 해당하는 임의의 인스턴스 1개 찾기
-        GameObject targetInstance = null;
-        foreach (var kv in _instanceToPrefab)
+        if (!_spawnedInstances.TryGetValue(unitPrefab, out var list) || list == null || list.Count == 0)
         {
-            if (kv.Value == prefab)
-            {
-                targetInstance = kv.Key;
-                break;
-            }
-        }
-
-        if (targetInstance == null)
-        {
-            Debug.LogWarning($"[UnitSpawner] SellUnit: 프리팹 '{prefab.name}' 인스턴스가 존재하지 않습니다.");
+            Debug.LogWarning($"[UnitSpawner] SellUnit: '{unitPrefab.name}' 인스턴스가 없습니다.");
             return;
         }
 
-        SellUnitInstance(targetInstance, prefab);
+        // 마지막으로 생성된 인스턴스부터 제거(LIFO)
+        int last = list.Count - 1;
+        var instance = list[last];
+        list.RemoveAt(last);
 
-        GetCount(prefab);
-    }
-
-    /// <summary>
-    /// 내부용: 특정 인스턴스를 직접 판매
-    /// </summary>
-    public void SellUnitInstance(GameObject instance, GameObject prefab)
-    {
-        // 수량 감소
-        if (SpawnedUnitsDic.TryGetValue(prefab, out int count))
+        if (instance != null)
         {
-            count--;
-            if (count <= 0)
-                SpawnedUnitsDic.Remove(prefab);
-            else
-                SpawnedUnitsDic[prefab] = count;
+            Destroy(instance);
         }
 
-        _instanceToPrefab.Remove(instance);
-        Destroy(instance);
-    }
+        // 프리팹 카운트 감소(이벤트는 여기서 발행)
+        RemoveSpawnedUnitsDic(unitPrefab);
 
-    /// <summary>
-    /// 프리팹 현재 수량 조회
-    /// </summary>
-    public int GetCount(GameObject prefab)
-    {
-        return prefab != null && SpawnedUnitsDic.TryGetValue(prefab, out int c) ? c : 0;
+        // 목록 비워지면 키 제거
+        if (list.Count == 0)
+        {
+            _spawnedInstances.Remove(unitPrefab);
+        }
     }
 }
+

@@ -10,22 +10,19 @@ public class WaveManager : MonoBehaviour
     private InGameUI _inGameUi;
 
     [Header("Don't Set")]
-    public int SpawnedMonsterCount = 0;
-    public int AliveMonsterCount = 0;
-    public int _toSpawnBossindex;
-    private int _deaddMonsterCount = 0;
-    [SerializeField]
-    public int DeaddMonsterCount
+    public int ToSpawnBossindex;
+
+    [SerializeField] int _spawnedMonsterCount = 0;
+    public int SpawnedMonsterCount { get => _spawnedMonsterCount; set { _spawnedMonsterCount = value; SpawnedMonsterCountChanged?.Invoke(_spawnedMonsterCount); } }
+
+    [SerializeField] int _aliveMonsterCount = 0;
+    public int AliveMonsterCount { get => _aliveMonsterCount; set { _aliveMonsterCount = value; AliveMonsterCountChanged?.Invoke(_aliveMonsterCount); } }
+
+    [SerializeField] int _deadMonsterCount = 0;
+    public int DeadMonsterCount
     {
-        get => _deaddMonsterCount;
-        set
-        {
-            _deaddMonsterCount = value;
-            if (_deaddMonsterCount == _totalWave * _monstersPerWave)
-            {
-                ClearStage?.Invoke();
-            }
-        }
+        get => _deadMonsterCount;
+        set { _deadMonsterCount = value; if (_deadMonsterCount >= _clearCondition) { OnClearStage(_deadMonsterCount); } }
     }
 
     private int _curWave = 1;
@@ -34,22 +31,24 @@ public class WaveManager : MonoBehaviour
     [Header("Set")]
     [SerializeField] int _totalWave = 100;
     [SerializeField] int _monstersPerWave = 12;
+    private int _clearCondition => _totalWave * _monstersPerWave;
+    public int ClearCondition => _clearCondition;
+
     [SerializeField] Transform _spawnPoint;
     [HideInInspector] public Transform SpawnPoint => _spawnPoint;
     [SerializeField] List<GameObject> _bossPrefabs;
+    public List<GameObject> BossPrefabs { get => _bossPrefabs; set { _bossPrefabs = value; OnChangeBoss?.Invoke(); } }
 
     private ObjectPool _objectPool;
 
-    private WaitForSeconds _spawnDelay = new(1f);
-    private WaitForSeconds _waveDelay = new(3f);
+    private WaitForSeconds _spawnDelay = new(1.5f);
+    private WaitForSeconds _waveDelay = new(10f);
 
-    // 이벤트 선언
     public event Action<int> SpawnedMonsterCountChanged;
     public event Action<int> AliveMonsterCountChanged;
     public event Action<int> CurWaveChanged;
     public event Action ClearStage;
-
-
+    public event Action OnChangeBoss;
 
     private void Awake()
     {
@@ -69,24 +68,18 @@ public class WaveManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // 이벤트 구독
-        CurWaveChanged += OnWaveChanged;
         AliveMonsterCountChanged += OnStageFail;
         AliveMonsterCountChanged += OnWarning;
-        SpawnedMonsterCountChanged += OnWarning;
-        SpawnedMonsterCountChanged += _inGameUi.OnCurMonsterCountChanged;
-        ClearStage += OnClearStage;
+        AliveMonsterCountChanged += OnWarning2;
+        AliveMonsterCountChanged += _inGameUi.OnAliveMonsterCountChanged;
     }
 
     private void OnDisable()
     {
-        // 이벤트 해제
-        CurWaveChanged -= OnWaveChanged;
         AliveMonsterCountChanged -= OnStageFail;
         AliveMonsterCountChanged -= OnWarning;
-        SpawnedMonsterCountChanged -= OnWarning;
-        SpawnedMonsterCountChanged -= _inGameUi.OnCurMonsterCountChanged;
-        ClearStage -= OnClearStage;
+        AliveMonsterCountChanged -= OnWarning2;
+        AliveMonsterCountChanged -= _inGameUi.OnAliveMonsterCountChanged;
     }
 
     private void Start()
@@ -98,8 +91,6 @@ public class WaveManager : MonoBehaviour
     {
         while (CurWave <= _totalWave)
         {
-            Debug.Log($"CurWave: {CurWave}, 보스 체크: {CurWave == 10 || CurWave == 30 || CurWave == 50 || CurWave == 70 || CurWave == 100}");
-            // 보스 웨이브 체크 및 보스 소환
             if (CurWave == 10 || CurWave == 30 || CurWave == 50 || CurWave == 70 || CurWave == 100)
             {
                 SpawnMonster(isBoss: true);
@@ -107,25 +98,19 @@ public class WaveManager : MonoBehaviour
 
             for (int i = 0; i < _monstersPerWave; i++)
             {
-                int moveSpeed = _monstersPerWave - i; // 12, 11, ..., 1
+                int moveSpeed = _monstersPerWave - i;
                 SpawnMonster(isBoss: false, moveSpeed);
                 yield return _spawnDelay;
             }
 
             CurWave++;
-            yield return _waveDelay; // 웨이브 간 대기
+            yield return _waveDelay;
         }
-    }
-
-    // OnWaveChanged는 UI 등 외부 구독용으로만 사용
-    private void OnWaveChanged(int wave)
-    {
-        // 필요시 UI 갱신 등만 처리
     }
 
     private void OnStageFail(int count)
     {
-        if (count > 50)
+        if (count == 51)
         {
             GameManager.Instance.FailStage();
         }
@@ -139,43 +124,51 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private void OnClearStage()
+    private void OnWarning2(int count)
     {
-        GameManager.Instance.ClearStage();
+        if (count == 50)
+        {
+            UIManager.Instance.ShowPanelTemp("WarningPanel2", 3);
+        }
+    }
+
+    public void OnClearStage(int count)
+    {
+        if (count >= 1200)
+        {
+            GameManager.Instance.ClearStage();
+        }
     }
 
     private void SpawnMonster(bool isBoss, int moveSpeed = 1)
     {
         if (isBoss)
         {
-            // 보스 몬스터 소환
-            GameObject BossInstance = Instantiate(_bossPrefabs[_toSpawnBossindex], _spawnPoint.position, Quaternion.identity);
-            _toSpawnBossindex++;
-            Debug.Log("보스 소환");
+            GameObject BossInstance = Instantiate(_bossPrefabs[ToSpawnBossindex], _spawnPoint.position, Quaternion.identity);
+            ToSpawnBossindex++;
         }
         else
         {
-            // 일반 몬스터 풀에서 소환
             PooledObject pooledObject = _objectPool.GetPool(_spawnPoint.position, Quaternion.identity);
 
-            // MonsterModel의 MoveSpeed를 소환 순서에 따라 할당
             MonsterModel model = pooledObject.GetComponent<MonsterModel>();
             if (model != null)
             {
                 model.MoveSpeed = moveSpeed;
             }
         }
-        SpawnedMonsterCount++;
-        SpawnedMonsterCountChanged?.Invoke(SpawnedMonsterCount);
-
-        AliveMonsterCount++;
-        AliveMonsterCountChanged?.Invoke(AliveMonsterCount);
+        OnMonsterSpawn();
     }
 
-    // 몬스터가 죽을 때(예시)
     public void OnMonsterDie()
     {
-        AliveMonsterCount--;
-        AliveMonsterCountChanged?.Invoke(AliveMonsterCount);
+        AliveMonsterCount = Mathf.Max(0, AliveMonsterCount - 1);
+        DeadMonsterCount++;
+    }
+
+    public void OnMonsterSpawn()
+    {
+        SpawnedMonsterCount++;
+        AliveMonsterCount++;
     }
 }

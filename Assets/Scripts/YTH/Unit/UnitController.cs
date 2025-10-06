@@ -16,7 +16,7 @@ public class UnitController : MonoBehaviour
 
     // 공격 관련
     private Collider2D[] _enemyBuffer = new Collider2D[5];
-    [SerializeField] Collider2D Target => _enemyBuffer.Length > 0 ? _enemyBuffer[0] : null;
+    /*[SerializeField] Collider2D Target => _enemyBuffer.Length > 0 ? _enemyBuffer[0] : null;*/
     private float _attackTimer = 0;
 
     // 이동중 공격 불가(수동 제어 중)
@@ -37,6 +37,64 @@ public class UnitController : MonoBehaviour
 
     // 마지막 탐지된 적 수(디버그 표시용)
     private int _lastEnemyCount = 0;
+
+    // 사분면 규칙 타겟 선택 (원점(0,0) 기준)
+    private Collider2D Target
+    {
+        get
+        {
+            int count = _lastEnemyCount;
+            if (count <= 0) return null;
+
+            Vector3 myPos = transform.position;
+            int quadrant = GetQuadrant(myPos); // 1~4
+
+            Collider2D target = null;
+            float keyY = 0f, keyX = 0f;
+
+            for (int i = 0; i < count; i++)
+            {
+                var enemy = _enemyBuffer[i];
+                if (enemy == null) continue;
+
+                Vector3 enemyPos = enemy.transform.position;
+
+                switch (quadrant)
+                {
+                    case 1:
+                        // y 최소, x 최대
+                        if (target == null || enemyPos.y < keyY || (Mathf.Approximately(enemyPos.y, keyY) && enemyPos.x > keyX))
+                        { target = enemy; keyY = enemyPos.y; keyX = enemyPos.x; }
+                        break;
+                    case 2:
+                        // y 최대, x 최대
+                        if (target == null || enemyPos.y > keyY || (Mathf.Approximately(enemyPos.y, keyY) && enemyPos.x > keyX))
+                        { target = enemy; keyY = enemyPos.y; keyX = enemyPos.x; }
+                        break;
+                    case 3:
+                        // y 최대, x 최소
+                        if (target == null || enemyPos.y > keyY || (Mathf.Approximately(enemyPos.y, keyY) && enemyPos.x < keyX))
+                        { target = enemy; keyY = enemyPos.y; keyX = enemyPos.x; }
+                        break;
+                    case 4:
+                        // y 최소, x 최소
+                        if (target == null || enemyPos.y < keyY || (Mathf.Approximately(enemyPos.y, keyY) && enemyPos.x < keyX))
+                        { target = enemy; keyY = enemyPos.y; keyX = enemyPos.x; }
+                        break;
+                }
+            }
+
+            return target;
+        }
+    }
+
+    private int GetQuadrant(Vector3 standard)
+    {
+        if (standard.x >= 0f && standard.y >= 0f) return 1;
+        if (standard.x < 0f && standard.y >= 0f) return 2;
+        if (standard.x < 0f && standard.y < 0f) return 3;
+        return 4; // pos.x >= 0 && pos.y < 0
+    }
 
     private void Awake()
     {
@@ -175,24 +233,25 @@ public class UnitController : MonoBehaviour
         {
             if (_model.AttackType == AttakcType.Melee)
             {
-                foreach (var col in _enemyBuffer)
+                for (int i = 0; i < _lastEnemyCount; i++)
                 {
+                    var col = _enemyBuffer[i];
                     if (col == null) continue;
                     col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
                 }
             }
             else if (_model.AttackType == AttakcType.Ranged)
             {
-                ShootBullet(Target.transform.position);
+                ShootBullet(Target.gameObject);
             }
             _attackTimer = 0;
         }
     }
 
-    private void ShootBullet(Vector2 targetPos)
+    private void ShootBullet(GameObject target)
     {
         GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity, transform);
-        bullet.GetComponent<Bullet>().Init(targetPos);
+        bullet.GetComponent<Bullet>().Init(target);
     }
 
     // ---------- Debug Methods ----------

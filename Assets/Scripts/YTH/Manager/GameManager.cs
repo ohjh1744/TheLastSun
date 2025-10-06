@@ -14,14 +14,7 @@ public class GameManager : MonoBehaviour
     public int Jewel
     {
         get => _jewel;
-        set
-        {
-            if (_jewel != value)
-            {
-                _jewel = value;
-                JewelChanged?.Invoke(_jewel);
-            }
-        }
+        set { if (_jewel != value) { _jewel = value; JewelChanged?.Invoke(_jewel); } }
     }
 
     private PlayerData _playerData => PlayerController.Instance.PlayerData;
@@ -43,9 +36,22 @@ public class GameManager : MonoBehaviour
 
     public int CurrentGameSpeed = 1;
 
+    [Header("각 스테이지 사운드")]
+    [SerializeField] AudioClip _stage1;
+    [SerializeField] AudioClip _stage2;
+    [SerializeField] AudioClip _stage3;
+    [SerializeField] AudioClip _stage4;
+    [SerializeField] AudioClip _stage5;
+
+    private AudioSource _audioSource;
+
+    public Action SetGameEndHandler;
+
     private void Awake()
     {
         SetSingleton();
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     #region 싱글톤 세팅
@@ -65,7 +71,14 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        WaveManager.Instance.ClearStage += ClearStage;
+        PlayStageBGM(_playerData.CurrentStage);
         StartTimer();
+    }
+
+    private void OnDestroy()
+    {
+        WaveManager.Instance.ClearStage -= ClearStage;
     }
 
     private void Update()
@@ -73,6 +86,11 @@ public class GameManager : MonoBehaviour
         if (_isTimerRunning)
         {
             ClearTime += Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UIManager.Instance.ShowPanel("ClearPanel");
         }
     }
 
@@ -99,19 +117,52 @@ public class GameManager : MonoBehaviour
         Debug.Log("IsPause: " + IsPause);
     }
 
+    public void PlayStageBGM(int stage)
+    {
+        if (!_playerData.IsSound) return;
+        switch (stage)
+        {
+            case 0:
+                _audioSource.clip = _stage1;
+                break;
+            case 1:
+                _audioSource.clip = _stage2;
+                break;
+            case 2:
+                _audioSource.clip = _stage3;
+                break;
+            case 3:
+                _audioSource.clip = _stage4;
+                break;
+            case 4:
+                _audioSource.clip = _stage5;
+                break;
+            default:
+                Debug.LogWarning("Invalid stage number for BGM.");
+                return;
+        }
+        _audioSource.loop = true;
+        _audioSource.Play();
+    }
+
+    public void SetSound()
+    {
+        _playerData.IsSound = !_playerData.IsSound;
+    }
+
     public void ClearStage()
     {
-        StopTimer();
-
+        if (_playerData != null)
+        {
+            _playerData.IsClearStage[_playerData.CurrentStage] = true;
+        }
 
         Sequence sequence = DOTween.Sequence();
 
         sequence.AppendCallback(() => StopTimer())
-            .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()))
-            .AppendCallback(() => UIManager.Instance.ShowPanelTemp("ClearPanel", 3))
-            .AppendInterval(3)
-            //TODO: 3초 후 메인 씬으로 이동을 버튼 눌러 메인으로 이동하는 것으로 변경
-            .AppendCallback(() => SceneManager.LoadScene(1));
+            /*  .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()))*/
+            .AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
+            .AppendCallback(() => SetGameEndHandler?.Invoke());
     }
 
     private IEnumerator WaitForNetworkAndSave()
@@ -127,7 +178,6 @@ public class GameManager : MonoBehaviour
         {
             if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success)
             {
-                _playerData.IsClearStage[_playerData.CurrentStage] = true;
                 RecordClearTime();
             }
             else
@@ -144,9 +194,8 @@ public class GameManager : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameOverPanel", 3))
-            .AppendInterval(3)
-            .AppendCallback(() => SceneManager.LoadScene(1));
+        sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameEndPanel", 3))
+                .AppendCallback(() => SetGameEndHandler?.Invoke());
     }
 
     /// <summary>
@@ -168,4 +217,6 @@ public class GameManager : MonoBehaviour
     {
         return _playerData.IsTutorial = true;
     }
+
+    
 }
