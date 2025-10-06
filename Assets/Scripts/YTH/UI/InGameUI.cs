@@ -12,9 +12,9 @@ public class InGameUI : UIBInder
 
     // 특정 패널들 바인딩용
     [HideInInspector] public GameObject _warningPanel;
-    [HideInInspector] public GameObject _gameOverPanel;
+    [HideInInspector] public GameObject _warningPanel2;
     [HideInInspector] public GameObject _unitSellPanel;
-    [HideInInspector] public GameObject _clearPanel;
+    [HideInInspector] public GameObject _gameEndPanel;
 
     [Header("Top Panel")]
     private Button _stopButton;
@@ -55,7 +55,10 @@ public class InGameUI : UIBInder
     private Sprite _legendImage;
     private Sprite _epicImage;
 
-    // Clear Panel
+    // GameEndPanel
+    private TMPro.TMP_Text _clearFailText;
+    private TMPro.TMP_Text _recordWaveText;
+    private TMPro.TMP_Text _recordClearTimeText;
     private Button _loadMainSceneButton;
 
     // 현재 선택된 부족 인덱스(패널 갱신 시 사용)
@@ -71,9 +74,9 @@ public class InGameUI : UIBInder
     {
         // 특정 패널들 바인딩용
         _warningPanel = GetUI("WarningPanel");
-        _gameOverPanel = GetUI("GameOverPanel");
+        _warningPanel2 = GetUI("WarningPanel2");
         _unitSellPanel = GetUI("UnitSellPanel");
-        _clearPanel = GetUI("ClearPanel");
+        _gameEndPanel = GetUI("GameEndPanel");
 
         // Top Panel
         _stopButton = GetUI<Button>("StopButton");
@@ -114,15 +117,16 @@ public class InGameUI : UIBInder
         _legendImage = GetUI("LegendImage").GetComponent<Image>().sprite;
         _epicImage = GetUI("EpicImage").GetComponent<Image>().sprite;
 
-        // Clear Panel
+        // GaneEndPanel
+        _clearFailText = GetUI<TMPro.TMP_Text>("ClearFailText");
+        _recordWaveText = GetUI<TMPro.TMP_Text>("RecordWaveText");
+        _recordClearTimeText = GetUI<TMPro.TMP_Text>("RecordClearTimeText");
         _loadMainSceneButton = GetUI<Button>("LoadMainSceneButton");
     }
 
     private void Start()
     {
         // Top Panel
-        AddPanelList(_warningPanel, _gameOverPanel);
-
         _stopButton.onClick.AddListener(OnPauseGame);
 
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
@@ -178,7 +182,8 @@ public class InGameUI : UIBInder
         if (_unitSpawnerController != null)
             _unitSpawnerController.UnitsCountChanged += RefreshSellPanelIfOpen;
 
-        // Clear Panel
+        // GameEndPanel
+        GameManager.Instance.SetGameEndHandler += SetGameEndPanel;
         _loadMainSceneButton.onClick.AddListener(() => SceneManager.LoadScene(1));
 
         SetAliveMonsterCountSlider(0);
@@ -208,7 +213,8 @@ public class InGameUI : UIBInder
         _tribe2Button.onClick.RemoveAllListeners();
         _tribe3Button.onClick.RemoveAllListeners();
 
-        // Clear Panel
+        // GameEndPanel
+        GameManager.Instance.SetGameEndHandler -= SetGameEndPanel;
         _loadMainSceneButton.onClick.RemoveAllListeners();
 
         if (_unitSpawnerController != null)
@@ -273,7 +279,7 @@ public class InGameUI : UIBInder
 
     public void OnAliveMonsterCountChanged(int count)
     {
-        _aliveMonsterCountText.text = $"{count}/1200";
+        _aliveMonsterCountText.text = $"{count}/50";
     }
 
     private void AddPanelList(params GameObject[] panel)
@@ -343,7 +349,14 @@ public class InGameUI : UIBInder
 
     public void SetAliveMonsterCountSlider(int count)
     {
-        _aliveMonsterCountSlider.maxValue = _waveManager.ClearCondition;
+        _aliveMonsterCountSlider.maxValue = 50;
         _aliveMonsterCountSlider.value = count;
+    }
+
+    private void SetGameEndPanel()
+    {
+        _clearFailText.text = (PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage]) ? "클리어 성공" : "스테이지 실패";
+        _recordWaveText.text = $"{_waveManager.CurWave} 웨이브";
+        _recordClearTimeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\.mm\\.ss}";
     }
 }

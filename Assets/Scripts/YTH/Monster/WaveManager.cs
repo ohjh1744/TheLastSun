@@ -40,8 +40,8 @@ public class WaveManager : MonoBehaviour
 
     private ObjectPool _objectPool;
 
-    private WaitForSeconds _spawnDelay = new(3f);
-    private WaitForSeconds _waveDelay = new(6f);
+    private WaitForSeconds _spawnDelay = new(1.5f);
+    private WaitForSeconds _waveDelay = new(10f);
 
     public event Action<int> SpawnedMonsterCountChanged;
     public event Action<int> AliveMonsterCountChanged;
@@ -69,6 +69,7 @@ public class WaveManager : MonoBehaviour
         CurWaveChanged += OnWaveChanged;
         AliveMonsterCountChanged += OnStageFail;
         AliveMonsterCountChanged += OnWarning;
+        AliveMonsterCountChanged += OnWarning2;
         AliveMonsterCountChanged += _inGameUi.OnAliveMonsterCountChanged;
     }
 
@@ -77,6 +78,7 @@ public class WaveManager : MonoBehaviour
         CurWaveChanged -= OnWaveChanged;
         AliveMonsterCountChanged -= OnStageFail;
         AliveMonsterCountChanged -= OnWarning;
+        AliveMonsterCountChanged -= OnWarning2;
         AliveMonsterCountChanged -= _inGameUi.OnAliveMonsterCountChanged;
     }
 
@@ -106,11 +108,9 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private void OnWaveChanged(int wave) { }
-
     private void OnStageFail(int count)
     {
-        if (count == 50)
+        if (count == 51)
         {
             GameManager.Instance.FailStage();
         }
@@ -121,6 +121,14 @@ public class WaveManager : MonoBehaviour
         if (count == 40)
         {
             UIManager.Instance.ShowPanelTemp("WarningPanel", 3);
+        }
+    }
+
+    private void OnWarning2(int count)
+    {
+        if (count == 50)
+        {
+            UIManager.Instance.ShowPanelTemp("WarningPanel2", 3);
         }
     }
 

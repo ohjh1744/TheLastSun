@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    public Action SetGameEndHandler;
+
     private void Awake()
     {
         SetSingleton();
@@ -150,7 +152,6 @@ public class GameManager : MonoBehaviour
 
     public void ClearStage()
     {
-        Debug.Log("Å¬¸®¾î~~~~~~~~~~~~~~~~~~~");
         if (_playerData != null)
         {
             _playerData.IsClearStage[_playerData.CurrentStage] = true;
@@ -160,7 +161,8 @@ public class GameManager : MonoBehaviour
 
         sequence.AppendCallback(() => StopTimer())
             /*  .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()))*/
-            .AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"));
+            .AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
+            .AppendCallback(() => SetGameEndHandler?.Invoke());
     }
 
     private IEnumerator WaitForNetworkAndSave()
@@ -192,7 +194,7 @@ public class GameManager : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameOverPanel", 3))
+        sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameEndPanel", 3))
             .AppendInterval(3)
             .AppendCallback(() => SceneManager.LoadScene(1));
     }
@@ -217,5 +219,5 @@ public class GameManager : MonoBehaviour
         return _playerData.IsTutorial = true;
     }
 
-   
+    
 }
