@@ -40,7 +40,7 @@ public class WaveManager : MonoBehaviour
 
     private ObjectPool _objectPool;
 
-    private WaitForSeconds _spawnDelay = new(1f);
+    private WaitForSeconds _spawnDelay = new(3f);
     private WaitForSeconds _waveDelay = new(6f);
 
     public event Action<int> SpawnedMonsterCountChanged;
