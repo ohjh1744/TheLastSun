@@ -4,26 +4,44 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] int _moveSpeed = 4;
 
-    private Vector2 _targetPos;
-    private Vector2 _moveDir;
+    private GameObject _target;
+
     private bool _isInitialized = false;
 
+    private UnitModel _unitModel;
+
+    private void Awake()
+    {
+        _unitModel = GetComponent<UnitModel>();
+      
+    }
     private void Start()
     {
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 2f);
     }
 
     private void Update()
     {
-        if (!_isInitialized) return;
+        if (_target == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-        transform.position += (Vector3)(_moveDir * _moveSpeed * Time.deltaTime);
+        Vector3 toTarget = _target.transform.position - transform.position;
+        if (toTarget.sqrMagnitude < 0.0001f)
+            return;
+
+        Vector3 dir = toTarget.normalized;
+
+        transform.right = dir;
+
+        transform.position += dir * _moveSpeed * Time.deltaTime;
     }
 
-    public void Init(Vector2 targetPos)
+    public void Init(GameObject target)
     {
-        _targetPos = targetPos;
-        _moveDir = ((Vector2)_targetPos - (Vector2)transform.position).normalized;
+        _target = target;
         _isInitialized = true;
     }
 
@@ -31,7 +49,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("Monster"))
         {
-           collision.GetComponent<MonsterController>()?.TakeDamage(1);
+            collision.GetComponent<MonsterController>()?.TakeDamage(_unitModel.Damage);
             Destroy(gameObject);
         }
     }

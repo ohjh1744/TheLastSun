@@ -242,16 +242,16 @@ public class UnitController : MonoBehaviour
             }
             else if (_model.AttackType == AttakcType.Ranged)
             {
-                ShootBullet(Target.transform.position);
+                ShootBullet(Target.gameObject);
             }
             _attackTimer = 0;
         }
     }
 
-    private void ShootBullet(Vector2 targetPos)
+    private void ShootBullet(GameObject target)
     {
         GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity, transform);
-        bullet.GetComponent<Bullet>().Init(targetPos);
+        bullet.GetComponent<Bullet>().Init(target);
     }
 
     // ---------- Debug Methods ----------
