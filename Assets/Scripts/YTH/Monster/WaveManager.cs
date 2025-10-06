@@ -10,7 +10,7 @@ public class WaveManager : MonoBehaviour
     private InGameUI _inGameUi;
 
     [Header("Don't Set")]
-    public int _toSpawnBossindex;
+    public int ToSpawnBossindex;
 
     [SerializeField] int _spawnedMonsterCount = 0;
     public int SpawnedMonsterCount { get => _spawnedMonsterCount; set { _spawnedMonsterCount = value; SpawnedMonsterCountChanged?.Invoke(_spawnedMonsterCount); } }
@@ -37,6 +37,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] Transform _spawnPoint;
     [HideInInspector] public Transform SpawnPoint => _spawnPoint;
     [SerializeField] List<GameObject> _bossPrefabs;
+    public List<GameObject> BossPrefabs { get => _bossPrefabs; set { _bossPrefabs = value; OnChangeBoss?.Invoke(); } }
 
     private ObjectPool _objectPool;
 
@@ -47,6 +48,7 @@ public class WaveManager : MonoBehaviour
     public event Action<int> AliveMonsterCountChanged;
     public event Action<int> CurWaveChanged;
     public event Action ClearStage;
+    public event Action OnChangeBoss;
 
     private void Awake()
     {
@@ -142,8 +144,8 @@ public class WaveManager : MonoBehaviour
     {
         if (isBoss)
         {
-            GameObject BossInstance = Instantiate(_bossPrefabs[_toSpawnBossindex], _spawnPoint.position, Quaternion.identity);
-            _toSpawnBossindex++;
+            GameObject BossInstance = Instantiate(_bossPrefabs[ToSpawnBossindex], _spawnPoint.position, Quaternion.identity);
+            ToSpawnBossindex++;
         }
         else
         {

@@ -23,7 +23,8 @@ public class InGameUI : UIBInder
     private GameObject _soundOnImage;
     private GameObject _soundOffImage;
     private TMPro.TMP_Text _gameSpeedText;
-    private TMPro.TMP_Text _monsterNameText;
+    private Image _bossImage; // Sprite -> Image로 변경
+    private TMPro.TMP_Text _bossName;
     private TMPro.TMP_Text _waveText;
     private TMPro.TMP_Text _timeText;
 
@@ -85,7 +86,8 @@ public class InGameUI : UIBInder
         _soundOnImage = GetUI("SoundOnImage");
         _soundOffImage = GetUI("SoundOffImage");
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
-        _monsterNameText = GetUI<TMPro.TMP_Text>("MonsterNameText");
+        _bossImage = GetUI<Image>("MonsterImage"); // Image 컴포넌트 참조 저장
+        _bossName = GetUI<TMPro.TMP_Text>("MonsterNameText");
         _waveText = GetUI<TMPro.TMP_Text>("WaveText");
         _timeText = GetUI<TMPro.TMP_Text>("TimeText");
 
@@ -102,8 +104,8 @@ public class InGameUI : UIBInder
         _ancientAmountText = GetUI<TMPro.TMP_Text>("AncientAmountText");
         _legendAmountText = GetUI<TMPro.TMP_Text>("LegendAmountText");
         _epicAmountText = GetUI<TMPro.TMP_Text>("EpicAmountText");
-        _closeSellUnitButton = GetUI<Button>("ClosePanelButton"); // 패널 닫기 버튼
-        _sellNormalButton = GetUI<Button>("SellNormalButton"); // 각 등급별 판매 버튼
+        _closeSellUnitButton = GetUI<Button>("ClosePanelButton"); 
+        _sellNormalButton = GetUI<Button>("SellNormalButton");
         _sellRareButton = GetUI<Button>("SellRareButton");
         _sellAncientButton = GetUI<Button>("SellAncientButton");
         _sellLegendButton = GetUI<Button>("SellLegendButton");
@@ -132,6 +134,8 @@ public class InGameUI : UIBInder
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
         _soundButton.onClick.AddListener(OnSoundButtonClicked);
 
+        WaveManager.Instance.OnChangeBoss += SetBossInfo;
+        
         _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
         _waveManager.AliveMonsterCountChanged += OnAliveMonsterCountChanged;
 
@@ -186,6 +190,7 @@ public class InGameUI : UIBInder
         GameManager.Instance.SetGameEndHandler += SetGameEndPanel;
         _loadMainSceneButton.onClick.AddListener(() => SceneManager.LoadScene(1));
 
+        SetBossInfo();
         SetAliveMonsterCountSlider(0);
         SetGameSpeedText();
     }
@@ -358,5 +363,11 @@ public class InGameUI : UIBInder
         _clearFailText.text = (PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage]) ? "클리어 성공" : "스테이지 실패";
         _recordWaveText.text = $"{_waveManager.CurWave} 웨이브";
         _recordClearTimeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\.mm\\.ss}";
+    }
+
+    private void SetBossInfo()
+    {
+        _bossImage.sprite = WaveManager.Instance.BossPrefabs[WaveManager.Instance.ToSpawnBossindex].GetComponent<SpriteRenderer>().sprite;
+        _bossName.text = WaveManager.Instance.BossPrefabs[WaveManager.Instance.ToSpawnBossindex].name;
     }
 }
