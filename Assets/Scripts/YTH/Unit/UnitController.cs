@@ -19,6 +19,8 @@ public class UnitController : MonoBehaviour
     /*[SerializeField] Collider2D Target => _enemyBuffer.Length > 0 ? _enemyBuffer[0] : null;*/
     private float _attackTimer = 0;
 
+    private Animator _animator;
+
     // 이동중 공격 불가(수동 제어 중)
     private bool _isManualControl = false;
 
@@ -99,6 +101,7 @@ public class UnitController : MonoBehaviour
     private void Awake()
     {
         _model = GetComponent<UnitModel>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -244,6 +247,7 @@ public class UnitController : MonoBehaviour
             {
                 ShootBullet(Target.gameObject);
             }
+            _animator.SetTrigger("Attack");
             _attackTimer = 0;
         }
     }
