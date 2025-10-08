@@ -18,11 +18,11 @@ public class DeletePanel : MonoBehaviour
         GpgsManager.Instance.DeleteData((callback) =>
         {
             if(callback == SavedGameRequestStatus.Success){
-                _text.text = "데이터 삭제 성공";
+                //_text.text = "데이터 삭제 성공";
             }
             else
             {
-                _text.text = "데이터 삭제 실패";
+                //_text.text = "데이터 삭제 실패";
             }
         });
     }
