@@ -1,8 +1,8 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
 
     public Action SetGameEndHandler;
 
+    //리더보드 이름저장
+    private List<string> _leaderboardString = new List<string>();
+
     private void Awake()
     {
         SetSingleton();
@@ -71,6 +74,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _leaderboardString.Add(GPGSIds.leaderboard_the_first_sun_record);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_second_sun_record);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_third_sun_record);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_fourth_sun_record);
+        _leaderboardString.Add(GPGSIds.leaderboard_the_last_sun_record);
+
         WaveManager.Instance.ClearStage += ClearStage;
         PlayStageBGM(_playerData.CurrentStage);
         StartTimer();
@@ -160,9 +169,7 @@ public class GameManager : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
 
         sequence.AppendCallback(() => StopTimer())
-            /*  .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()))*/
-            .AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
-            .AppendCallback(() => SetGameEndHandler?.Invoke());
+            .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()));
     }
 
     private IEnumerator WaitForNetworkAndSave()
@@ -178,7 +185,7 @@ public class GameManager : MonoBehaviour
         {
             if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success)
             {
-                RecordClearTime();
+                StartCoroutine(RecordClearTime());
             }
             else
             {
@@ -201,15 +208,45 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 기록이 없거나(0), 더 짧은 시간일 때만 저장
     /// </summary>
-    private void RecordClearTime()
+    WaitForSeconds waitConnect = new WaitForSeconds(0.5f);
+    IEnumerator WaitForNetwork()
+    {
+        while (NetworkCheckManager.Instance.IsConnected == false)
+        {
+            yield return waitConnect;
+        }
+    }
+
+    IEnumerator RecordClearTime()
     {
         int stage = _playerData.CurrentStage;
         float prevTime = _playerData.ClearTimes[stage];
 
+        string leaderboardSt = _leaderboardString[PlayerController.Instance.PlayerData.CurrentStage]; ;
+
+        //안전하게 네트워크 다시 확인 연결될때까지 기다림
+        yield return StartCoroutine(WaitForNetwork());
 
         if (prevTime == 0f || ClearTime < prevTime)
         {
             _playerData.ClearTimes[stage] = ClearTime;
+            GpgsManager.Instance.UpdateTimeLeaderboard(15000, leaderboardSt, (success) =>
+            {
+                if (success == true)
+                {
+                    Sequence sequence = DOTween.Sequence();
+
+
+                    sequence.AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
+                                .AppendCallback(() => SetGameEndHandler?.Invoke());
+                }
+                else
+                {
+                    //실패시
+                    //ex) 다시 시도
+                    StartCoroutine(RecordClearTime());
+                }
+            });
         }
     }
 
@@ -218,5 +255,5 @@ public class GameManager : MonoBehaviour
         return _playerData.IsTutorial = true;
     }
 
-    
+
 }
