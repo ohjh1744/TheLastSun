@@ -320,6 +320,7 @@ public class InGameUI : UIBInder
             EnableAllButtons();
     }
 
+    // 유닛 판매 패널의 타입 설정
     public void SetSellPanel(int index)
     {
         _currentSellIndex = index;

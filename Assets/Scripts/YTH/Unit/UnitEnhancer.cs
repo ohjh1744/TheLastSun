@@ -19,28 +19,10 @@ public class UnitEnhancer : MonoBehaviour
         { AttakcType.Bomer,   0 }
     };
 
-    private void Awake()
-    {
-        SetSingleton();
-    }
-
     private void Start()
     {
         if (_spawner == null) _spawner = GetComponent<UnitSpawner>();
         if (_spawner == null) _spawner = FindObjectOfType<UnitSpawner>();
-    }
-
-    private void SetSingleton()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void OnEnable()

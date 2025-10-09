@@ -10624,7 +10624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13582,7 +13582,10 @@ MonoBehaviour:
   - {fileID: 2229017125813541999, guid: 87100538210c42e4a8e82db22e8e17bf, type: 3}
   - {fileID: 6999392934571295657, guid: d3cfe0f78a28ba844a1031bec87b3d11, type: 3}
   - {fileID: 2214539333278446462, guid: fc012b9496c4494418f25a4af97871f2, type: 3}
-  _godUnits: []
+  _godUnits:
+  - {fileID: 7959053984653625714, guid: eb21579c9d7b493429f79a849faf3762, type: 3}
+  - {fileID: 7023978621445437635, guid: 341513c6828fff24aad089d15bc203a0, type: 3}
+  - {fileID: 1241941871872979180, guid: 2c30df1ffc9ffdc4da6186f9e7c4deda, type: 3}
 --- !u!114 &1842989782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16082,10 +16085,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52102a0077f73344db48b2b3ec3b48d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Initialized: 0
-  BaseDamage: 0
-  BaseMoveSpeed: 0
-  BaseAttackDelay: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
