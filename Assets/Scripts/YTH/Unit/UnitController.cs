@@ -27,6 +27,7 @@ public class UnitController : MonoBehaviour
     // 이동할 목적지
     private Vector3 _targetPos;
     private bool _setTargetPos = false;
+    private float _moveSpeed = 3;
 
     [Header("Debug Helper")]
     // ---------- Debug ----------
@@ -181,7 +182,7 @@ public class UnitController : MonoBehaviour
 
             if (distance > 0.05f)
             {
-                transform.position += direction * _model.MoveSpeed * Time.deltaTime;
+                transform.position += direction * _moveSpeed * Time.deltaTime;
             }
             else
             {

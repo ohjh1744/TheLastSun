@@ -11,16 +11,12 @@ public enum AttakcType
 [System.Serializable]
 public class UnitModel : MonoBehaviour
 {
-    [Header("이동")]
-    public int MoveSpeed = 3;
-
-
     [Header("공격 관련")]
     [SerializeField] AttakcType _attackType;
     public AttakcType AttackType => _attackType;
 
-    [SerializeField] int _attackSpeed;
-    public int AttackSpeed { get => _attackSpeed; set => _attackSpeed = value; }
+   /* [SerializeField] int _attackSpeed;
+    public int AttackSpeed { get => _attackSpeed; set => _attackSpeed = value; }*/
 
     [SerializeField] int _attakRange;       // 기본 사거리
     public int AttackRange { get => _attakRange; set => _attakRange = value; }
@@ -35,7 +31,7 @@ public class UnitModel : MonoBehaviour
     public float AttackDelay { get => _attackDelay; set => _attackDelay = value; }
 
 
-    [Header("강화 관련")]
+    [Header("강화 관련 - 확인용")]
     [SerializeField] int _level = 1;
     public int Level { get => _level; set => _level = value; }
 

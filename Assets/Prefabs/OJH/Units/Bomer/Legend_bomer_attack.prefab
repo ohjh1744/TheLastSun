@@ -200,19 +200,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0fe9b611eb6eb946bb6c82bd98ead2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 3
   _attackType: 2
-  _attackSpeed: 8
-  _damage: 10
-  _attakRange: 4
-  _attackDelay: 1
+  _attakRange: 9
   _targetLayer:
     serializedVersion: 2
     m_Bits: 64
+  _damage: 48
+  _attackDelay: 1
   _level: 1
   _add_damage: 0
-  _add_attackSpeed: 0
-  _add_attackRange: 0
   _add_attackDelay: 0
 --- !u!114 &3347976993030513460
 MonoBehaviour:
