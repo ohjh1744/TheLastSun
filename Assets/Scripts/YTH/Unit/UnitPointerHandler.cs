@@ -138,6 +138,7 @@ public class UnitPointerHandler : MonoBehaviour,
         if (_attackRange != null) _attackRange.SetActive(false);
         if (_ui != null) _ui.SetActive(false);
         if (_cantMove != null) _cantMove.SetActive(false);
+        Debug.Log("Reset Overlay");
     }
 
     public void InOverlay()
@@ -145,6 +146,7 @@ public class UnitPointerHandler : MonoBehaviour,
         if (_attackRange != null) _attackRange.SetActive(true);
         if (_ui != null) _ui.SetActive(true);
         if (_cantMove != null) _cantMove.SetActive(false);
+        Debug.Log("In Overlay");
     }
 
     public void OutOverlay()
@@ -152,5 +154,6 @@ public class UnitPointerHandler : MonoBehaviour,
         if (_attackRange != null) _attackRange.SetActive(false);
         if (_ui != null) _ui.SetActive(false);
         if (_cantMove != null) _cantMove.SetActive(true);
+        Debug.Log("Out Overlay");
     }
 }

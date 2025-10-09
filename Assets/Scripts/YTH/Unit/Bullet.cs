@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
 
     private void Awake()
     {
-        _unitModel = GetComponent<UnitModel>();
+        _unitModel = GetComponentInParent<UnitModel>();
       
     }
     private void Start()

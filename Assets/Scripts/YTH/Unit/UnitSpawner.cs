@@ -11,15 +11,17 @@ public class UnitSpawner : MonoBehaviour
 
     // 프리팹별 수량
     public Dictionary<GameObject, int> SpawnedUnitsDic = new();
-
-    // 외부(UI)에서 읽기 전용으로 접근
     public IReadOnlyDictionary<GameObject, int> UnitsCountDic => SpawnedUnitsDic;
+
+    // 프리팹 -> 실제 생성된 인스턴스 목록
+    private readonly Dictionary<GameObject, List<GameObject>> _spawnedInstances = new();
+    public IReadOnlyDictionary<GameObject, List<GameObject>> SpawnedInstances => _spawnedInstances;
 
     // 수량 변경 이벤트(UI 갱신용)
     public event Action UnitsCountChanged;
 
-    // 프리팹 -> 실제 생성된 인스턴스 목록
-    private readonly Dictionary<GameObject, List<GameObject>> _spawnedInstances = new();
+    // 스폰 이벤트(강화 시스템이 구독)
+    public event Action<GameObject> UnitSpawned;
 
     private void Awake()
     {
@@ -44,6 +46,8 @@ public class UnitSpawner : MonoBehaviour
 
         SaveSpawnedUnitsDic(unitPrefab);
         SaveSpawnedInstance(unitPrefab, instance);
+
+        UnitSpawned?.Invoke(instance);
 
         return instance;
     }
@@ -106,7 +110,6 @@ public class UnitSpawner : MonoBehaviour
             return;
         }
 
-        // 마지막으로 생성된 인스턴스부터 제거(LIFO)
         int last = list.Count - 1;
         var instance = list[last];
         list.RemoveAt(last);
@@ -116,10 +119,8 @@ public class UnitSpawner : MonoBehaviour
             Destroy(instance);
         }
 
-        // 프리팹 카운트 감소(이벤트는 여기서 발행)
         RemoveSpawnedUnitsDic(unitPrefab);
 
-        // 목록 비워지면 키 제거
         if (list.Count == 0)
         {
             _spawnedInstances.Remove(unitPrefab);

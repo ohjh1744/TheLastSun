@@ -201,11 +201,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 3
-  _attackType: 1
-  _attackSpeed: 8
-  _damage: 10
-  _attakRange: 4
+  _attackType: 2
+  _attakRange: 3
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _damage: 18
   _attackDelay: 1
+  _level: 1
+  _add_damage: 21
+  _add_attackDelay: 21
 --- !u!114 &-3605880443575819083
 MonoBehaviour:
   m_ObjectHideFlags: 0

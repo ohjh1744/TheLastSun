@@ -20,7 +20,7 @@ public class RandomSpawnUnitController : MonoBehaviour
     [SerializeField] float _ancientWeight = 15f;   
     [SerializeField] float _legendWeight = 2f;     
     [SerializeField] float _epicWeight = 1.5f;     
-    [SerializeField] float _goldWeight = 0.5f;     
+    [SerializeField] float _godWeight = 0.5f;     
 
     [Header("각 등급별 유닛 (UnitTier 순서대로)")]
     [SerializeField] GameObject[] _normalUnits;
@@ -28,13 +28,13 @@ public class RandomSpawnUnitController : MonoBehaviour
     [SerializeField] GameObject[] _ancientUnits;
     [SerializeField] GameObject[] _legendUnits;
     [SerializeField] GameObject[] _epicUnits;
-    [SerializeField] GameObject[] _goldUnits;
+    [SerializeField] GameObject[] _godUnits;
     public GameObject[] NormalUnits => _normalUnits;
     public GameObject[] RareUnits => _rareUnits;
     public GameObject[] AncientUnits => _ancientUnits;
     public GameObject[] LegendUnits => _legendUnits;
     public GameObject[] EpicUnits => _epicUnits;
-    public GameObject[] GoldUnits => _goldUnits;
+    public GameObject[] GoldUnits => _godUnits;
 
     
 
@@ -70,7 +70,7 @@ public class RandomSpawnUnitController : MonoBehaviour
             _ancientUnits,
             _legendUnits,
             _epicUnits,
-            _goldUnits
+            _godUnits
         };
 
         float[] weights =
@@ -80,7 +80,7 @@ public class RandomSpawnUnitController : MonoBehaviour
             Mathf.Max(0, _ancientWeight),
             Mathf.Max(0, _legendWeight),
             Mathf.Max(0, _epicWeight),
-            Mathf.Max(0, _goldWeight)
+            Mathf.Max(0, _godWeight)
         };
 
         RemoveEmptyWeight(unitGroups, weights);

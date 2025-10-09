@@ -19,12 +19,15 @@ public class UnitController : MonoBehaviour
     /*[SerializeField] Collider2D Target => _enemyBuffer.Length > 0 ? _enemyBuffer[0] : null;*/
     private float _attackTimer = 0;
 
+    private Animator _animator;
+
     // 이동중 공격 불가(수동 제어 중)
     private bool _isManualControl = false;
 
     // 이동할 목적지
     private Vector3 _targetPos;
     private bool _setTargetPos = false;
+    private float _moveSpeed = 3;
 
     [Header("Debug Helper")]
     // ---------- Debug ----------
@@ -99,6 +102,7 @@ public class UnitController : MonoBehaviour
     private void Awake()
     {
         _model = GetComponent<UnitModel>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -178,7 +182,7 @@ public class UnitController : MonoBehaviour
 
             if (distance > 0.05f)
             {
-                transform.position += direction * _model.MoveSpeed * Time.deltaTime;
+                transform.position += direction * _moveSpeed * Time.deltaTime;
             }
             else
             {
@@ -231,7 +235,7 @@ public class UnitController : MonoBehaviour
         _attackTimer += Time.deltaTime;
         if (_attackTimer >= _model.AttackDelay && Target != null)
         {
-            if (_model.AttackType == AttakcType.Melee)
+            if (_model.AttackType == AttakcType.Warrior)
             {
                 for (int i = 0; i < _lastEnemyCount; i++)
                 {
@@ -240,10 +244,11 @@ public class UnitController : MonoBehaviour
                     col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
                 }
             }
-            else if (_model.AttackType == AttakcType.Ranged)
+            else if (_model.AttackType == AttakcType.Archer || _model.AttackType == AttakcType.Bomer)
             {
                 ShootBullet(Target.gameObject);
             }
+            _animator.SetTrigger("Attack");
             _attackTimer = 0;
         }
     }

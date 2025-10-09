@@ -8,13 +8,15 @@ public class InGameUI : UIBInder
     [SerializeField] WaveManager _waveManager;
     [SerializeField] RandomSpawnUnitController _randomUnitSpawner;
     [SerializeField] UnitSpawner _unitSpawnerController;
-
+    [SerializeField] UnitEnhancer _unitEnhancer;
 
     // 특정 패널들 바인딩용
     [HideInInspector] public GameObject _warningPanel;
     [HideInInspector] public GameObject _warningPanel2;
     [HideInInspector] public GameObject _unitSellPanel;
     [HideInInspector] public GameObject _gameEndPanel;
+
+    private Button GameClearButton => GetUI<Button>("GameClearButton"); // Test용
 
     [Header("Top Panel")]
     private Button _stopButton;
@@ -23,7 +25,7 @@ public class InGameUI : UIBInder
     private GameObject _soundOnImage;
     private GameObject _soundOffImage;
     private TMPro.TMP_Text _gameSpeedText;
-    private Image _bossImage; // Sprite -> Image로 변경
+    private Image _bossImage;
     private TMPro.TMP_Text _bossName;
     private TMPro.TMP_Text _waveText;
     private TMPro.TMP_Text _timeText;
@@ -34,8 +36,11 @@ public class InGameUI : UIBInder
     private TMPro.TMP_Text _jewelText;
     private Button _randomSppawnButton;
     private Button _unitSellButton;
+    private Button _enhanceArcherButton;
+    private Button _enhanceBomerButton;
+    private Button _enhanceWarriorButton;
 
-    // Unit Sell Panel
+    [Header("Unit Sell Panel")]
     private TMPro.TMP_Text _normalAmountText;
     private TMPro.TMP_Text _rareAmountText;
     private TMPro.TMP_Text _ancientAmountText;
@@ -56,11 +61,12 @@ public class InGameUI : UIBInder
     private Sprite _legendImage;
     private Sprite _epicImage;
 
-    // GameEndPanel
+    [Header("Game End Panel")]
     private TMPro.TMP_Text _clearFailText;
     private TMPro.TMP_Text _recordWaveText;
     private TMPro.TMP_Text _recordClearTimeText;
     private Button _loadMainSceneButton;
+
 
     // 현재 선택된 부족 인덱스(패널 갱신 시 사용)
     private int _currentSellIndex = 0;
@@ -97,6 +103,9 @@ public class InGameUI : UIBInder
         _jewelText = GetUI<TMPro.TMP_Text>("JewelText");
         _randomSppawnButton = GetUI<Button>("RandomSpawnButton");
         _unitSellButton = GetUI<Button>("SellUnitButton");
+        _enhanceArcherButton = GetUI<Button>("EnhanceArcherButton");
+        _enhanceBomerButton = GetUI<Button>("EnhanceBomerButton");
+        _enhanceWarriorButton = GetUI<Button>("EnhanceWarriorButton");
 
         // Unit Sell Panel
         _normalAmountText = GetUI<TMPro.TMP_Text>("NormalAmountText"); //TODO : 딕셔너리로 연결해서 수량 업데이트 Fix
@@ -128,6 +137,8 @@ public class InGameUI : UIBInder
 
     private void Start()
     {
+        GameClearButton.onClick.AddListener(() => TestClearButton()); // Test용
+
         // Top Panel
         _stopButton.onClick.AddListener(OnPauseGame);
 
@@ -150,6 +161,10 @@ public class InGameUI : UIBInder
             _unitSellPanel.SetActive(true);
             SetSellPanel(0);
         });
+
+        _enhanceArcherButton.onClick.AddListener(() => _unitEnhancer.EnhanceArcher());
+        _enhanceBomerButton.onClick.AddListener(() => _unitEnhancer.EnhanceBomer());
+        _enhanceWarriorButton.onClick.AddListener(() => _unitEnhancer.EnhanceWarrior());
 
         // Unit Sell Panel
         _closeSellUnitButton.onClick.AddListener(() => _unitSellPanel.SetActive(false));
@@ -231,6 +246,11 @@ public class InGameUI : UIBInder
         _timeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\:mm\\:ss}";
     }
 
+    public void TestClearButton()
+    {
+        _waveManager.DeadMonsterCount = 1199;
+    }
+
     private void DisableAllButtons(bool excludeStop = true)
     {
         Button[] buttons = GetComponentsInChildren<Button>(true);
@@ -309,6 +329,7 @@ public class InGameUI : UIBInder
             EnableAllButtons();
     }
 
+    // 유닛 판매 패널의 타입 설정
     public void SetSellPanel(int index)
     {
         _currentSellIndex = index;
@@ -340,7 +361,7 @@ public class InGameUI : UIBInder
         if (prefab == null) return 0;
 
         // 딕셔너리 존재/키 확인
-        var dic = _unitSpawnerController.UnitsCountDic; // 프로젝트에 존재하는 딕셔너리 이름 사용
+        var dic = _unitSpawnerController.UnitsCountDic;
         if (dic == null) return 0;
 
         return dic.TryGetValue(prefab, out var count) ? count : 0;
@@ -370,4 +391,6 @@ public class InGameUI : UIBInder
         _bossImage.sprite = WaveManager.Instance.BossPrefabs[WaveManager.Instance.ToSpawnBossindex].GetComponent<SpriteRenderer>().sprite;
         _bossName.text = WaveManager.Instance.BossPrefabs[WaveManager.Instance.ToSpawnBossindex].name;
     }
+
+
 }
