@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 124597525}
   - component: {fileID: 124597524}
   m_Layer: 5
-  m_Name: SpawnButton_3
+  m_Name: EnhanceWarriorButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1953,6 +1953,7 @@ MonoBehaviour:
   _waveManager: {fileID: 1878090938}
   _randomUnitSpawner: {fileID: 1842989781}
   _unitSpawnerController: {fileID: 1842989779}
+  _unitEnhancer: {fileID: 1842989782}
   _warningPanel: {fileID: 0}
   _warningPanel2: {fileID: 0}
   _unitSellPanel: {fileID: 0}
@@ -4342,7 +4343,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &717119581
 Transform:
   m_ObjectHideFlags: 0
@@ -5120,7 +5121,7 @@ GameObject:
   - component: {fileID: 809123767}
   - component: {fileID: 809123766}
   m_Layer: 5
-  m_Name: SpawnButton_2
+  m_Name: EnhanceBomerButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9274,7 +9275,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1356769167
 Transform:
   m_ObjectHideFlags: 0
@@ -9925,7 +9926,7 @@ GameObject:
   - component: {fileID: 1426160503}
   - component: {fileID: 1426160502}
   m_Layer: 5
-  m_Name: SpawnButton_1
+  m_Name: EnhanceArcherButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13412,6 +13413,7 @@ GameObject:
   - component: {fileID: 1842989780}
   - component: {fileID: 1842989779}
   - component: {fileID: 1842989781}
+  - component: {fileID: 1842989782}
   m_Layer: 0
   m_Name: UnitSpawner
   m_TagString: Untagged
@@ -13490,6 +13492,20 @@ MonoBehaviour:
   - {fileID: 5493180774692849761, guid: 92da7a65cb9c20a429e9cba7247a1820, type: 3}
   _goldUnits:
   - {fileID: 5493180774692849761, guid: 92da7a65cb9c20a429e9cba7247a1820, type: 3}
+--- !u!114 &1842989782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842989778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d841659193b0b40a083b5605056540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damagePerLevel: 1
+  _attackDelayReducePerLevel: 0.2
 --- !u!4 &1848920130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7702719373217682356, guid: 51f26685797a9ee49800b352ac23a3f9, type: 3}
@@ -13719,7 +13735,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1866707160
 Transform:
   m_ObjectHideFlags: 0
@@ -13845,7 +13861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088f7ca9392b1e84c942f4ecd07ed595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toSpawnBossindex: 0
+  ToSpawnBossindex: 0
   _spawnedMonsterCount: 0
   _aliveMonsterCount: 0
   _deadMonsterCount: 0
@@ -14489,7 +14505,7 @@ GameObject:
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2011022595
 Transform:
   m_ObjectHideFlags: 0
@@ -15769,6 +15785,7 @@ GameObject:
   - component: {fileID: 7791497093078261863}
   - component: {fileID: 8172000311544398317}
   - component: {fileID: 5167959468610431490}
+  - component: {fileID: 8172000311544398318}
   m_Layer: 0
   m_Name: Unit_1
   m_TagString: Untagged
@@ -15958,6 +15975,27 @@ MonoBehaviour:
   _damage: 10
   _attakRange: 4
   _attackDelay: 1
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _add_damage: 0
+  _add_attackDelay: 0
+--- !u!114 &8172000311544398318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3632075640371462946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52102a0077f73344db48b2b3ec3b48d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Initialized: 0
+  BaseDamage: 0
+  BaseMoveSpeed: 0
+  BaseAttackDelay: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

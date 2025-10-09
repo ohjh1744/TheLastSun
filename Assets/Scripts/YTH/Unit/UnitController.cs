@@ -234,7 +234,7 @@ public class UnitController : MonoBehaviour
         _attackTimer += Time.deltaTime;
         if (_attackTimer >= _model.AttackDelay && Target != null)
         {
-            if (_model.AttackType == AttakcType.Melee)
+            if (_model.AttackType == AttakcType.Warrior)
             {
                 for (int i = 0; i < _lastEnemyCount; i++)
                 {
@@ -243,7 +243,7 @@ public class UnitController : MonoBehaviour
                     col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
                 }
             }
-            else if (_model.AttackType == AttakcType.Ranged)
+            else if (_model.AttackType == AttakcType.Archer || _model.AttackType == AttakcType.Bomer)
             {
                 ShootBullet(Target.gameObject);
             }
