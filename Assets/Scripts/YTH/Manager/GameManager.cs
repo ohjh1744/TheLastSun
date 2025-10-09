@@ -174,7 +174,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WaitForNetworkAndSave()
     {
-        // 네트워크 연결될 때까지 0.5초 간격으로 대기
         while (!NetworkCheckManager.Instance.IsConnected)
         {
             yield return new WaitForSeconds(0.5f);

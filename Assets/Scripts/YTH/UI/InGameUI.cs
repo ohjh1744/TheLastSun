@@ -16,6 +16,8 @@ public class InGameUI : UIBInder
     [HideInInspector] public GameObject _unitSellPanel;
     [HideInInspector] public GameObject _gameEndPanel;
 
+    private Button GameClearButton => GetUI<Button>("GameClearButton"); // Test¿ë
+
     [Header("Top Panel")]
     private Button _stopButton;
     private Button _speedButton;
@@ -135,6 +137,8 @@ public class InGameUI : UIBInder
 
     private void Start()
     {
+        GameClearButton.onClick.AddListener(() => TestClearButton()); // Test¿ë
+
         // Top Panel
         _stopButton.onClick.AddListener(OnPauseGame);
 
@@ -240,6 +244,11 @@ public class InGameUI : UIBInder
     private void Update()
     {
         _timeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\:mm\\:ss}";
+    }
+
+    public void TestClearButton()
+    {
+        _waveManager.DeadMonsterCount = 1199;
     }
 
     private void DisableAllButtons(bool excludeStop = true)
