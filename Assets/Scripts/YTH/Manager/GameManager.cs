@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
         int stage = _playerData.CurrentStage;
         float prevTime = _playerData.ClearTimes[stage];
 
-        string leaderboardSt = _leaderboardString[PlayerController.Instance.PlayerData.CurrentStage]; ;
+        string leaderboardSt = _leaderboardString[stage]; ;
 
         //안전하게 네트워크 다시 확인 연결될때까지 기다림
         yield return StartCoroutine(WaitForNetwork());
@@ -230,7 +230,7 @@ public class GameManager : MonoBehaviour
         if (prevTime == 0f || ClearTime < prevTime)
         {
             _playerData.ClearTimes[stage] = ClearTime;
-            GpgsManager.Instance.UpdateTimeLeaderboard(15000, leaderboardSt, (success) =>
+            GpgsManager.Instance.UpdateTimeLeaderboard(prevTime, leaderboardSt, (success) =>
             {
                 if (success == true)
                 {
