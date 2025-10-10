@@ -1,10 +1,10 @@
+using DG.Tweening.Core.Easing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InGameUI : UIBInder
 {
-    [SerializeField] WaveManager _monsterSpawnmer;
     [SerializeField] WaveManager _waveManager;
     [SerializeField] RandomSpawnUnitController _randomUnitSpawner;
     [SerializeField] UnitSpawner _unitSpawnerController;
@@ -147,7 +147,7 @@ public class InGameUI : UIBInder
 
         WaveManager.Instance.OnChangeBoss += SetBossInfo;
         
-        _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
+        _waveManager.CurWaveChanged += OnWaveChanged;
         _waveManager.AliveMonsterCountChanged += OnAliveMonsterCountChanged;
 
         // Bottom Panel
@@ -217,7 +217,7 @@ public class InGameUI : UIBInder
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
         _soundButton.onClick.RemoveAllListeners();
 
-        _monsterSpawnmer.CurWaveChanged -= OnWaveChanged;
+        _waveManager.CurWaveChanged -= OnWaveChanged;
         _waveManager.AliveMonsterCountChanged -= OnAliveMonsterCountChanged;
 
         // Bottom Panel

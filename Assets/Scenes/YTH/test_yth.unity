@@ -1944,7 +1944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7e34a568356f549be704a63f536653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _monsterSpawnmer: {fileID: 1878090938}
   _waveManager: {fileID: 1878090938}
   _randomUnitSpawner: {fileID: 1842989781}
   _unitSpawnerController: {fileID: 1842989779}
@@ -16135,7 +16134,6 @@ GameObject:
   - component: {fileID: 7791497093078261863}
   - component: {fileID: 8172000311544398317}
   - component: {fileID: 5167959468610431490}
-  - component: {fileID: 8172000311544398318}
   m_Layer: 0
   m_Name: Unit_1
   m_TagString: Untagged
@@ -16329,18 +16327,6 @@ MonoBehaviour:
   _level: 1
   _add_damage: 0
   _add_attackDelay: 0
---- !u!114 &8172000311544398318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3632075640371462946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52102a0077f73344db48b2b3ec3b48d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

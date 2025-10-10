@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -49,6 +50,9 @@ public class WaveManager : MonoBehaviour
     public event Action<int> CurWaveChanged;
     public event Action ClearStage;
     public event Action OnChangeBoss;
+
+    // 몬스터 주소 인덱스 누적 관리용 필드
+    int nextMonsterIndex = 1;
 
     private void Awake()
     {
@@ -142,22 +146,52 @@ public class WaveManager : MonoBehaviour
 
     private void SpawnMonster(bool isBoss, int moveSpeed = 1)
     {
+        int curStage = 1;
+        string address = isBoss
+            ? $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage}_Boss.prefab"
+            : $"Assets/Prefabs/OJH/Monsters/Stage{curStage}/Stage{curStage}_Mob_{nextMonsterIndex}.prefab";
+
         if (isBoss)
         {
-            GameObject BossInstance = Instantiate(_bossPrefabs[ToSpawnBossindex], _spawnPoint.position, Quaternion.identity);
-            ToSpawnBossindex++;
+            AddressableManager.Instance.GetObject(address, transform, (obj) =>
+            {
+                if (obj == null)
+                {
+                    Debug.LogError($"[WaveManager] Boss Spawn 실패 - address: {address}");
+                    return;
+                }
+
+                Debug.Log($"[WaveManager] Boss Spawn - address: {address}");
+                obj.transform.position = _spawnPoint.position;
+                obj.SetActive(true);
+
+                OnMonsterSpawn(); // 성공 시에만 카운트
+                ToSpawnBossindex++;
+            });
         }
         else
         {
-            PooledObject pooledObject = _objectPool.GetPool(_spawnPoint.position, Quaternion.identity);
-
-            MonsterModel model = pooledObject.GetComponent<MonsterModel>();
-            if (model != null)
+            AddressableManager.Instance.GetObject(address, transform, (obj) =>
             {
-                model.MoveSpeed = moveSpeed;
-            }
+                if (obj == null)
+                {
+                    Debug.LogError($"[WaveManager] Mob Spawn 실패 - address: {address}");
+                    return;
+                }
+
+                obj.transform.position = _spawnPoint.position;
+                obj.SetActive(true);
+
+                MonsterModel model = obj.GetComponent<MonsterModel>();
+                if (model != null)
+                {
+                    model.MoveSpeed = moveSpeed;
+                }
+
+                OnMonsterSpawn();   // 성공 시에만 카운트
+                nextMonsterIndex = (nextMonsterIndex < 49) ? nextMonsterIndex + 1 : 1; // 성공 시에만 인덱스 증가
+            });
         }
-        OnMonsterSpawn();
     }
 
     public void OnMonsterDie()
