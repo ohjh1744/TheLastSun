@@ -42,6 +42,7 @@ public class InGameUI : UIBInder
 
     [SerializeField] private List<AssetReferenceT<AudioClip>> _inGameBGMClip;
     [SerializeField] private List<AssetReferenceSprite> _mapSprites;
+    [SerializeField] private List<AssetReferenceSprite> _palletSprites;
     #endregion
 
 
@@ -115,6 +116,7 @@ public class InGameUI : UIBInder
 
     [Header("Map")]
     [SerializeField] GameObject _mapSprite;
+    [SerializeField] GameObject _palletSprite;
 
     private Image _jewellImage1;
     private Image _jewellImage2;
@@ -500,6 +502,13 @@ public class InGameUI : UIBInder
         {
             mapImageComp.sprite = sprite;
         });
+
+        SpriteRenderer palletImageComp = _palletSprite.GetComponent<SpriteRenderer>();
+        AddressableManager.Instance.LoadOnlySprite(_palletSprites[stage-1], (sprite) =>
+        {
+            palletImageComp.sprite = sprite;
+        });
+
     }
 
     private void ApplyButtonSprite()

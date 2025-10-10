@@ -2150,6 +2150,27 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
+  _palletSprites:
+  - m_AssetGUID: 56caebebca7f81f43b8c91ddef7805d3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  - m_AssetGUID: 59f57f10a2be68d40bd03a0e69506589
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 480e3245b74fc464eb29a1ac3dae65d0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  - m_AssetGUID: 9c76ea687d3eb0148a64dd0b08d46850
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: ab4ed8f9e852ee4469791f61b4148e67
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
   _waveManager: {fileID: 1878090938}
   _randomUnitSpawner: {fileID: 1842989781}
   _unitSpawnerController: {fileID: 1842989779}
@@ -2159,6 +2180,7 @@ MonoBehaviour:
   _unitSellPanel: {fileID: 0}
   _gameEndPanel: {fileID: 0}
   _mapSprite: {fileID: 110204414}
+  _palletSprite: {fileID: 775301795}
 --- !u!1 &304299628
 GameObject:
   m_ObjectHideFlags: 0
@@ -5184,7 +5206,7 @@ GameObject:
   - component: {fileID: 775301797}
   - component: {fileID: 775301796}
   m_Layer: 0
-  m_Name: TestMap
+  m_Name: Pallet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5230,16 +5252,16 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.1254902}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &775301797
@@ -5251,8 +5273,8 @@ Transform:
   m_GameObject: {fileID: 775301795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 6.469066, y: 6.469066, z: 5.5538}
+  m_LocalPosition: {x: 0, y: -0.5, z: -0.8}
+  m_LocalScale: {x: 1.2, y: 0.6, z: 0.51510996}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
