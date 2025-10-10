@@ -1,10 +1,54 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InGameUI : UIBInder
 {
-    [SerializeField] WaveManager _monsterSpawnmer;
+    #region Addressable Assets
+    [Header("어드레서블 에셋 설정")]
+    // 자주 쓰는 스프라이트 캐시
+    private readonly Dictionary<string, Sprite> _spriteDic = new Dictionary<string, Sprite>();
+
+    // 캐싱 키
+    private const string SPR_BUTTON = "Button";
+    private const string SPR_POPUP = "PopUpPanel";
+    private const string SPR_BACK = "BackPanel";
+    private const string SPR_DIAMOND = "Diamond";
+
+    [SerializeField] private AssetReferenceSprite _buttonSprite;
+
+    [SerializeField] private AssetReferenceSprite _popUpPanelSprite;
+    [SerializeField] private AssetReferenceSprite _backPanelSprite;
+
+    [SerializeField] private AssetReferenceSprite _diamondSprite;
+
+    [SerializeField] private AssetReferenceSprite _pauseSprite;
+    [SerializeField] private AssetReferenceSprite _isSoundSprite;
+
+    [SerializeField] private AssetReferenceSprite _enhanceArcherSprite;
+    [SerializeField] private AssetReferenceSprite _enhanceBomerSprite;
+    [SerializeField] private AssetReferenceSprite _enhanceWarriorSprite;
+
+    [SerializeField] private AssetReferenceSprite _sellNormalSprite;
+    [SerializeField] private AssetReferenceSprite _sellRareSprite;
+    [SerializeField] private AssetReferenceSprite _sellAncientSprite;
+    [SerializeField] private AssetReferenceSprite _sellLegendSprite;
+    [SerializeField] private AssetReferenceSprite _sellEpicSprite;
+
+    [SerializeField] private AssetReferenceSprite _gameEndPanelNameSprite;
+    [SerializeField] private AssetReferenceSprite _gameEndPanelButtonSprite;
+
+    [SerializeField] private List<AssetReferenceT<AudioClip>> _inGameBGMClip;
+    [SerializeField] private List<AssetReferenceSprite> _mapSprites;
+    [SerializeField] private List<AssetReferenceSprite> _palletSprites;
+    #endregion
+
+
+    // =========================================================
+    [Header("")]
+    [Header("인게임 설정")]
     [SerializeField] WaveManager _waveManager;
     [SerializeField] RandomSpawnUnitController _randomUnitSpawner;
     [SerializeField] UnitSpawner _unitSpawnerController;
@@ -39,6 +83,9 @@ public class InGameUI : UIBInder
     private Button _enhanceArcherButton;
     private Button _enhanceBomerButton;
     private Button _enhanceWarriorButton;
+    private Image _enhanceArcherImage;
+    private Image _enhanceBomerImage;
+    private Image _enhanceWarriorImage;
 
     [Header("Unit Sell Panel")]
     private TMPro.TMP_Text _normalAmountText;
@@ -67,6 +114,22 @@ public class InGameUI : UIBInder
     private TMPro.TMP_Text _recordClearTimeText;
     private Button _loadMainSceneButton;
 
+    [Header("Map")]
+    [SerializeField] GameObject _mapSprite;
+    [SerializeField] GameObject _palletSprite;
+
+    private Image _jewellImage1;
+    private Image _jewellImage2;
+    private Image _jewellImage3;
+    private Image _jewellImage4;
+    private Image _jewellImage5;
+    private Image _jewellImage6;
+    private Image _jewellImage7;
+    private Image _jewellImage8;
+    private Image _jewellImage9;
+    private Image _jewellImage10;
+    private Image _jewellImage11;
+
 
     // 현재 선택된 부족 인덱스(패널 갱신 시 사용)
     private int _currentSellIndex = 0;
@@ -89,6 +152,7 @@ public class InGameUI : UIBInder
         _stopButton = GetUI<Button>("StopButton");
         _speedButton = GetUI<Button>("SpeedButton");
         _soundButton = GetUI<Button>("SoundButton");
+
         _soundOnImage = GetUI("SoundOnImage");
         _soundOffImage = GetUI("SoundOffImage");
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
@@ -100,6 +164,7 @@ public class InGameUI : UIBInder
         // Bottom Panel
         _aliveMonsterCountSlider = GetUI<Slider>("AliveMonsterCountSlider");
         _aliveMonsterCountText = GetUI<TMPro.TMP_Text>("CurMonsterCountText");
+
         _jewelText = GetUI<TMPro.TMP_Text>("JewelText");
         _randomSppawnButton = GetUI<Button>("RandomSpawnButton");
         _unitSellButton = GetUI<Button>("SellUnitButton");
@@ -107,13 +172,21 @@ public class InGameUI : UIBInder
         _enhanceBomerButton = GetUI<Button>("EnhanceBomerButton");
         _enhanceWarriorButton = GetUI<Button>("EnhanceWarriorButton");
 
+        _enhanceArcherImage = GetUI<Image>("EnhanceArcherImage");
+        LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Ancient_archer_attack.prefab", _enhanceArcherImage, null);
+        _enhanceBomerImage = GetUI<Image>("EnhanceBomerImage");
+        LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Ancient_bomer_attack.prefab", _enhanceBomerImage, null);
+        _enhanceWarriorImage = GetUI<Image>("EnhanceWarriorImage");
+        LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Ancient_warrior_attack.prefab", _enhanceWarriorImage, null);
+
+
         // Unit Sell Panel
         _normalAmountText = GetUI<TMPro.TMP_Text>("NormalAmountText"); //TODO : 딕셔너리로 연결해서 수량 업데이트 Fix
         _rareAmountText = GetUI<TMPro.TMP_Text>("RareAmountText");
         _ancientAmountText = GetUI<TMPro.TMP_Text>("AncientAmountText");
         _legendAmountText = GetUI<TMPro.TMP_Text>("LegendAmountText");
         _epicAmountText = GetUI<TMPro.TMP_Text>("EpicAmountText");
-        _closeSellUnitButton = GetUI<Button>("ClosePanelButton"); 
+        _closeSellUnitButton = GetUI<Button>("ClosePanelButton");
         _sellNormalButton = GetUI<Button>("SellNormalButton");
         _sellRareButton = GetUI<Button>("SellRareButton");
         _sellAncientButton = GetUI<Button>("SellAncientButton");
@@ -133,21 +206,46 @@ public class InGameUI : UIBInder
         _recordWaveText = GetUI<TMPro.TMP_Text>("RecordWaveText");
         _recordClearTimeText = GetUI<TMPro.TMP_Text>("RecordClearTimeText");
         _loadMainSceneButton = GetUI<Button>("LoadMainSceneButton");
+
+        // 보석 이미지
+        _jewellImage1 = GetUI<Image>("JewellImage1");
+        _jewellImage2 = GetUI<Image>("JewellImage2");
+        _jewellImage3 = GetUI<Image>("JewellImage3");
+        _jewellImage4 = GetUI<Image>("JewellImage4");
+        _jewellImage5 = GetUI<Image>("JewellImage5");
+        _jewellImage6 = GetUI<Image>("JewellImage6");
+        _jewellImage7 = GetUI<Image>("JewellImage7");
+        _jewellImage8 = GetUI<Image>("JewellImage8");
+        _jewellImage9 = GetUI<Image>("JewellImage9");
+        _jewellImage10 = GetUI<Image>("JewellImage10");
+        _jewellImage11 = GetUI<Image>("JewellImage11");
+
+        ApplyButtonSprite();
+
+        ApplyPopupSprite();
+
+        ApplyBackPanelSprite();
+
+        ApplyJewelImage();
+
+        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/2);
     }
 
     private void Start()
     {
         GameClearButton.onClick.AddListener(() => TestClearButton()); // Test용
 
+        // 프리로드 후 공통 스프라이트 적용
+        /*StartCoroutine(PreloadCommonSpritesThenApply());*/
+
         // Top Panel
         _stopButton.onClick.AddListener(OnPauseGame);
-
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
         _soundButton.onClick.AddListener(OnSoundButtonClicked);
 
         WaveManager.Instance.OnChangeBoss += SetBossInfo;
-        
-        _monsterSpawnmer.CurWaveChanged += OnWaveChanged;
+
+        _waveManager.CurWaveChanged += OnWaveChanged;
         _waveManager.AliveMonsterCountChanged += OnAliveMonsterCountChanged;
 
         // Bottom Panel
@@ -159,6 +257,7 @@ public class InGameUI : UIBInder
         _unitSellButton.onClick.AddListener(() =>
         {
             _unitSellPanel.SetActive(true);
+
             SetSellPanel(0);
         });
 
@@ -217,7 +316,7 @@ public class InGameUI : UIBInder
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
         _soundButton.onClick.RemoveAllListeners();
 
-        _monsterSpawnmer.CurWaveChanged -= OnWaveChanged;
+        _waveManager.CurWaveChanged -= OnWaveChanged;
         _waveManager.AliveMonsterCountChanged -= OnAliveMonsterCountChanged;
 
         // Bottom Panel
@@ -297,6 +396,7 @@ public class InGameUI : UIBInder
     }
 
     // 웨이브 변경 시 호출될 콜백
+    // TODO : 맵 이미지 변경 추가
     public void OnWaveChanged(int wave)
     {
         _waveText.text = $"Wave {wave}";
@@ -388,8 +488,203 @@ public class InGameUI : UIBInder
 
     private void SetBossInfo()
     {
-        _bossImage.sprite = WaveManager.Instance.BossPrefabs[WaveManager.Instance.ToSpawnBossindex].GetComponent<SpriteRenderer>().sprite;
-        _bossName.text = WaveManager.Instance.BossPrefabs[WaveManager.Instance.ToSpawnBossindex].name;
+        int curStage = /*PlayerController.Instance.PlayerData.CurrentStage*/2;
+        string key = $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage}_Boss.prefab";
+
+        LoadSpriteFromAddressablePrefab(key, _bossImage, null);
+        _bossName.text = WaveManager.Instance.BossPrefabsName[WaveManager.Instance.ToSpawnBossindex];
+    }
+
+    private void SetMapImage(int stage)
+    {
+        SpriteRenderer mapImageComp = _mapSprite.GetComponent<SpriteRenderer>();
+        AddressableManager.Instance.LoadOnlySprite(_mapSprites[stage-1], (sprite) =>
+        {
+            mapImageComp.sprite = sprite;
+        });
+
+        SpriteRenderer palletImageComp = _palletSprite.GetComponent<SpriteRenderer>();
+        AddressableManager.Instance.LoadOnlySprite(_palletSprites[stage-1], (sprite) =>
+        {
+            palletImageComp.sprite = sprite;
+        });
+
+    }
+
+    private void ApplyButtonSprite()
+    {
+        // 캐시 먼저 확인
+        if (_spriteDic.TryGetValue(SPR_BUTTON, out var cachedBtnSprite) && cachedBtnSprite != null)
+        {
+            Image stopImg = _stopButton.GetComponent<Image>();
+            stopImg.sprite = cachedBtnSprite;
+        }
+        else
+        {
+            Image stopImg = _stopButton.GetComponent<Image>();
+            AddressableManager.Instance.LoadSprite(
+                _buttonSprite,
+                stopImg,
+                () =>
+                {
+                    var loaded = stopImg.sprite; // 매개변수 없이 target Image에서 읽음
+                    if (loaded == null) return;
+                    _spriteDic[SPR_BUTTON] = loaded;
+
+                    // Top Panel
+                    _speedButton.GetComponent<Image>().sprite = loaded;
+                    _soundButton.GetComponent<Image>().sprite = loaded;
+
+                    // Bottom Panel
+                    GetUI("CurJewelPanel").GetComponent<Image>().sprite = loaded;
+                    _randomSppawnButton.GetComponent<Image>().sprite = loaded;
+                    _unitSellButton.GetComponent<Image>().sprite = loaded;
+                    _enhanceArcherButton.GetComponent<Image>().sprite = loaded;
+                    _enhanceBomerButton.GetComponent<Image>().sprite = loaded;
+                    _enhanceWarriorButton.GetComponent<Image>().sprite = loaded;
+
+                    // Unit Sell Panel
+                    _sellNormalButton.GetComponent<Image>().sprite = loaded;
+                    _sellRareButton.GetComponent<Image>().sprite = loaded;
+                    _sellAncientButton.GetComponent<Image>().sprite = loaded;
+                    _sellLegendButton.GetComponent<Image>().sprite = loaded;
+                    _sellEpicButton.GetComponent<Image>().sprite = loaded;
+                }
+            );
+        }
+    }
+
+    public void ApplyPopupSprite()
+    {
+        // 캐시 먼저 확인
+        if (_spriteDic.TryGetValue(SPR_BACK, out var cachedBackSprite) && cachedBackSprite != null)
+        {
+
+        }
+        else
+        {
+            Image sellPanel = GetUI("UnitSellPanel").GetComponent<Image>();
+            AddressableManager.Instance.LoadSprite(
+                _popUpPanelSprite,
+                sellPanel,
+                () =>
+                {
+                    var loaded = sellPanel.sprite; // 매개변수 없이 target Image에서 읽음
+                    if (loaded == null) return;
+                    _spriteDic[SPR_BACK] = loaded;
+                    // 게임 종료 패널
+                    Image gameEndPanel = GetUI("GameEndPanel").GetComponent<Image>();
+                    gameEndPanel.sprite = loaded;
+                    sellPanel.gameObject.SetActive(false);
+                }
+            );
+        }
+    }
+
+    public void ApplyBackPanelSprite()
+    {
+        // 캐시 먼저 확인
+        if (_spriteDic.TryGetValue(SPR_POPUP, out var cachedPopUpSprite) && cachedPopUpSprite != null)
+        {
+
+        }
+        else
+        {
+            Image tribeButton = _tribe1Button.GetComponent<Image>();
+            AddressableManager.Instance.LoadSprite(
+                _backPanelSprite,
+                tribeButton,
+                () =>
+                {
+                    var loaded = tribeButton.sprite; // 매개변수 없이 target Image에서 읽음
+                    if (loaded == null) return;
+                    _spriteDic[SPR_POPUP] = loaded;
+                    // 부족 버튼
+                    _tribe2Button.GetComponent<Image>().sprite = loaded;
+                    _tribe3Button.GetComponent<Image>().sprite = loaded;
+                }
+            );
+        }
+    }
+
+    private void LoadSpriteFromAddressablePrefab(string prefabKey, Image target, System.Action onComplete = null)
+    {
+        if (target == null || string.IsNullOrEmpty(prefabKey))
+        {
+            Debug.LogWarning($"[InGameUI] LoadSpriteFromAddressablePrefab: 잘못된 인자 target={target}, key={prefabKey}");
+            return;
+        }
+
+        UnityEngine.AddressableAssets.Addressables
+            .LoadAssetAsync<GameObject>(prefabKey)
+            .Completed += handle =>
+            {
+                if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                {
+                    var prefab = handle.Result;
+                    if (prefab == null)
+                    {
+                        Debug.LogWarning($"[InGameUI] LoadSpriteFromAddressablePrefab: 로드된 프리팹이 null - key={prefabKey}");
+                        return;
+                    }
+
+                    Sprite sprite = null;
+
+                    // 1) SpriteRenderer에서 스프라이트 추출 (자기 자신 -> 자식 포함)
+                    var sr = prefab.GetComponent<SpriteRenderer>() ?? prefab.GetComponentInChildren<SpriteRenderer>(true);
+                    if (sr != null && sr.sprite != null)
+                    {
+                        sprite = sr.sprite;
+                    }
+
+                    if (sprite != null)
+                    {
+                        target.sprite = sprite;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[InGameUI] LoadSpriteFromAddressablePrefab: SpriteRenderer/Image에 Sprite가 없음 - key={prefabKey}");
+                    }
+                }
+                else
+                {
+                    Debug.LogError($"[InGameUI] LoadSpriteFromAddressablePrefab: Addressable 로드 실패 - key={prefabKey}");
+                }
+            };
+    }
+
+    private void ApplyJewelImage()
+    {
+        // 캐시 먼저 확인
+        if (_spriteDic.TryGetValue(SPR_DIAMOND, out var cachedPopUpSprite) && cachedPopUpSprite != null)
+        {
+
+        }
+        else
+        {
+            Image diaImage = _jewellImage1;
+            AddressableManager.Instance.LoadSprite(
+                _diamondSprite,
+                diaImage,
+                () =>
+                {
+                    var loaded = diaImage.sprite; // 매개변수 없이 target Image에서 읽음
+                    if (loaded == null) return;
+                    _spriteDic[SPR_DIAMOND] = loaded;
+
+                    _jewellImage2.sprite = loaded;
+                    _jewellImage3.sprite = loaded;
+                    _jewellImage4.sprite = loaded;
+                    _jewellImage5.sprite = loaded;
+                    _jewellImage6.sprite = loaded;
+                    _jewellImage7.sprite = loaded;
+                    _jewellImage8.sprite = loaded;
+                    _jewellImage9.sprite = loaded;
+                    _jewellImage10.sprite = loaded;
+                    _jewellImage11.sprite = loaded;
+                }
+            );
+        }
     }
 
 
