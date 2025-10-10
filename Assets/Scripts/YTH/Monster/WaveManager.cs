@@ -11,7 +11,8 @@ public class WaveManager : MonoBehaviour
     private InGameUI _inGameUi;
 
     [Header("Don't Set")]
-    public int ToSpawnBossindex;
+    [SerializeField] int _toSpawnBossindex = 0;
+    public int ToSpawnBossindex { get => _toSpawnBossindex; set { _toSpawnBossindex = value; OnChangeBoss?.Invoke(); } }
 
     [SerializeField] int _spawnedMonsterCount = 0;
     public int SpawnedMonsterCount { get => _spawnedMonsterCount; set { _spawnedMonsterCount = value; SpawnedMonsterCountChanged?.Invoke(_spawnedMonsterCount); } }
@@ -37,8 +38,8 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField] Transform _spawnPoint;
     [HideInInspector] public Transform SpawnPoint => _spawnPoint;
-    [SerializeField] List<GameObject> _bossPrefabs;
-    public List<GameObject> BossPrefabs { get => _bossPrefabs; set { _bossPrefabs = value; OnChangeBoss?.Invoke(); } }
+    [SerializeField] List<string> _bossPrefabsName;
+    public List<string> BossPrefabsName { get => _bossPrefabsName; set { _bossPrefabsName = value; OnChangeBoss?.Invoke(); } }
 
     private ObjectPool _objectPool;
 

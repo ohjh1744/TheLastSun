@@ -1944,6 +1944,128 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7e34a568356f549be704a63f536653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buttonSprite:
+    m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  _popUpPanelSprite:
+    m_AssetGUID: 529209c5c1f3ec2419b285d0852a13aa
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _backPanelSprite:
+    m_AssetGUID: 1b30146fb6fb588449427c3c18c0420f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _diamondSprite:
+    m_AssetGUID: c9f7152c4a4cc7d40a7d5c02cf87ac2b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _pauseSprite:
+    m_AssetGUID: bcaee85329f4dd3459cf55b7c3f07351
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _isSoundSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _enhanceArcherSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _enhanceBomerSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _enhanceWarriorSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _sellNormalSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _sellRareSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _sellAncientSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _sellLegendSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _sellEpicSprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _gameEndPanelNameSprite:
+    m_AssetGUID: d7d9084bf3deddf48b8ab85281f1265a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _gameEndPanelButtonSprite:
+    m_AssetGUID: 5a28a24d462973d4ab502a90a2208fe6
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _inGameBGMClip:
+  - m_AssetGUID: 50d3d01e2812cb34a8944679d062c77c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 373f2a9c0b4a201418c6461bf9acdf9f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c7eee6d2b27b51e49928a3eb055b7a49
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: d45cdfde07719fe479745835b1fb1ffa
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 1ea5b11720576f24ca3f5fa7b48b8694
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  _mapSprites:
+  - m_AssetGUID: 56caebebca7f81f43b8c91ddef7805d3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 59f57f10a2be68d40bd03a0e69506589
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 480e3245b74fc464eb29a1ac3dae65d0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 9c76ea687d3eb0148a64dd0b08d46850
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: ab4ed8f9e852ee4469791f61b4148e67
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
   _waveManager: {fileID: 1878090938}
   _randomUnitSpawner: {fileID: 1842989781}
   _unitSpawnerController: {fileID: 1842989779}
@@ -1952,6 +2074,7 @@ MonoBehaviour:
   _warningPanel2: {fileID: 0}
   _unitSellPanel: {fileID: 0}
   _gameEndPanel: {fileID: 0}
+  _mapSprite: {fileID: 0}
 --- !u!1 &304299628
 GameObject:
   m_ObjectHideFlags: 0
@@ -2790,7 +2913,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 3
 --- !u!222 &386575198
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5173,7 +5296,7 @@ GameObject:
   - component: {fileID: 797814948}
   - component: {fileID: 797814947}
   m_Layer: 5
-  m_Name: UnityImage_2
+  m_Name: EnhanceBomerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5876,7 +5999,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 3
 --- !u!222 &882202853
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6371,7 +6494,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 3
 --- !u!222 &946028321
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6523,7 +6646,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 3
 --- !u!222 &1003761670
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7309,7 +7432,7 @@ GameObject:
   - component: {fileID: 1111832797}
   - component: {fileID: 1111832796}
   m_Layer: 5
-  m_Name: UnityImage_3
+  m_Name: EnhanceWarriorImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10794,7 +10917,7 @@ GameObject:
   - component: {fileID: 1498925399}
   - component: {fileID: 1498925398}
   m_Layer: 5
-  m_Name: UnityImage_1
+  m_Name: EnhanceArcherImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14160,19 +14283,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088f7ca9392b1e84c942f4ecd07ed595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToSpawnBossindex: 0
+  _toSpawnBossindex: 0
   _spawnedMonsterCount: 0
   _aliveMonsterCount: 0
   _deadMonsterCount: 0
   _totalWave: 100
   _monstersPerWave: 12
   _spawnPoint: {fileID: 787045454}
-  _bossPrefabs:
-  - {fileID: 96494404332732768, guid: 807a347d95623b74cb2f68f1a848be7b, type: 3}
-  - {fileID: 8961699144437284324, guid: 4cbd9a00aea78e7438051a15b2a40767, type: 3}
-  - {fileID: 8707804511041451412, guid: 25558e65e78ad134ea8dbc06004c4edd, type: 3}
-  - {fileID: 2595491773627116910, guid: 6e3e180baaa6a234dbedb1e841d0bee7, type: 3}
-  - {fileID: 8902100716136007514, guid: ec7766a4daa4b8040971b6d16539dbcc, type: 3}
+  _bossPrefabsName:
+  - boss1
+  - boss2
+  - boss3
+  - boss4
+  - boss5
 --- !u!1 &1878727567
 GameObject:
   m_ObjectHideFlags: 0
@@ -14637,7 +14760,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 3050cc0c07e4b5e4795d7b1dac11c65f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14646,7 +14769,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2.5
 --- !u!222 &1949821426
 CanvasRenderer:
   m_ObjectHideFlags: 0
