@@ -523,7 +523,7 @@ GameObject:
   - component: {fileID: 92351340}
   - component: {fileID: 92351339}
   m_Layer: 5
-  m_Name: Image
+  m_Name: JewelImage8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -720,6 +720,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110177296}
   m_CullTransparentMesh: 1
+--- !u!1 &110204414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 110204416}
+  - component: {fileID: 110204415}
+  m_Layer: 0
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &110204415
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110204414}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -1
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &110204416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 110204414}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1.7, y: 1.8, z: 1.6}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &111465569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1345,7 +1429,7 @@ GameObject:
   - component: {fileID: 185515902}
   - component: {fileID: 185515901}
   m_Layer: 5
-  m_Name: JewelImange
+  m_Name: JewelImage7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1524,7 +1608,7 @@ GameObject:
   - component: {fileID: 197048035}
   - component: {fileID: 197048034}
   m_Layer: 5
-  m_Name: JewelImange
+  m_Name: JewelImage6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2074,7 +2158,7 @@ MonoBehaviour:
   _warningPanel2: {fileID: 0}
   _unitSellPanel: {fileID: 0}
   _gameEndPanel: {fileID: 0}
-  _mapSprite: {fileID: 0}
+  _mapSprite: {fileID: 110204414}
 --- !u!1 &304299628
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,7 +2171,7 @@ GameObject:
   - component: {fileID: 304299631}
   - component: {fileID: 304299630}
   m_Layer: 5
-  m_Name: SpecialSpawnImage
+  m_Name: JewelImage11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2319,7 +2403,7 @@ GameObject:
   - component: {fileID: 338307307}
   - component: {fileID: 338307306}
   m_Layer: 5
-  m_Name: Image
+  m_Name: JewelImage10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3219,7 +3303,7 @@ GameObject:
   - component: {fileID: 448779297}
   - component: {fileID: 448779296}
   m_Layer: 5
-  m_Name: JewelImage
+  m_Name: JewelImage1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5755,7 +5839,7 @@ GameObject:
   - component: {fileID: 842476510}
   - component: {fileID: 842476509}
   m_Layer: 5
-  m_Name: JewelImage
+  m_Name: JewelImage2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7900,7 +7984,7 @@ GameObject:
   - component: {fileID: 1201259756}
   - component: {fileID: 1201259755}
   m_Layer: 5
-  m_Name: JewelImange
+  m_Name: JewelImage5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8655,7 +8739,7 @@ GameObject:
   - component: {fileID: 1270518345}
   - component: {fileID: 1270518344}
   m_Layer: 5
-  m_Name: Image
+  m_Name: JewelImage9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8730,7 +8814,7 @@ GameObject:
   - component: {fileID: 1273320879}
   - component: {fileID: 1273320878}
   m_Layer: 5
-  m_Name: JewelImange
+  m_Name: JewelImage3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10887,8 +10971,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 56caebebca7f81f43b8c91ddef7805d3, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -13352,7 +13436,7 @@ GameObject:
   - component: {fileID: 1801797446}
   - component: {fileID: 1801797445}
   m_Layer: 5
-  m_Name: JewelImange
+  m_Name: JewelImage4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16406,6 +16490,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1351920395}
   - {fileID: 161854656}
+  - {fileID: 110204416}
   - {fileID: 775301797}
   - {fileID: 5085270598531842249}
   - {fileID: 246896265}

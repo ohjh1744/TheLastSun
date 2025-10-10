@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Experimental.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -17,6 +15,7 @@ public class InGameUI : UIBInder
     private const string SPR_BUTTON = "Button";
     private const string SPR_POPUP = "PopUpPanel";
     private const string SPR_BACK = "BackPanel";
+    private const string SPR_DIAMOND = "Diamond";
 
     [SerializeField] private AssetReferenceSprite _buttonSprite;
 
@@ -42,7 +41,7 @@ public class InGameUI : UIBInder
     [SerializeField] private AssetReferenceSprite _gameEndPanelButtonSprite;
 
     [SerializeField] private List<AssetReferenceT<AudioClip>> _inGameBGMClip;
-    [SerializeField] private List<AssetReferenceT<Sprite>> _mapSprites;
+    [SerializeField] private List<AssetReferenceSprite> _mapSprites;
     #endregion
 
 
@@ -116,6 +115,18 @@ public class InGameUI : UIBInder
 
     [Header("Map")]
     [SerializeField] GameObject _mapSprite;
+
+    private Image _jewellImage1;
+    private Image _jewellImage2;
+    private Image _jewellImage3;
+    private Image _jewellImage4;
+    private Image _jewellImage5;
+    private Image _jewellImage6;
+    private Image _jewellImage7;
+    private Image _jewellImage8;
+    private Image _jewellImage9;
+    private Image _jewellImage10;
+    private Image _jewellImage11;
 
 
     // 현재 선택된 부족 인덱스(패널 갱신 시 사용)
@@ -194,12 +205,28 @@ public class InGameUI : UIBInder
         _recordClearTimeText = GetUI<TMPro.TMP_Text>("RecordClearTimeText");
         _loadMainSceneButton = GetUI<Button>("LoadMainSceneButton");
 
+        // 보석 이미지
+        _jewellImage1 = GetUI<Image>("JewellImage1");
+        _jewellImage2 = GetUI<Image>("JewellImage2");
+        _jewellImage3 = GetUI<Image>("JewellImage3");
+        _jewellImage4 = GetUI<Image>("JewellImage4");
+        _jewellImage5 = GetUI<Image>("JewellImage5");
+        _jewellImage6 = GetUI<Image>("JewellImage6");
+        _jewellImage7 = GetUI<Image>("JewellImage7");
+        _jewellImage8 = GetUI<Image>("JewellImage8");
+        _jewellImage9 = GetUI<Image>("JewellImage9");
+        _jewellImage10 = GetUI<Image>("JewellImage10");
+        _jewellImage11 = GetUI<Image>("JewellImage11");
 
         ApplyButtonSprite();
 
         ApplyPopupSprite();
 
         ApplyBackPanelSprite();
+
+        ApplyJewelImage();
+
+        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/2);
     }
 
     private void Start()
@@ -228,6 +255,7 @@ public class InGameUI : UIBInder
         _unitSellButton.onClick.AddListener(() =>
         {
             _unitSellPanel.SetActive(true);
+
             SetSellPanel(0);
         });
 
@@ -465,6 +493,15 @@ public class InGameUI : UIBInder
         _bossName.text = WaveManager.Instance.BossPrefabsName[WaveManager.Instance.ToSpawnBossindex];
     }
 
+    private void SetMapImage(int stage)
+    {
+        SpriteRenderer mapImageComp = _mapSprite.GetComponent<SpriteRenderer>();
+        AddressableManager.Instance.LoadOnlySprite(_mapSprites[stage-1], (sprite) =>
+        {
+            mapImageComp.sprite = sprite;
+        });
+    }
+
     private void ApplyButtonSprite()
     {
         // 캐시 먼저 확인
@@ -510,10 +547,10 @@ public class InGameUI : UIBInder
 
     public void ApplyPopupSprite()
     {
-                // 캐시 먼저 확인
+        // 캐시 먼저 확인
         if (_spriteDic.TryGetValue(SPR_BACK, out var cachedBackSprite) && cachedBackSprite != null)
         {
-           
+
         }
         else
         {
@@ -529,17 +566,18 @@ public class InGameUI : UIBInder
                     // 게임 종료 패널
                     Image gameEndPanel = GetUI("GameEndPanel").GetComponent<Image>();
                     gameEndPanel.sprite = loaded;
+                    sellPanel.gameObject.SetActive(false);
                 }
             );
         }
-    }   
+    }
 
     public void ApplyBackPanelSprite()
     {
         // 캐시 먼저 확인
         if (_spriteDic.TryGetValue(SPR_POPUP, out var cachedPopUpSprite) && cachedPopUpSprite != null)
         {
-           
+
         }
         else
         {
@@ -572,38 +610,73 @@ public class InGameUI : UIBInder
             .LoadAssetAsync<GameObject>(prefabKey)
             .Completed += handle =>
             {
-                    if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+                {
+                    var prefab = handle.Result;
+                    if (prefab == null)
                     {
-                        var prefab = handle.Result;
-                        if (prefab == null)
-                        {
-                            Debug.LogWarning($"[InGameUI] LoadSpriteFromAddressablePrefab: 로드된 프리팹이 null - key={prefabKey}");
-                            return;
-                        }
+                        Debug.LogWarning($"[InGameUI] LoadSpriteFromAddressablePrefab: 로드된 프리팹이 null - key={prefabKey}");
+                        return;
+                    }
 
-                        Sprite sprite = null;
+                    Sprite sprite = null;
 
-                        // 1) SpriteRenderer에서 스프라이트 추출 (자기 자신 -> 자식 포함)
-                        var sr = prefab.GetComponent<SpriteRenderer>() ?? prefab.GetComponentInChildren<SpriteRenderer>(true);
-                        if (sr != null && sr.sprite != null)
-                        {
-                            sprite = sr.sprite;
-                        }
-                      
-                        if (sprite != null)
-                        {
-                            target.sprite = sprite;
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"[InGameUI] LoadSpriteFromAddressablePrefab: SpriteRenderer/Image에 Sprite가 없음 - key={prefabKey}");
-                        }
+                    // 1) SpriteRenderer에서 스프라이트 추출 (자기 자신 -> 자식 포함)
+                    var sr = prefab.GetComponent<SpriteRenderer>() ?? prefab.GetComponentInChildren<SpriteRenderer>(true);
+                    if (sr != null && sr.sprite != null)
+                    {
+                        sprite = sr.sprite;
+                    }
+
+                    if (sprite != null)
+                    {
+                        target.sprite = sprite;
                     }
                     else
                     {
-                        Debug.LogError($"[InGameUI] LoadSpriteFromAddressablePrefab: Addressable 로드 실패 - key={prefabKey}");
+                        Debug.LogWarning($"[InGameUI] LoadSpriteFromAddressablePrefab: SpriteRenderer/Image에 Sprite가 없음 - key={prefabKey}");
                     }
+                }
+                else
+                {
+                    Debug.LogError($"[InGameUI] LoadSpriteFromAddressablePrefab: Addressable 로드 실패 - key={prefabKey}");
+                }
             };
     }
+
+    private void ApplyJewelImage()
+    {
+        // 캐시 먼저 확인
+        if (_spriteDic.TryGetValue(SPR_DIAMOND, out var cachedPopUpSprite) && cachedPopUpSprite != null)
+        {
+
+        }
+        else
+        {
+            Image diaImage = _jewellImage1;
+            AddressableManager.Instance.LoadSprite(
+                _diamondSprite,
+                diaImage,
+                () =>
+                {
+                    var loaded = diaImage.sprite; // 매개변수 없이 target Image에서 읽음
+                    if (loaded == null) return;
+                    _spriteDic[SPR_DIAMOND] = loaded;
+
+                    _jewellImage2.sprite = loaded;
+                    _jewellImage3.sprite = loaded;
+                    _jewellImage4.sprite = loaded;
+                    _jewellImage5.sprite = loaded;
+                    _jewellImage6.sprite = loaded;
+                    _jewellImage7.sprite = loaded;
+                    _jewellImage8.sprite = loaded;
+                    _jewellImage9.sprite = loaded;
+                    _jewellImage10.sprite = loaded;
+                    _jewellImage11.sprite = loaded;
+                }
+            );
+        }
+    }
+
 
 }
