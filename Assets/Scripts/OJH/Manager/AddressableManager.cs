@@ -6,6 +6,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 public class AddressableManager : MonoBehaviour
@@ -87,6 +88,51 @@ public class AddressableManager : MonoBehaviour
         assetObject.InstantiateAsync().Completed += (obj) =>
         {
             callBack(obj.Result);
+        };
+    }
+
+    // 주소로 단순 Object 생성
+    public void GetObject(string address, Transform transform, Action<GameObject> callBack)
+    {
+        Addressables.InstantiateAsync(address, transform).Completed += (obj) =>
+        {
+            callBack(obj.Result);
+        };
+    }
+
+    // 주소 존재 선검사 + 부모 지정 + 월드좌표 유지
+    public void GetObject(string address, Transform parent, Action<GameObject> callBack, bool instantiateInWorldSpace = true)
+    {
+        var locHandle = Addressables.LoadResourceLocationsAsync(address);
+        locHandle.Completed += locOp =>
+        {
+            bool exists = locOp.Status == AsyncOperationStatus.Succeeded
+                          && locOp.Result != null
+                          && locOp.Result.Count > 0;
+
+            if (!exists)
+            {
+                Debug.LogError($"[AddressableManager] Address 키를 찾지 못했습니다: {address}");
+                if (locHandle.IsValid()) Addressables.Release(locHandle);
+                callBack?.Invoke(null);
+                return;
+            }
+
+            var instHandle = Addressables.InstantiateAsync(address, parent, instantiateInWorldSpace);
+            instHandle.Completed += objOp =>
+            {
+                if (objOp.Status == AsyncOperationStatus.Succeeded)
+                {
+                    callBack?.Invoke(objOp.Result);
+                }
+                else
+                {
+                    Debug.LogError($"Addressables Instantiate 실패 - address: {address}");
+                    callBack?.Invoke(null);
+                }
+
+                if (locHandle.IsValid()) Addressables.Release(locHandle);
+            };
         };
     }
 
