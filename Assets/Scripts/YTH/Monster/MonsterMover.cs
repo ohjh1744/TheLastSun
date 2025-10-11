@@ -52,6 +52,12 @@ public class MonsterMover : MonoBehaviour
         DOTween.Kill(transform);
     }
 
+    // 외부에서 현재 MoveSpeed로 시퀀스를 재시작하기 위한 공개 메서드
+    public void RestartMove()
+    {
+        StartMoveSequence();
+    }
+
     private void StartMoveSequence()
     {
         if (_seq != null && _seq.IsActive())

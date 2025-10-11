@@ -202,7 +202,7 @@ public class WaveManager : MonoBehaviour
                 obj.transform.position = _spawnPoint.position;
                 obj.SetActive(true);
 
-                OnMonsterSpawn(); // 성공 시에만 카운트
+                OnMonsterSpawn();
                 ToSpawnBossindex++;
             });
         }
@@ -225,7 +225,11 @@ public class WaveManager : MonoBehaviour
                     model.MoveSpeed = moveSpeed;
                 }
 
-                OnMonsterSpawn();   // 성공 시에만 카운트
+                var mover = obj.GetComponent<MonsterMover>();
+                if (mover != null)
+                    mover.RestartMove();
+
+                OnMonsterSpawn();
             });
         }
     }
