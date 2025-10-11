@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,11 +38,8 @@ public class GameManager : MonoBehaviour
     public int CurrentGameSpeed = 1;
 
     [Header("각 스테이지 사운드")]
-    [SerializeField] AudioClip _stage1;
-    [SerializeField] AudioClip _stage2;
-    [SerializeField] AudioClip _stage3;
-    [SerializeField] AudioClip _stage4;
-    [SerializeField] AudioClip _stage5;
+    [SerializeField] List<AssetReferenceT<AudioClip>> _stageBGM;
+
 
     private AudioSource _audioSource;
 
@@ -81,7 +79,7 @@ public class GameManager : MonoBehaviour
         _leaderboardString.Add(GPGSIds.leaderboard_the_last_sun_record);
 
         WaveManager.Instance.ClearStage += ClearStage;
-        PlayStageBGM(_playerData.CurrentStage);
+        PlayStageBGM(0);
         StartTimer();
     }
 
@@ -129,29 +127,14 @@ public class GameManager : MonoBehaviour
     public void PlayStageBGM(int stage)
     {
         if (!_playerData.IsSound) return;
-        switch (stage)
+
+        AddressableManager.Instance.LoadSound(_stageBGM[stage], _audioSource, () =>
         {
-            case 0:
-                _audioSource.clip = _stage1;
-                break;
-            case 1:
-                _audioSource.clip = _stage2;
-                break;
-            case 2:
-                _audioSource.clip = _stage3;
-                break;
-            case 3:
-                _audioSource.clip = _stage4;
-                break;
-            case 4:
-                _audioSource.clip = _stage5;
-                break;
-            default:
-                Debug.LogWarning("Invalid stage number for BGM.");
-                return;
-        }
-        _audioSource.loop = true;
-        _audioSource.Play();
+            _audioSource.loop = true;
+            _audioSource.Play();
+        });
+
+        Debug.Log($"사운드 실행@@@@@@@");
     }
 
     public void SetSound()

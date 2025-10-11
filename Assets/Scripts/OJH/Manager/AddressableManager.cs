@@ -171,6 +171,15 @@ public class AddressableManager : MonoBehaviour
         };
     }
 
+    // 단순 Sound 가져오기
+    public void LoadSound(AssetReferenceT<AudioClip> assetAudioClip, Action<AudioClip> callBack)
+    {
+        assetAudioClip.LoadAssetAsync().Completed += (clip) =>
+        {
+            callBack(clip.Result);
+        };
+    }
+
     //Sprite 가져와서 이미지에 참조
     public void LoadSprite(AssetReferenceSprite assetImageSprite, Image image, Action callBack)
     {
