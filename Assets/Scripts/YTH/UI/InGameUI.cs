@@ -148,6 +148,7 @@ public class InGameUI : UIBInder
         _warningPanel2 = GetUI("WarningPanel2");
         _unitSellPanel = GetUI("UnitSellPanel");
         _gameEndPanel = GetUI("GameEndPanel");
+      
 
         // Top Panel
         _stopButton = GetUI<Button>("StopButton");
@@ -207,9 +208,11 @@ public class InGameUI : UIBInder
 
         // GaneEndPanel
         _clearFailText = GetUI<TMPro.TMP_Text>("ClearFailText");
+        AddressableManager.Instance.LoadSprite(_gameEndPanelNameSprite, GetUI<Image>("ClearFailImage"), null);
         _recordWaveText = GetUI<TMPro.TMP_Text>("RecordWaveText");
         _recordClearTimeText = GetUI<TMPro.TMP_Text>("RecordClearTimeText");
         _loadMainSceneButton = GetUI<Button>("LoadMainSceneButton");
+        AddressableManager.Instance.LoadSprite(_gameEndPanelButtonSprite, _loadMainSceneButton.GetComponent<Image>(), null);
 
         // 보석 이미지
         _jewellImage1 = GetUI<Image>("JewelImage1");
