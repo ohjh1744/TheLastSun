@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
 
         WaveManager.Instance.ClearStage += ClearStage;
         PlayStageBGM(0);
-        StartTimer();
+        /*StartTimer();*/
     }
 
     private void OnDestroy()
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void StartTimer()
+    public void StartTimer()
     {
         ClearTime = 0f;
         _isTimerRunning = true;
