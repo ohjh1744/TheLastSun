@@ -25,9 +25,10 @@ public class InGameUI : UIBInder
     [SerializeField] private AssetReferenceSprite _diamondSprite;
 
     [SerializeField] private AssetReferenceSprite _pauseSprite;
-    [SerializeField] private AssetReferenceSprite _isSoundSprite;
+    [SerializeField] private AssetReferenceSprite _soundOnSprite;
+    [SerializeField] private AssetReferenceSprite _soundOffSprite;
 
-    [SerializeField] private AssetReferenceSprite _enhanceArcherSprite;
+    [SerializeField] private AssetReferenceGameObject _enhanceArcherSprite;
     [SerializeField] private AssetReferenceSprite _enhanceBomerSprite;
     [SerializeField] private AssetReferenceSprite _enhanceWarriorSprite;
 
@@ -64,6 +65,7 @@ public class InGameUI : UIBInder
 
     [Header("Top Panel")]
     private Button _stopButton;
+    private Image _stopImage;
     private Button _speedButton;
     private Button _soundButton;
     private GameObject _soundOnImage;
@@ -115,7 +117,7 @@ public class InGameUI : UIBInder
     private Button _loadMainSceneButton;
 
     [Header("Map")]
-    [SerializeField] GameObject _mapSprite;
+    [SerializeField] GameObject _backgroundSprite;
     [SerializeField] GameObject _palletSprite;
 
     private Image _jewellImage1;
@@ -150,11 +152,14 @@ public class InGameUI : UIBInder
 
         // Top Panel
         _stopButton = GetUI<Button>("StopButton");
+        _stopImage = GetUI<Image>("StopImage");
+        AddressableManager.Instance.LoadSprite(_pauseSprite, _stopImage, null);
         _speedButton = GetUI<Button>("SpeedButton");
         _soundButton = GetUI<Button>("SoundButton");
-
         _soundOnImage = GetUI("SoundOnImage");
+        AddressableManager.Instance.LoadSprite(_soundOnSprite, _soundOnImage.GetComponent<Image>(), null);
         _soundOffImage = GetUI("SoundOffImage");
+        AddressableManager.Instance.LoadSprite(_soundOffSprite, _soundOffImage.GetComponent<Image>(), ()=>_soundOffImage.SetActive(false));
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
         _bossImage = GetUI<Image>("MonsterImage"); // Image 컴포넌트 참조 저장
         _bossName = GetUI<TMPro.TMP_Text>("MonsterNameText");
@@ -230,7 +235,7 @@ public class InGameUI : UIBInder
 
 
 
-        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/2);
+        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/1);
     }
 
     private void Start()
@@ -526,7 +531,7 @@ public class InGameUI : UIBInder
 
     private void SetMapImage(int stage)
     {
-        SpriteRenderer mapImageComp = _mapSprite.GetComponent<SpriteRenderer>();
+        SpriteRenderer mapImageComp = _backgroundSprite.GetComponent<SpriteRenderer>();
         AddressableManager.Instance.LoadOnlySprite(_mapSprites[stage-1], (sprite) =>
         {
             mapImageComp.sprite = sprite;
@@ -578,6 +583,9 @@ public class InGameUI : UIBInder
                     _sellAncientButton.GetComponent<Image>().sprite = loaded;
                     _sellLegendButton.GetComponent<Image>().sprite = loaded;
                     _sellEpicButton.GetComponent<Image>().sprite = loaded;
+
+                    // Wave Panel
+                    GetUI("WavePanel").GetComponent<Image>().sprite = loaded;
                 }
             );
         }
