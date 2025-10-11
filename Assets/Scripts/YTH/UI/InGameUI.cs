@@ -25,9 +25,10 @@ public class InGameUI : UIBInder
     [SerializeField] private AssetReferenceSprite _diamondSprite;
 
     [SerializeField] private AssetReferenceSprite _pauseSprite;
-    [SerializeField] private AssetReferenceSprite _isSoundSprite;
+    [SerializeField] private AssetReferenceSprite _soundOnSprite;
+    [SerializeField] private AssetReferenceSprite _soundOffSprite;
 
-    [SerializeField] private AssetReferenceSprite _enhanceArcherSprite;
+    [SerializeField] private AssetReferenceGameObject _enhanceArcherSprite;
     [SerializeField] private AssetReferenceSprite _enhanceBomerSprite;
     [SerializeField] private AssetReferenceSprite _enhanceWarriorSprite;
 
@@ -64,6 +65,7 @@ public class InGameUI : UIBInder
 
     [Header("Top Panel")]
     private Button _stopButton;
+    private Image _stopImage;
     private Button _speedButton;
     private Button _soundButton;
     private GameObject _soundOnImage;
@@ -102,11 +104,11 @@ public class InGameUI : UIBInder
     private Button _tribe1Button;
     private Button _tribe2Button;
     private Button _tribe3Button;
-    private Sprite _normalImage;
-    private Sprite _rareImage;
-    private Sprite _ancientImage;
-    private Sprite _legendImage;
-    private Sprite _epicImage;
+    private Image _normalImage;
+    private Image _rareImage;
+    private Image _ancientImage;
+    private Image _legendImage;
+    private Image _epicImage;
 
     [Header("Game End Panel")]
     private TMPro.TMP_Text _clearFailText;
@@ -115,7 +117,7 @@ public class InGameUI : UIBInder
     private Button _loadMainSceneButton;
 
     [Header("Map")]
-    [SerializeField] GameObject _mapSprite;
+    [SerializeField] GameObject _backgroundSprite;
     [SerializeField] GameObject _palletSprite;
 
     private Image _jewellImage1;
@@ -150,11 +152,14 @@ public class InGameUI : UIBInder
 
         // Top Panel
         _stopButton = GetUI<Button>("StopButton");
+        _stopImage = GetUI<Image>("StopImage");
+        AddressableManager.Instance.LoadSprite(_pauseSprite, _stopImage, null);
         _speedButton = GetUI<Button>("SpeedButton");
         _soundButton = GetUI<Button>("SoundButton");
-
         _soundOnImage = GetUI("SoundOnImage");
+        AddressableManager.Instance.LoadSprite(_soundOnSprite, _soundOnImage.GetComponent<Image>(), null);
         _soundOffImage = GetUI("SoundOffImage");
+        AddressableManager.Instance.LoadSprite(_soundOffSprite, _soundOffImage.GetComponent<Image>(), ()=>_soundOffImage.SetActive(false));
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
         _bossImage = GetUI<Image>("MonsterImage"); // Image 컴포넌트 참조 저장
         _bossName = GetUI<TMPro.TMP_Text>("MonsterNameText");
@@ -195,11 +200,11 @@ public class InGameUI : UIBInder
         _tribe1Button = GetUI<Button>("Tribe1Button"); // 버튼 클릭시 해당 부족 유닛만 보이게
         _tribe2Button = GetUI<Button>("Tribe2Button");
         _tribe3Button = GetUI<Button>("Tribe3Button");
-        _normalImage = GetUI("NormalImage").GetComponent<Image>().sprite; // 부족 버튼 이미지
-        _rareImage = GetUI("RareImage").GetComponent<Image>().sprite;
-        _ancientImage = GetUI("AncientImage").GetComponent<Image>().sprite;
-        _legendImage = GetUI("LegendImage").GetComponent<Image>().sprite;
-        _epicImage = GetUI("EpicImage").GetComponent<Image>().sprite;
+        _normalImage = GetUI("NormalImage").GetComponent<Image>(); // 부족 버튼 이미지
+        _rareImage = GetUI("RareImage").GetComponent<Image>();
+        _ancientImage = GetUI("AncientImage").GetComponent<Image>();
+        _legendImage = GetUI("LegendImage").GetComponent<Image>();
+        _epicImage = GetUI("EpicImage").GetComponent<Image>();
 
         // GaneEndPanel
         _clearFailText = GetUI<TMPro.TMP_Text>("ClearFailText");
@@ -228,7 +233,9 @@ public class InGameUI : UIBInder
 
         ApplyJewelImage();
 
-        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/2);
+
+
+        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/1);
     }
 
     private void Start()
@@ -442,6 +449,33 @@ public class InGameUI : UIBInder
         _epicAmountText.text = GetCountUnit(_randomUnitSpawner.EpicUnits, index).ToString();
 
         //TODO : 부족 버튼 이미지 변경
+        switch (index)
+        {
+            case 0:
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Normal_archer_idle.prefab", _normalImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Rare_archer_idle.prefab", _rareImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Ancient_archer_idle.prefab", _ancientImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Legend_archer_idle.prefab", _legendImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Epic/Epic_archer_idle.prefab", _epicImage);
+                break;
+            case 1:
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Normal_bomer_idle.prefab", _normalImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Rare_bomer_idle.prefab", _rareImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Ancient_bomer_idle.prefab", _ancientImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Legend_bomer_idle.prefab", _legendImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Epic/Epic_bomer_idle.prefab", _epicImage);
+                break;
+            case 2:
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Normal_warrior_idle.prefab", _normalImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Rare_warrior_idle.prefab", _rareImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Ancient_warrior_idle.prefab", _ancientImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Legend_warrior_idle.prefab", _legendImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Epic/Epic_warrior_idle.prefab", _epicImage);
+                break;
+            default:
+                Debug.LogWarning($"[InGameUI] SetSellPanel: 잘못된 인덱스 {index}");
+                break;
+        }
     }
 
     private int GetCountUnit(GameObject[] group, int idx)
@@ -497,7 +531,7 @@ public class InGameUI : UIBInder
 
     private void SetMapImage(int stage)
     {
-        SpriteRenderer mapImageComp = _mapSprite.GetComponent<SpriteRenderer>();
+        SpriteRenderer mapImageComp = _backgroundSprite.GetComponent<SpriteRenderer>();
         AddressableManager.Instance.LoadOnlySprite(_mapSprites[stage-1], (sprite) =>
         {
             mapImageComp.sprite = sprite;
@@ -549,6 +583,9 @@ public class InGameUI : UIBInder
                     _sellAncientButton.GetComponent<Image>().sprite = loaded;
                     _sellLegendButton.GetComponent<Image>().sprite = loaded;
                     _sellEpicButton.GetComponent<Image>().sprite = loaded;
+
+                    // Wave Panel
+                    GetUI("WavePanel").GetComponent<Image>().sprite = loaded;
                 }
             );
         }
