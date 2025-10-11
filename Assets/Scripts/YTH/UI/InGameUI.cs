@@ -237,7 +237,7 @@ public class InGameUI : UIBInder
 
         ApplyJewelImage();
 
-        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/0);
+        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/3);
     }
 
     private void Start()
