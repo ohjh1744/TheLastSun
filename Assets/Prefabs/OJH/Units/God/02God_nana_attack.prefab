@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4546459650267046471}
   - component: {fileID: -6125473177878944186}
   - component: {fileID: 1896612959717783245}
+  - component: {fileID: -3235608656609049010}
   m_Layer: 0
   m_Name: 02God_nana_attack
   m_TagString: Untagged
@@ -227,3 +228,15 @@ MonoBehaviour:
   _moveColor: {r: 0.2, g: 1, b: 0.2, a: 0.6}
   _attackColor: {r: 1, g: 0.2, b: 0.2, a: 0.6}
   _enemyLineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &-3235608656609049010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9191827849944052399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

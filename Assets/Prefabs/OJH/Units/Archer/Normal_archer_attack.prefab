@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2085689702814986270}
   - component: {fileID: -7346289094580165974}
   - component: {fileID: -7167068280509636117}
+  - component: {fileID: 7025290106962134265}
   m_Layer: 0
   m_Name: Normal_archer_attack
   m_TagString: Untagged
@@ -200,12 +201,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0fe9b611eb6eb946bb6c82bd98ead2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 3
   _attackType: 1
-  _attackSpeed: 8
-  _damage: 10
   _attakRange: 4
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _damage: 10
   _attackDelay: 1
+  _level: 1
+  _add_damage: 0
+  _add_attackDelay: 0
 --- !u!114 &-7167068280509636117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +231,18 @@ MonoBehaviour:
   _moveColor: {r: 0.2, g: 1, b: 0.2, a: 0.6}
   _attackColor: {r: 1, g: 0.2, b: 0.2, a: 0.6}
   _enemyLineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &7025290106962134265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3744314951190681231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2382301907564012616
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6171139581741019771}
   - component: {fileID: -4455542420239099321}
   - component: {fileID: 2752284697922863078}
+  - component: {fileID: 2246756672414952520}
   m_Layer: 0
   m_Name: Normal_bomer_attack
   m_TagString: Untagged
@@ -200,7 +201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0fe9b611eb6eb946bb6c82bd98ead2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 3
   _attackType: 2
   _attakRange: 3
   _targetLayer:
@@ -231,6 +231,18 @@ MonoBehaviour:
   _moveColor: {r: 0.2, g: 1, b: 0.2, a: 0.6}
   _attackColor: {r: 1, g: 0.2, b: 0.2, a: 0.6}
   _enemyLineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &2246756672414952520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780305231806659874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3729229102889037747
 PrefabInstance:
   m_ObjectHideFlags: 0
