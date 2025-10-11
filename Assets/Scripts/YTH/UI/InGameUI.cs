@@ -41,7 +41,6 @@ public class InGameUI : UIBInder
     [SerializeField] private AssetReferenceSprite _gameEndPanelNameSprite;
     [SerializeField] private AssetReferenceSprite _gameEndPanelButtonSprite;
 
-    [SerializeField] private List<AssetReferenceT<AudioClip>> _inGameBGMClip;
     [SerializeField] private List<AssetReferenceSprite> _mapSprites;
     [SerializeField] private List<AssetReferenceSprite> _palletSprites;
     #endregion
@@ -213,17 +212,17 @@ public class InGameUI : UIBInder
         _loadMainSceneButton = GetUI<Button>("LoadMainSceneButton");
 
         // 보석 이미지
-        _jewellImage1 = GetUI<Image>("JewellImage1");
-        _jewellImage2 = GetUI<Image>("JewellImage2");
-        _jewellImage3 = GetUI<Image>("JewellImage3");
-        _jewellImage4 = GetUI<Image>("JewellImage4");
-        _jewellImage5 = GetUI<Image>("JewellImage5");
-        _jewellImage6 = GetUI<Image>("JewellImage6");
-        _jewellImage7 = GetUI<Image>("JewellImage7");
-        _jewellImage8 = GetUI<Image>("JewellImage8");
-        _jewellImage9 = GetUI<Image>("JewellImage9");
-        _jewellImage10 = GetUI<Image>("JewellImage10");
-        _jewellImage11 = GetUI<Image>("JewellImage11");
+        _jewellImage1 = GetUI<Image>("JewelImage1");
+        _jewellImage2 = GetUI<Image>("JewelImage2");
+        _jewellImage3 = GetUI<Image>("JewelImage3");
+        _jewellImage4 = GetUI<Image>("JewelImage4");
+        _jewellImage5 = GetUI<Image>("JewelImage5");
+        _jewellImage6 = GetUI<Image>("JewelImage6");
+        _jewellImage7 = GetUI<Image>("JewelImage7");
+        _jewellImage8 = GetUI<Image>("JewelImage8");
+        _jewellImage9 = GetUI<Image>("JewelImage9");
+        _jewellImage10 = GetUI<Image>("JewelImage10");
+        _jewellImage11 = GetUI<Image>("JewelImage11");
 
         ApplyButtonSprite();
 
@@ -576,6 +575,7 @@ public class InGameUI : UIBInder
                     _enhanceArcherButton.GetComponent<Image>().sprite = loaded;
                     _enhanceBomerButton.GetComponent<Image>().sprite = loaded;
                     _enhanceWarriorButton.GetComponent<Image>().sprite = loaded;
+                    GetUI<Image>("SpecialSpawnButton").sprite = loaded;
 
                     // Unit Sell Panel
                     _sellNormalButton.GetComponent<Image>().sprite = loaded;
@@ -692,35 +692,64 @@ public class InGameUI : UIBInder
 
     private void ApplyJewelImage()
     {
-        // 캐시 먼저 확인
-        if (_spriteDic.TryGetValue(SPR_DIAMOND, out var cachedPopUpSprite) && cachedPopUpSprite != null)
+        // 캐시 사용
+        if (_spriteDic.TryGetValue(SPR_DIAMOND, out var cached) && cached != null)
         {
-
+            ApplyToJewelImages(cached);
+            return;
         }
-        else
-        {
-            Image diaImage = _jewellImage1;
-            AddressableManager.Instance.LoadSprite(
-                _diamondSprite,
-                diaImage,
-                () =>
-                {
-                    var loaded = diaImage.sprite; // 매개변수 없이 target Image에서 읽음
-                    if (loaded == null) return;
-                    _spriteDic[SPR_DIAMOND] = loaded;
 
-                    _jewellImage2.sprite = loaded;
-                    _jewellImage3.sprite = loaded;
-                    _jewellImage4.sprite = loaded;
-                    _jewellImage5.sprite = loaded;
-                    _jewellImage6.sprite = loaded;
-                    _jewellImage7.sprite = loaded;
-                    _jewellImage8.sprite = loaded;
-                    _jewellImage9.sprite = loaded;
-                    _jewellImage10.sprite = loaded;
-                    _jewellImage11.sprite = loaded;
-                }
-            );
+        var diaImage = _jewellImage1;
+        if (diaImage == null)
+        {
+            Debug.LogWarning("[InGameUI] ApplyJewelImage: _jewellImage1(Image) 바인딩 실패");
+            return;
+        }
+        if (_diamondSprite == null || !_diamondSprite.RuntimeKeyIsValid())
+        {
+            Debug.LogWarning("[InGameUI] ApplyJewelImage: _diamondSprite 참조가 유효하지 않음");
+            return;
+        }
+
+        AddressableManager.Instance.LoadSprite(
+            _diamondSprite,
+            diaImage,
+            () =>
+            {
+                // InGameUI가 파괴되었거나 대상 Image가 사라진 경우 방어
+                if (this == null || diaImage == null) return;
+
+                var loaded = diaImage.sprite;
+                if (loaded == null) return;
+
+                _spriteDic[SPR_DIAMOND] = loaded;
+                ApplyToJewelImages(loaded);
+            }
+        );
+    }
+
+    private void ApplyToJewelImages(Sprite s)
+    {
+        if (s == null) return;
+        SetImageSpriteSafe(_jewellImage1, s);
+        SetImageSpriteSafe(_jewellImage2, s);
+        SetImageSpriteSafe(_jewellImage3, s);
+        SetImageSpriteSafe(_jewellImage4, s);
+        SetImageSpriteSafe(_jewellImage5, s);
+        SetImageSpriteSafe(_jewellImage6, s);
+        SetImageSpriteSafe(_jewellImage7, s);
+        SetImageSpriteSafe(_jewellImage8, s);
+        SetImageSpriteSafe(_jewellImage9, s);
+        SetImageSpriteSafe(_jewellImage10, s);
+        SetImageSpriteSafe(_jewellImage11, s);
+    }
+
+    private static void SetImageSpriteSafe(Image img, Sprite s)
+    {
+        if (img != null)
+        {
+            img.sprite = s;
+            if (img.gameObject != null) img.gameObject.SetActive(true);
         }
     }
 
