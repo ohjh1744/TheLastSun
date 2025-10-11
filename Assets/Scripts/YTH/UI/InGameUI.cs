@@ -153,11 +153,11 @@ public class InGameUI : UIBInder
         // Top Panel
         _stopButton = GetUI<Button>("StopButton");
         _stopImage = GetUI<Image>("StopImage");
-        AddressableManager.Instance.LoadSprite(_pauseSprite, _stopImage, null);
+        AddressableManager.Instance.LoadSprite(_pauseSprite, _stopImage, () => { });
         _speedButton = GetUI<Button>("SpeedButton");
         _soundButton = GetUI<Button>("SoundButton");
         _soundOnImage = GetUI("SoundOnImage");
-        AddressableManager.Instance.LoadSprite(_soundOnSprite, _soundOnImage.GetComponent<Image>(), null);
+        AddressableManager.Instance.LoadSprite(_soundOnSprite, _soundOnImage.GetComponent<Image>(), () => { });
         _soundOffImage = GetUI("SoundOffImage");
         AddressableManager.Instance.LoadSprite(_soundOffSprite, _soundOffImage.GetComponent<Image>(), ()=>_soundOffImage.SetActive(false));
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
@@ -208,11 +208,11 @@ public class InGameUI : UIBInder
 
         // GaneEndPanel
         _clearFailText = GetUI<TMPro.TMP_Text>("ClearFailText");
-        AddressableManager.Instance.LoadSprite(_gameEndPanelNameSprite, GetUI<Image>("ClearFailImage"), null);
+        AddressableManager.Instance.LoadSprite(_gameEndPanelNameSprite, GetUI<Image>("ClearFailImage"), () => { });
         _recordWaveText = GetUI<TMPro.TMP_Text>("RecordWaveText");
         _recordClearTimeText = GetUI<TMPro.TMP_Text>("RecordClearTimeText");
         _loadMainSceneButton = GetUI<Button>("LoadMainSceneButton");
-        AddressableManager.Instance.LoadSprite(_gameEndPanelButtonSprite, _loadMainSceneButton.GetComponent<Image>(), null);
+        AddressableManager.Instance.LoadSprite(_gameEndPanelButtonSprite, _loadMainSceneButton.GetComponent<Image>(), () => { });
 
         // 보석 이미지
         _jewellImage1 = GetUI<Image>("JewelImage1");
@@ -235,9 +235,7 @@ public class InGameUI : UIBInder
 
         ApplyJewelImage();
 
-
-
-        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/1);
+        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/0);
     }
 
     private void Start()
@@ -522,25 +520,28 @@ public class InGameUI : UIBInder
         _recordClearTimeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\.mm\\.ss}";
     }
 
+    //0.5425906
+    //0.6
+
     private void SetBossInfo()
     {
-        int curStage = /*PlayerController.Instance.PlayerData.CurrentStage*/2;
-        string key = $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage}_Boss.prefab";
+        int curStage = /*PlayerController.Instance.PlayerData.CurrentStage*/0;
+        string key = $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage + 1}_Boss.prefab";
 
         LoadSpriteFromAddressablePrefab(key, _bossImage, null);
-        _bossName.text = WaveManager.Instance.BossPrefabsName[WaveManager.Instance.ToSpawnBossindex];
+        _bossName.text = WaveManager.Instance.BossPrefabsName[curStage];
     }
 
     private void SetMapImage(int stage)
     {
         SpriteRenderer mapImageComp = _backgroundSprite.GetComponent<SpriteRenderer>();
-        AddressableManager.Instance.LoadOnlySprite(_mapSprites[stage-1], (sprite) =>
+        AddressableManager.Instance.LoadOnlySprite(_mapSprites[stage], (sprite) =>
         {
             mapImageComp.sprite = sprite;
         });
 
         SpriteRenderer palletImageComp = _palletSprite.GetComponent<SpriteRenderer>();
-        AddressableManager.Instance.LoadOnlySprite(_palletSprites[stage-1], (sprite) =>
+        AddressableManager.Instance.LoadOnlySprite(_palletSprites[stage], (sprite) =>
         {
             palletImageComp.sprite = sprite;
         });

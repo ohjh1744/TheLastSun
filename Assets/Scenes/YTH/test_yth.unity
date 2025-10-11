@@ -300,7 +300,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5c9acda7eceab4971b87fb69094efa00, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2399,23 +2399,23 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 1
   _palletSprites:
-  - m_AssetGUID: 56caebebca7f81f43b8c91ddef7805d3
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  - m_AssetGUID: 59f57f10a2be68d40bd03a0e69506589
+  - m_AssetGUID: f6ddb5b13c69e744d85819bc662bd0f5
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  - m_AssetGUID: 480e3245b74fc464eb29a1ac3dae65d0
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 1
-  - m_AssetGUID: 9c76ea687d3eb0148a64dd0b08d46850
+  - m_AssetGUID: 19bff2307319bc040a0a5bb1f46afbef
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  - m_AssetGUID: ab4ed8f9e852ee4469791f61b4148e67
+  - m_AssetGUID: aa892f833e6906142808f640e329efab
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7a049d321ce40ec44ae996b286a5f952
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 142e855b6d92d3e468effbb5cb26c80c
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
@@ -5521,8 +5521,8 @@ Transform:
   m_GameObject: {fileID: 775301795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.66, z: -0.8}
-  m_LocalScale: {x: 1.2, y: 0.6, z: 0.51510996}
+  m_LocalPosition: {x: -0.0046, y: -0.7934, z: -0.8}
+  m_LocalScale: {x: 0.5425906, y: 0.6, z: 0.51510996}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -9053,7 +9053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1252800296
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9382,7 +9382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1275363841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11610,7 +11610,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d0716103dab40e44182e440a85a4c172, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15019,11 +15019,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088f7ca9392b1e84c942f4ecd07ed595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
   _toSpawnBossindex: 0
   _spawnedMonsterCount: 0
   _aliveMonsterCount: 0
   _deadMonsterCount: 0
-  _totalWave: 100
+  _totalWave: 50
   _monstersPerWave: 12
   _spawnPoint: {fileID: 787045454}
   _bossPrefabsName:
@@ -15032,6 +15033,19 @@ MonoBehaviour:
   - boss3
   - boss4
   - boss5
+  _waveTerm:
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
 --- !u!1 &1878727567
 GameObject:
   m_ObjectHideFlags: 0

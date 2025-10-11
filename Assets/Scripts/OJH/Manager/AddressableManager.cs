@@ -186,6 +186,11 @@ public class AddressableManager : MonoBehaviour
 
         assetImageSprite.LoadAssetAsync().Completed += (img) =>
         {
+            if (image == null)
+            {
+                Debug.LogError("스프라이트가 널임@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            }
+
             image.sprite = img.Result;
             image.gameObject.SetActive(true);
             callBack();
