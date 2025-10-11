@@ -102,11 +102,11 @@ public class InGameUI : UIBInder
     private Button _tribe1Button;
     private Button _tribe2Button;
     private Button _tribe3Button;
-    private Sprite _normalImage;
-    private Sprite _rareImage;
-    private Sprite _ancientImage;
-    private Sprite _legendImage;
-    private Sprite _epicImage;
+    private Image _normalImage;
+    private Image _rareImage;
+    private Image _ancientImage;
+    private Image _legendImage;
+    private Image _epicImage;
 
     [Header("Game End Panel")]
     private TMPro.TMP_Text _clearFailText;
@@ -195,11 +195,11 @@ public class InGameUI : UIBInder
         _tribe1Button = GetUI<Button>("Tribe1Button"); // 버튼 클릭시 해당 부족 유닛만 보이게
         _tribe2Button = GetUI<Button>("Tribe2Button");
         _tribe3Button = GetUI<Button>("Tribe3Button");
-        _normalImage = GetUI("NormalImage").GetComponent<Image>().sprite; // 부족 버튼 이미지
-        _rareImage = GetUI("RareImage").GetComponent<Image>().sprite;
-        _ancientImage = GetUI("AncientImage").GetComponent<Image>().sprite;
-        _legendImage = GetUI("LegendImage").GetComponent<Image>().sprite;
-        _epicImage = GetUI("EpicImage").GetComponent<Image>().sprite;
+        _normalImage = GetUI("NormalImage").GetComponent<Image>(); // 부족 버튼 이미지
+        _rareImage = GetUI("RareImage").GetComponent<Image>();
+        _ancientImage = GetUI("AncientImage").GetComponent<Image>();
+        _legendImage = GetUI("LegendImage").GetComponent<Image>();
+        _epicImage = GetUI("EpicImage").GetComponent<Image>();
 
         // GaneEndPanel
         _clearFailText = GetUI<TMPro.TMP_Text>("ClearFailText");
@@ -227,6 +227,8 @@ public class InGameUI : UIBInder
         ApplyBackPanelSprite();
 
         ApplyJewelImage();
+
+
 
         SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/2);
     }
@@ -442,6 +444,33 @@ public class InGameUI : UIBInder
         _epicAmountText.text = GetCountUnit(_randomUnitSpawner.EpicUnits, index).ToString();
 
         //TODO : 부족 버튼 이미지 변경
+        switch (index)
+        {
+            case 0:
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Normal_archer_idle.prefab", _normalImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Rare_archer_idle.prefab", _rareImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Ancient_archer_idle.prefab", _ancientImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Archer/Legend_archer_idle.prefab", _legendImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Epic/Epic_archer_idle.prefab", _epicImage);
+                break;
+            case 1:
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Normal_bomer_idle.prefab", _normalImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Rare_bomer_idle.prefab", _rareImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Ancient_bomer_idle.prefab", _ancientImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Bomer/Legend_bomer_idle.prefab", _legendImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Epic/Epic_bomer_idle.prefab", _epicImage);
+                break;
+            case 2:
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Normal_warrior_idle.prefab", _normalImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Rare_warrior_idle.prefab", _rareImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Ancient_warrior_idle.prefab", _ancientImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Warrior/Legend_warrior_idle.prefab", _legendImage);
+                LoadSpriteFromAddressablePrefab("Assets/Prefabs/OJH/Units/Epic/Epic_warrior_idle.prefab", _epicImage);
+                break;
+            default:
+                Debug.LogWarning($"[InGameUI] SetSellPanel: 잘못된 인덱스 {index}");
+                break;
+        }
     }
 
     private int GetCountUnit(GameObject[] group, int idx)
