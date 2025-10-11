@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -7361525888661053514}
   - component: {fileID: 8720868918643291320}
   - component: {fileID: 4267272975330824217}
+  - component: {fileID: -8788362546611021924}
   m_Layer: 0
   m_Name: Legend_archer_idle
   m_TagString: Untagged
@@ -230,6 +231,18 @@ MonoBehaviour:
   _moveColor: {r: 0.2, g: 1, b: 0.2, a: 0.6}
   _attackColor: {r: 1, g: 0.2, b: 0.2, a: 0.6}
   _enemyLineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &-8788362546611021924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608784429619739046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1039620947587090815
 PrefabInstance:
   m_ObjectHideFlags: 0

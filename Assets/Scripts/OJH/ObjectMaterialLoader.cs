@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class ObjectMaterialLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
-    }
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Default 매터리얼 가져오기
+        Material defaultMat = new Material(Shader.Find("Sprites/Default"));
+
+        // SpriteRenderer에 적용
+        sr.material = defaultMat;
+
+        Debug.Log(sr.material);
     }
 }

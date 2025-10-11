@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -3780679653812506757}
   - component: {fileID: 1561720686532818682}
   - component: {fileID: 5236357575928524746}
+  - component: {fileID: 6343429436026198498}
   m_Layer: 6
   m_Name: Stage4_Mob_1
   m_TagString: Monster
@@ -226,3 +227,15 @@ MonoBehaviour:
   _isBoss: 0
   _maxHp: 5
   _curHp: 5
+--- !u!114 &6343429436026198498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122735229171846069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

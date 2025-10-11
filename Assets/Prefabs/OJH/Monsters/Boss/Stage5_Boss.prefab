@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -7219262992720575133}
   - component: {fileID: 5691235067075908580}
   - component: {fileID: -3102615852025552195}
+  - component: {fileID: -5622434391543251773}
   m_Layer: 6
   m_Name: Stage5_Boss
   m_TagString: Monster
@@ -226,3 +227,15 @@ MonoBehaviour:
   _isBoss: 1
   _maxHp: 10
   _curHp: 10
+--- !u!114 &-5622434391543251773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8902100716136007514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

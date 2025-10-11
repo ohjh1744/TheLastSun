@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9139356327851180265}
   - component: {fileID: 1551354938577818174}
   - component: {fileID: 5906178007823161530}
+  - component: {fileID: 575194356240578389}
   m_Layer: 0
   m_Name: 03God_xiu_attack
   m_TagString: Untagged
@@ -227,3 +228,15 @@ MonoBehaviour:
   _moveColor: {r: 0.2, g: 1, b: 0.2, a: 0.6}
   _attackColor: {r: 1, g: 0.2, b: 0.2, a: 0.6}
   _enemyLineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &575194356240578389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532746874123940706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
