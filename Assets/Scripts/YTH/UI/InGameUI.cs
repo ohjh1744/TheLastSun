@@ -59,6 +59,7 @@ public class InGameUI : UIBInder
     [HideInInspector] public GameObject _warningPanel2;
     [HideInInspector] public GameObject _unitSellPanel;
     [HideInInspector] public GameObject _gameEndPanel;
+    [HideInInspector] public GameObject _loadingPanel;
 
     private Button GameClearButton => GetUI<Button>("GameClearButton"); // Test¿ë
 
@@ -148,7 +149,8 @@ public class InGameUI : UIBInder
         _warningPanel2 = GetUI("WarningPanel2");
         _unitSellPanel = GetUI("UnitSellPanel");
         _gameEndPanel = GetUI("GameEndPanel");
-      
+        _loadingPanel = GetUI("LoadingPanel");
+
 
         // Top Panel
         _stopButton = GetUI<Button>("StopButton");

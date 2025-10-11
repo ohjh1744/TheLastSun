@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour
@@ -34,6 +34,7 @@ public class WaveManager : MonoBehaviour
     [Header("Set")]
     [SerializeField] int _totalWave = 50;
     [SerializeField] int _monstersPerWave = 12;
+    [SerializeField] int _spawnDelaySeconds;
     private int _clearCondition => _totalWave * _monstersPerWave;
     public int ClearCondition => _clearCondition;
 
@@ -49,13 +50,15 @@ public class WaveManager : MonoBehaviour
 
     private WaitForSeconds _spawnDelay = new(1.5f);
     private WaitForSeconds _waveDelay = new(10f);
-    
+
 
     public event Action<int> SpawnedMonsterCountChanged;
     public event Action<int> AliveMonsterCountChanged;
     public event Action<int> CurWaveChanged;
     public event Action ClearStage;
     public event Action OnChangeBoss;
+
+    bool _isStarted = false;
 
     // 몬스터 주소 인덱스 누적 관리용 필드
     int nextMonsterIndex = 1;
@@ -94,15 +97,24 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(WaveRoutine());
+        /*StartCoroutine(WaveRoutine());*/
     }
 
     private void Update()
     {
-        timer += Time.deltaTime;
+        if (_isStarted)
+        {
+            timer += Time.deltaTime;
+        }
     }
 
-    private IEnumerator WaveRoutine()
+    public void StartWave()
+    {
+        StartCoroutine(WaveRoutine());
+        _isStarted = true;
+    }
+
+    public IEnumerator WaveRoutine()
     {
         while (CurWave <= _totalWave)
         {
@@ -118,23 +130,23 @@ public class WaveManager : MonoBehaviour
                 yield return new WaitUntil(() => timer >= GetWaveTerm(wave));
                 timer = 0f;
 
-                CurWave++; 
+                CurWave++;
                 continue;
             }
             else
             {
                 for (int i = 0; i < _monstersPerWave; i++)
                 {
-                    int moveSpeed = _monstersPerWave - i;
+                    int moveSpeed = /*_monstersPerWave - i*/2;
                     SpawnMonster(isBoss: false, moveSpeed);
-                    yield return _spawnDelay;
+                    yield return new WaitForSeconds(_spawnDelaySeconds);
                 }
 
                 // 현재 웨이브의 텀만큼 기다림
                 yield return new WaitUntil(() => timer >= GetWaveTerm(wave));
                 timer = 0f;
 
-                CurWave++; 
+                CurWave++;
                 continue;
             }
         }
@@ -185,8 +197,8 @@ public class WaveManager : MonoBehaviour
     {
         int curStage = /*PlayerController.Instance.PlayerData.CurrentStage*/0;
         string address = isBoss
-            ? $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage+1}_Boss.prefab"
-            : $"Assets/Prefabs/OJH/Monsters/Stage{curStage+1}/Stage{curStage+1}_Mob_{CurWave}.prefab";
+            ? $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage + 1}_Boss.prefab"
+            : $"Assets/Prefabs/OJH/Monsters/Stage{curStage + 1}/Stage{curStage + 1}_Mob_{CurWave}.prefab";
 
         if (isBoss)
         {
