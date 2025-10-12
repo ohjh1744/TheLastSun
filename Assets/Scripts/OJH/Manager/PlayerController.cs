@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
         _playerData.CurrentStage = 0;
 
         _playerData.IsSound = true;
+
+        _playerData.IsTutorial = false;
+
     }
 
 }

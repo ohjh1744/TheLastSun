@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 public class TTestPanel : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class TTestPanel : MonoBehaviour
     void Start()
     {
         AddressableManager.Instance.GetObject(_object, (obj) => { });
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
 }
