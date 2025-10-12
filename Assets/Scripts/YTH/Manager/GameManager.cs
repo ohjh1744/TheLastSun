@@ -218,14 +218,12 @@ public class GameManager : MonoBehaviour
                 {
                     Sequence sequence = DOTween.Sequence();
 
-
                     sequence.AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
                                 .AppendCallback(() => SetGameEndHandler?.Invoke());
                 }
                 else
                 {
-                    //실패시
-                    //ex) 다시 시도
+                    //다시 시도
                     StartCoroutine(RecordClearTime());
                 }
             });

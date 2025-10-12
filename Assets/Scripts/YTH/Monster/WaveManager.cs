@@ -187,7 +187,7 @@ public class WaveManager : MonoBehaviour
 
     public void OnClearStage(int count)
     {
-        if (count >= 1200)
+        if (count >= ClearCondition)
         {
             GameManager.Instance.ClearStage();
         }
@@ -195,7 +195,7 @@ public class WaveManager : MonoBehaviour
 
     private void SpawnMonster(bool isBoss, int moveSpeed = 1)
     {
-        int curStage = /*PlayerController.Instance.PlayerData.CurrentStage*/0;
+        int curStage = PlayerController.Instance.PlayerData.CurrentStage;
         string address = isBoss
             ? $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage + 1}_Boss.prefab"
             : $"Assets/Prefabs/OJH/Monsters/Stage{curStage + 1}/Stage{curStage + 1}_Mob_{CurWave}.prefab";

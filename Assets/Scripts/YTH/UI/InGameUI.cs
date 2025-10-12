@@ -237,7 +237,7 @@ public class InGameUI : UIBInder
 
         ApplyJewelImage();
 
-        SetMapImage(/*PlayerController.Instance.PlayerData.CurrentStage*/3);
+        SetMapImage(PlayerController.Instance.PlayerData.CurrentStage);
     }
 
     private void Start()
@@ -356,7 +356,7 @@ public class InGameUI : UIBInder
 
     public void TestClearButton()
     {
-        _waveManager.DeadMonsterCount = 1199;
+        _waveManager.DeadMonsterCount = _waveManager.ClearCondition -1;
     }
 
     private void DisableAllButtons(bool excludeStop = true)
@@ -527,7 +527,7 @@ public class InGameUI : UIBInder
 
     private void SetBossInfo()
     {
-        int curStage = /*PlayerController.Instance.PlayerData.CurrentStage*/0;
+        int curStage = PlayerController.Instance.PlayerData.CurrentStage;
         string key = $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage + 1}_Boss.prefab";
 
         LoadSpriteFromAddressablePrefab(key, _bossImage, null);
