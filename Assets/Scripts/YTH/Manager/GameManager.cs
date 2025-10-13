@@ -146,7 +146,13 @@ public class GameManager : MonoBehaviour
     {
         if (_playerData != null)
         {
+            // isclearStage 업데이트
             _playerData.IsClearStage[_playerData.CurrentStage] = true;
+            //기존에 클리어 타임이 없거나 기존의 클리어타임보다 더 빨리 클리어한 경우 업데이트
+            if(_playerData.ClearTimes[_playerData.CurrentStage] == 0 || ClearTime < _playerData.ClearTimes[_playerData.CurrentStage])
+            {
+                _playerData.ClearTimes[_playerData.CurrentStage] = ClearTime;
+            }
         }
 
         Sequence sequence = DOTween.Sequence();
@@ -202,32 +208,27 @@ public class GameManager : MonoBehaviour
     IEnumerator RecordClearTime()
     {
         int stage = _playerData.CurrentStage;
-        float prevTime = _playerData.ClearTimes[stage];
-
-        string leaderboardSt = _leaderboardString[stage]; ;
+        string leaderboardSt = _leaderboardString[stage];
 
         //안전하게 네트워크 다시 확인 연결될때까지 기다림
         yield return StartCoroutine(WaitForNetwork());
 
-        if (prevTime == 0f || ClearTime < prevTime)
+        GpgsManager.Instance.UpdateTimeLeaderboard(_playerData.ClearTimes[stage], leaderboardSt, (success) =>
         {
-            _playerData.ClearTimes[stage] = ClearTime;
-            GpgsManager.Instance.UpdateTimeLeaderboard(prevTime, leaderboardSt, (success) =>
+            if (success == true)
             {
-                if (success == true)
-                {
-                    Sequence sequence = DOTween.Sequence();
+                Sequence sequence = DOTween.Sequence();
 
-                    sequence.AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
-                                .AppendCallback(() => SetGameEndHandler?.Invoke());
-                }
-                else
-                {
-                    //다시 시도
-                    StartCoroutine(RecordClearTime());
-                }
-            });
-        }
+                sequence.AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
+                            .AppendCallback(() => SetGameEndHandler?.Invoke());
+            }
+            else
+            {
+                //다시 시도
+                StartCoroutine(RecordClearTime());
+            }
+        });
+
     }
 
     public bool TutorialCompleted()

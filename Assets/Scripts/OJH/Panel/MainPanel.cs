@@ -68,13 +68,6 @@ public class MainPanel : UIBInder, IAssetLoadable
     //스테이지Data
     [SerializeField] private StageData[] _stageDatas;
 
-    //게임씬이동 루틴
-    Coroutine _playGameRoutine;
-
-    //현재 플레이어가 고른 스테이지
-    [SerializeField] private int _isChoiceStage;
-
-
     private StringBuilder _sb = new StringBuilder();
 
     private void Awake()
@@ -95,7 +88,6 @@ public class MainPanel : UIBInder, IAssetLoadable
 
     private void Init()
     {
-        _isChoiceStage = PlayerController.Instance.PlayerData.CurrentStage;
         GetUI();
         AddEvent();
         LoadAsset();
@@ -151,7 +143,7 @@ public class MainPanel : UIBInder, IAssetLoadable
                 _stageSprites.Add(sprite);
                 if (PlayerController.Instance.PlayerData.CurrentStage == index)
                 {
-                    ChangeStageLevelNameImage(sprite, _isChoiceStage);
+                    ChangeStageLevelNameImage(sprite, PlayerController.Instance.PlayerData.CurrentStage);
                 }
             });
         }
@@ -187,17 +179,17 @@ public class MainPanel : UIBInder, IAssetLoadable
     // 스테이지 변경
     private void ChangeStageNum(bool isNext)
     {
-        if (_isChoiceStage > 0 && isNext == false)
+        if (PlayerController.Instance.PlayerData.CurrentStage > 0 && isNext == false)
         {
-            _isChoiceStage--;
-            Debug.Log($"_isChoiceStage 변경 {_isChoiceStage}");
-            ChangeStageDetail(_isChoiceStage);
+            PlayerController.Instance.PlayerData.CurrentStage--;
+            Debug.Log($"_isChoiceStage 변경 {PlayerController.Instance.PlayerData.CurrentStage}");
+            ChangeStageDetail(PlayerController.Instance.PlayerData.CurrentStage);
         }
-        else if (_isChoiceStage < _stageDatas.Length - 1 && isNext == true)
+        else if (PlayerController.Instance.PlayerData.CurrentStage < _stageDatas.Length - 1 && isNext == true)
         {
-            _isChoiceStage++;
-            Debug.Log($"_isChoiceStage 변경 {_isChoiceStage}");
-            ChangeStageDetail(_isChoiceStage);
+            PlayerController.Instance.PlayerData.CurrentStage++;
+            Debug.Log($"_isChoiceStage 변경 {PlayerController.Instance.PlayerData.CurrentStage}");
+            ChangeStageDetail(PlayerController.Instance.PlayerData.CurrentStage);
         }
     }
 
@@ -256,52 +248,12 @@ public class MainPanel : UIBInder, IAssetLoadable
     private void PlayGame()
     {
         //1번째 스테이지나 해금된 스테이지만 할수있도록 
-        if(_isChoiceStage == 0 || PlayerController.Instance.PlayerData.IsClearStage[_isChoiceStage - 1] == true)
+        if(PlayerController.Instance.PlayerData.CurrentStage == 0 || PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage - 1] == true)
         {
-            if (_playGameRoutine == null)
-            {
-                Debug.Log("게임씬으로 이동 시도!");
-                _playGameRoutine = StartCoroutine(GoInGame());
-            }
+            //전투씬(인게임)으로 넘기기
+            SceneManager.LoadScene(2);
         }
 
-    }
-    IEnumerator GoInGame()
-    {
-        //현재 Player Data저장하고 씬넘기기
-        // 앞서 1차방어막으로 네트워크팝업창이 뜨긴하겠으나 한번더 안전하게 네트워크 체크
-
-        if (NetworkCheckManager.Instance.IsConnected == true )
-        {
-            //Current Stage 유저가 고른 스테이지로 변경
-            PlayerController.Instance.PlayerData.CurrentStage = _isChoiceStage;
-
-            GpgsManager.Instance.SaveData((status) =>
-            {
-                if (status == SavedGameRequestStatus.Success)
-                {
-                    //이벤트와 함수 해제
-                    //PlayerController.Instance.PlayerData.OnCurrentStageChanged -= ChangeStageDetail;
-
-                    //전투씬(인게임)으로 넘기기
-                    SceneManager.LoadScene(2);
-                    _playGameRoutine = null;
-                    Debug.Log("저장성공 후 게임씬으로 이동");
-                }
-                else
-                {
-                    _playGameRoutine = null;
-                    Debug.Log("문제발생으로 저장실패 후 게임씬이동못함");
-                }
-            });
-        }
-        else
-        {
-            _playGameRoutine = null;
-            Debug.Log("네트워크 연결이 안되어있어서 게임씬이동 시도 실패");
-        }
-
-        yield return null;
     }
 
     private void SetTrueRankLeaderBoards()
