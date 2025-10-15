@@ -39,6 +39,8 @@ public class SetUpPanel : UIBInder
 
     private void Start()
     {
+        // 화면이 꺼지지 않도록 설정
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Login();
     }
 
