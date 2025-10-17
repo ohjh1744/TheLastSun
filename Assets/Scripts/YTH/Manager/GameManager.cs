@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         _leaderboardString.Add(GPGSIds.leaderboard_the_last_sun_record);
 
         WaveManager.Instance.ClearStage += ClearStage;
-        PlayStageBGM(0);
+        PlayStageBGM(_playerData.CurrentStage);
         /*StartTimer();*/
     }
 
