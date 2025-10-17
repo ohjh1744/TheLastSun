@@ -20,6 +20,7 @@ public class UnitController : MonoBehaviour
     private float _attackTimer = 0;
 
     private Animator _animator;
+    private SpriteRenderer _spriteRenderer; 
 
     // 이동중 공격 불가(수동 제어 중)
     private bool _isManualControl = false;
@@ -103,6 +104,7 @@ public class UnitController : MonoBehaviour
     {
         _model = GetComponent<UnitModel>();
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // 추가: 스프라이트 찾기(자식 포함)
     }
 
     private void Update()
@@ -175,6 +177,21 @@ public class UnitController : MonoBehaviour
     /// </summary>
     private void HandleMove()
     {
+        // 추가: 월드 좌표 기준 x>0이면 플립, 이하면 해제
+        bool flip = transform.position.x > 0f;
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.flipX = flip;
+        }
+        else
+        {
+            // SpriteRenderer가 없을 때 폴백: localScale.x 부호 변경
+            var ls = transform.localScale;
+            float sign = flip ? -1f : 1f;
+            ls.x = Mathf.Abs(ls.x) * sign;
+            transform.localScale = ls;
+        }
+
         if (_setTargetPos)
         {
             Vector3 direction = (_targetPos - transform.position).normalized;
