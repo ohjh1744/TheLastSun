@@ -189,7 +189,8 @@ public class GameManager : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameEndPanel", 3))
+        sequence.AppendCallback(() => StopTimer())
+            .AppendCallback(() => UIManager.Instance.ShowPanel("GameEndPanel"))
                 .AppendCallback(() => SetGameEndHandler?.Invoke());
     }
 
@@ -235,6 +236,4 @@ public class GameManager : MonoBehaviour
     {
         return _playerData.IsTutorial = true;
     }
-
-
 }
