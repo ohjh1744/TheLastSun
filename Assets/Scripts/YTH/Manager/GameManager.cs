@@ -144,6 +144,8 @@ public class GameManager : MonoBehaviour
 
     public void ClearStage()
     {
+        PauseGame();
+
         if (_playerData != null)
         {
             // isclearStage 업데이트
