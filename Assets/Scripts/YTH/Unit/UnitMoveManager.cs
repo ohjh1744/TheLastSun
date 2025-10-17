@@ -12,6 +12,9 @@ public class UnitMoveManager2D : MonoBehaviour
     private Vector3 _targetPos;
     private bool _isMoving = false;
 
+    // 이번 마우스 프레스에서 실제로 유닛을 선택했는지 여부
+    private bool _hasActivePress = false;
+
     private void Start()
     {
         _cam = Camera.main;
@@ -28,22 +31,42 @@ public class UnitMoveManager2D : MonoBehaviour
 
             if (hit.collider != null)
             {
-                _selectedController = hit.collider.GetComponent<UnitController>();
-                if (_selectedController != null)
+                var ctrl = hit.collider.GetComponent<UnitController>();
+                if (ctrl != null)
                 {
+                    _selectedController = ctrl;
                     _selectedController.BeginManualSelect(); // 공격 억제
+                    _hasActivePress = true; // 이번 프레스에서 선택됨
                 }
+                else
+                {
+                    // 유닛이 아닌 다른 콜라이더
+                    _selectedController = null;
+                    _isMoving = false;
+                    _hasActivePress = false;
+                }
+            }
+            else
+            {
+                // 빈 공간 클릭: 선택 해제
+                _selectedController = null;
+                _isMoving = false;
+                _hasActivePress = false;
             }
         }
 
-        // 이동 목적지 확정
-        if (Input.GetMouseButtonUp(0) && _selectedController != null)
+        // 이동 목적지 확정 (이번 프레스에서 선택된 경우에만)
+        if (Input.GetMouseButtonUp(0) && _selectedController != null && _hasActivePress)
         {
             Vector3 movepPoint = _cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Mathf.Abs(_cam.transform.position.z)));
             movepPoint.z = _selectedController.transform.position.z;
             _targetPos = movepPoint;
-            _selectedController.SetManualMoveTarget(_targetPos); 
+
+            _selectedController.SetManualMoveTarget(_targetPos);
             _isMoving = true;
+
+            // 이번 프레스 종료
+            _hasActivePress = false;
         }
 
         if (_isMoving && _selectedController != null)
