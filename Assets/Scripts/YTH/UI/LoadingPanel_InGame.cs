@@ -20,8 +20,8 @@ public class LoadingPanel_InGame : UIBInder
     {
         BindAll();
 
-        _loadSlider = GetUI<Slider>("LoadSlider");
-        _loadText = GetUI<TMP_Text>("LoadText");
+        _loadSlider = GetUI<Slider>("LoadingSlider");
+        _loadText = GetUI<TMP_Text>("LoadingText");
 
         if (_loadText != null)
             _loadText.text = "0%";
