@@ -140,6 +140,15 @@ public class GameManager : MonoBehaviour
     public void SetSound()
     {
         _playerData.IsSound = !_playerData.IsSound;
+
+        if (_playerData.IsSound)
+        {
+            PlayStageBGM(_playerData.CurrentStage);
+        }
+        else
+        {
+            _audioSource.Stop();
+        }
     }
 
     public void ClearStage()
