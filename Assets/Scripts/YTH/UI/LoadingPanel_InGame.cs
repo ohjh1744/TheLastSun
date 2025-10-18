@@ -93,5 +93,7 @@ public class LoadingPanel_InGame : UIBInder
         GameManager.Instance.StartTimer();
         WaveManager.Instance.StartWave();
         gameObject.SetActive(false);
+        GameManager.Instance.PlayStageBGM(PlayerController.Instance.PlayerData.CurrentStage);
+
     }
 }
