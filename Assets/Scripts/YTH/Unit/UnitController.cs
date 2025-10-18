@@ -297,7 +297,8 @@ public class UnitController : MonoBehaviour
         if (_model == null)
             _model = GetComponent<UnitModel>();
 
-        float r = _model != null ? _model.AttackRange * 0.5f : 0f;
+        // 기존: _model.AttackRange * 0.5f  -> 수정: _model.AttackRange
+        float r = _model != null ? _model.AttackRange : 0f;
 
         // 상태별 색
         Color c = _idleColor;
