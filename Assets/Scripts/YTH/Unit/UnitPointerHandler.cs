@@ -5,7 +5,8 @@ using UnityEngine.EventSystems;
 public class UnitPointerHandler : MonoBehaviour,
     IPointerDownHandler,
     IDragHandler,
-    IEndDragHandler
+    IEndDragHandler,
+    IPointerUpHandler // 추가
 {
     private GameObject _attackRange;
     private GameObject _ui;
@@ -64,6 +65,12 @@ public class UnitPointerHandler : MonoBehaviour,
 
         _dragStartPos = transform.position;
         _controller.BeginManualSelect();
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        // 드래그 여부와 관계없이 마우스를 떼면 항상 오버레이 비활성화
+        ResetOverlay();
     }
 
     public void OnDrag(PointerEventData eventData)
