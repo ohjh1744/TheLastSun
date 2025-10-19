@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.Playables;
 public enum State
 {
     Idle,
@@ -30,20 +31,11 @@ public class UnitController : MonoBehaviour
     private bool _setTargetPos = false;
     private float _moveSpeed = 3;
 
-    [Header("Debug Helper")]
-    // ---------- Debug ----------
-    [SerializeField] bool _debugDraw = true;
-    [SerializeField, Range(8, 128)] int _circleSegments = 32;
-    [SerializeField] Color _idleColor = new Color(0f, 0.7f, 1f, 0.6f);
-    [SerializeField] Color _moveColor = new Color(0.2f, 1f, 0.2f, 0.6f);
-    [SerializeField] Color _attackColor = new Color(1f, 0.2f, 0.2f, 0.6f);
-    [SerializeField] Color _enemyLineColor = Color.red;
-
-    // 마지막 탐지된 적 수(디버그 표시용)
+    // 마지막 탐지된 적 수
     private int _lastEnemyCount = 0;
 
     // 사분면 규칙 타겟 선택 (원점(0,0) 기준)
-    private Collider2D Target
+    public Collider2D Target
     {
         get
         {
@@ -153,14 +145,13 @@ public class UnitController : MonoBehaviour
             return;
 
         int count = Physics2D.OverlapCircleNonAlloc(
-            transform.position,
-            _model.AttackRange,
+            transform.position + new Vector3(0, 0.5f),
+            _model.AttackRange * 0.5f * 0.6f,
             _enemyBuffer,
             _model.TargetLayer
         );
 
         _lastEnemyCount = count;
-        DebugDrawEnemyLines(count); // 디버그 라인
 
         if (count > 0 && !_isManualControl)          // 수동 이동 완료 전에는 공격 상태로 못 들어감
         {
@@ -233,15 +224,12 @@ public class UnitController : MonoBehaviour
 
         int count = Physics2D.OverlapCircleNonAlloc(
             transform.position + new Vector3(0, 0.5f),
-            _model.AttackRange * 0.5f,
+            _model.AttackRange * 0.5f * 0.6f,
             _enemyBuffer,
             _model.TargetLayer
         );
 
-        //======== 디버깅용 라인 =========
         _lastEnemyCount = count;
-        DebugDrawEnemyLines(count);
-        //================================
 
         if (count == 0)
         {
@@ -252,95 +240,34 @@ public class UnitController : MonoBehaviour
         _attackTimer += Time.deltaTime;
         if (_attackTimer >= _model.AttackDelay && Target != null)
         {
-            if (_model.AttackType == AttakcType.Warrior)
-            {
-                for (int i = 0; i < _lastEnemyCount; i++)
-                {
-                    var col = _enemyBuffer[i];
-                    if (col == null) continue;
-                    col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
-                }
-            }
-            else if (_model.AttackType == AttakcType.Archer || _model.AttackType == AttakcType.Bomer)
-            {
-                ShootBullet(Target.gameObject);
-            }
             _animator.SetTrigger("Attack");
             _attackTimer = 0;
         }
     }
 
-    private void ShootBullet(GameObject target)
+    public void MeleeAttack()
+    {
+        for (int i = 0; i < _lastEnemyCount; i++)
+        {
+            var col = _enemyBuffer[i];
+            if (col == null) continue;
+            col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
+        }
+    }   
+
+    public void RangeAttack(GameObject target)
     {
         GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity, transform);
         bullet.GetComponent<Bullet>().Init(target);
     }
 
-    // ---------- Debug Methods ----------
-
-    private void DebugDrawEnemyLines(int count)
+    public void GodAttack()
     {
-        if (!_debugDraw) return;
-        for (int i = 0; i < count; i++)
+        foreach (var col in _enemyBuffer)
         {
-            var col = _enemyBuffer[i];
             if (col == null) continue;
-            Debug.DrawLine(transform.position, col.transform.position, _enemyLineColor, 0f);
-        }
-    }
+            GameObject instance = Instantiate(_bulletPrefab, col.gameObject.transform.position, Quaternion.identity, transform);
 
-    private void OnDrawGizmos()
-    {
-        if (!_debugDraw) return;
-
-        // _model이 아직 Awake 전일 수 있으므로 null 체크 후 가져오기
-        if (_model == null)
-            _model = GetComponent<UnitModel>();
-
-        // 기존: _model.AttackRange * 0.5f  -> 수정: _model.AttackRange
-        float r = _model != null ? _model.AttackRange : 0f;
-
-        // 상태별 색
-        Color c = _idleColor;
-        switch (CurrentState)
-        {
-            case State.Move: c = _moveColor; break;
-            case State.Attack: c = _attackColor; break;
-        }
-
-        // 반투명 Wire Circle
-        Gizmos.color = c;
-        DrawWireCircle(transform.position, r, _circleSegments);
-
-        // 현재 Manual 이동 타겟 표시
-        if (_setTargetPos)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(_targetPos, 0.12f);
-            Gizmos.DrawLine(transform.position, _targetPos);
-        }
-
-        // 탐지된 적 위치에 작은 점
-        Gizmos.color = Color.red;
-        for (int i = 0; i < _lastEnemyCount && i < _enemyBuffer.Length; i++)
-        {
-            var col = _enemyBuffer[i];
-            if (col == null) continue;
-            Gizmos.DrawSphere(col.transform.position, 0.08f);
-        }
-    }
-
-    private void DrawWireCircle(Vector3 center, float radius, int segments)
-    {
-        if (radius <= 0f) return;
-        float step = 2f * Mathf.PI / segments;
-        Vector3 prev = center + new Vector3(Mathf.Cos(0), Mathf.Sin(0), 0) * radius;
-        for (int i = 1; i <= segments; i++)
-        {
-            float a = step * i;
-            Vector3 next = center + new Vector3(Mathf.Cos(a), Mathf.Sin(a), 0) * radius;
-            Gizmos.DrawLine(prev, next);
-            prev = next;
         }
     }
 }

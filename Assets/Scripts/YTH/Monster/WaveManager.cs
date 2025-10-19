@@ -121,7 +121,7 @@ public class WaveManager : MonoBehaviour
         {
             int wave = CurWave; // 현재 웨이브 캡처
 
-            bool isBossWave = (wave == 10 || wave == 30 || wave == 50);
+            bool isBossWave = (wave == 50);
             if (isBossWave)
             {
                 // 보스 1회 소환
@@ -136,11 +136,20 @@ public class WaveManager : MonoBehaviour
             }
             else
             {
-                for (int i = 0; i < _monstersPerWave; i++)
+                if (wave == 25)
                 {
                     int moveSpeed = /*_monstersPerWave - i*/2;
                     SpawnMonster(isBoss: false, moveSpeed);
                     yield return new WaitForSeconds(_spawnDelaySeconds);
+                }
+                else
+                {
+                    for (int i = 0; i < _monstersPerWave; i++)
+                    {
+                        int moveSpeed = /*_monstersPerWave - i*/2;
+                        SpawnMonster(isBoss: false, moveSpeed);
+                        yield return new WaitForSeconds(_spawnDelaySeconds);
+                    }
                 }
 
                 // 현재 웨이브의 텀만큼 기다림
