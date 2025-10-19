@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.Playables;
 public enum State
 {
     Idle,
@@ -239,14 +240,6 @@ public class UnitController : MonoBehaviour
         _attackTimer += Time.deltaTime;
         if (_attackTimer >= _model.AttackDelay && Target != null)
         {
-            if (_model.AttackType == AttakcType.Warrior)
-            {
-               /* MeleeAttack();*/
-            }
-            else if (_model.AttackType == AttakcType.Archer || _model.AttackType == AttakcType.Bomer)
-            {
-                /*RangeAttack(Target.gameObject);*/
-            }
             _animator.SetTrigger("Attack");
             _attackTimer = 0;
         }
@@ -266,5 +259,15 @@ public class UnitController : MonoBehaviour
     {
         GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity, transform);
         bullet.GetComponent<Bullet>().Init(target);
+    }
+
+    public void GodAttack()
+    {
+        foreach (var col in _enemyBuffer)
+        {
+            if (col == null) continue;
+            GameObject instance = Instantiate(_bulletPrefab, col.gameObject.transform.position, Quaternion.identity, transform);
+
+        }
     }
 }

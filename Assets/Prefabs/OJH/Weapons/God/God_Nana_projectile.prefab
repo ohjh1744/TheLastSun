@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4670691246790202866}
   - component: {fileID: 7493236121540194466}
   - component: {fileID: 7590023679592014721}
-  - component: {fileID: -4019407798050784976}
   - component: {fileID: -3212298756252276675}
-  - component: {fileID: -948762909122475410}
+  - component: {fileID: 8862533386104004845}
+  - component: {fileID: 9061478000283685855}
   m_Layer: 0
   m_Name: God_Nana_projectile
   m_TagString: Untagged
@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7, y: 1.7, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 1.7647058}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -125,7 +125,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -136,20 +136,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &-4019407798050784976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588669754404482141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d26fb4266405e8c4b901bb5819d5d2e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 4
+  m_Constraints: 7
 --- !u!114 &-3212298756252276675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,8 +149,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!60 &-948762909122475410
-PolygonCollider2D:
+--- !u!114 &8862533386104004845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588669754404482141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffcd71ab02218da40908708c4f762795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &9061478000283685855
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -195,22 +194,5 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.0625, y: -0.046875}
-      - {x: -0.03125, y: -0.046875}
-      - {x: -0.125, y: -0.1875}
-      - {x: -0.125, y: -0.328125}
-      - {x: 0.09375, y: -0.328125}
-      - {x: 0.09375, y: -0.234375}
-      - {x: 0.078125, y: -0.0625}
-  m_UseDelaunayMesh: 0
+  serializedVersion: 2
+  m_Radius: 0.5

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4645945342202882112}
   - component: {fileID: 3499143613292227769}
   - component: {fileID: -3065106516445901946}
-  - component: {fileID: 2817513069489555503}
   - component: {fileID: -2373809700888991599}
-  - component: {fileID: 5740045159122783485}
+  - component: {fileID: -759900475317409576}
+  - component: {fileID: 1239585227957225124}
   m_Layer: 0
   m_Name: God_Tona_projectile
   m_TagString: Untagged
@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7, y: 1.7, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 1.7647058}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -125,7 +125,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -136,20 +136,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!114 &2817513069489555503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5536741196198208201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d26fb4266405e8c4b901bb5819d5d2e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 4
+  m_Constraints: 7
 --- !u!114 &-2373809700888991599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,8 +149,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!60 &5740045159122783485
-PolygonCollider2D:
+--- !u!114 &-759900475317409576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5536741196198208201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffcd71ab02218da40908708c4f762795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!58 &1239585227957225124
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -195,25 +194,5 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.15208577, y: -0.2127959}
-      - {x: -0.15967454, y: -0.34375}
-      - {x: -0.11875366, y: -0.37336537}
-      - {x: 0.13050665, y: -0.35818788}
-      - {x: 0.15506282, y: -0.36026993}
-      - {x: 0.14747407, y: -0.2162204}
-      - {x: 0.07649036, y: 0.014437832}
-      - {x: 0.028720412, y: 0.053276595}
-      - {x: -0.018602062, y: 0.055806186}
-      - {x: -0.03765159, y: 0.0038720071}
-  m_UseDelaunayMesh: 0
+  serializedVersion: 2
+  m_Radius: 0.5
