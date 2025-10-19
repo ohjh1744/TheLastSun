@@ -64,12 +64,16 @@ public class TutorialManager : MonoBehaviour
             tutorialSteps[_currentStep].SetActive(true);
             AddClickEvent(tutorialSteps[_currentStep]);
         }
-
         else
         {
+#if UNITY_EDITOR
             // 튜토리얼 종료
             PlayerController.Instance.PlayerData.IsTutorial = true;
+            StartGame();
+#else
+ PlayerController.Instance.PlayerData.IsTutorial = true;
             StartCoroutine(WaitForNetworkAndSave());
+#endif
         }
     }
 

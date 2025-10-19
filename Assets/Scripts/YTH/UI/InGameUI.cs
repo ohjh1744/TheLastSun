@@ -117,8 +117,8 @@ public class InGameUI : UIBInder
     private Button _loadMainSceneButton;
 
     [Header("Map")]
-    [SerializeField] GameObject _backgroundSprite;
-    [SerializeField] GameObject _palletSprite;
+    [SerializeField] Image _backgroundSprite;
+    [SerializeField] Image _palletSprite;
 
     private Image _jewellImage1;
     private Image _jewellImage2;
@@ -161,7 +161,7 @@ public class InGameUI : UIBInder
         _soundOnImage = GetUI("SoundOnImage");
         AddressableManager.Instance.LoadSprite(_soundOnSprite, _soundOnImage.GetComponent<Image>(), () => { });
         _soundOffImage = GetUI("SoundOffImage");
-        AddressableManager.Instance.LoadSprite(_soundOffSprite, _soundOffImage.GetComponent<Image>(), ()=>_soundOffImage.SetActive(false));
+        AddressableManager.Instance.LoadSprite(_soundOffSprite, _soundOffImage.GetComponent<Image>(), () => _soundOffImage.SetActive(false));
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
         _bossImage = GetUI<Image>("MonsterImage"); // Image 컴포넌트 참조 저장
         _bossName = GetUI<TMPro.TMP_Text>("MonsterNameText");
@@ -356,7 +356,7 @@ public class InGameUI : UIBInder
 
     public void TestClearButton()
     {
-        _waveManager.DeadMonsterCount = _waveManager.ClearCondition -1;
+        _waveManager.DeadMonsterCount = _waveManager.ClearCondition - 1;
     }
 
     private void DisableAllButtons(bool excludeStop = true)
@@ -536,18 +536,11 @@ public class InGameUI : UIBInder
 
     private void SetMapImage(int stage)
     {
-        SpriteRenderer mapImageComp = _backgroundSprite.GetComponent<SpriteRenderer>();
-        AddressableManager.Instance.LoadOnlySprite(_mapSprites[stage], (sprite) =>
-        {
-            mapImageComp.sprite = sprite;
-        });
+        Image mapImageComp = _backgroundSprite.GetComponent<Image>();
+        AddressableManager.Instance.LoadSprite(_mapSprites[stage], mapImageComp, () => { });
 
-        SpriteRenderer palletImageComp = _palletSprite.GetComponent<SpriteRenderer>();
-        AddressableManager.Instance.LoadOnlySprite(_palletSprites[stage], (sprite) =>
-        {
-            palletImageComp.sprite = sprite;
-        });
-
+        Image palletImageComp = _palletSprite.GetComponent<Image>();
+        AddressableManager.Instance.LoadSprite(_palletSprites[stage], palletImageComp, () => { });
     }
 
     private void ApplyButtonSprite()
