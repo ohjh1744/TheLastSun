@@ -4,12 +4,9 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
-    // 패널에 버튼 컴포넌트가 있어야 함
     [SerializeField] GameObject[] tutorialSteps;
 
     private int _currentStep = 0;
-
-    [SerializeField] LoadingPanel_InGame _loadingPanel_InGame;
 
     private void Awake()
     {
@@ -18,25 +15,8 @@ public class TutorialManager : MonoBehaviour
             tutorialSteps[i].SetActive(false);
         }
     }
-
-    private void Start()
-    {
-        /*if (!PlayerController.Instance.PlayerData.IsTutorial)
-        {
-            StartTutorial();
-        }
-        else
-        {
-            for (int i = 0; i < tutorialSteps.Length; i++)
-            {
-                tutorialSteps[i].SetActive(false);
-            }
-        }*/
-    }
-
     public void SetTutorial()
     {
-        PlayerController.Instance.PlayerData.IsTutorial = false; ; // Test용 임시 코드
         if (!PlayerController.Instance.PlayerData.IsTutorial)
         {
             StartTutorial();
@@ -89,10 +69,7 @@ public class TutorialManager : MonoBehaviour
         {
             // 튜토리얼 종료
             PlayerController.Instance.PlayerData.IsTutorial = true;
-            StartGame();//테스트용 임시코드
-
-           /* StartCoroutine(WaitForNetworkAndSave());*/
-
+            StartCoroutine(WaitForNetworkAndSave());
         }
     }
 
@@ -127,16 +104,12 @@ public class TutorialManager : MonoBehaviour
 
     public void StartGame()
     {
-        /* if (PlayerController.Instance.PlayerData.IsTutorial == false)
-         {
-            gameObject.SetActive(false);
-         }*/
-
         GameManager.Instance.StartTimer();
-        WaveManager.Instance.StartWave();
-        GameManager.Instance.PlayStageBGM(PlayerController.Instance.PlayerData.CurrentStage);
-        Debug.Log("게임 시작!");
+        Time.timeScale = 1f;
 
+        WaveManager.Instance.StartWave();
+
+        GameManager.Instance.PlayStageBGM(PlayerController.Instance.PlayerData.CurrentStage);
     }
 
 }
