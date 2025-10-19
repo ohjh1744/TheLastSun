@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         _leaderboardString.Add(GPGSIds.leaderboard_the_last_sun_record);
 
         WaveManager.Instance.ClearStage += ClearStage;
-        PlayStageBGM(0);
+        
         /*StartTimer();*/
     }
 
@@ -140,10 +140,21 @@ public class GameManager : MonoBehaviour
     public void SetSound()
     {
         _playerData.IsSound = !_playerData.IsSound;
+
+        if (_playerData.IsSound)
+        {
+            _audioSource.Play();
+        }
+        else
+        {
+            _audioSource.Stop();
+        }
     }
 
     public void ClearStage()
     {
+        PauseGame();
+
         if (_playerData != null)
         {
             // isclearStage 업데이트
@@ -189,7 +200,8 @@ public class GameManager : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.AppendCallback(() => UIManager.Instance.ShowPanelTemp("GameEndPanel", 3))
+        sequence.AppendCallback(() => StopTimer())
+            .AppendCallback(() => UIManager.Instance.ShowPanel("GameEndPanel"))
                 .AppendCallback(() => SetGameEndHandler?.Invoke());
     }
 
@@ -235,6 +247,4 @@ public class GameManager : MonoBehaviour
     {
         return _playerData.IsTutorial = true;
     }
-
-
 }

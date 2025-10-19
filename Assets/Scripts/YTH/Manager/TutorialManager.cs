@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
-    // 패널에 버튼 컴포넌트가 있어야 함
     [SerializeField] GameObject[] tutorialSteps;
 
     private int _currentStep = 0;
@@ -16,8 +15,7 @@ public class TutorialManager : MonoBehaviour
             tutorialSteps[i].SetActive(false);
         }
     }
-
-    private void Start()
+    public void SetTutorial()
     {
         if (!PlayerController.Instance.PlayerData.IsTutorial)
         {
@@ -29,6 +27,8 @@ public class TutorialManager : MonoBehaviour
             {
                 tutorialSteps[i].SetActive(false);
             }
+
+            StartGame();
         }
     }
 
@@ -91,6 +91,8 @@ public class TutorialManager : MonoBehaviour
                 {
                     tutorialSteps[i].SetActive(false);
                 }
+
+                StartGame();
             }
             else
             {
@@ -99,4 +101,15 @@ public class TutorialManager : MonoBehaviour
             }
         });
     }
+
+    public void StartGame()
+    {
+        GameManager.Instance.StartTimer();
+        Time.timeScale = 1f;
+
+        WaveManager.Instance.StartWave();
+
+        GameManager.Instance.PlayStageBGM(PlayerController.Instance.PlayerData.CurrentStage);
+    }
+
 }

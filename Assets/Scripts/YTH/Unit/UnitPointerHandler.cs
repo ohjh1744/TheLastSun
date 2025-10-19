@@ -40,7 +40,7 @@ public class UnitPointerHandler : MonoBehaviour,
 
         if (_attackRange != null)
         {
-            _attackRange.transform.localPosition = Vector3.zero;
+            _attackRange.transform.localPosition = Vector3.zero + new Vector3 (0, 0.5f);
             _attackRange.transform.localScale = Vector3.one * _model.AttackRange * 2;
             _attackRange.SetActive(false);
         }

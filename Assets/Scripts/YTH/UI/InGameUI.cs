@@ -408,7 +408,7 @@ public class InGameUI : UIBInder
     // TODO : 맵 이미지 변경 추가
     public void OnWaveChanged(int wave)
     {
-        _waveText.text = $"Wave {wave}";
+        _waveText.text = $"WAVE {wave}";
     }
 
     public void OnAliveMonsterCountChanged(int count)

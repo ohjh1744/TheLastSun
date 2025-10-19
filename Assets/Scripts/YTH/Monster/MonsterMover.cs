@@ -7,7 +7,7 @@ public class MonsterMover : MonoBehaviour
 {
     private MonsterModel _model;
     private WaveManager _waveManager;
-
+    private SpriteRenderer _spriteRenderer;
     private Sequence _seq;
 
     float moveDistance;
@@ -15,6 +15,7 @@ public class MonsterMover : MonoBehaviour
 
     private void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _model = GetComponent<MonsterModel>();
         _waveManager = GetComponentInParent<WaveManager>();
     }
@@ -90,9 +91,11 @@ public class MonsterMover : MonoBehaviour
         _seq = DOTween.Sequence()
             .SetAutoKill(false);
 
-        _seq.Append(transform.DOLocalMove(topLeft,     tHalf).SetEase(Ease.Linear))   
+        _seq.Append(transform.DOLocalMove(topLeft,     tHalf).SetEase(Ease.Linear))
+            .AppendCallback(() => _spriteRenderer.flipX = true)
             .Append(transform.DOLocalMove(bottomLeft,  tSide).SetEase(Ease.Linear))   
             .Append(transform.DOLocalMove(bottomRight, tSide).SetEase(Ease.Linear))   
+            .AppendCallback(() => _spriteRenderer.flipX = false)
             .Append(transform.DOLocalMove(topRight,    tSide).SetEase(Ease.Linear))   
             .Append(transform.DOLocalMove(topCenter,   tHalf).SetEase(Ease.Linear))   
             .SetLoops(-1, LoopType.Restart);

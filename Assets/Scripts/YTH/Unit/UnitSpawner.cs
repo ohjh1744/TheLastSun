@@ -125,6 +125,8 @@ public class UnitSpawner : MonoBehaviour
         {
             _spawnedInstances.Remove(unitPrefab);
         }
+
+        GameManager.Instance.Jewel += /*unitPrefab.GetComponent<UnitModel>()?.SellJewel*/ 12;
     }
 }
 
