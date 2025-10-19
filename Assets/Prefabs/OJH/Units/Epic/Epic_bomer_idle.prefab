@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6854169464712031582}
   - component: {fileID: -6846528834788062647}
   - component: {fileID: 8425361293068776625}
+  - component: {fileID: 8770611871809392225}
   m_Layer: 0
   m_Name: Epic_bomer_idle
   m_TagString: Untagged
@@ -224,6 +225,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 1575945180213253739, guid: fc6724890b6f30a40a41d7a250701fcf, type: 3}
   CurrentState: 0
+--- !u!114 &8770611871809392225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4026904395279639785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &303622559478220289
 PrefabInstance:
   m_ObjectHideFlags: 0

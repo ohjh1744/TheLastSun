@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -15937069347965422}
   - component: {fileID: 189665057852741497}
   - component: {fileID: -1456360910228073}
+  - component: {fileID: -6840614075418496142}
   m_Layer: 0
   m_Name: N1_God_tona_idle
   m_TagString: Untagged
@@ -224,12 +225,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 5536741196198208201, guid: 4f36dd3d71b45704f985e6468b1adbcd, type: 3}
   CurrentState: 0
-  _debugDraw: 1
-  _circleSegments: 32
-  _idleColor: {r: 0, g: 0.7, b: 1, a: 0.6}
-  _moveColor: {r: 0.2, g: 1, b: 0.2, a: 0.6}
-  _attackColor: {r: 1, g: 0.2, b: 0.2, a: 0.6}
-  _enemyLineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &-6840614075418496142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577139862595520409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3484740978534695762
 PrefabInstance:
   m_ObjectHideFlags: 0

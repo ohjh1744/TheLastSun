@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -2589797270010393421}
   - component: {fileID: -8428186717375990929}
   - component: {fileID: 7614991420857345627}
+  - component: {fileID: -2504695264869030152}
   m_Layer: 0
   m_Name: N2_God_nana_idle
   m_TagString: Untagged
@@ -224,6 +225,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 588669754404482141, guid: bcff87b1ca662ff48aaa64a26b91a00d, type: 3}
   CurrentState: 0
+--- !u!114 &-2504695264869030152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127640702140131324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2776092239160121906
 PrefabInstance:
   m_ObjectHideFlags: 0
