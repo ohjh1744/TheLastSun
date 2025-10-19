@@ -42,6 +42,7 @@ public class UnitPointerHandler : MonoBehaviour,
         if (_attackRange != null)
         {
             _attackRange.transform.localPosition = Vector3.zero + new Vector3 (0, 0.5f);
+            // 사거리 원 크기 설정 // 임시로 하드코딩 
             _attackRange.transform.localScale = Vector3.one * _model.AttackRange * 2;
             _attackRange.SetActive(false);
         }
@@ -162,5 +163,31 @@ public class UnitPointerHandler : MonoBehaviour,
         if (_ui != null) _ui.SetActive(false);
         if (_cantMove != null) _cantMove.SetActive(true);
         Debug.Log("Out Overlay");
+    }
+
+    // Scene 뷰에서 _attackRange의 스케일(지름)에 맞는 원을 상시 표시
+    private void OnDrawGizmos()
+    {
+        // Awake 전에도 동작하도록 참조 보정
+        if (_attackRange == null)
+        {
+            var t = transform.Find("AttackRange");
+            if (t != null) _attackRange = t.gameObject;
+        }
+        if (_attackRange == null) return;
+
+        // 중심은 _attackRange의 월드 위치 사용(= 유닛 위치 + (0,0.5))
+        Vector3 center = _attackRange.transform.position;
+
+        // 스케일은 지름이므로 반지름 = 최대 축 스케일 / 2 (부모 스케일까지 반영)
+        Vector3 s = _attackRange.transform.lossyScale;
+        float diameter = Mathf.Max(Mathf.Abs(s.x), Mathf.Abs(s.y));
+        float radius = diameter * 0.5f;
+        if (radius <= 0f) return;
+
+        Color prev = Gizmos.color;
+        Gizmos.color = new Color(0f, 0.8f, 1f, 1f);
+        Gizmos.DrawWireSphere(center, radius);
+        Gizmos.color = prev;
     }
 }

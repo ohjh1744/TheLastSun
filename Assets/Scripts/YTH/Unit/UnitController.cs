@@ -30,16 +30,7 @@ public class UnitController : MonoBehaviour
     private bool _setTargetPos = false;
     private float _moveSpeed = 3;
 
-    [Header("Debug Helper")]
-    // ---------- Debug ----------
-    [SerializeField] bool _debugDraw = true;
-    [SerializeField, Range(8, 128)] int _circleSegments = 32;
-    [SerializeField] Color _idleColor = new Color(0f, 0.7f, 1f, 0.6f);
-    [SerializeField] Color _moveColor = new Color(0.2f, 1f, 0.2f, 0.6f);
-    [SerializeField] Color _attackColor = new Color(1f, 0.2f, 0.2f, 0.6f);
-    [SerializeField] Color _enemyLineColor = Color.red;
-
-    // 마지막 탐지된 적 수(디버그 표시용)
+    // 마지막 탐지된 적 수
     private int _lastEnemyCount = 0;
 
     // 사분면 규칙 타겟 선택 (원점(0,0) 기준)
@@ -153,14 +144,13 @@ public class UnitController : MonoBehaviour
             return;
 
         int count = Physics2D.OverlapCircleNonAlloc(
-            transform.position,
-            _model.AttackRange,
+            transform.position + new Vector3(0, 0.5f),
+            _model.AttackRange * 0.5f * 0.6f,
             _enemyBuffer,
             _model.TargetLayer
         );
 
         _lastEnemyCount = count;
-        DebugDrawEnemyLines(count); // 디버그 라인
 
         if (count > 0 && !_isManualControl)          // 수동 이동 완료 전에는 공격 상태로 못 들어감
         {
@@ -233,15 +223,12 @@ public class UnitController : MonoBehaviour
 
         int count = Physics2D.OverlapCircleNonAlloc(
             transform.position + new Vector3(0, 0.5f),
-            _model.AttackRange * 0.5f,
+            _model.AttackRange * 0.5f * 0.6f,
             _enemyBuffer,
             _model.TargetLayer
         );
 
-        //======== 디버깅용 라인 =========
         _lastEnemyCount = count;
-        DebugDrawEnemyLines(count);
-        //================================
 
         if (count == 0)
         {
@@ -279,74 +266,5 @@ public class UnitController : MonoBehaviour
     {
         GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity, transform);
         bullet.GetComponent<Bullet>().Init(target);
-        Debug.Log("RangeAttack fired at " + target.name);
-    }
-
-    // ---------- Debug Methods ----------
-
-    private void DebugDrawEnemyLines(int count)
-    {
-        if (!_debugDraw) return;
-        for (int i = 0; i < count; i++)
-        {
-            var col = _enemyBuffer[i];
-            if (col == null) continue;
-            Debug.DrawLine(transform.position, col.transform.position, _enemyLineColor, 0f);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (!_debugDraw) return;
-
-        // _model이 아직 Awake 전일 수 있으므로 null 체크 후 가져오기
-        if (_model == null)
-            _model = GetComponent<UnitModel>();
-
-        // 기존: _model.AttackRange * 0.5f  -> 수정: _model.AttackRange
-        float r = _model != null ? _model.AttackRange : 0f;
-
-        // 상태별 색
-        Color c = _idleColor;
-        switch (CurrentState)
-        {
-            case State.Move: c = _moveColor; break;
-            case State.Attack: c = _attackColor; break;
-        }
-
-        // 반투명 Wire Circle
-        Gizmos.color = c;
-        DrawWireCircle(transform.position, r, _circleSegments);
-
-        // 현재 Manual 이동 타겟 표시
-        if (_setTargetPos)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(_targetPos, 0.12f);
-            Gizmos.DrawLine(transform.position, _targetPos);
-        }
-
-        // 탐지된 적 위치에 작은 점
-        Gizmos.color = Color.red;
-        for (int i = 0; i < _lastEnemyCount && i < _enemyBuffer.Length; i++)
-        {
-            var col = _enemyBuffer[i];
-            if (col == null) continue;
-            Gizmos.DrawSphere(col.transform.position, 0.08f);
-        }
-    }
-
-    private void DrawWireCircle(Vector3 center, float radius, int segments)
-    {
-        if (radius <= 0f) return;
-        float step = 2f * Mathf.PI / segments;
-        Vector3 prev = center + new Vector3(Mathf.Cos(0), Mathf.Sin(0), 0) * radius;
-        for (int i = 1; i <= segments; i++)
-        {
-            float a = step * i;
-            Vector3 next = center + new Vector3(Mathf.Cos(a), Mathf.Sin(a), 0) * radius;
-            Gizmos.DrawLine(prev, next);
-            prev = next;
-        }
     }
 }
