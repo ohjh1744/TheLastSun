@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -7624586465196793725}
   - component: {fileID: -5120560338066206502}
   - component: {fileID: 9018280134748407395}
+  - component: {fileID: 46490468929616745}
   m_Layer: 0
   m_Name: Epic_archer_idle
   m_TagString: Untagged
@@ -224,6 +225,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 4247183667151339597, guid: 768f0f6f70ed6e94f98272802c55ffc2, type: 3}
   CurrentState: 0
+--- !u!114 &46490468929616745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4138340598869914456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6152728992131858226
 PrefabInstance:
   m_ObjectHideFlags: 0
