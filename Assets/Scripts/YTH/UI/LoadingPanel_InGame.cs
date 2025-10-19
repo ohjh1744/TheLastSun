@@ -16,6 +16,8 @@ public class LoadingPanel_InGame : UIBInder
 
     private Coroutine _fillRoutine;
 
+    [SerializeField] TutorialManager _tutorialManager;
+
     private void Awake()
     {
         BindAll();
@@ -38,7 +40,9 @@ public class LoadingPanel_InGame : UIBInder
         if (_fillRoutine != null) StopCoroutine(_fillRoutine);
         _fillRoutine = StartCoroutine(FillSliderOverTime(waitTime));
 
-        Invoke(nameof(StartGame), waitTime);
+        Invoke(nameof(HidePanel), waitTime);
+
+       
     }
 
     private void OnDisable()
@@ -83,7 +87,7 @@ public class LoadingPanel_InGame : UIBInder
         _fillRoutine = null;
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         /* if (PlayerController.Instance.PlayerData.IsTutorial == false)
          {
@@ -92,8 +96,13 @@ public class LoadingPanel_InGame : UIBInder
 
         GameManager.Instance.StartTimer();
         WaveManager.Instance.StartWave();
-        gameObject.SetActive(false);
         GameManager.Instance.PlayStageBGM(PlayerController.Instance.PlayerData.CurrentStage);
 
+    }
+
+    public void HidePanel()
+    {
+        gameObject.SetActive(false);
+        _tutorialManager.SetTutorial();
     }
 }

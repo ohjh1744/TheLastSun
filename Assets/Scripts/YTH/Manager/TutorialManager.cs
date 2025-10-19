@@ -9,6 +9,8 @@ public class TutorialManager : MonoBehaviour
 
     private int _currentStep = 0;
 
+    [SerializeField] LoadingPanel_InGame _loadingPanel_InGame;
+
     private void Awake()
     {
         for (int i = 0; i < tutorialSteps.Length; i++)
@@ -19,6 +21,22 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
+        /*if (!PlayerController.Instance.PlayerData.IsTutorial)
+        {
+            StartTutorial();
+        }
+        else
+        {
+            for (int i = 0; i < tutorialSteps.Length; i++)
+            {
+                tutorialSteps[i].SetActive(false);
+            }
+        }*/
+    }
+
+    public void SetTutorial()
+    {
+        PlayerController.Instance.PlayerData.IsTutorial = false; // Test용 임시 코드
         if (!PlayerController.Instance.PlayerData.IsTutorial)
         {
             StartTutorial();
@@ -29,6 +47,8 @@ public class TutorialManager : MonoBehaviour
             {
                 tutorialSteps[i].SetActive(false);
             }
+
+            _loadingPanel_InGame.StartGame();
         }
     }
 
@@ -69,7 +89,10 @@ public class TutorialManager : MonoBehaviour
         {
             // 튜토리얼 종료
             PlayerController.Instance.PlayerData.IsTutorial = true;
+            _loadingPanel_InGame.StartGame();//테스트용 임시코드
+#if !UNITY_EDITOR
             StartCoroutine(WaitForNetworkAndSave());
+#endif
         }
     }
 
@@ -91,6 +114,8 @@ public class TutorialManager : MonoBehaviour
                 {
                     tutorialSteps[i].SetActive(false);
                 }
+
+                _loadingPanel_InGame.StartGame();
             }
             else
             {
