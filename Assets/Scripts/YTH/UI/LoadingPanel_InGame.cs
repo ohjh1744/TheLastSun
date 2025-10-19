@@ -87,19 +87,7 @@ public class LoadingPanel_InGame : UIBInder
         _fillRoutine = null;
     }
 
-    public void StartGame()
-    {
-        /* if (PlayerController.Instance.PlayerData.IsTutorial == false)
-         {
-            gameObject.SetActive(false);
-         }*/
-
-        GameManager.Instance.StartTimer();
-        WaveManager.Instance.StartWave();
-        GameManager.Instance.PlayStageBGM(PlayerController.Instance.PlayerData.CurrentStage);
-
-    }
-
+   
     public void HidePanel()
     {
         gameObject.SetActive(false);

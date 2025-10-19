@@ -36,7 +36,7 @@ public class TutorialManager : MonoBehaviour
 
     public void SetTutorial()
     {
-        PlayerController.Instance.PlayerData.IsTutorial = false; // Test용 임시 코드
+        PlayerController.Instance.PlayerData.IsTutorial = false; ; // Test용 임시 코드
         if (!PlayerController.Instance.PlayerData.IsTutorial)
         {
             StartTutorial();
@@ -48,7 +48,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialSteps[i].SetActive(false);
             }
 
-            _loadingPanel_InGame.StartGame();
+            StartGame();
         }
     }
 
@@ -89,10 +89,10 @@ public class TutorialManager : MonoBehaviour
         {
             // 튜토리얼 종료
             PlayerController.Instance.PlayerData.IsTutorial = true;
-            _loadingPanel_InGame.StartGame();//테스트용 임시코드
-#if !UNITY_EDITOR
-            StartCoroutine(WaitForNetworkAndSave());
-#endif
+            StartGame();//테스트용 임시코드
+
+           /* StartCoroutine(WaitForNetworkAndSave());*/
+
         }
     }
 
@@ -115,7 +115,7 @@ public class TutorialManager : MonoBehaviour
                     tutorialSteps[i].SetActive(false);
                 }
 
-                _loadingPanel_InGame.StartGame();
+                StartGame();
             }
             else
             {
@@ -124,4 +124,19 @@ public class TutorialManager : MonoBehaviour
             }
         });
     }
+
+    public void StartGame()
+    {
+        /* if (PlayerController.Instance.PlayerData.IsTutorial == false)
+         {
+            gameObject.SetActive(false);
+         }*/
+
+        GameManager.Instance.StartTimer();
+        WaveManager.Instance.StartWave();
+        GameManager.Instance.PlayStageBGM(PlayerController.Instance.PlayerData.CurrentStage);
+        Debug.Log("게임 시작!");
+
+    }
+
 }
