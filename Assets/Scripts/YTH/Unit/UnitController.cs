@@ -232,7 +232,7 @@ public class UnitController : MonoBehaviour
         }
 
         int count = Physics2D.OverlapCircleNonAlloc(
-            transform.position,
+            transform.position + new Vector3(0, 0.5f),
             _model.AttackRange * 0.5f,
             _enemyBuffer,
             _model.TargetLayer
