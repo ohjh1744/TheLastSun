@@ -43,7 +43,7 @@ public class UnitController : MonoBehaviour
     private int _lastEnemyCount = 0;
 
     // 사분면 규칙 타겟 선택 (원점(0,0) 기준)
-    private Collider2D Target
+    public Collider2D Target
     {
         get
         {
@@ -254,26 +254,32 @@ public class UnitController : MonoBehaviour
         {
             if (_model.AttackType == AttakcType.Warrior)
             {
-                for (int i = 0; i < _lastEnemyCount; i++)
-                {
-                    var col = _enemyBuffer[i];
-                    if (col == null) continue;
-                    col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
-                }
+               /* MeleeAttack();*/
             }
             else if (_model.AttackType == AttakcType.Archer || _model.AttackType == AttakcType.Bomer)
             {
-                ShootBullet(Target.gameObject);
+                /*RangeAttack(Target.gameObject);*/
             }
             _animator.SetTrigger("Attack");
             _attackTimer = 0;
         }
     }
 
-    private void ShootBullet(GameObject target)
+    public void MeleeAttack()
+    {
+        for (int i = 0; i < _lastEnemyCount; i++)
+        {
+            var col = _enemyBuffer[i];
+            if (col == null) continue;
+            col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
+        }
+    }   
+
+    public void RangeAttack(GameObject target)
     {
         GameObject bullet = Instantiate(_bulletPrefab, transform.position, Quaternion.identity, transform);
         bullet.GetComponent<Bullet>().Init(target);
+        Debug.Log("RangeAttack fired at " + target.name);
     }
 
     // ---------- Debug Methods ----------

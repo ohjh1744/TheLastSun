@@ -38,7 +38,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8986482566953325260}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 7707151735050777234}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -132,6 +133,19 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 750, y: 10, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -5603100809054188302}
+--- !u!114 &7707151735050777234
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 947dde2e8c54d0e4086f1459b3076c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playTiming: 0.9
 --- !u!1101 &8986482566953325260
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
