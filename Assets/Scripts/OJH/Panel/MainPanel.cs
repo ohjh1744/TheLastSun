@@ -78,6 +78,7 @@ public class MainPanel : UIBInder, IAssetLoadable
     private void Start()
     {
         Debug.Log($"PlayerData: {JsonUtility.ToJson(PlayerController.Instance.PlayerData)}");
+        Time.timeScale = 1f;
         // 화면이 꺼지지 않도록 설정
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Init();

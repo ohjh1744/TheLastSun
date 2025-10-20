@@ -168,22 +168,26 @@ public class GameManager : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.AppendCallback(() => StopTimer())
+        sequence
+            .SetUpdate(true)
+            .AppendCallback(() => StopTimer())
             .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()));
     }
 
     private IEnumerator WaitForNetworkAndSave()
     {
-        while (!NetworkCheckManager.Instance.IsConnected)
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
+        Debug.Log("웨잇포네트워크앤세이브 시작");
+
+        yield return StartCoroutine(WaitForNetwork());
+
+        Debug.Log("웨잇포네트워크앤세이브 네트워크체크완료");
 
         // 연결되었으므로 저장 진행
         GpgsManager.Instance.SaveData((status) =>
         {
             if (status == GooglePlayGames.BasicApi.SavedGame.SavedGameRequestStatus.Success)
             {
+                Debug.Log("웨잇포네트워크 세이브 성공");
                 StartCoroutine(RecordClearTime());
             }
             else
@@ -208,7 +212,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 기록이 없거나(0), 더 짧은 시간일 때만 저장
     /// </summary>
-    WaitForSeconds waitConnect = new WaitForSeconds(0.5f);
+    WaitForSecondsRealtime waitConnect = new WaitForSecondsRealtime(0.5f);
     IEnumerator WaitForNetwork()
     {
         while (NetworkCheckManager.Instance.IsConnected == false)
@@ -222,13 +226,18 @@ public class GameManager : MonoBehaviour
         int stage = _playerData.CurrentStage;
         string leaderboardSt = _leaderboardString[stage];
 
+        Debug.Log("리코드클리어타임시작");
+
         //안전하게 네트워크 다시 확인 연결될때까지 기다림
         yield return StartCoroutine(WaitForNetwork());
+
+        Debug.Log("리코드클리어타임 네트워크체크완료");
 
         GpgsManager.Instance.UpdateTimeLeaderboard(_playerData.ClearTimes[stage], leaderboardSt, (success) =>
         {
             if (success == true)
             {
+                Debug.Log("리코드클리어타임 완료");
                 Sequence sequence = DOTween.Sequence();
 
                 sequence.AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
