@@ -157,6 +157,7 @@ public class GameManager : MonoBehaviour
 
         if (_playerData != null)
         {
+            Debug.Log("CLearStage: 플레이어 데이터 확인됨");
             // isclearStage 업데이트
             _playerData.IsClearStage[_playerData.CurrentStage] = true;
             //기존에 클리어 타임이 없거나 기존의 클리어타임보다 더 빨리 클리어한 경우 업데이트
@@ -168,6 +169,7 @@ public class GameManager : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
 
+        //Time.Scale 0의 영향안받으려면 SetUpdate true추가해야함
         sequence
             .SetUpdate(true)
             .AppendCallback(() => StopTimer())
@@ -200,13 +202,18 @@ public class GameManager : MonoBehaviour
 
     public void FailStage()
     {
+        PauseGame();
+
         Debug.Log("Stage Failed");
 
         Sequence sequence = DOTween.Sequence();
 
-        sequence.AppendCallback(() => StopTimer())
+        //Time.Scale 0의 영향안받으려면 SetUpdate true추가해야함
+        sequence
+            .SetUpdate(true)
+            .AppendCallback(() => StopTimer())
             .AppendCallback(() => UIManager.Instance.ShowPanel("GameEndPanel"))
-                .AppendCallback(() => SetGameEndHandler?.Invoke());
+            .AppendCallback(() => SetGameEndHandler?.Invoke());
     }
 
     /// <summary>
@@ -240,8 +247,10 @@ public class GameManager : MonoBehaviour
                 Debug.Log("리코드클리어타임 완료");
                 Sequence sequence = DOTween.Sequence();
 
-                sequence.AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
-                            .AppendCallback(() => SetGameEndHandler?.Invoke());
+                sequence
+                .SetUpdate(true)
+                .AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
+                .AppendCallback(() => SetGameEndHandler?.Invoke());
             }
             else
             {
