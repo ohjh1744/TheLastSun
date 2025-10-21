@@ -13,11 +13,14 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         _unitModel = GetComponentInParent<UnitModel>();
-      
+
     }
     private void Start()
     {
-        Destroy(gameObject, 2f);
+        if (_unitModel.Rank != Rank.God)
+        {
+            Destroy(gameObject, 2f);
+        }
     }
 
     private void Update()

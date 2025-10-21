@@ -8,9 +8,22 @@ public enum AttakcType
     Bomer
 }
 
+public enum Rank
+{
+    Normal,
+    Rare,
+    Ancient,
+    Legend,
+    Epic,
+    God
+}
+
 [System.Serializable]
 public class UnitModel : MonoBehaviour
 {
+    [SerializeField] Rank _rank;
+    public Rank Rank => _rank;
+
     [Header("공격 관련")]
     [SerializeField] AttakcType _attackType;
     public AttakcType AttackType => _attackType;
