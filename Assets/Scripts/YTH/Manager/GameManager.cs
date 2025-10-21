@@ -79,8 +79,8 @@ public class GameManager : MonoBehaviour
         _leaderboardString.Add(GPGSIds.leaderboard_the_last_sun_record);
 
         WaveManager.Instance.ClearStage += ClearStage;
-        
-        /*StartTimer();*/
+
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
     private void OnDestroy()
