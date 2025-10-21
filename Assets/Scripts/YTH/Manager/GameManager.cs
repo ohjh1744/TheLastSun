@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UIManager.Instance.ShowPanel("ClearPanel");
+            UIManager.Instance.ShowPanel("GameEndPanel");
         }
     }
 
@@ -249,7 +249,7 @@ public class GameManager : MonoBehaviour
 
                 sequence
                 .SetUpdate(true)
-                .AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
+                .AppendCallback(() => UIManager.Instance.ShowPanel("GameEndPanel"))
                 .AppendCallback(() => SetGameEndHandler?.Invoke());
             }
             else
