@@ -52,8 +52,10 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("Monster"))
         {
-            collision.GetComponent<MonsterController>()?.TakeDamage(_unitModel.Damage);
+            collision.GetComponent<IDamageable>()?.TakeDamage(_unitModel.Damage);
+            Debug.Log("Bullet Hit Monster");
             Destroy(gameObject);
+
         }
     }
 }

@@ -316,6 +316,8 @@ public class UnitController : MonoBehaviour
             {
                 projectile.SetActive(false);
             }
+
+            yield return new WaitForSeconds(2f);
         }
     }
 }
