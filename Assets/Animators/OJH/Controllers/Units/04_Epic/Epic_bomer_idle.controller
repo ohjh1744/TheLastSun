@@ -13,7 +13,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: -6504145604843109885}
   m_StateMachineBehaviours:
-  - {fileID: -3153177328006386074}
+  - {fileID: -5273225074709277005}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -50,7 +50,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-3153177328006386074
+--- !u!114 &-5273225074709277005
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d06c4fd512744e4e9ea9a1d282a4c13, type: 3}
+  m_Script: {fileID: 11500000, guid: 947dde2e8c54d0e4086f1459b3076c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1107 &-2199220669926418198
