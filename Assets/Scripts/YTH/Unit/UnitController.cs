@@ -1,5 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Playables;
 public enum State
 {
     Idle,
@@ -21,7 +22,7 @@ public class UnitController : MonoBehaviour
     private float _attackTimer = 0;
 
     private Animator _animator;
-    private SpriteRenderer _spriteRenderer; 
+    private SpriteRenderer _spriteRenderer;
 
     // 이동중 공격 불가(수동 제어 중)
     private bool _isManualControl = false;
@@ -83,6 +84,17 @@ public class UnitController : MonoBehaviour
             return target;
         }
     }
+
+    private Vector2[] _godAttackZone = new Vector2[]
+    {
+        new Vector2(-3, 2),
+        new Vector2(-3, 0),
+        new Vector2(-3, -2),
+
+        new Vector2(3, 2),
+        new Vector2(3, 0),
+        new Vector2(3, -2),
+    };
 
     private int GetQuadrant(Vector3 standard)
     {
@@ -253,7 +265,7 @@ public class UnitController : MonoBehaviour
             if (col == null) continue;
             col.GetComponent<MonsterController>()?.TakeDamage(_model.Damage);
         }
-    }   
+    }
 
     public void RangeAttack(GameObject target)
     {
@@ -261,13 +273,51 @@ public class UnitController : MonoBehaviour
         bullet.GetComponent<Bullet>().Init(target);
     }
 
+    bool _initGodAttack = false;
+    Coroutine _godAttackCoroutine;
     public void GodAttack()
     {
-        foreach (var col in _enemyBuffer)
+        if (_initGodAttack == false)
         {
-            if (col == null) continue;
-            GameObject instance = Instantiate(_bulletPrefab, col.gameObject.transform.position, Quaternion.identity, transform);
+            InitGodAttack();
+        }
 
+        if (godRoutine == null)
+        {
+            godRoutine = StartCoroutine(GodAttackCoroutine());
+        }
+    }
+
+    List<GameObject> godProjectiles = new List<GameObject>();
+    public void InitGodAttack()
+    {
+        for (int i = 0; i < _godAttackZone.Length; i++)
+        {
+            Vector2 attackPos = _godAttackZone[i];
+            GameObject instance = Instantiate(_bulletPrefab, attackPos, Quaternion.identity);
+            godProjectiles.Add(instance);
+        }
+        _initGodAttack = true;
+    }
+
+    Coroutine godRoutine;
+    IEnumerator GodAttackCoroutine()
+    {
+        while (true)
+        {
+            foreach (var projectile in godProjectiles)
+            {
+                projectile.SetActive(true);
+            }
+
+            yield return new WaitForSeconds(2f);
+
+            foreach (var projectile in godProjectiles)
+            {
+                projectile.SetActive(false);
+            }
+
+            yield return new WaitForSeconds(2f);
         }
     }
 }

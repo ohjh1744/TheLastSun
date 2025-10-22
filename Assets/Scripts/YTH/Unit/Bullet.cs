@@ -13,11 +13,14 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         _unitModel = GetComponentInParent<UnitModel>();
-      
+
     }
     private void Start()
     {
-        Destroy(gameObject, 2f);
+        if (_unitModel.Rank != Rank.God)
+        {
+            Destroy(gameObject, 2f);
+        }
     }
 
     private void Update()
@@ -49,8 +52,10 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("Monster"))
         {
-            collision.GetComponent<MonsterController>()?.TakeDamage(_unitModel.Damage);
+            collision.GetComponent<IDamageable>()?.TakeDamage(_unitModel.Damage);
+            Debug.Log("Bullet Hit Monster");
             Destroy(gameObject);
+
         }
     }
 }

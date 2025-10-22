@@ -2,7 +2,7 @@ using DG.Tweening;
 using System;
 using UnityEngine;
 
-public class MonsterController : MonoBehaviour
+public class MonsterController : MonoBehaviour, IDamageable
 {
     private MonsterModel _model => GetComponent<MonsterModel>();
     private PooledObject _pooledObject => GetComponent<PooledObject>();

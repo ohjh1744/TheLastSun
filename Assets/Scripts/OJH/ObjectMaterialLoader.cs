@@ -13,7 +13,5 @@ public class ObjectMaterialLoader : MonoBehaviour
 
         // SpriteRenderer¿¡ Àû¿ë
         sr.material = defaultMat;
-
-        Debug.Log(sr.material);
     }
 }

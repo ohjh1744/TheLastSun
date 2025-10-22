@@ -79,8 +79,8 @@ public class GameManager : MonoBehaviour
         _leaderboardString.Add(GPGSIds.leaderboard_the_last_sun_record);
 
         WaveManager.Instance.ClearStage += ClearStage;
-        
-        /*StartTimer();*/
+
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
     private void OnDestroy()
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UIManager.Instance.ShowPanel("ClearPanel");
+            UIManager.Instance.ShowPanel("GameEndPanel");
         }
     }
 
@@ -249,7 +249,7 @@ public class GameManager : MonoBehaviour
 
                 sequence
                 .SetUpdate(true)
-                .AppendCallback(() => UIManager.Instance.ShowPanel("ClearPanel"))
+                .AppendCallback(() => UIManager.Instance.ShowPanel("GameEndPanel"))
                 .AppendCallback(() => SetGameEndHandler?.Invoke());
             }
             else
