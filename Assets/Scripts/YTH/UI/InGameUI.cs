@@ -542,7 +542,7 @@ public class InGameUI : UIBInder
         string key = $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage + 1}_Boss.prefab";
 
         LoadSpriteFromAddressablePrefab(key, _bossImage, null);
-        _bossName.text = WaveManager.Instance.BossPrefabsName[curStage];
+        _bossName.text = WaveManager.Instance.BossMonsterName[curStage];
     }
 
     private void SetMapImage(int stage)

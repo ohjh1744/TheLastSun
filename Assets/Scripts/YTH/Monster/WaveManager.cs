@@ -41,13 +41,15 @@ public class WaveManager : MonoBehaviour
     [SerializeField] Transform _spawnPoint;
     [HideInInspector] public Transform SpawnPoint => _spawnPoint;
     [SerializeField] float[] _waveTerm;
-    [SerializeField] List<string> _bossPrefabsName;
-    [SerializeField] List<string> _normalMonsterName;
-    public List<string> BossPrefabsName { get => _bossPrefabsName; set { _bossPrefabsName = value; OnChangeBoss?.Invoke(); } }
+    [SerializeField] List<string> _bossMonsterName;
+    [SerializeField] List<string> _chapter1_normalMonsterName;
+    [SerializeField] List<string> _chapter2_normalMonsterName;
+    [SerializeField] List<string> _chapter3_normalMonsterName;
+    [SerializeField] List<string> _chapter4_normalMonsterName;
+    [SerializeField] List<string> _chapter5_normalMonsterName;
+    public List<string> BossMonsterName { get => _bossMonsterName; set { _bossMonsterName = value; OnChangeBoss?.Invoke(); } }
 
     private ObjectPool _objectPool;
-
-
 
     private WaitForSeconds _spawnDelay = new(1.5f);
     private WaitForSeconds _waveDelay = new(10f);
