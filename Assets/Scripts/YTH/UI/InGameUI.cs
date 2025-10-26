@@ -209,6 +209,7 @@ public class InGameUI : UIBInder
         _ancientImage = GetUI("AncientImage").GetComponent<Image>();
         _legendImage = GetUI("LegendImage").GetComponent<Image>();
         _epicImage = GetUI("EpicImage").GetComponent<Image>();
+        _closeSellUnitButton = GetUI<Button>("ClosePanelButton");
 
         // GaneEndPanel
         _clearFailText = GetUI<TMPro.TMP_Text>("ClearFailText");
@@ -369,12 +370,12 @@ public class InGameUI : UIBInder
         _waveManager.DeadMonsterCount = _waveManager.ClearCondition - 1;
     }
 
-    private void DisableAllButtons(bool excludeStop = true)
+    private void DisableAllButtons(Button buttonName, bool excludeStop = true)
     {
         Button[] buttons = GetComponentsInChildren<Button>(true);
         foreach (Button btn in buttons)
         {
-            if (excludeStop && btn == _stopButton) continue;
+            if (excludeStop && btn == buttonName) continue;
             btn.interactable = false;
         }
     }
@@ -444,7 +445,7 @@ public class InGameUI : UIBInder
     {
         GameManager.Instance.PauseGame();
         if (GameManager.Instance.IsPause)
-            DisableAllButtons(excludeStop: true);
+            DisableAllButtons(_stopButton ,excludeStop: true);
         else
             EnableAllButtons();
     }
@@ -532,6 +533,7 @@ public class InGameUI : UIBInder
         _recordWaveText.text = $"{_waveManager.CurWave} 웨이브";
         _recordClearTimeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\.mm\\.ss}";
 
+        DisableAllButtons(_loadMainSceneButton, excludeStop: true);
         Debug.Log($"[InGameUI] 게임 엔드 페널 -  클리어/실패 돌려 쓰는 중, 결과 : {PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage]}");
     }
 
@@ -544,7 +546,7 @@ public class InGameUI : UIBInder
         string key = $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage + 1}_Boss.prefab";
 
         LoadSpriteFromAddressablePrefab(key, _bossImage, null);
-        _bossName.text = WaveManager.Instance.BossMonsterName[curStage];
+            _bossName.text = WaveManager.Instance.BossMonsterName[curStage];
     }
 
     private void SetMapImage(int stage)
@@ -553,7 +555,7 @@ public class InGameUI : UIBInder
         AddressableManager.Instance.LoadSprite(_mapSprites[stage], mapImageComp, () => { });
 
         Image palletImageComp = _palletSprite.GetComponent<Image>();
-        AddressableManager.Instance.LoadSprite(_palletSprites[stage], palletImageComp, () => { });
+        AddressableManager.Instance.LoadSprite(_palletSprites[stage], palletImageComp, () => { _palletSprite.gameObject.SetActive(false); });
     }
 
     private void ApplyButtonSprite()
@@ -595,6 +597,7 @@ public class InGameUI : UIBInder
                     _sellAncientButton.GetComponent<Image>().sprite = loaded;
                     _sellLegendButton.GetComponent<Image>().sprite = loaded;
                     _sellEpicButton.GetComponent<Image>().sprite = loaded;
+                    _closeSellUnitButton.GetComponent<Image>().sprite = loaded;
 
                     // Wave Panel
                     GetUI("WavePanel").GetComponent<Image>().sprite = loaded;

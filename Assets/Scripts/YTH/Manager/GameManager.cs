@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     private bool _isTimerRunning = false;
 
-    private bool _isPause = PlayerController.Instance.PlayerData.IsSound;
+    private bool _isPause;
     public bool IsPause
     {
         get => _isPause;
