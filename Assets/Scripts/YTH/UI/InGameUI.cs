@@ -370,12 +370,12 @@ public class InGameUI : UIBInder
         _waveManager.DeadMonsterCount = _waveManager.ClearCondition - 1;
     }
 
-    private void DisableAllButtons(bool excludeStop = true)
+    private void DisableAllButtons(Button buttonName, bool excludeStop = true)
     {
         Button[] buttons = GetComponentsInChildren<Button>(true);
         foreach (Button btn in buttons)
         {
-            if (excludeStop && btn == _stopButton) continue;
+            if (excludeStop && btn == buttonName) continue;
             btn.interactable = false;
         }
     }
@@ -445,7 +445,7 @@ public class InGameUI : UIBInder
     {
         GameManager.Instance.PauseGame();
         if (GameManager.Instance.IsPause)
-            DisableAllButtons(excludeStop: true);
+            DisableAllButtons(_stopButton ,excludeStop: true);
         else
             EnableAllButtons();
     }
@@ -533,6 +533,7 @@ public class InGameUI : UIBInder
         _recordWaveText.text = $"{_waveManager.CurWave} 웨이브";
         _recordClearTimeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\.mm\\.ss}";
 
+        DisableAllButtons(_loadMainSceneButton, excludeStop: true);
         Debug.Log($"[InGameUI] 게임 엔드 페널 -  클리어/실패 돌려 쓰는 중, 결과 : {PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage]}");
     }
 
