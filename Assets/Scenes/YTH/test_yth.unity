@@ -3862,8 +3862,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11.258545, y: 31.828613}
-  m_SizeDelta: {x: -112.2314, y: -158.6505}
+  m_AnchoredPosition: {x: 0, y: 55.748993}
+  m_SizeDelta: {x: 0, y: -111.49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &492960692
 MonoBehaviour:
@@ -4411,7 +4411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 491, y: 159}
+  m_AnchoredPosition: {x: 519, y: 171}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &562976972
@@ -4780,7 +4780,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &610383877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7224,7 +7224,7 @@ RectTransform:
   m_Father: {fileID: 1895138075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10347,10 +10347,10 @@ RectTransform:
   - {fileID: 1062076226}
   m_Father: {fileID: 312456611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11.258057, y: -135.80176}
-  m_SizeDelta: {x: -112.23, y: -340.7268}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -0.00024414062, y: -152.91}
+  m_SizeDelta: {x: 0.00048828, y: 111.49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1360896049
 MonoBehaviour:
@@ -13272,7 +13272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1671992095
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15247,14 +15247,12 @@ MonoBehaviour:
   - 30
   - 30
   - 30
-  _bossPrefabsName:
-  - "\uBB34\uC11C\uC6B4\uBCF4\uC2A4"
-  - "\uADC0\uC5EC\uC6B4\uBCF4\uC2A4"
-  - "\uB354\uB7EC\uC6B4\uBCF4\uC2A4"
-  - "\uB054\uCC0D\uD55C\uBCF4\uC2A4"
-  - "\uCD5C\uC885\uBCF4\uC2A4"
-  _normalMonsterName:
-  - 
+  _bossMonsterName: []
+  _chapter1_normalMonsterName: []
+  _chapter2_normalMonsterName: []
+  _chapter3_normalMonsterName: []
+  _chapter4_normalMonsterName: []
+  _chapter5_normalMonsterName: []
 --- !u!1 &1895138074
 GameObject:
   m_ObjectHideFlags: 0

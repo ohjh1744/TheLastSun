@@ -122,6 +122,7 @@ public class WaveManager : MonoBehaviour
         while (CurWave <= _totalWave)
         {
             int wave = CurWave; // 현재 웨이브 캡처
+            int MoveSpeed = CurWave % 2 == 0 ? 2 : 1;
 
             bool isBossWave = (wave == 50);
             if (isBossWave)
@@ -140,16 +141,14 @@ public class WaveManager : MonoBehaviour
             {
                 if (wave == 25)
                 {
-                    int moveSpeed = 2;
-                    SpawnMonster(isBoss: false, moveSpeed);
+                    SpawnMonster(isBoss: false, MoveSpeed);
                     yield return new WaitForSeconds(_spawnDelaySeconds);
                 }
                 else
                 {
                     for (int i = 0; i < _monstersPerWave; i++)
                     {
-                        int moveSpeed = _monstersPerWave - i;
-                        SpawnMonster(isBoss: false, moveSpeed);
+                        SpawnMonster(isBoss: false, MoveSpeed);
                         yield return new WaitForSeconds(_spawnDelaySeconds);
                     }
                 }
