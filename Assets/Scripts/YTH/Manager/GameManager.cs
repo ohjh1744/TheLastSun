@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     private bool _isTimerRunning = false;
 
-    private bool _isPause;
+    private bool _isPause = PlayerController.Instance.PlayerData.IsSound;
     public bool IsPause
     {
         get => _isPause;
@@ -126,15 +126,19 @@ public class GameManager : MonoBehaviour
 
     public void PlayStageBGM(int stage)
     {
-        if (!_playerData.IsSound) return;
-
         AddressableManager.Instance.LoadSound(_stageBGM[stage], _audioSource, () =>
         {
             _audioSource.loop = true;
-            _audioSource.Play();
-        });
 
-        Debug.Log($"사운드 실행@@@@@@@");
+            if (_playerData.IsSound)
+            {
+                _audioSource.Play();
+            }
+            else
+            {
+                _audioSource.Stop();
+            }
+        });
     }
 
     public void SetSound()
