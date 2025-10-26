@@ -209,6 +209,7 @@ public class InGameUI : UIBInder
         _ancientImage = GetUI("AncientImage").GetComponent<Image>();
         _legendImage = GetUI("LegendImage").GetComponent<Image>();
         _epicImage = GetUI("EpicImage").GetComponent<Image>();
+        _closeSellUnitButton = GetUI<Button>("ClosePanelButton");
 
         // GaneEndPanel
         _clearFailText = GetUI<TMPro.TMP_Text>("ClearFailText");
@@ -595,6 +596,7 @@ public class InGameUI : UIBInder
                     _sellAncientButton.GetComponent<Image>().sprite = loaded;
                     _sellLegendButton.GetComponent<Image>().sprite = loaded;
                     _sellEpicButton.GetComponent<Image>().sprite = loaded;
+                    _closeSellUnitButton.GetComponent<Image>().sprite = loaded;
 
                     // Wave Panel
                     GetUI("WavePanel").GetComponent<Image>().sprite = loaded;
