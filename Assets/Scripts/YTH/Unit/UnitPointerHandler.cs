@@ -21,9 +21,9 @@ public class UnitPointerHandler : MonoBehaviour,
     private Vector3 _dragStartPos; // 드래그 시작 위치 저장
 
     private float _limit_Up = 2.1f;
-    private float _limit_Down = -3.6f;
-    private float _limit_Right = 2.6f;
-    private float _limit_Left = -2.6f;
+    private float _limit_Down = -2.4f;
+    private float _limit_Right = 2.2f;
+    private float _limit_Left = -2.2f;
 
     private void Awake()
     {
