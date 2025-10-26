@@ -138,7 +138,7 @@ public class WaveManager : MonoBehaviour
             {
                 if (wave == 25)
                 {
-                    int moveSpeed = /*_monstersPerWave - i*/2;
+                    int moveSpeed = 2;
                     SpawnMonster(isBoss: false, moveSpeed);
                     yield return new WaitForSeconds(_spawnDelaySeconds);
                 }
@@ -146,7 +146,7 @@ public class WaveManager : MonoBehaviour
                 {
                     for (int i = 0; i < _monstersPerWave; i++)
                     {
-                        int moveSpeed = /*_monstersPerWave - i*/2;
+                        int moveSpeed = _monstersPerWave - i;
                         SpawnMonster(isBoss: false, moveSpeed);
                         yield return new WaitForSeconds(_spawnDelaySeconds);
                     }
