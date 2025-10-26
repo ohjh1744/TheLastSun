@@ -173,11 +173,20 @@ public class GameManager : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
 
-        //Time.Scale 0의 영향안받으려면 SetUpdate true추가해야함
+#if UNITY_EDITOR
+        sequence
+               .SetUpdate(true)
+               .AppendCallback(() => StopTimer())   
+               .AppendCallback(() => UIManager.Instance.ShowPanel("GameEndPanel"))
+               .AppendCallback(() => SetGameEndHandler?.Invoke());
+#else
+ //Time.Scale 0의 영향안받으려면 SetUpdate true추가해야함
         sequence
             .SetUpdate(true)
             .AppendCallback(() => StopTimer())
             .AppendCallback(() => StartCoroutine(WaitForNetworkAndSave()));
+#endif
+
     }
 
     private IEnumerator WaitForNetworkAndSave()

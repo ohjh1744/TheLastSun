@@ -16,6 +16,6 @@ public class MonsterModel : MonoBehaviour
     [SerializeField] int _curHp;
     public int CurHp { get => _curHp; set => _curHp = value; }
 
-    private int _moveSpeed;
-    public int MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
+    private float _moveSpeed;
+    public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
 }

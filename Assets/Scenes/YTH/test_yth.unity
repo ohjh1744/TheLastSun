@@ -2107,7 +2107,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 1b30146fb6fb588449427c3c18c0420f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5593,7 +5593,7 @@ MonoBehaviour:
     - 0
     _currentStage: 3
     _isClearStage: 0000000000
-    _isSound: 0
+    _isSound: 1
     _isTutorial: 1
 --- !u!4 &754609693
 Transform:
@@ -14245,7 +14245,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 1b30146fb6fb588449427c3c18c0420f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15247,12 +15247,14 @@ MonoBehaviour:
   - 30
   - 30
   - 30
-  _bossMonsterName: []
+  _bossMonsterName:
+  - 
   _chapter1_normalMonsterName: []
   _chapter2_normalMonsterName: []
   _chapter3_normalMonsterName: []
   _chapter4_normalMonsterName: []
-  _chapter5_normalMonsterName: []
+  _chapter5_normalMonsterName:
+  - 
 --- !u!1 &1895138074
 GameObject:
   m_ObjectHideFlags: 0

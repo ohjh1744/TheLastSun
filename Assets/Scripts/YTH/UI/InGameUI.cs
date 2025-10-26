@@ -162,7 +162,7 @@ public class InGameUI : UIBInder
         AddressableManager.Instance.LoadSprite(_soundOnSprite, _soundOnImage.GetComponent<Image>(), () => { /* don't change active here */ SetSoundImage(); });
         _soundOffImage = GetUI("SoundOffImage");
         _soundOffImage = GetUI("SoundOffImage");
-        
+
         AddressableManager.Instance.LoadSprite(_soundOffSprite, _soundOffImage.GetComponent<Image>(), () => { /* don't change active here */ SetSoundImage(); });
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
         _bossImage = GetUI<Image>("MonsterImage"); // Image 컴포넌트 참조 저장
@@ -531,6 +531,8 @@ public class InGameUI : UIBInder
         _clearFailText.text = (PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage]) ? "클리어 성공" : "스테이지 실패";
         _recordWaveText.text = $"{_waveManager.CurWave} 웨이브";
         _recordClearTimeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\.mm\\.ss}";
+
+        Debug.Log($"[InGameUI] 게임 엔드 페널 -  클리어/실패 돌려 쓰는 중, 결과 : {PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage]}");
     }
 
     //0.5425906
@@ -649,6 +651,8 @@ public class InGameUI : UIBInder
                     // 부족 버튼
                     _tribe2Button.GetComponent<Image>().sprite = loaded;
                     _tribe3Button.GetComponent<Image>().sprite = loaded;
+                    _warningPanel.GetComponent<Image>().sprite = loaded;
+                    _warningPanel2.GetComponent<Image>().sprite = loaded;
                 }
             );
         }

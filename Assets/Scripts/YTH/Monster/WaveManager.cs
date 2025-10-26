@@ -51,7 +51,7 @@ public class WaveManager : MonoBehaviour
 
     private ObjectPool _objectPool;
 
-    private WaitForSeconds _spawnDelay = new(1.5f);
+    private WaitForSeconds _spawnDelay = new(1f);
     private WaitForSeconds _waveDelay = new(10f);
 
 
@@ -122,7 +122,7 @@ public class WaveManager : MonoBehaviour
         while (CurWave <= _totalWave)
         {
             int wave = CurWave; // 현재 웨이브 캡처
-            int MoveSpeed = CurWave % 2 == 0 ? 2 : 1;
+            float MoveSpeed = /*(CurWave % 3) + 1.5f;*/ CurWave % 2 == 0 ? 3.5f : 2.5f;
 
             bool isBossWave = (wave == 50);
             if (isBossWave)
@@ -204,7 +204,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private void SpawnMonster(bool isBoss, int moveSpeed = 1)
+    private void SpawnMonster(bool isBoss, float moveSpeed = 1)
     {
         int curStage = PlayerController.Instance.PlayerData.CurrentStage;
         string address = isBoss
