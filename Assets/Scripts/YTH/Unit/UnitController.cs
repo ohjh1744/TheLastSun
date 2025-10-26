@@ -168,6 +168,13 @@ public class UnitController : MonoBehaviour
         if (count > 0 && !_isManualControl)          // 수동 이동 완료 전에는 공격 상태로 못 들어감
         {
             CurrentState = State.Attack;
+
+            if (_animator != null)
+            {
+                _animator.SetTrigger("Attack");
+                // 즉시 공격 후 다음 공격은 모델의 AttackDelay 규칙을 따르도록 타이머 초기화
+                _attackTimer = 0f;
+            }
         }
         else if (_setTargetPos)
         {

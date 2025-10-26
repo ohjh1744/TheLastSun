@@ -159,9 +159,11 @@ public class InGameUI : UIBInder
         _speedButton = GetUI<Button>("SpeedButton");
         _soundButton = GetUI<Button>("SoundButton");
         _soundOnImage = GetUI("SoundOnImage");
-        AddressableManager.Instance.LoadSprite(_soundOnSprite, _soundOnImage.GetComponent<Image>(), () => { });
+        AddressableManager.Instance.LoadSprite(_soundOnSprite, _soundOnImage.GetComponent<Image>(), () => { /* don't change active here */ SetSoundImage(); });
         _soundOffImage = GetUI("SoundOffImage");
-        AddressableManager.Instance.LoadSprite(_soundOffSprite, _soundOffImage.GetComponent<Image>(), () => _soundOffImage.SetActive(false));
+        _soundOffImage = GetUI("SoundOffImage");
+
+        AddressableManager.Instance.LoadSprite(_soundOffSprite, _soundOffImage.GetComponent<Image>(), () => { /* don't change active here */ SetSoundImage(); });
         _gameSpeedText = GetUI<TMPro.TMP_Text>("GameSpeedText");
         _bossImage = GetUI<Image>("MonsterImage"); // Image 컴포넌트 참조 저장
         _bossName = GetUI<TMPro.TMP_Text>("MonsterNameText");
@@ -238,6 +240,9 @@ public class InGameUI : UIBInder
         ApplyJewelImage();
 
         SetMapImage(PlayerController.Instance.PlayerData.CurrentStage);
+
+        // 초기 음향 버튼 상태를 저장된 값에 맞춰 UI에 반영
+        SetSoundImage();
     }
 
     private void Start()
@@ -250,8 +255,9 @@ public class InGameUI : UIBInder
         // Top Panel
         _stopButton.onClick.AddListener(OnPauseGame);
         _speedButton.onClick.AddListener(OnSpeedButtonClicked);
-        _soundButton.onClick.AddListener(OnSoundButtonClicked);
-
+        // 안전하게 null 체크 후 리스너 추가
+        if (_soundButton != null)
+            _soundButton.onClick.AddListener(OnSoundButtonClicked);
         WaveManager.Instance.OnChangeBoss += SetBossInfo;
 
         _waveManager.CurWaveChanged += OnWaveChanged;
@@ -316,6 +322,9 @@ public class InGameUI : UIBInder
         SetBossInfo();
         SetAliveMonsterCountSlider(0);
         SetGameSpeedText();
+
+        // 안전하게 한 번 더 동기화 (Addressable 로드가 완전히 끝나기 전에 UI 상태를 보장)
+        SetSoundImage();
     }
 
     private void OnDestroy()
@@ -323,7 +332,8 @@ public class InGameUI : UIBInder
         // Top Panel
         _stopButton.onClick.RemoveAllListeners();
         _speedButton.onClick.RemoveListener(OnSpeedButtonClicked);
-        _soundButton.onClick.RemoveAllListeners();
+        if (_soundButton != null)
+            _soundButton.onClick.RemoveListener(OnSoundButtonClicked);
 
         _waveManager.CurWaveChanged -= OnWaveChanged;
         _waveManager.AliveMonsterCountChanged -= OnAliveMonsterCountChanged;
@@ -384,19 +394,20 @@ public class InGameUI : UIBInder
         SetGameSpeedText();
     }
 
-    private void OnSoundButtonClicked()
+    public void OnSoundButtonClicked()
     {
         GameManager.Instance.SetSound();
-        if (PlayerController.Instance.PlayerData.IsSound)
-        {
-            _soundOnImage.SetActive(true);
-            _soundOffImage.SetActive(false);
-        }
-        else
-        {
-            _soundOnImage.SetActive(false);
-            _soundOffImage.SetActive(true);
-        }
+        SetSoundImage();
+        Debug.Log($"[InGameUI] OnSoundButtonClicked: IsSound = {PlayerController.Instance.PlayerData.IsSound}");
+    }
+
+    private void SetSoundImage()
+    {
+        // Player 데이터 기반으로 UI 동기화 (Addressable 로드 완료 여부와 무관하게 활성화 상태만 맞춤)
+        bool isSound = PlayerController.Instance.PlayerData.IsSound;
+
+        if (_soundOnImage != null) _soundOnImage.SetActive(isSound);
+        if (_soundOffImage != null) _soundOffImage.SetActive(!isSound);
     }
 
     private void SetGameSpeedText()
@@ -520,6 +531,8 @@ public class InGameUI : UIBInder
         _clearFailText.text = (PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage]) ? "클리어 성공" : "스테이지 실패";
         _recordWaveText.text = $"{_waveManager.CurWave} 웨이브";
         _recordClearTimeText.text = $"{System.TimeSpan.FromSeconds(GameManager.Instance.ClearTime):hh\\.mm\\.ss}";
+
+        Debug.Log($"[InGameUI] 게임 엔드 페널 -  클리어/실패 돌려 쓰는 중, 결과 : {PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage]}");
     }
 
     //0.5425906
@@ -531,7 +544,7 @@ public class InGameUI : UIBInder
         string key = $"Assets/Prefabs/OJH/Monsters/Boss/Stage{curStage + 1}_Boss.prefab";
 
         LoadSpriteFromAddressablePrefab(key, _bossImage, null);
-        _bossName.text = WaveManager.Instance.BossPrefabsName[curStage];
+        _bossName.text = WaveManager.Instance.BossMonsterName[curStage];
     }
 
     private void SetMapImage(int stage)
@@ -638,6 +651,8 @@ public class InGameUI : UIBInder
                     // 부족 버튼
                     _tribe2Button.GetComponent<Image>().sprite = loaded;
                     _tribe3Button.GetComponent<Image>().sprite = loaded;
+                    _warningPanel.GetComponent<Image>().sprite = loaded;
+                    _warningPanel2.GetComponent<Image>().sprite = loaded;
                 }
             );
         }

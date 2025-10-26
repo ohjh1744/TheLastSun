@@ -41,15 +41,17 @@ public class WaveManager : MonoBehaviour
     [SerializeField] Transform _spawnPoint;
     [HideInInspector] public Transform SpawnPoint => _spawnPoint;
     [SerializeField] float[] _waveTerm;
-    [SerializeField] List<string> _bossPrefabsName;
-    [SerializeField] List<string> _normalMonsterName;
-    public List<string> BossPrefabsName { get => _bossPrefabsName; set { _bossPrefabsName = value; OnChangeBoss?.Invoke(); } }
+    [SerializeField] List<string> _bossMonsterName;
+    [SerializeField] List<string> _chapter1_normalMonsterName;
+    [SerializeField] List<string> _chapter2_normalMonsterName;
+    [SerializeField] List<string> _chapter3_normalMonsterName;
+    [SerializeField] List<string> _chapter4_normalMonsterName;
+    [SerializeField] List<string> _chapter5_normalMonsterName;
+    public List<string> BossMonsterName { get => _bossMonsterName; set { _bossMonsterName = value; OnChangeBoss?.Invoke(); } }
 
     private ObjectPool _objectPool;
 
-
-
-    private WaitForSeconds _spawnDelay = new(1.5f);
+    private WaitForSeconds _spawnDelay = new(1f);
     private WaitForSeconds _waveDelay = new(10f);
 
 
@@ -120,6 +122,7 @@ public class WaveManager : MonoBehaviour
         while (CurWave <= _totalWave)
         {
             int wave = CurWave; // 현재 웨이브 캡처
+            float MoveSpeed = /*(CurWave % 3) + 1.5f;*/ CurWave % 2 == 0 ? 3.5f : 2.5f;
 
             bool isBossWave = (wave == 50);
             if (isBossWave)
@@ -138,16 +141,14 @@ public class WaveManager : MonoBehaviour
             {
                 if (wave == 25)
                 {
-                    int moveSpeed = /*_monstersPerWave - i*/2;
-                    SpawnMonster(isBoss: false, moveSpeed);
+                    SpawnMonster(isBoss: false, MoveSpeed);
                     yield return new WaitForSeconds(_spawnDelaySeconds);
                 }
                 else
                 {
                     for (int i = 0; i < _monstersPerWave; i++)
                     {
-                        int moveSpeed = /*_monstersPerWave - i*/2;
-                        SpawnMonster(isBoss: false, moveSpeed);
+                        SpawnMonster(isBoss: false, MoveSpeed);
                         yield return new WaitForSeconds(_spawnDelaySeconds);
                     }
                 }
@@ -203,7 +204,7 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private void SpawnMonster(bool isBoss, int moveSpeed = 1)
+    private void SpawnMonster(bool isBoss, float moveSpeed = 1)
     {
         int curStage = PlayerController.Instance.PlayerData.CurrentStage;
         string address = isBoss
