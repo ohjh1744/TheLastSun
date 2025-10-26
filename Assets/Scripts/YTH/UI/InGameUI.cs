@@ -554,7 +554,7 @@ public class InGameUI : UIBInder
         AddressableManager.Instance.LoadSprite(_mapSprites[stage], mapImageComp, () => { });
 
         Image palletImageComp = _palletSprite.GetComponent<Image>();
-        AddressableManager.Instance.LoadSprite(_palletSprites[stage], palletImageComp, () => { });
+        AddressableManager.Instance.LoadSprite(_palletSprites[stage], palletImageComp, () => { _palletSprite.gameObject.SetActive(false); });
     }
 
     private void ApplyButtonSprite()
