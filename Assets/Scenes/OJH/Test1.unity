@@ -1856,7 +1856,7 @@ GameObject:
   - component: {fileID: 895201234}
   - component: {fileID: 895201233}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: SecondCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2296,7 +2296,7 @@ GameObject:
   - component: {fileID: 1000104936}
   - component: {fileID: 1000104935}
   m_Layer: 5
-  m_Name: Canvas2
+  m_Name: FrontCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4879,8 +4879,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 895201236}
   - {fileID: 1000104938}
+  - {fileID: 895201236}
   - {fileID: 45289786}
   - {fileID: 1100045122}
   - {fileID: 2032080332}
