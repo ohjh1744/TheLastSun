@@ -152,7 +152,6 @@ public class AddressableManager : MonoBehaviour
     {
         for (int i = 0; i < assetObjects.Count; i++)
         {
-
             assetObjects[i].InstantiateAsync().Completed += (obj) =>
             {
                 realObjects.Add(obj.Result);

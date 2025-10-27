@@ -147,8 +147,6 @@ public class GpgsManager : MonoBehaviour
         _updateRoutine = null;
     }
 
-
-
     public void Login()
     {
         PlayGamesPlatform.Instance.Authenticate(OnProcessAuthentication);
