@@ -9,10 +9,15 @@ using UnityEngine.UI;
 public enum IAssetLoad {Main, BossBook, Setting, Credit }
 public class LoadingPanel : UIBInder
 {
-    //어드레서블을 통해 불러와 적용할 에셋 개수
+    //어드레서블을 통해 불러와 에셋을 적용할 패널들을 저장하는 공간
     private List<IAssetLoadable> _assetLoadablePanels;
 
-    [SerializeField] private GameObject[] _panels;
+    //어드레서블을 통해 불러와 에셋 적용하는 패널들
+    [SerializeField] private GameObject[] _assetLoadPanels;
+
+    //준비 완료 이후, false할 패널들과 True할 패널들
+    [SerializeField] private GameObject[] _setFalsePanels;
+    [SerializeField] private GameObject[] _setTruePanels;
 
     private Coroutine _routine;
     [SerializeField] private float _fakeLoadingTime;
@@ -33,9 +38,9 @@ public class LoadingPanel : UIBInder
     {
         _assetLoadablePanels = new List<IAssetLoadable>();
 
-        for(int i = 0; i < _panels.Length; i++)
+        for(int i = 0; i < _assetLoadPanels.Length; i++)
         {
-            IAssetLoadable panel = _panels[i].GetComponent<IAssetLoadable>();
+            IAssetLoadable panel = _assetLoadPanels[i].GetComponent<IAssetLoadable>();
             _assetLoadablePanels.Add(panel);
         }
     }
@@ -89,16 +94,21 @@ public class LoadingPanel : UIBInder
             yield return null;
         }
 
-        //다 완료되면 MainPanel 제외하고 다 꺼주기
-        for(int i = 0; i < _panels.Length; i++)
+        //다 완료되면 FalsePanel꺼주기
+        for(int i = 0; i < _setFalsePanels.Length; i++)
         {
-            if(i == (int)IAssetLoad.Main)
-            {
-                continue;
-            }
-            _panels[i].SetActive(false);
+            _setFalsePanels[i].SetActive(false);
         }
+
+        //TruePanel 켜주기
+        for (int i = 0; i < _setTruePanels.Length; i++)
+        {
+            _setTruePanels[i].SetActive(true);
+        }
+
+        //Loading Panel 꺼주기
         gameObject.SetActive(false);
+        
     }
 
 }
