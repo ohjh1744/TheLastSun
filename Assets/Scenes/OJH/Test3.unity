@@ -10600,7 +10600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC18C\uD658\uD558\uAE30\n20"
+  m_text: Lv 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
   m_sharedMaterial: {fileID: 6857979320589214222, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
@@ -14325,7 +14325,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _assetLoadPanels:
   - {fileID: 1156199545}
-  - {fileID: 472146125}
   _setFalsePanels: []
   _setTruePanels:
   - {fileID: 1156199545}
@@ -19002,7 +19001,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC18C\uD658\n20"
+  m_text: Lv 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
   m_sharedMaterial: {fileID: 6857979320589214222, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
@@ -24226,7 +24225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7fafa513c0f9b747b026e736dfcc259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadAssetUICount: 8
+  _loadAssetUICount: 53
   _buttonSprite:
     m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
     m_SubObjectName: 
@@ -24283,6 +24282,1287 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  _mob1Sprites:
+  - m_AssetGUID: f7b4730f6d6e8974389c4b2d6bac2ce2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a44b7518f7b5dc448ba3cdc96cec5ac2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 578ac3aaca0d06448b6127e03335c4dd
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fa6c2677e347c0540a6c31e891dcd866
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: df1a3386f7dcb964680a0211f5a6b7af
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: df1a3386f7dcb964680a0211f5a6b7af
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 357dc3735fcd3d24d837665a641f4fb8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 357dc3735fcd3d24d837665a641f4fb8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f9b2df62eda1b954cb4ecaf71b33c5f9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f9b2df62eda1b954cb4ecaf71b33c5f9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7f5b2959cc235084898fd0d84fc64d32
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7f5b2959cc235084898fd0d84fc64d32
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 917ce760a70475948a6334b48ea7f5e0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 917ce760a70475948a6334b48ea7f5e0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 4d2b9f8dcd42c2444920d3e351f41bc4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 4d2b9f8dcd42c2444920d3e351f41bc4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 01d9d42cf55c974498f9ccf486c51900
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 01d9d42cf55c974498f9ccf486c51900
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 32a506a5badfe4e4fbc869c765b68655
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 32a506a5badfe4e4fbc869c765b68655
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a31aa07f0682a7b40b91d12b45fb39be
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a31aa07f0682a7b40b91d12b45fb39be
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 815163280642b3b4486a4809865ed202
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 815163280642b3b4486a4809865ed202
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 85c9ccbd2d2e7cf4e81e64f12e37f5f2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a92b08f1c70cb6443aef80bf246e6e49
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a92b08f1c70cb6443aef80bf246e6e49
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a2048653ceda8374280eaa1241a0d300
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a2048653ceda8374280eaa1241a0d300
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: e83e814bf3ab8a342af0a08449b6216c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: e83e814bf3ab8a342af0a08449b6216c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: b4158e1859952104c91dd29199e231f8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: b4158e1859952104c91dd29199e231f8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fd60bcf9733ebe7429a647afbe670b55
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fd60bcf9733ebe7429a647afbe670b55
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 98cac2a3608ff6447a65446c74ceb849
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 98cac2a3608ff6447a65446c74ceb849
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2eb0fb0bb3667c940a80563822d6456b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2eb0fb0bb3667c940a80563822d6456b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 1746c0861cf1bce49aaac555555dcc78
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 1746c0861cf1bce49aaac555555dcc78
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: aea535057bb091c44a5a5ae8a676aa3c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: aea535057bb091c44a5a5ae8a676aa3c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 21a41f2656fc7d147ac3e56ce45aaa62
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: eeedc14c9a0920e4d99f6c20584f4114
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: cd06ba86883688b44bff4c6fdb0800cc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: cd06ba86883688b44bff4c6fdb0800cc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 15875a6479b0107459abbf667129f2c4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 15875a6479b0107459abbf667129f2c4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a5b0974b868bf7543b1fc4c462bd6b84
+    m_SubObjectName: Stage1_Boss_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  _mob2Sprites:
+  - m_AssetGUID: 09e3bded88caeb742af727053b96742d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 578ac3aaca0d06448b6127e03335c4dd
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 537b92588b604fc4babb5de99d70da6a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 537b92588b604fc4babb5de99d70da6a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8346db95d4da6104baff1933f05c65e1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8346db95d4da6104baff1933f05c65e1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fe70bdafecfe8b540a493089606e7c72
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fe70bdafecfe8b540a493089606e7c72
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: e3065715f16af574ab536bc57859f629
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: e3065715f16af574ab536bc57859f629
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 799e0559396eb56488b42a93f5efb89d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 799e0559396eb56488b42a93f5efb89d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 945cbf3855b94744fa6bdf1f110c5d77
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 945cbf3855b94744fa6bdf1f110c5d77
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f60a81fafc9bf2e41b03c70f2b6589ce
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f60a81fafc9bf2e41b03c70f2b6589ce
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2d4a5bbb7ab9ef649a01f0dfe6fc8095
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2d4a5bbb7ab9ef649a01f0dfe6fc8095
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 30243f95b6d3803478b9a288c82639d4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 30243f95b6d3803478b9a288c82639d4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: dd97dd8fa22b10f4e9c4e6e074796639
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: dd97dd8fa22b10f4e9c4e6e074796639
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 1ba51d4e581759c438646d9adc016c91
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8c329b99bafe8504794129488041ec98
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8c329b99bafe8504794129488041ec98
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8c329b99bafe8504794129488041ec98
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f60a81fafc9bf2e41b03c70f2b6589ce
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f60a81fafc9bf2e41b03c70f2b6589ce
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 30243f95b6d3803478b9a288c82639d4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 30243f95b6d3803478b9a288c82639d4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 4869f41eacfe2a54ca93fad017c70be4
+    m_SubObjectName: Stage2_Boss_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  _mob3Sprites:
+  - m_AssetGUID: faed49cfc34d03a429f5635ca3ad231f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 578ac3aaca0d06448b6127e03335c4dd
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a470de11422b7bb46b0a04bc6125abfc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a470de11422b7bb46b0a04bc6125abfc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a470de11422b7bb46b0a04bc6125abfc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 9290842e46f96ff4e8efeaecda390713
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 9290842e46f96ff4e8efeaecda390713
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 9290842e46f96ff4e8efeaecda390713
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 4c86e2da657c94147b633d16ec57e2da
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 4c86e2da657c94147b633d16ec57e2da
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 60f1636c3078d0c4aa9a3d57d45c5e0e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 60f1636c3078d0c4aa9a3d57d45c5e0e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6c5eb0b58dce93843b1af71b810c7b67
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6c5eb0b58dce93843b1af71b810c7b67
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6c5eb0b58dce93843b1af71b810c7b67
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a94b8316fed200442a8c24be6f49fe1b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a94b8316fed200442a8c24be6f49fe1b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a94b8316fed200442a8c24be6f49fe1b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 77beabba1bbbb6747973bb4207c9835a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 77beabba1bbbb6747973bb4207c9835a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 77beabba1bbbb6747973bb4207c9835a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 150d2abaa877e094a9a1f47486605d58
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 150d2abaa877e094a9a1f47486605d58
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 150d2abaa877e094a9a1f47486605d58
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 85c9ccbd2d2e7cf4e81e64f12e37f5f2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fc336d4daa78706448f69bedc4705451
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fc336d4daa78706448f69bedc4705451
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fc336d4daa78706448f69bedc4705451
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0e0ca29947937ea499aad2f5079b8340
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0e0ca29947937ea499aad2f5079b8340
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0e0ca29947937ea499aad2f5079b8340
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2c29dc515fd14254ebf07cb6b3f0dfe7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2c29dc515fd14254ebf07cb6b3f0dfe7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2c29dc515fd14254ebf07cb6b3f0dfe7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 74ce3cfecfa904347b022bebd774801b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 74ce3cfecfa904347b022bebd774801b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 74ce3cfecfa904347b022bebd774801b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: edc73ee54455e134c95f003af21a685c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: edc73ee54455e134c95f003af21a685c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: edc73ee54455e134c95f003af21a685c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 318cfc45c4117554a9478428a4664e30
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 318cfc45c4117554a9478428a4664e30
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 318cfc45c4117554a9478428a4664e30
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 33ca21753f5b8484fa1129a6f719cae5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 33ca21753f5b8484fa1129a6f719cae5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: b11778d580d1d1a41b9c47aef8ebbc1c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: b11778d580d1d1a41b9c47aef8ebbc1c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8f3196d7a8e3d214582506d4b54f48e5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8f3196d7a8e3d214582506d4b54f48e5
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: ada440af754ea71469ff262cb80cb475
+    m_SubObjectName: Stage3_Boss_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  _mob4Sprites:
+  - m_AssetGUID: cf6597b5ab7235547b3f9d6c684cdc62
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 578ac3aaca0d06448b6127e03335c4dd
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 020a36660a5afd44e881f3f680286683
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 020a36660a5afd44e881f3f680286683
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 020a36660a5afd44e881f3f680286683
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 37d04f912bb51d14e8234f89fab91502
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 37d04f912bb51d14e8234f89fab91502
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 37d04f912bb51d14e8234f89fab91502
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a5a186996d43fe94d8d3756cb9c7fd59
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a5a186996d43fe94d8d3756cb9c7fd59
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a5a186996d43fe94d8d3756cb9c7fd59
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5a1d3db068de7e242bb6956aedb5570d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5a1d3db068de7e242bb6956aedb5570d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 209694a49618068488dec8810d11c787
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 209694a49618068488dec8810d11c787
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: e6461d26a22b41c4398c3fd2efe222a3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: e6461d26a22b41c4398c3fd2efe222a3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fec5d9de7bfb2f24286b72ed8c9449c9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fec5d9de7bfb2f24286b72ed8c9449c9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: cc31bcff9672fc745998cf0ecf043b34
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: cc31bcff9672fc745998cf0ecf043b34
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7496d899ab1f17844a2780c30c2bd61a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7496d899ab1f17844a2780c30c2bd61a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7496d899ab1f17844a2780c30c2bd61a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a55deb29f969181409ac97c42305568a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5d0db2debcc669b43ae10a6742ec2d43
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5d0db2debcc669b43ae10a6742ec2d43
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 3195919e9c07342499efe69b68aa08be
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 3195919e9c07342499efe69b68aa08be
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0a9cb998074f1f942bbc64d6ed91bfcf
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0a9cb998074f1f942bbc64d6ed91bfcf
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: df5aa6f5aa1646446a67c5819d19c73c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: df5aa6f5aa1646446a67c5819d19c73c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: bd2eb75de283f08468c6b06be08dd4b0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: bd2eb75de283f08468c6b06be08dd4b0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7f2664d738b3f864d8e4bd1ecf2cd837
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7f2664d738b3f864d8e4bd1ecf2cd837
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: db0059e8fd108f84a924cf5fed7267c0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: db0059e8fd108f84a924cf5fed7267c0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: db0059e8fd108f84a924cf5fed7267c0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 87c9a628bea747144bd2881fc7258d5e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 87c9a628bea747144bd2881fc7258d5e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 87c9a628bea747144bd2881fc7258d5e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 91fedfcbc8a8ab64db0c400331c62bc1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 91fedfcbc8a8ab64db0c400331c62bc1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 656cd2c87efbd4d45b7cd9e2e2b40f99
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 656cd2c87efbd4d45b7cd9e2e2b40f99
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 498a3f2eadd0d3741add57571720a277
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 498a3f2eadd0d3741add57571720a277
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0809391acd0ea744bb7c956a54f9e5da
+    m_SubObjectName: Stage4_Boss_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  _mob5Sprites:
+  - m_AssetGUID: 72c2761a7d028c14d9740975fe207fc3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 578ac3aaca0d06448b6127e03335c4dd
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f1825ad874ec52e4a9a75b25311414e2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: f1825ad874ec52e4a9a75b25311414e2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 959e39db69aefde499d75d81b08a7719
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 959e39db69aefde499d75d81b08a7719
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 963fb9cb6e6c7924c8b602b97dd32dbe
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 963fb9cb6e6c7924c8b602b97dd32dbe
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: e5889635394b9ec46a92536e7305bc31
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: e5889635394b9ec46a92536e7305bc31
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 34eea5c382363c848969343c568fa1cc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 34eea5c382363c848969343c568fa1cc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5c4a978c00951504aa046ca4d695b5cc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5c4a978c00951504aa046ca4d695b5cc
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0a24c70d32f0c984484ae6fc3bf4a7cd
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 0a24c70d32f0c984484ae6fc3bf4a7cd
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c35c27b9b1c976b4cb8bd3addfa04c18
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c35c27b9b1c976b4cb8bd3addfa04c18
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: c35c27b9b1c976b4cb8bd3addfa04c18
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5a4a8f1e90e87804c8321662cd4f45c4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5a4a8f1e90e87804c8321662cd4f45c4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5a4a8f1e90e87804c8321662cd4f45c4
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: eae839a0cf4d9f34690c940b3c0eb4c6
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: eae839a0cf4d9f34690c940b3c0eb4c6
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 37e4005365d356a41a0bec4fcb9fb7c3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7b3efd9fb16cce1489ce49c48129ae8b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 7b3efd9fb16cce1489ce49c48129ae8b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 40b9a4a969885754b9a8d7f198787547
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 40b9a4a969885754b9a8d7f198787547
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2f180a81c26094144aadb672738a28e2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2f180a81c26094144aadb672738a28e2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fec710d81b96f764e995f5f9cead5f71
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fec710d81b96f764e995f5f9cead5f71
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2a84004e70c08624a87323c6164107ed
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 2a84004e70c08624a87323c6164107ed
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 4b4d9bdc2bfb545449abf0f6e4c5fb95
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 4b4d9bdc2bfb545449abf0f6e4c5fb95
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 788825472b5b16d48b9e79573a77032d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 788825472b5b16d48b9e79573a77032d
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8d730949d6d75084daaa5b655a6349f1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 8d730949d6d75084daaa5b655a6349f1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a94bb50e99ce42542bf906ea4a7633de
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a94bb50e99ce42542bf906ea4a7633de
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6b5ffaf4a5a364d4b99547d6b8416be1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6b5ffaf4a5a364d4b99547d6b8416be1
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5c5927d2d1c30dc4d81a710603468fab
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 5c5927d2d1c30dc4d81a710603468fab
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a18a4e3e7962f7e4b88c98bd12a8e7ec
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a18a4e3e7962f7e4b88c98bd12a8e7ec
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: fb6ff34ea56ea71489c88c3082b2ab04
+    m_SubObjectName: Stage5_boss_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  _unitSprites:
+  - m_AssetGUID: 43710c8cf6232dd4482e9b5c2f909d6e
+    m_SubObjectName: nor_warrior_idle_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: a724b3e48caae354bb44b4e94d4668cc
+    m_SubObjectName: Normal_archer_idle_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 6d050ee6ce0975349b0c73670c9d8ad7
+    m_SubObjectName: Normal_bomer_idle_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  _savedStage1MobColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.6509434, g: 0.4022339, b: 0.4022339, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5566038, g: 0.5192024, b: 0.4227038, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.745283, g: 0.54119164, b: 0.31287822, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5943396, g: 0.3504361, b: 0.41494256, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.0047169924, b: 0.6421455, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.28773582, b: 0.41681612, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.5424528, b: 0.77242243, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.4669811, b: 0.7881214, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8867924, g: 0.25516194, b: 0.7858563, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.5707547, b: 0.8696849, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9245283, g: 0.41429335, b: 0.80964565, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.6084906, b: 0.8951742, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9622642, g: 0.5855287, b: 0.85942805, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8113208, g: 0.4554112, b: 0.72361636, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9528302, g: 0.48989856, b: 0.8930051, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8207547, g: 0.4761926, b: 0.781303, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.6226415, g: 0.4493592, b: 0.5968833, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.6792453, g: 0.40690637, b: 0.5986022, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5943396, g: 0.32800817, b: 0.56277764, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.764151, g: 0.54427737, b: 0.70559984, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  _savedStage2MobColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.34832418, g: 0.6037736, b: 0.28195086, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.33842117, g: 0.6132076, b: 0.35965446, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.26593092, g: 0.6792453, b: 0.3475953, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.47912958, g: 0.9150943, b: 0.72493505, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.374466, g: 0.75738996, b: 0.8018868, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.2284176, g: 0.5566038, b: 0.49621245, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.55193126, g: 0.745283, b: 0.7353122, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.3255162, g: 0.71487564, b: 0.7264151, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.21115166, g: 0.6132076, b: 0.53931576, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0.45698738, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.26254895, g: 0.9433962, b: 0.6830631, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.7198543, b: 0, a: 1}
+  - {r: 0.06541473, g: 0.9245283, b: 0.6901048, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.92669916, b: 0.3254717, a: 1}
+  - {r: 0.31956214, g: 0.8867924, b: 0.12967247, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9528302, g: 0.83327913, b: 0.16629584, a: 1}
+  - {r: 0.40792987, g: 0.9716981, b: 0.6473059, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.735849, g: 0.5637863, b: 0.03818085, a: 1}
+  - {r: 0.4801976, g: 0.9339623, b: 0.90441614, a: 1}
+  - {r: 0.3568441, g: 0.6507788, b: 0.9339623, a: 1}
+  - {r: 0.5034409, g: 0.33397114, b: 0.745283, a: 1}
+  - {r: 0, g: 0.68195224, b: 1, a: 1}
+  - {r: 0.41678834, g: 0.2795924, b: 0.5754717, a: 1}
+  - {r: 0.8773585, g: 0.25244746, b: 0.27138564, a: 1}
+  - {r: 0.46671516, g: 0.30647027, b: 0.9150943, a: 1}
+  - {r: 0, g: 0.4188499, b: 0.6415094, a: 1}
+  - {r: 0.8018868, g: 0.24586153, b: 0.70397514, a: 1}
+  - {r: 0.43271625, g: 0.44181103, b: 0.49056602, a: 1}
+  - {r: 0.8584906, g: 0.28751338, b: 0.7373871, a: 1}
+  - {r: 0.5317154, g: 0.5235849, b: 1, a: 1}
+  - {r: 1, g: 0.2216981, b: 0.81913567, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  _savedStage3MobColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.990566, g: 0.911337, b: 0.07943219, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.7264151, g: 0.60201865, b: 0.22272162, a: 1}
+  - {r: 0.7924528, g: 0.48893487, b: 0.21306513, a: 1}
+  - {r: 1, g: 0.9063282, b: 0.11792451, a: 1}
+  - {r: 0.9433962, g: 0.57052624, b: 0.20914915, a: 1}
+  - {r: 1, g: 0.8840427, b: 0.6650944, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.7735849, g: 0.62869567, b: 0.18609823, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5849056, g: 0.5687947, b: 0.44419718, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8396226, g: 0.69202125, b: 0.20198467, a: 1}
+  - {r: 0.99178326, g: 1, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.97654533, b: 0, a: 1}
+  - {r: 0.6603774, g: 0.47441322, b: 0.07164473, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.820124, b: 0.08962262, a: 1}
+  - {r: 0.8113208, g: 0.663111, b: 0.46306515, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9150943, g: 0.69588655, b: 0.2719384, a: 1}
+  - {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
+  - {r: 0.9254835, g: 0.9433962, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8962264, g: 0.6589554, b: 0.36779106, a: 1}
+  - {r: 1, g: 0.994378, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9680606, g: 1, b: 0.0141509175, a: 1}
+  - {r: 0.7264151, g: 0.6510905, b: 0.51739943, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.88987577, g: 1, b: 0, a: 1}
+  - {r: 0.7169812, g: 0.5127854, b: 0.3009968, a: 1}
+  - {r: 0.6981132, g: 0.62587035, b: 0.4774831, a: 1}
+  - {r: 1, g: 0.87929595, b: 0, a: 1}
+  - {r: 1, g: 0.5820617, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.7735849, g: 0.50975144, b: 0.3466536, a: 1}
+  - {r: 1, g: 0.9127205, b: 0.07075471, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.7264151, g: 0.5544828, b: 0.38033998, a: 1}
+  - {r: 0.9100466, g: 1, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.7075472, g: 0.5466489, b: 0.20358667, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.99701774, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.91188633, g: 1, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  _savedStage4MobColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.28773582, g: 0.57649165, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.06941971, g: 0.8366546, b: 0.9811321, a: 1}
+  - {r: 0.8509804, g: 0.2941177, b: 0.8159667, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.09019608, g: 0.8537473, b: 0.9137255, a: 1}
+  - {r: 0.8207547, g: 0.36779103, b: 0.8019323, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.54239917, g: 0.8396226, b: 0.34456214, a: 1}
+  - {r: 0.8584906, g: 0.47378963, b: 0.8415186, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5542615, g: 0.7169812, b: 0.42274833, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9811321, g: 0.6803133, b: 0.8460625, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 0.99215686, b: 0.7037802, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 0, g: 0.6460879, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.3160377, g: 0.6576836, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 0.42626378, g: 0.51663405, b: 0.9716981, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 0.42745098, g: 0.5176471, b: 0.972549, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.98039216, g: 0.6784314, b: 0.84705883, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.7462577, g: 0.6035511, b: 0.9339623, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.6784314, g: 0.6882037, b: 0.98039216, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  _savedStage5MobColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.1812253, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.754717, g: 0.03203986, b: 0.03203986, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8584906, g: 0.068841234, b: 0.18210949, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.13757896, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9622642, g: 0.49474904, b: 0.49474904, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8396226, g: 0.4530238, b: 0.41585082, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.4009434, b: 0.4009434, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.5849056, g: 0.013794942, b: 0.3199774, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.5613208, b: 0.5613208, a: 1}
+  - {r: 0.5754717, g: 0.28502136, b: 0.28502136, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5315065, g: 0.45696867, b: 0.5943396, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.5283019, g: 0.18191527, b: 0.18191527, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.764151, g: 0.14057496, b: 0.14057496, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9716981, g: 0, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9528302, g: 0.39101997, b: 0.39101997, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9622642, g: 0.4221253, b: 0.4221253, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9528302, g: 0.4000089, b: 0.4000089, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.18947029, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.9622642, g: 0.15886435, b: 0.15886435, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.8867924, g: 0.4308473, b: 0.4308473, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.49444488, b: 0.2971698, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.990566, g: 0.4999555, b: 0.4999555, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
   _bgmAudio: {fileID: 1103886628}
 --- !u!1 &1156445244
 GameObject:
@@ -28351,7 +29631,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC18C\uD658\uD558\uAE30\n20"
+  m_text: Lv 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
   m_sharedMaterial: {fileID: 6857979320589214222, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}

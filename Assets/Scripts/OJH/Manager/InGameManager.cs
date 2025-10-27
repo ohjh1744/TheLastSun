@@ -64,7 +64,7 @@ public class InGameManager : MonoBehaviour, IAssetLoadable
 
     private void Init()
     {
-        LoadAsset();
+        //LoadAsset();
     }
 
     //미리 사전에 유닛별, 필요한 몬스터  미리 프리펩 가져와서 저장

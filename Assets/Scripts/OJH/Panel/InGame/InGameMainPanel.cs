@@ -1,6 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -19,6 +18,7 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
 
     #region Addressable Assets
     //어드레서블
+    [Header("어드레서블 에셋")]
     [SerializeField] private AssetReferenceSprite _buttonSprite;
     [SerializeField] private AssetReferenceSprite _soundOnSprite;
     [SerializeField] private AssetReferenceSprite _soundOffSprite;
@@ -27,14 +27,28 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
     [SerializeField] private AssetReferenceSprite _barBgSprite;
     [SerializeField] private AssetReferenceSprite _barSprite;
     [SerializeField] private AssetReferenceT<AudioClip>[] _bgmClips;
+    [SerializeField] private List<AssetReferenceSprite> _mob1Sprites;
+    [SerializeField] private List<AssetReferenceSprite> _mob2Sprites;
+    [SerializeField] private List<AssetReferenceSprite> _mob3Sprites;
+    [SerializeField] private List<AssetReferenceSprite> _mob4Sprites;
+    [SerializeField] private List<AssetReferenceSprite> _mob5Sprites;
+    [SerializeField] private AssetReferenceSprite[] _unitSprites;
     #endregion
 
     #region 저장해서 관리하는 에셋 혹은 UI
-
     private Sprite _savedSoundOnSprite;
-
     private Sprite _savedSoundOffSpirte;
+    private List<AssetReferenceSprite>[] _mobSprites;
+    private List<Sprite> _savedMobSprites;
+    private List<Color>[] _savedStageMobColors;
+    private List<Image> _upgradeButtonPortraitImages;
 
+    [Header("저장해서 사용하기 위한 변수")]
+    [SerializeField] private List<Color> _savedStage1MobColors;
+    [SerializeField] private List<Color> _savedStage2MobColors;
+    [SerializeField] private List<Color> _savedStage3MobColors;
+    [SerializeField] private List<Color> _savedStage4MobColors;
+    [SerializeField] private List<Color> _savedStage5MobColors;
     #endregion
 
     [SerializeField] private AudioSource _bgmAudio;
@@ -51,25 +65,28 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
 
     private void Init()
     {
-        GetUI();
+        _mobSprites = new List<AssetReferenceSprite>[]{_mob1Sprites, _mob2Sprites, _mob3Sprites, _mob4Sprites, _mob5Sprites};
+
+        _savedMobSprites = new List<Sprite>();
+
+        _savedStageMobColors = new List<Color>[]{ _savedStage1MobColors, _savedStage2MobColors, _savedStage3MobColors, _savedStage4MobColors, _savedStage5MobColors};
+
+        _upgradeButtonPortraitImages = new List<Image> { GetUI<Image>("WarriorUpgradeButtonImage"), GetUI<Image>("ArcherUpgradeButtonImage"), GetUI<Image>("BomerUpgradeButtonImage") };
+
         AddEvent();
         LoadAsset();
     }
 
-    private void GetUI()
-    {
-        
-    }
-
     private void AddEvent()
     {
-      
+
     }
 
     //UI에 적용할 이미지들 불러오고 적용
     private void LoadAsset()
     {
-        AddressableManager.Instance.LoadOnlySprite(_buttonSprite, (sprite) => {
+        AddressableManager.Instance.LoadOnlySprite(_buttonSprite, (sprite) =>
+        {
             _clearLoadAssetCount++;
             GetUI<Image>("PauseBgImage").sprite = sprite;
             GetUI<Image>("SoundBgImage").sprite = sprite;
@@ -84,25 +101,29 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
             GetUI<Image>("BomerUpgradeButtonBgImage").sprite = sprite;
         });
 
-        AddressableManager.Instance.LoadOnlySprite(_soundOnSprite, (sprite) => {
+        AddressableManager.Instance.LoadOnlySprite(_soundOnSprite, (sprite) =>
+        {
             _clearLoadAssetCount++;
             _savedSoundOnSprite = sprite;
             SetorTurnSound(true);
 
         });
 
-        AddressableManager.Instance.LoadOnlySprite(_soundOffSprite, (sprite) => {
+        AddressableManager.Instance.LoadOnlySprite(_soundOffSprite, (sprite) =>
+        {
             _clearLoadAssetCount++;
             _savedSoundOffSpirte = sprite;
             SetorTurnSound(true);
         });
 
-        AddressableManager.Instance.LoadOnlySprite(_popUpSprite, (sprite) => {
+        AddressableManager.Instance.LoadOnlySprite(_popUpSprite, (sprite) =>
+        {
             _clearLoadAssetCount++;
             GetUI<Image>("BottomPanel").sprite = sprite;
         });
 
-        AddressableManager.Instance.LoadOnlySprite(_jemSprite, (sprite) => {
+        AddressableManager.Instance.LoadOnlySprite(_jemSprite, (sprite) =>
+        {
             _clearLoadAssetCount++;
             GetUI<Image>("ShowJemImage").sprite = sprite;
             GetUI<Image>("SpawnButtonJemImage").sprite = sprite;
@@ -112,17 +133,47 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
             GetUI<Image>("ShowBomerUpgradeInfoJemImage").sprite = sprite;
         });
 
-        AddressableManager.Instance.LoadOnlySprite(_barBgSprite, (sprite) => {
+        AddressableManager.Instance.LoadOnlySprite(_barBgSprite, (sprite) =>
+        {
             _clearLoadAssetCount++;
             GetUI<Image>("MobNumSliderBg").sprite = sprite;
         });
 
-        AddressableManager.Instance.LoadOnlySprite(_barSprite, (sprite) => {
+        AddressableManager.Instance.LoadOnlySprite(_barSprite, (sprite) =>
+        {
             _clearLoadAssetCount++;
             GetUI<Image>("MobNumSliderFill").sprite = sprite;
         });
 
-        AddressableManager.Instance.LoadSound(_bgmClips[PlayerController.Instance.PlayerData.CurrentStage], _bgmAudio, () => { _clearLoadAssetCount++; SetorTurnSound(true); });
+        int currentStage = PlayerController.Instance.PlayerData.CurrentStage;
+
+        AddressableManager.Instance.LoadSound(_bgmClips[currentStage], _bgmAudio, () => { _clearLoadAssetCount++; SetorTurnSound(true); });
+
+        for (int i = 0; i < _mobSprites[currentStage].Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.LoadOnlySprite(_mobSprites[currentStage][index], (sprite) =>
+            {
+                _clearLoadAssetCount++;
+                _savedMobSprites.Add(sprite);
+                if (index == 0)
+                {
+                    GetUI<Image>("WaveInfoMobImage").sprite = _savedMobSprites[index];
+                    GetUI<Image>("WaveInfoMobImage").color = _savedStageMobColors[currentStage][index];
+                }
+            });
+        }
+
+        for (int i = 0; i < _unitSprites.Length; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.LoadSprite(_unitSprites[index], _upgradeButtonPortraitImages[index], () =>
+            {
+                Debug.Log(_unitSprites[index]);
+                Debug.Log(_upgradeButtonPortraitImages[index]);
+                _clearLoadAssetCount++;
+            });
+        }
 
     }
 
@@ -130,7 +181,7 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
     {
         var playerData = PlayerController.Instance.PlayerData;
         //변경하는 경우
-        if(isSet == false)
+        if (isSet == false)
         {
             playerData.IsSound = !playerData.IsSound;
         }
@@ -141,12 +192,77 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
         {
             _bgmAudio.Play();
         }
-        else if(playerData.IsSound == false)
+        else if (playerData.IsSound == false)
         {
             _bgmAudio.Stop();
         }
     }
 
+    [ContextMenu("FillSPrites")]
+    private void FillStageMobSprites()
+    {
+        _mob5Sprites.Clear();
 
+        for (int i = 1; i <= 49; i++)
+        {
+            string assetPath = $"Assets/Prefabs/OJH/Monsters/Stage5/Stage5_Mob_{i}.prefab";
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+
+            if (prefab == null)
+            {
+                Debug.LogWarning($"프리팹을 찾을 수 없습니다: {assetPath}");
+                continue;
+            }
+
+            // SpriteRenderer에서 Sprite 추출
+            SpriteRenderer sr = prefab.GetComponent<SpriteRenderer>();
+            if (sr == null || sr.sprite == null)
+            {
+                Debug.LogWarning($"{prefab.name}에서 SpriteRenderer 또는 Sprite를 찾을 수 없습니다.");
+                continue;
+            }
+
+            // Sprite의 에셋 경로 가져와서 GUID로 변환
+            string spritePath = AssetDatabase.GetAssetPath(sr.sprite);
+            string guid = AssetDatabase.AssetPathToGUID(spritePath);
+
+            // Addressables 참조 생성
+            AssetReferenceSprite reference = new AssetReferenceSprite(guid);
+            _mob5Sprites.Add(reference);
+        }
+
+        EditorUtility.SetDirty(this);
+        Debug.Log($"{_mob5Sprites.Count}개의 Sprite 참조를 성공적으로 추가했습니다!");
+    }
+
+    [ContextMenu("Fill Colors")]
+    private void FillStageMobColors()
+    {
+        for (int i = 1; i <= 49; i++)
+        {
+            string assetPath = $"Assets/Prefabs/OJH/Monsters/Stage5/Stage5_Mob_{i}.prefab";
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+
+            if (prefab == null)
+            {
+                Debug.LogWarning($"프리팹을 찾을 수 없습니다: {assetPath}");
+                continue;
+            }
+
+            // SpriteRenderer에서 색상 가져오기
+            SpriteRenderer sr = prefab.GetComponent<SpriteRenderer>();
+            if (sr == null)
+            {
+                Debug.LogWarning($"{prefab.name}에서 SpriteRenderer를 찾을 수 없습니다.");
+                continue;
+            }
+
+            Color color = sr.color;
+            _savedStage5MobColors.Add(color);
+        }
+
+        EditorUtility.SetDirty(this);
+        Debug.Log($"{_savedStage5MobColors.Count}개의 색상을 성공적으로 추가했습니다!");
+    }
 
 }
