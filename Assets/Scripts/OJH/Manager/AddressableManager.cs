@@ -152,7 +152,6 @@ public class AddressableManager : MonoBehaviour
     {
         for (int i = 0; i < assetObjects.Count; i++)
         {
-
             assetObjects[i].InstantiateAsync().Completed += (obj) =>
             {
                 realObjects.Add(obj.Result);
@@ -188,7 +187,7 @@ public class AddressableManager : MonoBehaviour
         {
             if (image == null)
             {
-                Debug.LogError("스프라이트가 널임@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                Debug.LogError("스프라이트가 널임");
             }
 
             image.sprite = img.Result;
