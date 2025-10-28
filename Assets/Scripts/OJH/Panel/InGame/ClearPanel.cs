@@ -26,7 +26,7 @@ public class ClearPanel : UIBInder, IAssetLoadable
 
     [SerializeField] private AssetReferenceSprite _buttonSprite;
 
-    [SerializeField] private AssetReferenceSprite _pausePanelNameBgSprite;
+    [SerializeField] private AssetReferenceSprite _panelNameBgSprite;
     #endregion
     void Awake()
     {
@@ -63,6 +63,6 @@ public class ClearPanel : UIBInder, IAssetLoadable
             GetUI<Image>("ClearPanelGoLobbyButton").sprite = sprite;
         });
 
-        AddressableManager.Instance.LoadSprite(_pausePanelNameBgSprite, GetUI<Image>("ClearPanelNameBgImage"), () => { _clearLoadAssetCount++; });
+        AddressableManager.Instance.LoadSprite(_panelNameBgSprite, GetUI<Image>("ClearPanelNameBgImage"), () => { _clearLoadAssetCount++; });
     }
 }

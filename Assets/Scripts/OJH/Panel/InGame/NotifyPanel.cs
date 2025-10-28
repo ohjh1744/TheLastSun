@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
-public class NotifyPanel : UIBInder, IAssetLoadable
+public class NotifyPanel : MonoBehaviour, IAssetLoadable
 {
     #region IAssetLoadable 
     //어드레서블을 통해 불러와 적용할 에셋 개수
@@ -19,12 +19,8 @@ public class NotifyPanel : UIBInder, IAssetLoadable
     #region Addressable Assets
     //어드레서블
     [SerializeField] private AssetReferenceSprite _bgImageSprite;
-
     #endregion
-    void Awake()
-    {
-        BindAll();
-    }
+
     void Start()
     {
         Init();

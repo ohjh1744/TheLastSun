@@ -43,6 +43,7 @@ public class LoadingPanel : UIBInder
             IAssetLoadable panel = _assetLoadPanels[i].GetComponent<IAssetLoadable>();
             _assetLoadablePanels.Add(panel);
         }
+        Debug.Log(_assetLoadablePanels.Count);
     }
 
     IEnumerator CheckLoadAsset()
@@ -59,6 +60,8 @@ public class LoadingPanel : UIBInder
                 // Panel들을 차례대로 탐색해서 Load클리어가 다 끝났는지 체크, 아니라면 종료하고 다시 재탐색
                 if (_assetLoadablePanels[i].LoadAssetUICount > _assetLoadablePanels[i].ClearLoadAssetCount)
                 {
+                    Debug.Log($"{i}번째: {_assetLoadablePanels[i].LoadAssetUICount}");
+                    Debug.Log($"{i}번째: {_assetLoadablePanels[i].ClearLoadAssetCount}");
                     isAnyNotClearLoad = true;
                     break;
                 }
