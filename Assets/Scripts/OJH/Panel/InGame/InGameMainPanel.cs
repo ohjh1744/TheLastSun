@@ -146,10 +146,9 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
         });
 
         int currentStage = PlayerController.Instance.PlayerData.CurrentStage;
-
         AddressableManager.Instance.LoadSound(_bgmClips[currentStage], _bgmAudio, () => { _clearLoadAssetCount++; SetorTurnSound(true); });
 
-        for (int i = 0; i < _mobSprites[currentStage].Count; i++)
+        for(int i = 0; i < _mobSprites[currentStage].Count; i++)
         {
             int index = i;
             AddressableManager.Instance.LoadOnlySprite(_mobSprites[currentStage][index], (sprite) =>
@@ -164,13 +163,11 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
             });
         }
 
-        for (int i = 0; i < _unitSprites.Length; i++)
+        for(int i = 0; i < _unitSprites.Length; i++)
         {
             int index = i;
             AddressableManager.Instance.LoadSprite(_unitSprites[index], _upgradeButtonPortraitImages[index], () =>
             {
-                Debug.Log(_unitSprites[index]);
-                Debug.Log(_upgradeButtonPortraitImages[index]);
                 _clearLoadAssetCount++;
             });
         }
@@ -201,38 +198,36 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
     [ContextMenu("FillSPrites")]
     private void FillStageMobSprites()
     {
-        _mob5Sprites.Clear();
+        _mob2Sprites.Clear();
 
         for (int i = 1; i <= 49; i++)
         {
-            string assetPath = $"Assets/Prefabs/OJH/Monsters/Stage5/Stage5_Mob_{i}.prefab";
+            string assetPath = $"Assets/Prefabs/OJH/Monsters/Stage2/Stage2_Mob_{i}.prefab";
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
-
-            if (prefab == null)
+            if (!prefab)
             {
                 Debug.LogWarning($"프리팹을 찾을 수 없습니다: {assetPath}");
                 continue;
             }
 
-            // SpriteRenderer에서 Sprite 추출
+            // SpriteRenderer에서 Sprite 가져오기
             SpriteRenderer sr = prefab.GetComponent<SpriteRenderer>();
-            if (sr == null || sr.sprite == null)
+            if (!sr || !sr.sprite)
             {
-                Debug.LogWarning($"{prefab.name}에서 SpriteRenderer 또는 Sprite를 찾을 수 없습니다.");
+                Debug.LogWarning($"{prefab.name}에 SpriteRenderer 또는 Sprite가 없습니다.");
                 continue;
             }
 
-            // Sprite의 에셋 경로 가져와서 GUID로 변환
+            // Sprite의 GUID를 가져와 AssetReferenceSprite 생성
             string spritePath = AssetDatabase.GetAssetPath(sr.sprite);
             string guid = AssetDatabase.AssetPathToGUID(spritePath);
 
-            // Addressables 참조 생성
             AssetReferenceSprite reference = new AssetReferenceSprite(guid);
-            _mob5Sprites.Add(reference);
+            _mob2Sprites.Add(reference);
         }
 
         EditorUtility.SetDirty(this);
-        Debug.Log($"{_mob5Sprites.Count}개의 Sprite 참조를 성공적으로 추가했습니다!");
+        Debug.Log($"{_mob2Sprites.Count}개의 Stage2 Sprite 참조를 생성했습니다.");
     }
 
     [ContextMenu("Fill Colors")]

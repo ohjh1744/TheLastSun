@@ -1925,7 +1925,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bcaee85329f4dd3459cf55b7c3f07351, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2350,7 +2350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &39378979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5490,8 +5490,8 @@ RectTransform:
   - {fileID: 1340514244}
   m_Father: {fileID: 371762213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.71, y: 0.05}
-  m_AnchorMax: {x: 0.89, y: 0.09}
+  m_AnchorMin: {x: 0.71, y: 0.1}
+  m_AnchorMax: {x: 0.89, y: 0.15}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6092,7 +6092,7 @@ MonoBehaviour:
     - 0
     - 0
     - 0
-    _currentStage: 0
+    _currentStage: 1
     _isClearStage: 0000000000
     _isSound: 1
     _isTutorial: 0
@@ -11190,8 +11190,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.5}
   m_AnchorMax: {x: 0.7, y: 0.98}
-  m_AnchoredPosition: {x: 21.5, y: 0}
-  m_SizeDelta: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &498800524
 MonoBehaviour:
@@ -11533,8 +11533,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.1, y: 0.5}
   m_AnchorMax: {x: 0.7, y: 0.98}
-  m_AnchoredPosition: {x: 21.5, y: 0}
-  m_SizeDelta: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &505810282
 MonoBehaviour:
@@ -12691,7 +12691,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: eb2565e27eaf2dc4f868ca5c0e76ee6a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12742,7 +12742,7 @@ RectTransform:
   m_Father: {fileID: 1032883526}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -12814,13 +12814,14 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2103177741}
   - {fileID: 1830780733}
+  - {fileID: 2123489091}
+  - {fileID: 2103177741}
   - {fileID: 586112298}
   m_Father: {fileID: 1156199546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.1, y: 0.82}
-  m_AnchorMax: {x: 0.9, y: 0.85}
+  m_AnchorMin: {x: 0.02, y: 0.82}
+  m_AnchorMax: {x: 0.98, y: 0.85}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13705,8 +13706,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 565369668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.7, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0.1}
+  m_AnchorMax: {x: 1, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14289,7 +14290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &623132562
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19652,8 +19653,8 @@ RectTransform:
   - {fileID: 1820776205}
   m_Father: {fileID: 371762213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.4, y: 0.15}
-  m_AnchorMax: {x: 0.6, y: 0.4}
+  m_AnchorMin: {x: 0.4, y: 0.2}
+  m_AnchorMax: {x: 0.6, y: 0.45}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -22171,7 +22172,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3050cc0c07e4b5e4795d7b1dac11c65f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -22223,8 +22224,8 @@ RectTransform:
   - {fileID: 746298338}
   m_Father: {fileID: 371762213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.41, y: 0.05}
-  m_AnchorMax: {x: 0.59, y: 0.09}
+  m_AnchorMin: {x: 0.41, y: 0.1}
+  m_AnchorMax: {x: 0.59, y: 0.15}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -24486,200 +24487,249 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   _mob2Sprites:
   - m_AssetGUID: 09e3bded88caeb742af727053b96742d
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_107-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 578ac3aaca0d06448b6127e03335c4dd
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_14-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 537b92588b604fc4babb5de99d70da6a
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_85-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 537b92588b604fc4babb5de99d70da6a
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_85-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 8346db95d4da6104baff1933f05c65e1
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_27-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 8346db95d4da6104baff1933f05c65e1
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_27-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: fe70bdafecfe8b540a493089606e7c72
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_02-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: fe70bdafecfe8b540a493089606e7c72
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_02-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: e3065715f16af574ab536bc57859f629
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_18-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: e3065715f16af574ab536bc57859f629
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_18-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 799e0559396eb56488b42a93f5efb89d
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_99-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 799e0559396eb56488b42a93f5efb89d
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_99-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 945cbf3855b94744fa6bdf1f110c5d77
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_16-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 945cbf3855b94744fa6bdf1f110c5d77
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_16-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: f60a81fafc9bf2e41b03c70f2b6589ce
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_47-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: f60a81fafc9bf2e41b03c70f2b6589ce
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_47-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 2d4a5bbb7ab9ef649a01f0dfe6fc8095
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_37-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 2d4a5bbb7ab9ef649a01f0dfe6fc8095
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_37-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_41-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_41-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 30243f95b6d3803478b9a288c82639d4
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_23-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 30243f95b6d3803478b9a288c82639d4
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_23-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: dd97dd8fa22b10f4e9c4e6e074796639
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_25-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: dd97dd8fa22b10f4e9c4e6e074796639
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_25-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 1ba51d4e581759c438646d9adc016c91
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_113-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_48-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_48-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_48-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_46-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_46-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_46-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_51-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_51-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_51-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 8c329b99bafe8504794129488041ec98
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_38-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 8c329b99bafe8504794129488041ec98
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_38-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 8c329b99bafe8504794129488041ec98
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_38-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: f60a81fafc9bf2e41b03c70f2b6589ce
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_47-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: f60a81fafc9bf2e41b03c70f2b6589ce
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_47-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 30243f95b6d3803478b9a288c82639d4
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_23-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 30243f95b6d3803478b9a288c82639d4
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_23-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_48-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: da8f13535a66d634a8a70ad683c89e31
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_48-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_41-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_41-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 15d93d78dee75704eb9d4f76624d6ffb
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_41-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  - m_AssetGUID: c35b717cbaa26f646acf98f50e2456e0
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_46-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_51-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 6a037438ae4dd8d4c921ee2065ef7f17
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_51-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 4869f41eacfe2a54ca93fad017c70be4
     m_SubObjectName: Stage2_Boss_0
@@ -24688,8 +24738,9 @@ MonoBehaviour:
     m_EditorAssetChanged: 0
   _mob3Sprites:
   - m_AssetGUID: faed49cfc34d03a429f5635ca3ad231f
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_SubObjectName: spr_pixel_mini_dungeon_monster_106-Sheet_0
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   - m_AssetGUID: 578ac3aaca0d06448b6127e03335c4dd
     m_SubObjectName: 
@@ -26414,7 +26465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1195711563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30017,8 +30068,8 @@ RectTransform:
   - {fileID: 191133244}
   m_Father: {fileID: 371762213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.11, y: 0.05}
-  m_AnchorMax: {x: 0.29, y: 0.09}
+  m_AnchorMin: {x: 0.11, y: 0.1}
+  m_AnchorMax: {x: 0.29, y: 0.15}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -30245,8 +30296,8 @@ RectTransform:
   - {fileID: 1866712302}
   m_Father: {fileID: 371762213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.1, y: 0.15}
-  m_AnchorMax: {x: 0.3, y: 0.4}
+  m_AnchorMin: {x: 0.1, y: 0.2}
+  m_AnchorMax: {x: 0.3, y: 0.45}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -33905,8 +33956,8 @@ RectTransform:
   - {fileID: 1640854785}
   m_Father: {fileID: 371762213}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.7, y: 0.15}
-  m_AnchorMax: {x: 0.9, y: 0.4}
+  m_AnchorMin: {x: 0.7, y: 0.2}
+  m_AnchorMax: {x: 0.9, y: 0.45}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -35381,8 +35432,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 565369668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.1, y: 0.05}
-  m_AnchorMax: {x: 0.2, y: 0.95}
+  m_AnchorMin: {x: 0.1, y: 0.2}
+  m_AnchorMax: {x: 0.2, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -39798,7 +39849,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3050cc0c07e4b5e4795d7b1dac11c65f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -40494,8 +40545,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 565369668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.4, y: 0.5}
-  m_AnchorMax: {x: 0.6, y: 0.5}
+  m_AnchorMin: {x: 0.4, y: 0.1}
+  m_AnchorMax: {x: 0.6, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -40546,8 +40597,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -40976,6 +41027,140 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117483515}
+  m_CullTransparentMesh: 1
+--- !u!1 &2123489090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2123489091}
+  - component: {fileID: 2123489093}
+  - component: {fileID: 2123489092}
+  m_Layer: 0
+  m_Name: WaveInfoMobNameText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2123489091
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123489090}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 565369668}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.2, y: 0.1}
+  m_AnchorMax: {x: 0.4, y: 0.9}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2123489092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123489090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "\uBAAC\uC2A4\uD130"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
+  m_sharedMaterial: {fileID: 6857979320589214222, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 40
+  m_fontSizeBase: 40
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &2123489093
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123489090}
   m_CullTransparentMesh: 1
 --- !u!1 &2125631410
 GameObject:
