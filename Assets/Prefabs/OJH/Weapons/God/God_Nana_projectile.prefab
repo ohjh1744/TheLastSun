@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 4670691246790202866}
   - component: {fileID: 7493236121540194466}
   - component: {fileID: 7590023679592014721}
-  - component: {fileID: -3212298756252276675}
-  - component: {fileID: 8862533386104004845}
+  - component: {fileID: 2928047419259539909}
   - component: {fileID: 9061478000283685855}
   m_Layer: 0
   m_Name: God_Nana_projectile
@@ -137,7 +136,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!114 &-3212298756252276675
+--- !u!114 &2928047419259539909
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,18 +146,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8862533386104004845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588669754404482141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffcd71ab02218da40908708c4f762795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!58 &9061478000283685855

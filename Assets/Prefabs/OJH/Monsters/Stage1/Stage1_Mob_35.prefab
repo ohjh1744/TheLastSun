@@ -13,10 +13,6 @@ GameObject:
   - component: {fileID: 8778394780969968146}
   - component: {fileID: -1835189130428114753}
   - component: {fileID: 4969158332678722643}
-  - component: {fileID: -7501025371802989760}
-  - component: {fileID: -150020609146458785}
-  - component: {fileID: -5774266028063486667}
-  - component: {fileID: -945130971050394948}
   - component: {fileID: 5000814910454682234}
   m_Layer: 6
   m_Name: Stage1_Mob_35
@@ -175,58 +171,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-7501025371802989760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9149810932426328858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47967504d46311c40b8b9edcfe21c272, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  returnPool: {fileID: 0}
---- !u!114 &-150020609146458785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9149810932426328858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e465806ec9bb5a4aafd722277b48ab3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-5774266028063486667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9149810932426328858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa188a2bb1a93834099b845a6bcea630, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-945130971050394948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9149810932426328858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bac1112f0261d64ea6f4ac94a5ea227, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isBoss: 0
-  _maxHp: 5
-  _curHp: 5
 --- !u!114 &5000814910454682234
 MonoBehaviour:
   m_ObjectHideFlags: 0
