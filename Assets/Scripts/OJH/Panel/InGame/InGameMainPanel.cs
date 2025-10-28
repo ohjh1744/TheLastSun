@@ -20,6 +20,7 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
     //어드레서블
     [Header("어드레서블 에셋")]
     [SerializeField] private AssetReferenceSprite _buttonSprite;
+    [SerializeField] private AssetReferenceSprite _pauseSprite;
     [SerializeField] private AssetReferenceSprite _soundOnSprite;
     [SerializeField] private AssetReferenceSprite _soundOffSprite;
     [SerializeField] private AssetReferenceSprite _popUpSprite;
@@ -101,12 +102,17 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
             GetUI<Image>("BomerUpgradeButtonBgImage").sprite = sprite;
         });
 
+        AddressableManager.Instance.LoadOnlySprite(_pauseSprite, (sprite) =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("PauseButton").sprite = sprite;
+        });
+
         AddressableManager.Instance.LoadOnlySprite(_soundOnSprite, (sprite) =>
         {
             _clearLoadAssetCount++;
             _savedSoundOnSprite = sprite;
             SetorTurnSound(true);
-
         });
 
         AddressableManager.Instance.LoadOnlySprite(_soundOffSprite, (sprite) =>
