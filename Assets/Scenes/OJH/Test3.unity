@@ -12742,7 +12742,7 @@ RectTransform:
   m_Father: {fileID: 1032883526}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14290,7 +14290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &623132562
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14326,9 +14326,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _assetLoadPanels:
   - {fileID: 1156199545}
-  _setFalsePanels: []
+  - {fileID: 1871638862}
+  _setFalsePanels:
+  - {fileID: 623132561}
   _setTruePanels:
   - {fileID: 1156199545}
+  - {fileID: 1871638862}
   _fakeLoadingTime: 3
 --- !u!114 &623132564
 MonoBehaviour:
@@ -24226,7 +24229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7fafa513c0f9b747b026e736dfcc259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadAssetUICount: 53
+  _loadAssetUICount: 61
   _buttonSprite:
     m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
     m_SubObjectName: 
@@ -36719,6 +36722,7 @@ GameObject:
   - component: {fileID: 1871638866}
   - component: {fileID: 1871638865}
   - component: {fileID: 1871638864}
+  - component: {fileID: 1871638867}
   m_Layer: 0
   m_Name: InGameBgPanel
   m_TagString: Untagged
@@ -36796,6 +36800,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871638862}
   m_CullTransparentMesh: 1
+--- !u!114 &1871638867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871638862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71802ccdfff81114b91ec6c0146594e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _loadAssetUICount: 1
+  _inGameBgSprite:
+  - m_AssetGUID: 56caebebca7f81f43b8c91ddef7805d3
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 59f57f10a2be68d40bd03a0e69506589
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 480e3245b74fc464eb29a1ac3dae65d0
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: 9c76ea687d3eb0148a64dd0b08d46850
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  - m_AssetGUID: ab4ed8f9e852ee4469791f61b4148e67
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
 --- !u!1 &1880998880
 GameObject:
   m_ObjectHideFlags: 0
@@ -41632,8 +41670,8 @@ SceneRoots:
   - {fileID: 547631901}
   - {fileID: 864329750}
   - {fileID: 391987748}
-  - {fileID: 1519639852}
   - {fileID: 1103886629}
+  - {fileID: 1519639852}
   - {fileID: 1267670646}
   - {fileID: 240840279}
   - {fileID: 472146127}

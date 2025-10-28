@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.UI;
 
-public class InGameBgPanel : MonoBehaviour 
+public class InGameBgPanel : MonoBehaviour, IAssetLoadable
 {
     #region IAssetLoadable 
     //어드레서블을 통해 불러와 적용할 에셋 개수
@@ -14,14 +16,28 @@ public class InGameBgPanel : MonoBehaviour
     public int ClearLoadAssetCount { get { return _clearLoadAssetCount; } set { _clearLoadAssetCount = value; } }
     #endregion
 
+    #region Addressable Assets
+    [SerializeField] private AssetReferenceSprite[] _inGameBgSprite;
+    #endregion
+
+
     void Start()
     {
-        
+        Init();
     }
 
-    // Update is called once per frame 
-    void Update()
+
+    void Init()
     {
-        
+        LoadAsset();
+    }
+
+    void LoadAsset()
+    {
+        AddressableManager.Instance.LoadOnlySprite(_inGameBgSprite[PlayerController.Instance.PlayerData.CurrentStage], (sprite) =>
+        {
+            _clearLoadAssetCount++;
+            gameObject.GetComponent<Image>().sprite = sprite;
+        });
     }
 }
