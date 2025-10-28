@@ -8130,9 +8130,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1156199546}
+  - {fileID: 1048836038}
   - {fileID: 306514649}
   - {fileID: 1105313323}
-  - {fileID: 1048836038}
   - {fileID: 2140654392}
   - {fileID: 1955895943}
   - {fileID: 1746425237}
@@ -14364,12 +14364,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _assetLoadPanels:
-  - {fileID: 1156199545}
   - {fileID: 1871638862}
+  - {fileID: 1156199545}
+  - {fileID: 1048836037}
   - {fileID: 306514648}
   - {fileID: 1105313322}
   _setFalsePanels:
   - {fileID: 623132561}
+  - {fileID: 1048836037}
   - {fileID: 306514648}
   - {fileID: 1105313322}
   _setTruePanels:
@@ -22762,13 +22764,14 @@ GameObject:
   - component: {fileID: 1048836038}
   - component: {fileID: 1048836040}
   - component: {fileID: 1048836039}
+  - component: {fileID: 1048836041}
   m_Layer: 0
   m_Name: NotifyPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1048836038
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22827,6 +22830,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1048836037}
   m_CullTransparentMesh: 1
+--- !u!114 &1048836041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048836037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b3ca146bf616646af8b66ec179504a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _loadAssetUICount: 1
+  _bgImageSprite:
+    m_AssetGUID: 1b30146fb6fb588449427c3c18c0420f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
 --- !u!1 &1058358195
 GameObject:
   m_ObjectHideFlags: 0
