@@ -13,9 +13,6 @@ GameObject:
   - component: {fileID: 5691097346500452700}
   - component: {fileID: 6052537304253954014}
   - component: {fileID: -3900627745422347863}
-  - component: {fileID: -631941634705665659}
-  - component: {fileID: -970389840327195192}
-  - component: {fileID: -6816299333646918317}
   - component: {fileID: 1675532878848660364}
   m_Layer: 0
   m_Name: Epic_warrior_attack
@@ -174,54 +171,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!114 &-631941634705665659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6645373866766581708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba3761be4d60cc4ba06b9de4190baab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-970389840327195192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6645373866766581708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0fe9b611eb6eb946bb6c82bd98ead2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackType: 1
-  _attakRange: 0
-  _targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _damage: 0
-  _attackDelay: 1
-  _level: 1
-  _add_damage: 1
-  _add_attackDelay: 0
---- !u!114 &-6816299333646918317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6645373866766581708}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c059319daa47b344bb2b7f9d997886b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 6763780143421182564, guid: fb9dd43e87702754089e77543e771c67, type: 3}
-  CurrentState: 0
 --- !u!114 &1675532878848660364
 MonoBehaviour:
   m_ObjectHideFlags: 0

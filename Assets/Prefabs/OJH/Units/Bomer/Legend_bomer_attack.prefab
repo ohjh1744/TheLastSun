@@ -13,9 +13,6 @@ GameObject:
   - component: {fileID: 2000237535023588544}
   - component: {fileID: -3556561473725827966}
   - component: {fileID: -7797309025316972453}
-  - component: {fileID: -2934766215631132045}
-  - component: {fileID: -4083478846450220547}
-  - component: {fileID: -7538668447902664946}
   - component: {fileID: 7301064542528327009}
   m_Layer: 0
   m_Name: Legend_bomer_attack
@@ -174,54 +171,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!114 &-2934766215631132045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605754217969838493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba3761be4d60cc4ba06b9de4190baab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-4083478846450220547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605754217969838493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0fe9b611eb6eb946bb6c82bd98ead2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackType: 2
-  _attakRange: 9
-  _targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _damage: 49
-  _attackDelay: 0
-  _level: 1
-  _add_damage: 1
-  _add_attackDelay: 0
---- !u!114 &-7538668447902664946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605754217969838493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c059319daa47b344bb2b7f9d997886b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 1716387695609692421, guid: 24a6cf6b6715b284c8532257e5ee0997, type: 3}
-  CurrentState: 0
 --- !u!114 &7301064542528327009
 MonoBehaviour:
   m_ObjectHideFlags: 0
