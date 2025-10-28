@@ -38,8 +38,8 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
     #region 저장해서 관리하는 에셋 혹은 UI
     private Sprite _savedSoundOnSprite;
     private Sprite _savedSoundOffSpirte;
-    private List<AssetReferenceSprite>[] _mobSprites;
-    private List<Sprite> _savedMobSprites;
+    private List<AssetReferenceSprite>[] _savedMobSprites;
+    private List<Sprite> _savedCurrentStageMobSprites;
     private List<Color>[] _savedStageMobColors;
     private List<Image> _upgradeButtonPortraitImages;
 
@@ -65,9 +65,9 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
 
     private void Init()
     {
-        _mobSprites = new List<AssetReferenceSprite>[]{_mob1Sprites, _mob2Sprites, _mob3Sprites, _mob4Sprites, _mob5Sprites};
+        _savedMobSprites = new List<AssetReferenceSprite>[]{_mob1Sprites, _mob2Sprites, _mob3Sprites, _mob4Sprites, _mob5Sprites};
 
-        _savedMobSprites = new List<Sprite>();
+        _savedCurrentStageMobSprites = new List<Sprite>();
 
         _savedStageMobColors = new List<Color>[]{ _savedStage1MobColors, _savedStage2MobColors, _savedStage3MobColors, _savedStage4MobColors, _savedStage5MobColors};
 
@@ -148,16 +148,16 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
         int currentStage = PlayerController.Instance.PlayerData.CurrentStage;
         AddressableManager.Instance.LoadSound(_bgmClips[currentStage], _bgmAudio, () => { _clearLoadAssetCount++; SetorTurnSound(true); });
 
-        for(int i = 0; i < _mobSprites[currentStage].Count; i++)
+        for(int i = 0; i < _savedMobSprites[currentStage].Count; i++)
         {
             int index = i;
-            AddressableManager.Instance.LoadOnlySprite(_mobSprites[currentStage][index], (sprite) =>
+            AddressableManager.Instance.LoadOnlySprite(_savedMobSprites[currentStage][index], (sprite) =>
             {
                 _clearLoadAssetCount++;
-                _savedMobSprites.Add(sprite);
+                _savedCurrentStageMobSprites.Add(sprite);
                 if (index == 0)
                 {
-                    GetUI<Image>("WaveInfoMobImage").sprite = _savedMobSprites[index];
+                    GetUI<Image>("WaveInfoMobImage").sprite = _savedCurrentStageMobSprites[index];
                     GetUI<Image>("WaveInfoMobImage").color = _savedStageMobColors[currentStage][index];
                 }
             });
