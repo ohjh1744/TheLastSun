@@ -96,7 +96,7 @@ public class InGameMainPanel : UIBInder, IAssetLoadable
             GetUI<Image>("ShowJemBgImage").sprite = sprite;
             GetUI<Image>("SpawnButtonBgImage").sprite = sprite;
             GetUI<Image>("SpecialSpawnButtonBgImage").sprite = sprite;
-            GetUI<Image>("SellButton").sprite = sprite;
+            GetUI<Image>("SellButtonBgImage").sprite = sprite;
             GetUI<Image>("WarriorUpgradeButtonBgImage").sprite = sprite;
             GetUI<Image>("ArcherUpgradeButtonBgImage").sprite = sprite;
             GetUI<Image>("BomerUpgradeButtonBgImage").sprite = sprite;
