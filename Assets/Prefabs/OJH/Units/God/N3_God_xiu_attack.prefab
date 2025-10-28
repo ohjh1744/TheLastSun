@@ -13,9 +13,6 @@ GameObject:
   - component: {fileID: 6034158004689590841}
   - component: {fileID: 5923818363451604965}
   - component: {fileID: -2093049020912678445}
-  - component: {fileID: 3425513877000677194}
-  - component: {fileID: 8279021378039145882}
-  - component: {fileID: -8707114370158537281}
   - component: {fileID: 3028733348613160087}
   m_Layer: 0
   m_Name: N3_God_xiu_attack
@@ -174,54 +171,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!114 &3425513877000677194
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4496230419679083966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba3761be4d60cc4ba06b9de4190baab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8279021378039145882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4496230419679083966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0fe9b611eb6eb946bb6c82bd98ead2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _attackType: 1
-  _attakRange: 10
-  _targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _damage: 70
-  _attackDelay: 1
-  _level: 1
-  _add_damage: 1
-  _add_attackDelay: 0
---- !u!114 &-8707114370158537281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4496230419679083966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c059319daa47b344bb2b7f9d997886b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 0}
-  CurrentState: 0
 --- !u!114 &3028733348613160087
 MonoBehaviour:
   m_ObjectHideFlags: 0
