@@ -13,7 +13,7 @@ public class LoadingPanel : UIBInder
     private List<IAssetLoadable> _assetLoadablePanels;
 
     //어드레서블을 통해 불러와 에셋 적용하는 패널들
-    [SerializeField] private GameObject[] _assetLoadPanels;
+    [SerializeField] private GameObject[] _assetLoadObjects;
 
     //준비 완료 이후, false할 패널들과 True할 패널들
     [SerializeField] private GameObject[] _setFalsePanels;
@@ -38,9 +38,9 @@ public class LoadingPanel : UIBInder
     {
         _assetLoadablePanels = new List<IAssetLoadable>();
 
-        for(int i = 0; i < _assetLoadPanels.Length; i++)
+        for(int i = 0; i < _assetLoadObjects.Length; i++)
         {
-            IAssetLoadable panel = _assetLoadPanels[i].GetComponent<IAssetLoadable>();
+            IAssetLoadable panel = _assetLoadObjects[i].GetComponent<IAssetLoadable>();
             _assetLoadablePanels.Add(panel);
         }
         Debug.Log(_assetLoadablePanels.Count);
@@ -108,9 +108,6 @@ public class LoadingPanel : UIBInder
         {
             _setTruePanels[i].SetActive(true);
         }
-
-        //Loading Panel 꺼주기
-        gameObject.SetActive(false);
         
     }
 
