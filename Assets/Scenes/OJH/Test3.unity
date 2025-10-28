@@ -14327,8 +14327,10 @@ MonoBehaviour:
   _assetLoadPanels:
   - {fileID: 1156199545}
   - {fileID: 1871638862}
+  - {fileID: 1105313322}
   _setFalsePanels:
   - {fileID: 623132561}
+  - {fileID: 1105313322}
   _setTruePanels:
   - {fileID: 1156199545}
   - {fileID: 1871638862}
@@ -23360,13 +23362,14 @@ GameObject:
   - component: {fileID: 1105313323}
   - component: {fileID: 1105313325}
   - component: {fileID: 1105313324}
+  - component: {fileID: 1105313326}
   m_Layer: 5
   m_Name: PausePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1105313323
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23428,6 +23431,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105313322}
   m_CullTransparentMesh: 1
+--- !u!114 &1105313326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105313322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab9f2989a2756c4397e792e80810468, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _loadAssetUICount: 5
+  _bgImageSprite:
+    m_AssetGUID: 529209c5c1f3ec2419b285d0852a13aa
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _setFalseBgSprite:
+    m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _setFalseSprite:
+    m_AssetGUID: dee97c568574f2e498a02e65bed237b2
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _buttonSprite:
+    m_AssetGUID: d0716103dab40e44182e440a85a4c172
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _pausePanelNameBgSprite:
+    m_AssetGUID: d7d9084bf3deddf48b8ab85281f1265a
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
 --- !u!1 &1115597136
 GameObject:
   m_ObjectHideFlags: 0

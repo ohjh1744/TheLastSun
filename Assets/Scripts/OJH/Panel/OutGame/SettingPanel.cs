@@ -6,13 +6,15 @@ using UnityEngine.AddressableAssets;
 using GooglePlayGames.BasicApi.SavedGame;
 public class SettingPanel : UIBInder, IAssetLoadable
 {
+    #region IAssetLoadable 
     //어드레서블을 통해 불러와 적용할 에셋 개수
     [SerializeField] private int _loadAssetUICount;
     public int LoadAssetUICount { get { return _loadAssetUICount; } set { _loadAssetUICount = value; } }
 
     //현재 어드레서블을 통해 적용끝난 에셋 개수
-     private int _clearLoadAssetCount;
+    private int _clearLoadAssetCount;
     public int ClearLoadAssetCount { get { return _clearLoadAssetCount; } set { _clearLoadAssetCount = value; } }
+    #endregion
 
     //bgm AudioSource
     [SerializeField] private AudioSource _audio;
