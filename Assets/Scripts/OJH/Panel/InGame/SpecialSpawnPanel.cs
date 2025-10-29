@@ -18,7 +18,6 @@ public class SpecialSpawnPanel : UIBInder
     private void Init()
     {
         AddEvent();
-        LoadAsset();
     }
     private void AddEvent()
     {

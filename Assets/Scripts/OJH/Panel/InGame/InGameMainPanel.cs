@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
-public class InGameMainPanel : UIBInder, IAssetLoadable
+public class InGameMainPanel : UIBInder
 {
     private void Awake()
     {
