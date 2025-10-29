@@ -11,7 +11,7 @@ public class BossBookPanel : UIBInder
 
     [SerializeField] private GameObject _bossBookExplainContext; // 버튼 누를 시 활성화
 
-    [SerializeField] private BossInfoData[] _bossInfoDatas;
+    [SerializeField] private BossData[] _bossDatas;
 
     //보스 버튼 LIst에 저장
     private List<Button> _bossPortraitButton = new List<Button>();
@@ -45,12 +45,12 @@ public class BossBookPanel : UIBInder
     //자주 사용하는 UI 가져오고 저장
     private void GetUI()
     {
-        for(int i = 0; i < _bossInfoDatas.Length; i++)
+        for(int i = 0; i < _bossDatas.Length; i++)
         {
             _bossPortraitButton.Add(GetUI<Button>($"BossPortraitButton{i+1}"));
         }
 
-        for (int i = 0; i < _bossInfoDatas.Length; i++)
+        for (int i = 0; i < _bossDatas.Length; i++)
         {
             _bossPortraitSprites.Add(GetUI<Image>($"BossPortraitButton{i + 1}").sprite);
             Debug.Log(GetUI<Image>($"BossPortraitButton{i + 1}").sprite);
@@ -90,15 +90,15 @@ public class BossBookPanel : UIBInder
         {
             //보스 이름 및 설명 표시
             _sb.Clear();
-            _sb.Append(_bossInfoDatas[bossIndex].BossName);
+            _sb.Append(_bossDatas[bossIndex].Name);
             GetUI<TextMeshProUGUI>("BossBookExplainBossNameText").SetText(_sb);
 
             _sb.Clear();
-            _sb.Append(_bossInfoDatas[bossIndex].BossShortInfo);
+            _sb.Append(_bossDatas[bossIndex].BossShortInfo);
             GetUI<TextMeshProUGUI>("BossBookExplainBossShortInfoText").SetText(_sb);
 
             _sb.Clear();
-            _sb.Append(_bossInfoDatas[bossIndex].BossLongInfo);
+            _sb.Append(_bossDatas[bossIndex].BossLongInfo);
             GetUI<TextMeshProUGUI>("BossBookExplainBossLongInfoText").SetText(_sb);
         }
         //해당 보스 클리어 못한 경우

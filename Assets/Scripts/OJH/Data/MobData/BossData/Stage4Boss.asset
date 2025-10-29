@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0e1ecc1fa7c4e34a9164c23547456dd, type: 3}
-  m_Name: Boss4
+  m_Script: {fileID: 11500000, guid: 91dfddedb10dc4e4abd2bb7adecc9f21, type: 3}
+  m_Name: Stage4Boss
   m_EditorClassIdentifier: 
-  _bossName: "\uCC30\uCE58\uC6B0\uD2C0\uB9AC\uCFE0\uC5D0"
+  _maxHp: 0
+  _moveSpeed: 0
+  _name: "\uCC30\uCE58\uC6B0\uD2C0\uB9AC\uCFE0\uC5D0"
   _bossShortInfo: "#\uB124 \uBC88\uC9F8 \uD0DC\uC591 #\uD750\uB974\uB294 \uAC15\uBB3C\uC758
     \uC8FC\uC778"
   _bossLongInfo: "\uCC30\uCE58\uC6B0\uD2C0\uB9AC\uCFE0\uC5D0\uB294 \uBAA8\uB4E0 \uC0DD\uBA85\uC758
@@ -22,13 +24,3 @@ MonoBehaviour:
     \uC6B0\uB9AC\uB294 \uADF8\uB140\uC758 \uBB3C\uB85C \uC0C8 \uC0DD\uBA85\uC744
     \uCD95\uBCF5\uD558\uACE0 \uB9C8\uC74C\uC744 \uC815\uD654\uD558\uBA70, \uBB3C\uACB0
     \uC18D\uC5D0\uC11C \uC790\uBE44\uB85C\uC6B4 \uC5BC\uAD74\uC744 \uB9C8\uC8FC\uD55C\uB2E4."
-  _bossUnLockPortraitSprite:
-    m_AssetGUID: 421c6e06d8911f84db1bb622f59816b9
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bossLockPortraitSprite:
-    m_AssetGUID: dd541a37b2e03654a8ce78f913661599
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0

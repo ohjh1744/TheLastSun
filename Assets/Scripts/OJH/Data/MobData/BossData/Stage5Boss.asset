@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0e1ecc1fa7c4e34a9164c23547456dd, type: 3}
-  m_Name: Boss5
+  m_Script: {fileID: 11500000, guid: 91dfddedb10dc4e4abd2bb7adecc9f21, type: 3}
+  m_Name: Stage5Boss
   m_EditorClassIdentifier: 
-  _bossName: "\uD1A0\uB098\uD2F0\uC6B0"
+  _maxHp: 0
+  _moveSpeed: 0
+  _name: "\uD1A0\uB098\uD2F0\uC6B0"
   _bossShortInfo: "#\uB2E4\uC12F \uBC88\uC9F8 \uD0DC\uC591 #\uD558\uB298\uC758 \uC9C0\uBC30\uC790"
   _bossLongInfo: "\uB2E4\uC12F \uBC88\uC9F8 \uD0DC\uC591\uC740 \uC138\uC0C1\uC5D0
     \uBE5B\uACFC \uC628\uAE30\uB97C \uC8FC\uC9C0\uB9CC \uADF8 \uB300\uAC00\uB85C
@@ -20,13 +22,3 @@ MonoBehaviour:
     \uC804\uC0AC\uB4E4\uC758 \uD76C\uC0DD\uC774 \uD0DC\uC591\uC744 \uC6C0\uC9C1\uC774\uB294
     \uC5F0\uB8CC\uC774\uBA70, \uC758\uBB34\uB97C \uB2E4\uD558\uC9C0 \uBABB\uD558\uBA74
     \uC5B4\uB460\uC774 \uC138\uC0C1\uC744 \uC9D1\uC5B4\uC0BC\uD0A8\uB2E4."
-  _bossUnLockPortraitSprite:
-    m_AssetGUID: 7fc97501778c6b048ad3c00398f570e7
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bossLockPortraitSprite:
-    m_AssetGUID: 8f516dd1fd87d4843b2f4fd73d49d9ec
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0

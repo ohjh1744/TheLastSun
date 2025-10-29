@@ -1830,12 +1830,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bossBookExplainContext: {fileID: 2107155492}
-  _bossInfoDatas:
-  - {fileID: 11400000, guid: 6ac6b0aa7a2fc36409e3cba5dd785b83, type: 2}
-  - {fileID: 11400000, guid: 26e4ff80618e6fe499c04e3a84d0ffaf, type: 2}
-  - {fileID: 11400000, guid: 64cb53a969dcb4647b545a38698fc686, type: 2}
-  - {fileID: 11400000, guid: 36dd2ce3d6b88ca40b0013ef8da0c596, type: 2}
-  - {fileID: 11400000, guid: 396724b4ba31c744c95d5b7bed86f1a0, type: 2}
+  _bossDatas:
+  - {fileID: 11400000, guid: 8cca920b567989b44ad817392771820d, type: 2}
+  - {fileID: 11400000, guid: c0d28a1578a7d5644b71ab041e785135, type: 2}
+  - {fileID: 11400000, guid: 1b06e59071bfeb547862486d1af8bdba, type: 2}
+  - {fileID: 11400000, guid: 4fa4b80f6abac8f46bb833c77008ec5b, type: 2}
+  - {fileID: 11400000, guid: 89713592a4b029248ab0e6a49be8337c, type: 2}
 --- !u!114 &286811522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5210,7 +5210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &759205694
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6336,7 +6336,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -9124,22 +9124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07fe3db5097fb56479e432fbcdf80bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadAssetUICount: 3
-  _bgImageSprite:
-    m_AssetGUID: 529209c5c1f3ec2419b285d0852a13aa
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _setFalseBgSprite:
-    m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _setFalseSprite:
-    m_AssetGUID: dee97c568574f2e498a02e65bed237b2
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
 --- !u!1 &1519905265
 GameObject:
   m_ObjectHideFlags: 0
@@ -11367,7 +11351,7 @@ MonoBehaviour:
     - 0
     - 0
     _currentStage: 0
-    _isClearStage: 0000000000
+    _isClearStage: 0101010101
     _isSound: 1
     _isTutorial: 0
 --- !u!4 &1972241986
@@ -11697,9 +11681,6 @@ MonoBehaviour:
   _assetLoadObjects:
   - {fileID: 1313596006}
   _setFalsePanels:
-  - {fileID: 286811519}
-  - {fileID: 1710834236}
-  - {fileID: 1472712686}
   - {fileID: 2062840908}
   _setTruePanels:
   - {fileID: 759205693}
