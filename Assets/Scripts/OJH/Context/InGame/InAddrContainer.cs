@@ -84,6 +84,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         AddressableManager.Instance.LoadOnlySprite(_button_03, (sprite) =>
         {
             _clearLoadAssetCount++;
+            GetUI<Image>("GoSellButton").sprite = sprite;
             GetUI<Image>("ClearPanelGoLobbyButton").sprite = sprite;
             GetUI<Image>("TutorialButton").sprite = sprite;
             GetUI<Image>("PausePanelGoLobbyButton").sprite = sprite;
@@ -96,7 +97,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("TImeSpeedButton").sprite = sprite;
             GetUI<Image>("WaveInfoPanel").sprite = sprite;
             GetUI<Image>("ShowJemBgImage").sprite = sprite;
-            GetUI<Image>("GoSellButton").sprite = sprite;
             GetUI<Image>("ClearPanelSetFalseBgImage").sprite = sprite;
             GetUI<Image>("PausePanelSetFalseBgImage").sprite = sprite;
             GetUI<Image>("SpecialSpawnlSetFalseButtonBgImage").sprite = sprite;
@@ -106,7 +106,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         AddressableManager.Instance.LoadOnlySprite(_cancel, (sprite) =>
         {
             _clearLoadAssetCount++;
-            GetUI<Image>("ShowJemImage").sprite = sprite;
             GetUI<Image>("ClearPanelSetFalseButton").sprite = sprite;
             GetUI<Image>("PausePanelSetFalseButton").sprite = sprite;
             GetUI<Image>("SpecialSpawnSetFalseButton").sprite = sprite;
@@ -116,6 +115,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         AddressableManager.Instance.LoadOnlySprite(_diamond, (sprite) =>
         {
             _clearLoadAssetCount++;
+            GetUI<Image>("ShowJemImage").sprite = sprite;
             GetUI<Image>("ShowJemImage").sprite = sprite;
             GetUI<Image>("ShowWarriorUpgradeInfoJemImage").sprite = sprite;
             GetUI<Image>("ShowArcherUpgradeInfoJemImage").sprite = sprite;
@@ -148,11 +148,21 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         });
         AddressableManager.Instance.LoadOnlySprite(_resourceBar1, (sprite) => { 
             _clearLoadAssetCount++;
+            GetUI<Image>("ShowJemBgImage").sprite = sprite;
             GetUI<Image>("MobNumSliderBg").sprite = sprite;
             GetUI<Image>("NotifyPanel").sprite = sprite;
             GetUI<Image>("ChangeSellWarriorButton").sprite = sprite;
             GetUI<Image>("ChangeSellArcherButton").sprite = sprite;
             GetUI<Image>("ChangeSellBomerButton").sprite = sprite;
+            GetUI<Image>("ShowWarriorUpgradeInfoBgImage").sprite = sprite;
+            GetUI<Image>("ShowArcherUpgradeInfoBgImage ").sprite = sprite;
+            GetUI<Image>("ShowBomerUpgradeInfoBgImage").sprite = sprite;
+
+            GetUI<Image>("GetNormalJemInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetRareJemInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetAncientJemInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetLegendJemInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetEpicJemInfoBgImage").sprite = sprite;
         });
         AddressableManager.Instance.LoadOnlySprite(_resourceBar2, (sprite) => { _clearLoadAssetCount++; GetUI<Image>("MobNumSliderFill").sprite = sprite; });
         AddressableManager.Instance.LoadOnlySprite(_backgroundSprites[PlayerController.Instance.PlayerData.CurrentStage], (sprite) =>{_clearLoadAssetCount++;GetUI<Image>("InGameBgPanel").sprite= sprite;});
