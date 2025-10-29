@@ -49,6 +49,12 @@ public class BossBookPanel : UIBInder
         {
             _bossPortraitButton.Add(GetUI<Button>($"BossPortraitButton{i+1}"));
         }
+
+        for (int i = 0; i < _bossInfoDatas.Length; i++)
+        {
+            _bossPortraitSprites.Add(GetUI<Image>($"BossPortraitButton{i + 1}").sprite);
+            Debug.Log(GetUI<Image>($"BossPortraitButton{i + 1}").sprite);
+        }
     }
 
     private void AddEvent()
@@ -77,6 +83,7 @@ public class BossBookPanel : UIBInder
         //보스 초상화 표시
         Debug.Log(bossIndex);
         GetUI<Image>("BossBookExplainPortraitImage").sprite = _bossPortraitSprites[bossIndex];
+        Debug.Log(_bossPortraitSprites[bossIndex]);
 
         //해당 보스 클리어한 경우
         if (PlayerController.Instance.PlayerData.IsClearStage[bossIndex] == true)
