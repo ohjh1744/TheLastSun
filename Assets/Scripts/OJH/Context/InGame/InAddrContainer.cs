@@ -37,7 +37,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
     //추후 넣을 것
     [SerializeField] AssetReferenceSprite _spawnButton;
-    [SerializeField] AssetReferenceSprite _goSpecialSpawnButton;
+    [SerializeField] AssetReferenceSprite _SpecialSpawnButton;
     [SerializeField] AssetReferenceSprite _specialSpawnButton;
     [SerializeField] List<AssetReferenceSprite> _warriorPortraitSprites;
     [SerializeField] List<AssetReferenceSprite> _archerPortraitSprites;
