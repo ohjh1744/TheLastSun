@@ -13,4 +13,7 @@ public class HeroData : ScriptableObject
 
     [SerializeField] private int _attackDelay;
     public int AttackDelay { get { return _attackDelay; } set { _attackDelay = value; } }
+
+    [SerializeField] private AudioClip _spawnClip;
+    public AudioClip SpawnClip { get { return _spawnClip; } set { _spawnClip = value; } }
 }

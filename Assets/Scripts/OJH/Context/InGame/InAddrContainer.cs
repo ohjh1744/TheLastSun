@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 
 public class InAddrContainer : UIBInder, IAssetLoadable
 {
+    private enum EHero {Normal, Rare, Ancient, Legend, Epic}
     #region IAssetLoadable 
     //어드레서블을 통해 불러와 적용할 에셋 개수
     [SerializeField] private int _loadAssetUICount;
@@ -37,7 +39,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
     //추후 넣을 것
     [SerializeField] AssetReferenceSprite _spawnButton;
-    [SerializeField] AssetReferenceSprite _SpecialSpawnButton;
     [SerializeField] AssetReferenceSprite _specialSpawnButton;
     [SerializeField] List<AssetReferenceSprite> _warriorPortraitSprites;
     [SerializeField] List<AssetReferenceSprite> _archerPortraitSprites;
@@ -164,8 +165,88 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             });
         }
         AddressableManager.Instance.LoadOnlySprite(_wave1MobSprites[PlayerController.Instance.PlayerData.CurrentStage], (sprite) => { _clearLoadAssetCount++; GetUI<Image>("WaveInfoMobImage").sprite = sprite; });
-        AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () => { _clearLoadAssetCount++; GetUI<AudioSource>("Bgm").Play(); });
+        AddressableManager.Instance.LoadOnlySprite(_spawnButton, (sprite) => { _clearLoadAssetCount++; GetUI<Image>("SpawnButton").sprite = sprite; });
+        AddressableManager.Instance.LoadOnlySprite(_specialSpawnButton, (sprite) => { 
+            _clearLoadAssetCount++; 
+            GetUI<Image>("GoSpecialSpawnButton").sprite = sprite;
+            GetUI<Image>("SpecialSpawnButton").sprite = sprite;
+        });
 
+        for(int i = 0; i < _warriorPortraitSprites.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.LoadOnlySprite(_warriorPortraitSprites[index], (sprite) =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"{((EHero)index).ToString()}WarriorSellButton").sprite = sprite;
+                if(index == (int)EHero.Normal)
+                {
+                    GetUI<Image>("WarriorUpgradeButton").sprite = sprite;
+                }
+                if(index == (int)EHero.Legend)
+                {
+                    GetUI<Image>("SpecialSpawnLegendWarriorPortraitImage").sprite = sprite;
+                }
+                if (index == (int)EHero.Epic)
+                {
+                    GetUI<Image>("SpecialSpawnEpicWarriorPortraitImage").sprite = sprite;
+                }
+            });
+        }
+        for (int i = 0; i < _archerPortraitSprites.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.LoadOnlySprite(_archerPortraitSprites[index], (sprite) =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"{((EHero)index).ToString()}ArcherSellButton").sprite = sprite;
+                if (index == (int)EHero.Normal)
+                {
+                    GetUI<Image>("ArcherUpgradeButton").sprite = sprite;
+                }
+                if (index == (int)EHero.Legend)
+                {
+                    GetUI<Image>("SpecialSpawnLegendArcherPortraitImage").sprite = sprite;
+                }
+                if (index == (int)EHero.Epic)
+                {
+                    GetUI<Image>("SpecialSpawnEpicArcherPortraitImage").sprite = sprite;
+                }
+            });
+        }
+        for (int i = 0; i < _bomerPortraitSprites.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.LoadOnlySprite(_bomerPortraitSprites[index], (sprite) =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"{((EHero)index).ToString()}BomerSellButton").sprite = sprite;
+                if (index == (int)EHero.Normal)
+                {
+                    GetUI<Image>("BomerUpgradeButton").sprite = sprite;
+                }
+                if (index == (int)EHero.Legend)
+                {
+                    GetUI<Image>("SpecialSpawnLegendBomerPortraitImage ").sprite = sprite;
+                }
+                if (index == (int)EHero.Epic)
+                {
+                    GetUI<Image>("SpecialSpawnEpicBomerPortraitImage").sprite = sprite;
+                }
+            });
+        }
+
+        for(int i = 0; i < _godPortraitSprites.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.LoadOnlySprite(_godPortraitSprites[index], (sprite) =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"SpecialSPawnGod{index+1}PortraitImage").sprite = sprite;
+            });
+        }
+        AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () => { _clearLoadAssetCount++; GetUI<AudioSource>("Bgm").Play(); });
+        AddressableManager.Instance.LoadSound(_spawnClip, GetUI<AudioSource>("Sfx"), () => { _clearLoadAssetCount++;});
     }
 
 
