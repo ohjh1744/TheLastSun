@@ -140,7 +140,8 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("SpecialSpawnNameBgImage").sprite = sprite;
             GetUI<Image>("SellPanelNameBgImage").sprite = sprite;
         });
-        AddressableManager.Instance.LoadOnlySprite(_resourceBar1, (sprite) => { _clearLoadAssetCount++;
+        AddressableManager.Instance.LoadOnlySprite(_resourceBar1, (sprite) => { 
+            _clearLoadAssetCount++;
             GetUI<Image>("MobNumSliderBg").sprite = sprite;
             GetUI<Image>("NotifyPanel").sprite = sprite;
             GetUI<Image>("ChangeSellWarriorButton").sprite = sprite;
