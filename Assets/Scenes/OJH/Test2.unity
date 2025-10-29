@@ -379,10 +379,10 @@ RectTransform:
   - {fileID: 685773816}
   m_Father: {fileID: 120650031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 330, y: -100}
-  m_SizeDelta: {x: 150, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &44869207
 MonoBehaviour:
@@ -1144,7 +1144,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.00048828125}
-  m_SizeDelta: {x: -4, y: -28}
+  m_SizeDelta: {x: -4, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &120650032
 MonoBehaviour:
@@ -1792,7 +1792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &286811520
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1829,7 +1829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7351f049037882048a858f6a10cba224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadAssetUICount: 12
   _bossBookExplainContext: {fileID: 2107155492}
   _bossInfoDatas:
   - {fileID: 11400000, guid: 6ac6b0aa7a2fc36409e3cba5dd785b83, type: 2}
@@ -1837,41 +1836,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 64cb53a969dcb4647b545a38698fc686, type: 2}
   - {fileID: 11400000, guid: 36dd2ce3d6b88ca40b0013ef8da0c596, type: 2}
   - {fileID: 11400000, guid: 396724b4ba31c744c95d5b7bed86f1a0, type: 2}
-  _bgSprite:
-    m_AssetGUID: ff12b7f6924e06d4ea6403ea32cf9bc0
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _smallBgSprite:
-    m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bossPortraitBgSprite:
-    m_AssetGUID: 41569e0bae1f17945aed766d59fead1c
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bossBookStateSprite:
-    m_AssetGUID: 928fbbcabb6a67641aaf695eb1de232f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bossBookExplainTextBgSprite:
-    m_AssetGUID: 1b30146fb6fb588449427c3c18c0420f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bossBookSetFalseSprite:
-    m_AssetGUID: dee97c568574f2e498a02e65bed237b2
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bossBookSetFalseBgSprite:
-    m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
 --- !u!114 &286811522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2165,10 +2129,10 @@ RectTransform:
   - {fileID: 2089830706}
   m_Father: {fileID: 120650031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 130, y: -340}
-  m_SizeDelta: {x: 150, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &323749529
 MonoBehaviour:
@@ -3326,10 +3290,10 @@ RectTransform:
   - {fileID: 407104295}
   m_Father: {fileID: 120650031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 730, y: -100}
-  m_SizeDelta: {x: 150, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &575739626
 MonoBehaviour:
@@ -5169,7 +5133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &756561691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5340,46 +5304,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b11f49fceaa2bc43985ad31f9cb4330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadAssetUICount: 12
   _bossBookPanel: {fileID: 286811519}
   _settingPanel: {fileID: 1710834236}
-  _stageChangeLeftButtonSprite:
-    m_AssetGUID: 6ae4f7294420ef14a943cc9f68722d06
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _stageChangeRightButtonSprite:
-    m_AssetGUID: 0b2e4a0c223c805408ed05bdaf889ca9
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _LockSprite:
-    m_AssetGUID: 5a1be91a0c9317c46b10632cc56767cb
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _difficultyLevelSprite:
-    m_AssetGUID: e608e042b6a42ba4d84ca02e6dc64c5f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bgImageSprite:
-    m_AssetGUID: b7275f0f6de9ce2418274114ef706602
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _commonButtonSprite:
-    m_AssetGUID: 5a28a24d462973d4ab502a90a2208fe6
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _bgmClip:
-    m_AssetGUID: dbc57ddb9f3a341439f42c23c395de45
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
   _difficultyLevelImages:
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -5667,10 +5594,10 @@ RectTransform:
   - {fileID: 1860438217}
   m_Father: {fileID: 120650031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 130, y: -100}
-  m_SizeDelta: {x: 150, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &795289760
 MonoBehaviour:
@@ -5743,10 +5670,10 @@ RectTransform:
   - {fileID: 1551239763}
   m_Father: {fileID: 120650031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 530, y: -100}
-  m_SizeDelta: {x: 150, y: 200}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &805165047
 MonoBehaviour:
@@ -8369,7 +8296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36990a810bb2a81468c6a18eb01829b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadAssetUICount: 0
+  _loadAssetUICount: 17
   _button_02:
     m_AssetGUID: 5a28a24d462973d4ab502a90a2208fe6
     m_SubObjectName: 
@@ -8410,6 +8337,26 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  _difficultyImage:
+    m_AssetGUID: e608e042b6a42ba4d84ca02e6dc64c5f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _stageChangeLeftButton:
+    m_AssetGUID: 6ae4f7294420ef14a943cc9f68722d06
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _stageChangeRightButton:
+    m_AssetGUID: 0b2e4a0c223c805408ed05bdaf889ca9
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _resourceBar1:
+    m_AssetGUID: 1b30146fb6fb588449427c3c18c0420f
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   _backgroundSprites:
   - m_AssetGUID: b7275f0f6de9ce2418274114ef706602
     m_SubObjectName: 
@@ -8419,7 +8366,7 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  _stagesSprites:
+  _stageSprites:
   - m_AssetGUID: ebbdb9204360bcc49a00b8816ec9403d
     m_SubObjectName: 
     m_SubObjectType: 
@@ -8479,6 +8426,11 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   - m_AssetGUID: 7fc97501778c6b048ad3c00398f570e7
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  _bgm:
+    m_AssetGUID: dbc57ddb9f3a341439f42c23c395de45
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -9091,7 +9043,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1472712687
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10049,7 +10001,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1710834237
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10124,34 +10076,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 746681ca4090c72439a7a797a0edf98d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadAssetUICount: 5
   _audio: {fileID: 1036237414}
   _CreditPanel: {fileID: 1472712686}
-  _bgImageSprite:
-    m_AssetGUID: 529209c5c1f3ec2419b285d0852a13aa
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _setFalseBgSprite:
-    m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _setFalseSprite:
-    m_AssetGUID: dee97c568574f2e498a02e65bed237b2
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _buttonSprite:
-    m_AssetGUID: d0716103dab40e44182e440a85a4c172
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _settingNameBgSprite:
-    m_AssetGUID: d7d9084bf3deddf48b8ab85281f1265a
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
 --- !u!1 &1740008797
 GameObject:
   m_ObjectHideFlags: 0
@@ -10420,7 +10346,7 @@ RectTransform:
   m_Father: {fileID: 1256362253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11683,7 +11609,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2062840909
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11769,10 +11695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _assetLoadObjects:
-  - {fileID: 759205693}
-  - {fileID: 286811519}
-  - {fileID: 1710834236}
-  - {fileID: 1472712686}
+  - {fileID: 1313596006}
   _setFalsePanels:
   - {fileID: 286811519}
   - {fileID: 1710834236}

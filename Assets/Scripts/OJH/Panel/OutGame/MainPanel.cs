@@ -12,55 +12,23 @@ using UnityEngine.UI;
 
 
 
-public class MainPanel : UIBInder, IAssetLoadable
+public class MainPanel : UIBInder
 {
     private enum EMainButton { StageChangeLeftButton, StageChangeRightButton, PlayButton, CheckRankButton, BossBookButton, SettingButton , Length};
 
-    #region IAssetLoadable 
-    //어드레서블을 통해 불러와 적용할 에셋 개수
-    [SerializeField] private int _loadAssetUICount;
-    public int LoadAssetUICount { get { return _loadAssetUICount; }  set { _loadAssetUICount = value; } }
 
-    //현재 어드레서블을 통해 적용끝난 에셋 개수
-    private int _clearLoadAssetCount;
-    public int ClearLoadAssetCount { get { return _clearLoadAssetCount; }  set { _clearLoadAssetCount = value; } }
-    #endregion
-
-    #region On Off Objects
     //Panel들
     [SerializeField] private GameObject _bossBookPanel;
-
     [SerializeField] private GameObject _settingPanel;
 
     //난이도 관련 이미지 Object
     private GameObject _currentDifficultyLevelImage;
-    #endregion
 
-    #region Addressable Assets
-    //어드레서블
-    [SerializeField] private AssetReferenceSprite _stageChangeLeftButtonSprite;
 
-    [SerializeField] private AssetReferenceSprite _stageChangeRightButtonSprite;
-
-    [SerializeField] private AssetReferenceSprite _LockSprite;
-
-    [SerializeField] private AssetReferenceSprite _difficultyLevelSprite;
-
-    [SerializeField] private AssetReferenceSprite _bgImageSprite;
-
-    [SerializeField] private AssetReferenceSprite _commonButtonSprite; //랭킹, 보스도감, 설정 버튼에 적용할 이미지
-
-    [SerializeField] private AssetReferenceT<AudioClip> _bgmClip;
-    #endregion
-
-    #region 저장하여 관리하는 UIs
     //한꺼번에 관리할때 편리한 UI관련 변수
-    private List<Sprite> _stageSprites = new List<Sprite>();
-
-    private List<Button> _buttons = new List<Button>();
-
     [SerializeField] private List<Image> _difficultyLevelImages;
-    #endregion
+    private List<Button> _buttons = new List<Button>();
+    private List<Image> _stageImages = new List<Image>();
 
     //오디오
     [SerializeField] private AudioSource _audio;
@@ -79,8 +47,8 @@ public class MainPanel : UIBInder, IAssetLoadable
     {
         Debug.Log($"PlayerData: {JsonUtility.ToJson(PlayerController.Instance.PlayerData)}");
         Time.timeScale = 1f;
-        // 화면이 꺼지지 않도록 설정
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         Init();
     }
 
@@ -93,7 +61,6 @@ public class MainPanel : UIBInder, IAssetLoadable
     {
         GetUI();
         AddEvent();
-        LoadAsset();
     }
 
     private void GetUI()
@@ -106,6 +73,10 @@ public class MainPanel : UIBInder, IAssetLoadable
         for(int i = 0; i < (int)EMainButton.Length; i++)
         {
             _buttons.Add(GetUI<Button>($"{((EMainButton)i).ToString()}"));
+        }
+        for (int i = 0; i < _stageDatas.Length; i++)
+        {
+            _stageImages.Add(GetUI<Image>($"Stage{i+1}Image"));
         }
     }
 
@@ -123,61 +94,6 @@ public class MainPanel : UIBInder, IAssetLoadable
         //PlayerController.Instance.PlayerData.OnCurrentStageChanged += ChangeStageDetail;
     }
 
-    //UI에 적용할 이미지들 불러오기
-    private void LoadAsset()
-    {
-        //Bgm 세팅
-        AddressableManager.Instance.LoadSound(_bgmClip, _audio, () => { _clearLoadAssetCount++; SetSound(); });
-
-        //백그라운드 이미지
-        Image image = GetComponent<Image>();
-        AddressableManager.Instance.LoadSprite(_bgImageSprite, image, () => { _clearLoadAssetCount++; });
-
-        //LockImage
-        AddressableManager.Instance.LoadSprite(_LockSprite, GetUI<Image>("LockImage"), () => { _clearLoadAssetCount++; });
-
-        //스테이지 이미지
-        //스테이지 Sprite들 List에 저장하고 플레이어가 선택한 스테이지 이미지로 표기
-        for (int i = 0; i < _stageDatas.Length; i++)
-        {
-            int index = i;
-            AddressableManager.Instance.LoadOnlySprite(_stageDatas[i].StageImageSprite, (sprite) => { 
-                _clearLoadAssetCount++; 
-                _stageSprites.Add(sprite);
-                if (PlayerController.Instance.PlayerData.CurrentStage == index)
-                {
-                    ChangeStageLevelNameImage(sprite, PlayerController.Instance.PlayerData.CurrentStage);
-                }
-            });
-        }
-
-
-        //스테이지 전환 왼쪽, 오른쪽 버튼 이미지 적용
-        AddressableManager.Instance.LoadSprite(_stageChangeLeftButtonSprite, GetUI<Button>("StageChangeLeftButton").image, () => { _clearLoadAssetCount++; });
-        AddressableManager.Instance.LoadSprite(_stageChangeRightButtonSprite, GetUI<Button>("StageChangeRightButton").image, () => { _clearLoadAssetCount++; });
-
-        //난이도 이미지 적용 
-        AddressableManager.Instance.LoadOnlySprite(_difficultyLevelSprite, (sprite) => {
-            _clearLoadAssetCount++;
-            for(int i = 0; i < _difficultyLevelImages.Count; i++)
-            {
-                _difficultyLevelImages[i].sprite = sprite;
-            }
-
-            //난이도 표시
-            ChangeStageDifficulty(GetUI($"DifficultyLevel{_stageDatas[PlayerController.Instance.PlayerData.CurrentStage].StageDifficulty}Images"));
-
-        });
-
-        //플레이, 랭킹, 보스도감, 설정 버튼들 이미지 적용
-        AddressableManager.Instance.LoadOnlySprite(_commonButtonSprite,(sprite) => { 
-            _clearLoadAssetCount++;
-            GetUI<Image>("PlayButton").sprite = sprite;
-            GetUI<Image>("CheckRankButton").sprite = sprite;
-            GetUI<Image>("BossBookButton").sprite = sprite;
-            GetUI<Image>("SettingButton").sprite = sprite; 
-        });
-    }
 
     // 스테이지 변경
     private void ChangeStageNum(bool isNext)
@@ -199,12 +115,12 @@ public class MainPanel : UIBInder, IAssetLoadable
     //스테이지 변경에 따른 수정
     private void ChangeStageDetail(int playerChoiceStage)
     {
-        ChangeStageLevelNameImage(_stageSprites[playerChoiceStage], playerChoiceStage);
-        ChangeStageDifficulty(GetUI($"DifficultyLevel{_stageDatas[playerChoiceStage].StageDifficulty}Images"));
+        ChangeStageLevelNameImage(playerChoiceStage);
+        ChangeImage(playerChoiceStage, GetUI($"DifficultyLevel{_stageDatas[playerChoiceStage].StageDifficulty}Images"));
     }
 
     //Stage Level, Name , Sprite 변경
-    private void ChangeStageLevelNameImage (Sprite stageSprite, int playerChoiceStage)
+    private void ChangeStageLevelNameImage (int playerChoiceStage)
     {
         //Stage Level
         _sb.Clear();
@@ -216,12 +132,25 @@ public class MainPanel : UIBInder, IAssetLoadable
         _sb.Clear();
         _sb.Append(_stageDatas[playerChoiceStage].StageName);
         GetUI<TextMeshProUGUI>("StageNameText").SetText(_sb);
+    }
 
+    private void ChangeImage(int playerChoiceStage, GameObject newDifficultyLevel)
+    {
         //Stage Image 변경
-        GetUI<Image>("StageImage").sprite = stageSprite;
+        for (int i = 0; i < _stageImages.Count; i++)
+        {
+            if (i == playerChoiceStage)
+            {
+                _stageImages[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                _stageImages[i].gameObject.SetActive(false);
+            }
+        }
 
         //첫번째 스테이지와 이전스테이지클리어시 해당스테이지는 Lock해제
-        if (playerChoiceStage == 0  || PlayerController.Instance.PlayerData.IsClearStage[playerChoiceStage - 1] == true)
+        if (playerChoiceStage == 0 || PlayerController.Instance.PlayerData.IsClearStage[playerChoiceStage - 1] == true)
         {
             GetUI<Image>("StageImage").color = _stageDatas[playerChoiceStage].UnLockStageColor;
             GetUI<Image>("LockImage").gameObject.SetActive(false);
@@ -229,15 +158,10 @@ public class MainPanel : UIBInder, IAssetLoadable
         else
         {
             GetUI<Image>("StageImage").color = _stageDatas[playerChoiceStage].LockStageColor;
-            GetUI<Image>("LockImage").gameObject.SetActive(true);
+
         }
-    }
 
-    //Stage difficulty 변경
-    private void ChangeStageDifficulty(GameObject newDifficultyLevel)
-    {
-
-        Debug.Log("문제 5");
+        //난이도 이미지 변경
         if (_currentDifficultyLevelImage != null)
         {
             _currentDifficultyLevelImage.SetActive(false);
@@ -247,6 +171,7 @@ public class MainPanel : UIBInder, IAssetLoadable
 
         Debug.Log("해골 변경");
     }
+
 
     private void PlayGame()
     {
@@ -290,15 +215,4 @@ public class MainPanel : UIBInder, IAssetLoadable
         }
     }
 
-    private void SetSound()
-    {
-        if (PlayerController.Instance.PlayerData.IsSound == false)
-        {
-            _audio.Stop();
-        }
-        else if (PlayerController.Instance.PlayerData.IsSound == true)
-        {
-            _audio.Play();
-        }
-    }
 }
