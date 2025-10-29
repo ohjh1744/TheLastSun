@@ -61,6 +61,7 @@ public class MainPanel : UIBInder
     {
         GetUI();
         AddEvent();
+        ChangeStageDetail(PlayerController.Instance.PlayerData.CurrentStage);
     }
 
     private void GetUI()
@@ -93,6 +94,7 @@ public class MainPanel : UIBInder
         //이벤트와 함수 연결
         //PlayerController.Instance.PlayerData.OnCurrentStageChanged += ChangeStageDetail;
     }
+
 
 
     // 스테이지 변경
@@ -152,13 +154,13 @@ public class MainPanel : UIBInder
         //첫번째 스테이지와 이전스테이지클리어시 해당스테이지는 Lock해제
         if (playerChoiceStage == 0 || PlayerController.Instance.PlayerData.IsClearStage[playerChoiceStage - 1] == true)
         {
-            GetUI<Image>("StageImage").color = _stageDatas[playerChoiceStage].UnLockStageColor;
+            _stageImages[playerChoiceStage].color = _stageDatas[playerChoiceStage].UnLockStageColor;
             GetUI<Image>("LockImage").gameObject.SetActive(false);
         }
         else
         {
-            GetUI<Image>("StageImage").color = _stageDatas[playerChoiceStage].LockStageColor;
-
+            _stageImages[playerChoiceStage].color = _stageDatas[playerChoiceStage].LockStageColor;
+            GetUI<Image>("LockImage").gameObject.SetActive(true);
         }
 
         //난이도 이미지 변경

@@ -21,8 +21,4 @@ public class StageData : ScriptableObject
     [SerializeField] private Color _lockStageColor;
     public Color LockStageColor { get { return _lockStageColor; } private set { } }
 
-    [SerializeField] private AssetReferenceSprite _stageImageSprite;
-    public AssetReferenceSprite StageImageSprite { get { return _stageImageSprite; } private set { } }
-
-
 }
