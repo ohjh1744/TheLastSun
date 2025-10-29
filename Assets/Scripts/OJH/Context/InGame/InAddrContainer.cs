@@ -44,7 +44,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     [SerializeField] List<AssetReferenceSprite> _bomerPortraitSprites;
     [SerializeField] List<AssetReferenceSprite> _godPortraitSprites;
 
-
     //Prefab
     [Header("Hero")]
     [SerializeField] List<AssetReferenceGameObject> _warriors;
@@ -61,7 +60,13 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
     [Header("HeroPlate")]
     [SerializeField] List<AssetReferenceGameObject> _heroPlate;
+
+    //SOund
+    [Header("Sound")]
+    [SerializeField] List<AssetReferenceT<AudioClip>> _bgmClip;
+    [SerializeField] AssetReferenceT<AudioClip> _spawnClip;
     #endregion
+
 
     void Awake()
     {
@@ -158,7 +163,8 @@ public class InAddrContainer : UIBInder, IAssetLoadable
                 GetUI<Image>($"TutorialImage{index}").sprite = sprite;
             });
         }
-        AddressableManager.Instance.LoadOnlySprite(_wave1MobSprites[PlayerController.Instance.PlayerData.CurrentStage], (sprite) => { GetUI<Image>("WaveInfoMobImage").sprite = sprite; });
+        AddressableManager.Instance.LoadOnlySprite(_wave1MobSprites[PlayerController.Instance.PlayerData.CurrentStage], (sprite) => { _clearLoadAssetCount++; GetUI<Image>("WaveInfoMobImage").sprite = sprite; });
+        AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () => { _clearLoadAssetCount++; GetUI<AudioSource>("Bgm").Play(); });
 
     }
 
