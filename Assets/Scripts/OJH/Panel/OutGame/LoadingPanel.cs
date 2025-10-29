@@ -10,7 +10,7 @@ public enum IAssetLoad {Main, BossBook, Setting, Credit }
 public class LoadingPanel : UIBInder
 {
     //어드레서블을 통해 불러와 에셋을 적용할 패널들을 저장하는 공간
-    private List<IAssetLoadable> _assetLoadablePanels;
+    private List<IAssetLoadable> _assetLoadableObjects;
 
     //어드레서블을 통해 불러와 에셋 적용하는 패널들
     [SerializeField] private GameObject[] _assetLoadObjects;
@@ -36,14 +36,14 @@ public class LoadingPanel : UIBInder
 
     private void Init()
     {
-        _assetLoadablePanels = new List<IAssetLoadable>();
+        _assetLoadableObjects = new List<IAssetLoadable>();
 
         for(int i = 0; i < _assetLoadObjects.Length; i++)
         {
             IAssetLoadable panel = _assetLoadObjects[i].GetComponent<IAssetLoadable>();
-            _assetLoadablePanels.Add(panel);
+            _assetLoadableObjects.Add(panel);
         }
-        Debug.Log(_assetLoadablePanels.Count);
+        Debug.Log(_assetLoadableObjects.Count);
     }
 
     IEnumerator CheckLoadAsset()
@@ -55,13 +55,13 @@ public class LoadingPanel : UIBInder
         {
             bool isAnyNotClearLoad = false;
 
-            for (int i = 0; i < _assetLoadablePanels.Count; i++)
+            for (int i = 0; i < _assetLoadableObjects.Count; i++)
             {
                 // Panel들을 차례대로 탐색해서 Load클리어가 다 끝났는지 체크, 아니라면 종료하고 다시 재탐색
-                if (_assetLoadablePanels[i].LoadAssetUICount > _assetLoadablePanels[i].ClearLoadAssetCount)
+                if (_assetLoadableObjects[i].LoadAssetUICount > _assetLoadableObjects[i].ClearLoadAssetCount)
                 {
-                    Debug.Log($"{i}번째: {_assetLoadablePanels[i].LoadAssetUICount}");
-                    Debug.Log($"{i}번째: {_assetLoadablePanels[i].ClearLoadAssetCount}");
+                    Debug.Log($"{i}번째: {_assetLoadableObjects[i].LoadAssetUICount}");
+                    Debug.Log($"{i}번째: {_assetLoadableObjects[i].ClearLoadAssetCount}");
                     isAnyNotClearLoad = true;
                     break;
                 }
@@ -72,9 +72,11 @@ public class LoadingPanel : UIBInder
             {
                 break;
             }
-
             yield return null;
         }
+
+        Debug.Log($" {_assetLoadableObjects[0].LoadAssetUICount}");
+        Debug.Log($"{_assetLoadableObjects[0].ClearLoadAssetCount}");
 
         //Fake Loading
         float time = 0f;
