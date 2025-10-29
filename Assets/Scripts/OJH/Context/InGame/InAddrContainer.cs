@@ -19,6 +19,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
     #region Addressable Assets
     //UI
+    [Header("UI")]
     [SerializeField] AssetReferenceSprite _button_03;
     [SerializeField] AssetReferenceSprite _button_04;
     [SerializeField] AssetReferenceSprite _cancel;
@@ -37,9 +38,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     //추후 넣을 것
     [SerializeField] AssetReferenceSprite _spawnButton;
     [SerializeField] AssetReferenceSprite _goSpecialSpawnButton;
-    [SerializeField] AssetReferenceSprite _upgradeWarriorButton;
-    [SerializeField] AssetReferenceSprite _upgradeArcherButton;
-    [SerializeField] AssetReferenceSprite _upgradeBomerButton;
     [SerializeField] AssetReferenceSprite _specialSpawnButton;
     [SerializeField] List<AssetReferenceSprite> _warriorPortraitSprites;
     [SerializeField] List<AssetReferenceSprite> _archerPortraitSprites;
@@ -48,17 +46,20 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
 
     //Prefab
+    [Header("Hero")]
     [SerializeField] List<AssetReferenceGameObject> _warriors;
     [SerializeField] List<AssetReferenceGameObject> _archers;
     [SerializeField] List<AssetReferenceGameObject> _bomers;
     [SerializeField] List<AssetReferenceGameObject> _gods;
 
+    [Header("Mob")]
     [SerializeField] List<AssetReferenceGameObject> _stage1Mobs;
     [SerializeField] List<AssetReferenceGameObject> _stage2Mobs;
     [SerializeField] List<AssetReferenceGameObject> _stage3Mobs;
     [SerializeField] List<AssetReferenceGameObject> _stage4Mobs;
     [SerializeField] List<AssetReferenceGameObject> _stage5Mobs;
 
+    [Header("HeroPlate")]
     [SerializeField] List<AssetReferenceGameObject> _heroPlate;
     #endregion
 
@@ -165,17 +166,17 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     [ContextMenu("Fill StageMob")]
     private void FillStageMob()
     {
-        _stage5Mobs.Clear();
+        _stage1Mobs.Clear();
 
         for (int i = 1; i <= 49; i++)
         {
-            string assetPath = $"Assets/Prefabs/OJH/Monsters/Stage5/Stage5_Mob_{i}.prefab";
+            string assetPath = $"Assets/Prefabs/OJH/Monsters/Stage1/Stage1_Mob_{i}.prefab";
 
             // Addressable에 이미 등록되어 있어야 합니다.
             string addressableKey = AssetDatabase.AssetPathToGUID(assetPath); // GUID를 Key로 사용할 수 있음
 
             AssetReferenceGameObject reference = new AssetReferenceGameObject(addressableKey);
-            _stage5Mobs.Add(reference);
+            _stage1Mobs.Add(reference);
         }
 
         EditorUtility.SetDirty(this);
