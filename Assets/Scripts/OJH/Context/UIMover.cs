@@ -22,6 +22,7 @@ public class UIMover : MonoBehaviour
         Vector2 targetPos = new Vector2(originalPos.x + _xMove, originalPos.y + _yMove);
 
         Sequence moveSequence = DOTween.Sequence();
+        moveSequence.SetUpdate(true);
 
         moveSequence.Append(_rectTransform.DOAnchorPos(targetPos, _moveTime).SetEase(Ease.Linear))
                     .Append(_rectTransform.DOAnchorPos(originalPos, _moveTime).SetEase(Ease.Linear))
