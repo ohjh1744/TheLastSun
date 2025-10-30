@@ -88,6 +88,8 @@ public class SetUpPanel : UIBInder
                     if (status == UpdateAvailability.UpdateAvailable)
                     {
                         Debug.Log("업데이트 필요!");
+                        string Url = "https://play.google.com/store/apps/details?id=com.OJH.TheLastSun";
+                        Application.OpenURL(Url);
                     }
                     //업데이트 할것이 없다면
                     else if (status == UpdateAvailability.UpdateNotAvailable && _isUpdateCheck == false)

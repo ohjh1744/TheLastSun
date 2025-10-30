@@ -113,7 +113,7 @@ public class SettingPanel : UIBInder
         //    Application.OpenURL(webUrl);
         //}
 
-        string testUrl = "https://play.google.com/store/apps/details?id=com.OJH.TheLastSun&hl=en-US&ah=ycKdRomcQYMd4i9uVCop1W5Jqgc&pli=1";
+        string testUrl = "https://play.google.com/store/apps/details?id=com.OJH.TheLastSun";
         Application.OpenURL(testUrl);
 
     }

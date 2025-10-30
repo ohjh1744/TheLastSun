@@ -97,36 +97,37 @@ public class GpgsManager : MonoBehaviour
                 }
                 callback(UpdateAvailability.UpdateAvailable);
 
-                //실제 업데이트 창 띄우기
-                var appUpdateOptions = AppUpdateOptions.ImmediateAppUpdateOptions();
-                var startUpdateRequest = _appUpdateManager.StartUpdate(appUpdateInfoResult, appUpdateOptions);
+                //현재 인앱업데이트의 경우, api자체의 원인불명의 문제들이 몇몇 실제로 많이 보여서 링크를 여는거로 대체
+                ////실제 업데이트 창 띄우기
+                //var appUpdateOptions = AppUpdateOptions.ImmediateAppUpdateOptions();
+                //var startUpdateRequest = _appUpdateManager.StartUpdate(appUpdateInfoResult, appUpdateOptions);
 
-                // 다운로드 진행
-                while (!startUpdateRequest.IsDone)
-                {
-                    if (startUpdateRequest.Status == AppUpdateStatus.Downloading)
-                    {
-                        Debug.Log("업데이트 다운로드 진행중");
-                    }
-                    else if (startUpdateRequest.Status == AppUpdateStatus.Downloaded)
-                    {
-                        Debug.Log("다운로드 완료");
-                    }
-                    yield return null;
-                }
+                //// 다운로드 진행
+                //while (!startUpdateRequest.IsDone)
+                //{
+                //    if (startUpdateRequest.Status == AppUpdateStatus.Downloading)
+                //    {
+                //        Debug.Log("업데이트 다운로드 진행중");
+                //    }
+                //    else if (startUpdateRequest.Status == AppUpdateStatus.Downloaded)
+                //    {
+                //        Debug.Log("다운로드 완료");
+                //    }
+                //    yield return null;
+                //}
 
-                // 다운로드 완료 후 업데이트 실제 적용
-                var result = _appUpdateManager.CompleteUpdate();
+                //// 다운로드 완료 후 업데이트 실제 적용
+                //var result = _appUpdateManager.CompleteUpdate();
 
-                // 완료되었는지 마지막 확인
-                while (!result.IsDone)
-                {
-                    yield return new WaitForEndOfFrame();
-                }
+                //// 완료되었는지 마지막 확인
+                //while (!result.IsDone)
+                //{
+                //    yield return new WaitForEndOfFrame();
+                //}
 
-                Debug.Log("업데이트 완료");
+                //Debug.Log("업데이트 완료");
 
-                yield return (int)startUpdateRequest.Status;
+                //yield return (int)startUpdateRequest.Status;
             }
             // 업데이트가 없는 상태라면
             else if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateNotAvailable)
