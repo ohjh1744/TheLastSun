@@ -240,36 +240,50 @@ public class AddressableManager : MonoBehaviour
 
     IEnumerator CheckDownLoadFileWithCatalogUpdate(Action<long> callback)
     {
-        //Catalog 최신화
+        // Catalog 최신화 시도
         var checkHandle = Addressables.CheckForCatalogUpdates();
-
         Debug.Log("카탈로그 최신화 시도!");
-
         yield return checkHandle;
-
         Debug.Log("checkHandle 반환 완료!");
 
-        if (checkHandle.Status == AsyncOperationStatus.Succeeded)
+        // handle 유효성 체크
+        if (checkHandle.IsValid())
         {
-            if (checkHandle.Result != null && checkHandle.Result.Count > 0)
+            bool hasUpdate = false;
+
+            if (checkHandle.Status == AsyncOperationStatus.Succeeded)
             {
-                Debug.Log("[AddressableManager] 새로운 Catalog 발견! 업데이트합니다.");
-                var updateHandle = Addressables.UpdateCatalogs(checkHandle.Result);
-                yield return updateHandle;
-                updateHandle.Release();
+                var catalogs = checkHandle.Result; // 바로 로컬 변수에 저장
+                if (catalogs != null && catalogs.Count > 0)
+                {
+                    hasUpdate = true;
+                    Debug.Log("[AddressableManager] 새로운 Catalog 발견! 업데이트합니다.");
+
+                    var updateHandle = Addressables.UpdateCatalogs(catalogs);
+                    yield return updateHandle;
+
+                    if (updateHandle.IsValid())
+                        updateHandle.Release();
+                }
             }
             else
             {
+                Debug.LogError($"[AddressableManager] Catalog 체크 실패! Status: {checkHandle.Status}");
+            }
+
+            if (!hasUpdate)
+            {
                 Debug.Log("[AddressableManager] Catalog는 최신 상태입니다.");
             }
+
+            checkHandle.Release(); // 마지막에 Release
         }
         else
         {
-            Debug.LogError($"[AddressableManager] Catalog 체크 실패! Status: {checkHandle.Status}");
+            Debug.LogError("[AddressableManager] checkHandle이 유효하지 않습니다!");
         }
 
-        checkHandle.Release();
-
+        // 실제 파일 다운로드 사이즈 계산
         yield return CheckDownLoadFIle(callback);
     }
 
