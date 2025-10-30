@@ -9,18 +9,16 @@ using UnityEngine.UI;
 public enum IAssetLoad {Main, BossBook, Setting, Credit }
 public class LoadingPanel : UIBInder
 {
-    //어드레서블을 통해 불러와 에셋을 적용할 패널들을 저장하는 공간
-    private List<IAssetLoadable> _assetLoadableObjects;
+    private IAssetLoadable _assetLoadableObject;
 
     //어드레서블을 통해 불러와 에셋 적용하는 패널들
-    [SerializeField] private GameObject[] _assetLoadObjects;
+    [SerializeField] private GameObject _assetLoadObject;
 
     //준비 완료 이후, false할 패널들과 True할 패널들
     [SerializeField] private GameObject[] _setFalsePanels;
     [SerializeField] private GameObject[] _setTruePanels;
 
     private Coroutine _routine;
-    [SerializeField] private float _fakeLoadingTime;
 
     StringBuilder _sb = new StringBuilder();
 
@@ -36,81 +34,57 @@ public class LoadingPanel : UIBInder
 
     private void Init()
     {
-        _assetLoadableObjects = new List<IAssetLoadable>();
-
-        for(int i = 0; i < _assetLoadObjects.Length; i++)
-        {
-            IAssetLoadable panel = _assetLoadObjects[i].GetComponent<IAssetLoadable>();
-            _assetLoadableObjects.Add(panel);
-        }
-        Debug.Log(_assetLoadableObjects.Count);
+        IAssetLoadable panel = _assetLoadObject.GetComponent<IAssetLoadable>();
+        _assetLoadableObject = panel;
+        Debug.Log(panel);
     }
 
     IEnumerator CheckLoadAsset()
     {
-        Debug.Log("로드에셋체크 시작!!!!!");
+        Debug.Log("부드러운 실제 로딩 시작!");
 
-        //각 패널들 어드레서블 로드 완료되었는지 체크
-        while (true)
+        float displayedProgress = 0f;
+        float lerpSpeed = 2f; // UI가 따라가는 속도
+        StringBuilder sb = new StringBuilder();
+
+        int totalAssets = Mathf.Max(_assetLoadableObject.LoadAssetUICount, 1); // 0 방지
+
+        while (displayedProgress < 1f)
         {
-            bool isAnyNotClearLoad = false;
+            Debug.Log($"{_assetLoadableObject.LoadAssetUICount}");
+            Debug.Log($"{_assetLoadableObject.ClearLoadAssetCount}");
+            // 실제 진행률 계산
+            float realProgress = (float)_assetLoadableObject.ClearLoadAssetCount / totalAssets;
 
-            for (int i = 0; i < _assetLoadableObjects.Count; i++)
-            {
-                // Panel들을 차례대로 탐색해서 Load클리어가 다 끝났는지 체크, 아니라면 종료하고 다시 재탐색
-                if (_assetLoadableObjects[i].LoadAssetUICount > _assetLoadableObjects[i].ClearLoadAssetCount)
-                {
-                    Debug.Log($"{i}번째: {_assetLoadableObjects[i].LoadAssetUICount}");
-                    Debug.Log($"{i}번째: {_assetLoadableObjects[i].ClearLoadAssetCount}");
-                    isAnyNotClearLoad = true;
-                    break;
-                }
-            }
+            // Lerp로 부드럽게 증가 (deltaTime을 곱해서 프레임 독립적)
+            displayedProgress = Mathf.Lerp(displayedProgress, realProgress, Time.deltaTime * lerpSpeed);
 
-            //다 클리어했다면 전체 반복문 종료
-            if(isAnyNotClearLoad == false)
-            {
+            // Slider & Text 업데이트
+            GetUI<Slider>("LoadingSlider").value = displayedProgress;
+            sb.Clear();
+            int percent = Mathf.FloorToInt(displayedProgress * 100);
+            sb.Append(percent);
+            sb.Append("%");
+            GetUI<TextMeshProUGUI>("LoadingText").SetText(sb);
+
+            // 종료 조건: 실제 로딩 완료 + UI가 거의 100%
+            if (_assetLoadableObject.ClearLoadAssetCount >= totalAssets && displayedProgress >= 0.99f)
                 break;
-            }
+
             yield return null;
         }
 
-        Debug.Log($" {_assetLoadableObjects[0].LoadAssetUICount}");
-        Debug.Log($"{_assetLoadableObjects[0].ClearLoadAssetCount}");
+        // 100% 보정
+        GetUI<Slider>("LoadingSlider").value = 1f;
+        GetUI<TextMeshProUGUI>("LoadingText").SetText("100%");
 
-        //Fake Loading
-        float time = 0f;
-        while (time < _fakeLoadingTime)
-        {
-            time += Time.deltaTime;
-            GetUI<Slider>("LoadingSlider").value = time / _fakeLoadingTime;
-            _sb.Clear();
-            int percent = Mathf.FloorToInt(GetUI<Slider>("LoadingSlider").value * 100);
-            if (percent == 100)
-            {
-                _sb.Append(99);
-            }
-            else
-            {
-                _sb.Append(percent);
-            }
-            _sb.Append("%");
-            GetUI<TextMeshProUGUI>("LoadingText").SetText(_sb);
-            yield return null;
-        }
+        // 패널 처리
+        foreach (var panel in _setFalsePanels)
+            panel.SetActive(false);
 
-        //다 완료되면 FalsePanel꺼주기
-        for(int i = 0; i < _setFalsePanels.Length; i++)
-        {
-            _setFalsePanels[i].SetActive(false);
-        }
+        foreach (var panel in _setTruePanels)
+            panel.SetActive(true);
 
-        //TruePanel 켜주기
-        for (int i = 0; i < _setTruePanels.Length; i++)
-        {
-            _setTruePanels[i].SetActive(true);
-        }
-        
+        Debug.Log("실제 로딩 완료!");
     }
-
 }

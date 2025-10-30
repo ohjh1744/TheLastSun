@@ -11,7 +11,7 @@ public class TTestPanel : MonoBehaviour
     [SerializeField] AssetReferenceGameObject _object;
     void Start()
     {
-        AddressableManager.Instance.GetObject(_object, (obj) => { });
+        AddressableManager.Instance.DoCheckDownLoadFile((size) => { Debug.Log($"{size}"); });
     }
 
     private void Update()

@@ -88,6 +88,8 @@ public class SetUpPanel : UIBInder
                     if (status == UpdateAvailability.UpdateAvailable)
                     {
                         Debug.Log("업데이트 필요!");
+                        string Url = "https://play.google.com/store/apps/details?id=com.OJH.TheLastSun";
+                        Application.OpenURL(Url);
                     }
                     //업데이트 할것이 없다면
                     else if (status == UpdateAvailability.UpdateNotAvailable && _isUpdateCheck == false)
@@ -112,6 +114,7 @@ public class SetUpPanel : UIBInder
     //다운로드 할것이 있는지 확인
     private void CheckDownLoad()
     {
+        Debug.Log("CheckDownLoad1");
         AddressableManager.Instance.DoCheckDownLoadFile((downSIze) =>{
             // 다운로드할 파일이 존재하면 다운로드 패널을 열기
             if (downSIze > decimal.Zero)

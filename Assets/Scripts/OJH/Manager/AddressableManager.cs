@@ -234,8 +234,38 @@ public class AddressableManager : MonoBehaviour
     {
         if (_checkDownLoadRoutine == null)
         {
-            _checkDownLoadRoutine = StartCoroutine(CheckDownLoadFIle(callback)); // 다운로드할 파일 있는지 확인
+            _checkDownLoadRoutine = StartCoroutine(CheckDownLoadFileWithCatalogUpdate(callback)); // 다운로드할 파일 있는지 확인
         }
+    }
+
+    IEnumerator CheckDownLoadFileWithCatalogUpdate(Action<long> callback)
+    {
+        Addressables.CheckForCatalogUpdates().Completed += (result) =>
+        {
+            var catalogToUpdate = result.Result;
+            if (catalogToUpdate != null & catalogToUpdate.Count > 0)
+            {
+                var updateHandle = Addressables.UpdateCatalogs(catalogToUpdate);
+                updateHandle.Completed += (updateResult) =>
+                {
+                    StartCoroutine(CheckDownLoadFIle(callback));
+                    Debug.Log("카탈로그 업데이트완료");
+
+                    if (updateHandle.IsValid())
+                        updateHandle.Release();
+
+                    if (result.IsValid())
+                        result.Release();
+                };
+            }
+            else
+            {
+                Debug.Log("카탈로그 업데이트할것이 없음");
+                StartCoroutine(CheckDownLoadFIle(callback));
+            }
+        };
+
+        yield return null;
     }
 
     // CheckDownLoadFIle 코루틴에서 _downSize를 계산하고 콜백을 호출
