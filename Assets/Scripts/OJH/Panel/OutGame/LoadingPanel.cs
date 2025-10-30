@@ -36,6 +36,7 @@ public class LoadingPanel : UIBInder
     {
         IAssetLoadable panel = _assetLoadObject.GetComponent<IAssetLoadable>();
         _assetLoadableObject = panel;
+        Debug.Log(panel);
     }
 
     IEnumerator CheckLoadAsset()
