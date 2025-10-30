@@ -242,21 +242,34 @@ public class AddressableManager : MonoBehaviour
     {
         //Catalog 최신화
         var checkHandle = Addressables.CheckForCatalogUpdates();
+
+        Debug.Log("카탈로그 최신화 시도!");
+
         yield return checkHandle;
 
-        // checkHandle 정상적으로 반환됐고, 카탈로그 업데이트할것이 있따면
-        if (checkHandle.Status == AsyncOperationStatus.Succeeded && checkHandle.Result.Count > 0)
+        Debug.Log("checkHandle 반환 완료!");
+
+        if (checkHandle.Status == AsyncOperationStatus.Succeeded)
         {
-            Debug.Log("[AddressableManager] 새로운 Catalog 발견! 업데이트합니다.");
-            var updateHandle = Addressables.UpdateCatalogs(checkHandle.Result);
-            yield return updateHandle;
+            if (checkHandle.Result != null && checkHandle.Result.Count > 0)
+            {
+                Debug.Log("[AddressableManager] 새로운 Catalog 발견! 업데이트합니다.");
+                var updateHandle = Addressables.UpdateCatalogs(checkHandle.Result);
+                yield return updateHandle;
+                updateHandle.Release();
+            }
+            else
+            {
+                Debug.Log("[AddressableManager] Catalog는 최신 상태입니다.");
+            }
         }
         else
         {
-            Debug.Log("[AddressableManager] Catalog는 최신 상태입니다.");
+            Debug.LogError($"[AddressableManager] Catalog 체크 실패! Status: {checkHandle.Status}");
         }
 
-        // Catalog 갱신이 끝난 후 실제 파일 사이즈 계산 실행
+        checkHandle.Release();
+
         yield return CheckDownLoadFIle(callback);
     }
 
