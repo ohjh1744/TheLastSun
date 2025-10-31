@@ -137,17 +137,18 @@ public class AddressableManager : MonoBehaviour
     }
 
     //단순 Object 생성 후 List에 저장
-    public void GetObjectAndSave(AssetReferenceGameObject assetObject, List<GameObject> realObjects, Action callBack)
+    public void GetObjectAndSave(AssetReferenceGameObject assetObject, List<GameObject> realObjects,  Action<GameObject> callBack)
     {
         assetObject.InstantiateAsync().Completed += (obj) =>
         {
             realObjects.Add(obj.Result);
-            callBack();
+            callBack(obj.Result);
         };
     }
 
 
     //List에 저장된 Object들 생성 후 List에 저장
+    // 이건 사용 x 함수  callback 호출시점이 애매
     public void GetObjectsAndSave(List<AssetReferenceGameObject> assetObjects, List<GameObject> realObjects, Action callBack)
     {
         for (int i = 0; i < assetObjects.Count; i++)

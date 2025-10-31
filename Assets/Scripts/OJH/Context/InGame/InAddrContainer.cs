@@ -47,10 +47,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
     //Prefab
     [Header("Hero")]
-    [SerializeField] List<AssetReferenceGameObject> _warriors;
-    [SerializeField] List<AssetReferenceGameObject> _archers;
-    [SerializeField] List<AssetReferenceGameObject> _bomers;
-    [SerializeField] List<AssetReferenceGameObject> _gods;
+    [SerializeField] List<AssetReferenceGameObject> _heros;
 
     [Header("Mob")]
     [SerializeField] List<AssetReferenceGameObject> _stage1Mobs;
@@ -59,8 +56,11 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     [SerializeField] List<AssetReferenceGameObject> _stage4Mobs;
     [SerializeField] List<AssetReferenceGameObject> _stage5Mobs;
 
+    [Header("Projectile")]
+    [SerializeField] List<AssetReferenceGameObject> _projectiles;
+
     [Header("HeroPlate")]
-    [SerializeField] List<AssetReferenceGameObject> _heroPlate;
+    [SerializeField] AssetReferenceGameObject _heroPlate;
 
     //SOund
     [Header("Sound")]
@@ -68,6 +68,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     [SerializeField] AssetReferenceT<AudioClip> _spawnClip;
     #endregion
 
+    [SerializeField] private GameObject _addressObjects;
 
     void Awake()
     {
@@ -257,6 +258,53 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         }
         AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () => { _clearLoadAssetCount++; GetUI<AudioSource>("Bgm").Play(); });
         AddressableManager.Instance.LoadSound(_spawnClip, GetUI<AudioSource>("Sfx"), () => { _clearLoadAssetCount++;});
+
+        //아래부터는 프리펩 불러오고 미리 생성
+        for(int i = 0; i < _heros.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.GetObjectAndSave(_heros[index], ObjectPoolManager.Instance.Heros, (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false);});
+        }
+
+        LoadMob();
+
+        for (int i = 0; i < _projectiles.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.GetObjectAndSave(_projectiles[index], ObjectPoolManager.Instance.Projectiles,  (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
+        }
+
+    }
+
+    private void LoadMob()
+    {
+        List<AssetReferenceGameObject> _stageMobs;
+        switch (PlayerController.Instance.PlayerData.CurrentStage)
+        {
+            case 0:
+                _stageMobs = _stage1Mobs;
+                break;
+            case 1:
+                _stageMobs = _stage2Mobs;
+                break;
+            case 2:
+                _stageMobs = _stage3Mobs;
+                break;
+            case 3:
+                _stageMobs = _stage4Mobs;
+                break;
+            case 4:
+                _stageMobs = _stage5Mobs;
+                break;
+            default:
+                return;
+        }
+
+        for(int i= 0; i < _stageMobs.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.GetObjectAndSave(_stageMobs[index], ObjectPoolManager.Instance.Mobs, (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
+        }
     }
 
 

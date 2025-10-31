@@ -108,7 +108,7 @@ public class InGameManager : MonoBehaviour, IAssetLoadable
         //프리펩 가져와서 저장
         for (int i = 0; i < prefabs.Count; i++)
         {
-            AddressableManager.Instance.GetObjectAndSave(prefabs[i], savedPrefabs, () =>
+            AddressableManager.Instance.GetObjectAndSave(prefabs[i], savedPrefabs, (obj) =>
             {
                 _clearLoadAssetCount++;
             });
