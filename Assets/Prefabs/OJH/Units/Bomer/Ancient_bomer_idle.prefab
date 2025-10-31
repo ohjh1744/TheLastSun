@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -7627747928907916964}
   - component: {fileID: -1176838202270252519}
   - component: {fileID: 3358050489774531768}
+  - component: {fileID: -6663501925191127655}
   m_Layer: 0
   m_Name: Ancient_bomer_idle
   m_TagString: Untagged
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6663501925191127655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4968860858175576504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadd44cfc655c24098be199555e746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _heroData: {fileID: 11400000, guid: 03d233fb030d7b7409d69b29b46e89be, type: 2}

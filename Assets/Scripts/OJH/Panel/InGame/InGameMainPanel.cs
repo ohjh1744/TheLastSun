@@ -1,4 +1,8 @@
+using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -6,6 +10,27 @@ using UnityEngine.UI;
 
 public class InGameMainPanel : UIBInder
 {
+    private enum ESpawn{Normal, Special};
+    //일반,레어,고대,전설,에픽 신화 -> 전사,궁수,폭탄병순
+    private int[,] _spawnIndex = { { 0, 5, 10 }, { 1, 6, 11 }, { 2, 7, 12 }, { 3, 8, 13 }, { 4, 9, 14 }, { 15, 16, 17 } };
+
+    [Header("소환 관련")]
+    [SerializeField] private int _normalSpawnForJemNum;
+    [SerializeField] private int _specialSpawnForJemNum;
+    [SerializeField] private float[] _normalSpawnRates;
+    [SerializeField] private float[] _specialSpawnRates;
+    [SerializeField] private Color[] _greatHeroSpawnTextColors;
+
+    StringBuilder _sb = new StringBuilder();
+    private  string[] _heroName = { "전사", "궁수", "폭탄병" };
+    private string[] _godname = { "토난친", "나나우아틀", "시우테쿠틀리" };
+    [SerializeField] private float _setNotifyPaneldurate;
+    private Tween _notifyTween;
+
+    [SerializeField] private AudioSource _sfx;
+    private AudioClip _spawnClip;
+
+ 
     private void Awake()
     {
         BindAll();
@@ -16,19 +41,166 @@ public class InGameMainPanel : UIBInder
         Init();
     }
 
+    private void Update()
+    {
+        
+    }
+
     private void Init()
     {
+        _spawnClip = _sfx.clip;
+        Debug.Log(_spawnClip);
+        ShowJem();
+        TurnOffNormalAndSpecialSpawnButton();
         AddEvent();
     }
 
     private void AddEvent()
     {
-
+        GetUI<Button>("SpawnButton").onClick.AddListener(() => Spawn(true));
+        GetUI<Button>("SpecialSpawnButton").onClick.AddListener(() => Spawn(false));
+        InGameManager.Instance.JemNumOnChanged += TurnOffNormalAndSpecialSpawnButton;
+        InGameManager.Instance.JemNumOnChanged += ShowJem;
     }
 
-    //UI에 적용할 이미지들 불러오고 적용
-  
-   
+    private void Spawn(bool isNormalSpawn)
+    {
+        _sfx.PlayOneShot(_spawnClip);
+        //1. 일반스폰확률, 스페셜스폰확률 결정 및 보석 소모
+        float[] spawnRates;
+        if (isNormalSpawn == true)
+        {
+            InGameManager.Instance.JemNum -= _normalSpawnForJemNum;
+            Debug.Log(InGameManager.Instance.JemNum);
+            spawnRates = _normalSpawnRates;
+        }
+        else
+        {
+            InGameManager.Instance.JemNum -= _specialSpawnForJemNum;
+            spawnRates = _specialSpawnRates;
+        }
+
+        //2.스폰확률에 따라 소환할 등급결정
+        float randomGradeValue = Random.Range(0f, 100f);
+        int spawnGradeIndex = 0;
+        float maxValue =  spawnRates[0]-1;
+        for (int i = 0; i < spawnRates.Length; i++)
+        {
+            Debug.Log(maxValue);
+            if (randomGradeValue < maxValue)
+            {
+                //특수소환 실패라면
+                if(i == 0 && isNormalSpawn == false)
+                {
+                    //특수소환 실패 알림 띄우고 return
+                    Debug.Log($"{maxValue}: {randomGradeValue}특수소환 실패");
+                    return;
+                }
+                else
+                {
+                    // 해당 등급 뽑기 결졍
+                    //특수소환의 경우 인덱스 2차이나기에 
+                    if(isNormalSpawn == false)
+                    {
+                        spawnGradeIndex = i + 2;
+                        Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)i+2}등급 특수소환뽑힘");
+                    }
+                    else
+                    {
+                        spawnGradeIndex = i;
+                        Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)i}등급 소환뽑힘");
+                    }
+                    break;
+                }
+            }
+            if(i < spawnRates.Length - 1)
+            {
+                maxValue = maxValue + spawnRates[i + 1];
+            }
+        }
+
+        //3. 해당 등급 중에 1/3확률로 유닛 뽑기, 뽑고나서 마리수 증가
+        int randomHeroValue = Random.Range(0, 3);
+        GameObject hero = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.HeroPools, ObjectPoolManager.Instance.Heros, _spawnIndex[spawnGradeIndex, randomHeroValue]);
+        hero.transform.position = Vector3.zero;
+        ObjectPoolManager.Instance.HeroNum[_spawnIndex[spawnGradeIndex, randomHeroValue]]++;
+
+        //4. 전설 등급 이상은 알림켜주기
+        if (spawnGradeIndex >= (int)EHeroGrade.Legend)
+        {
+            NotifySpawnGreatUnit(spawnGradeIndex, randomHeroValue);
+        }
+    }
+
+    private void NotifySpawnGreatUnit(int heroGradeIndex, int hero)
+    {
+        _sb.Clear();
+        if(heroGradeIndex == (int)EHeroGrade.Legend)
+        {
+            _sb.Append($"전설의 아즈텍 {_heroName[hero]}가 등장합니다!");
+            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.Legend - 3];
+        }
+        else if (heroGradeIndex == (int)EHeroGrade.Epic)
+        {
+            _sb.Append($"드높은 긍지의 아즈텍 {_heroName[hero]}가 등장합니다!");
+            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.Epic - 3];
+        }
+        else if (heroGradeIndex == (int)EHeroGrade.God)
+        {
+            _sb.Append($"인간을 구원해줄 {_godname[hero]}가 강림합니다!");
+            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.God - 3];
+        }
+        GetUI<TextMeshProUGUI>("NotifyText").SetText(_sb);
+        TurnSetNotifyPanel();
+    }
+
+    private void TurnSetNotifyPanel()
+    {
+        GetUI("NotifyPanel").SetActive(true);
+
+        _notifyTween?.Kill();
+
+        // 3초 후 비활성화
+        _notifyTween = DOVirtual.DelayedCall(_setNotifyPaneldurate, () =>
+        {
+            GetUI("NotifyPanel").SetActive(false);
+        });
+    }
+
+    private void ShowJem()
+    {
+        _sb.Clear();
+        _sb.Append(InGameManager.Instance.JemNum);
+        GetUI<TextMeshProUGUI>("ShowJemText").SetText(_sb);
+    }
+
+    private void TurnOffNormalAndSpecialSpawnButton()
+    {
+        if(InGameManager.Instance.JemNum < 5)
+        {
+            GetUI<Button>("SpawnButton").interactable = false;
+            GetUI<Button>("SpecialSpawnButton").interactable = false;
+        }
+        else if (InGameManager.Instance.JemNum < 10)
+        {
+            GetUI<Button>("SpecialSpawnButton").interactable = false;
+        }
+        else
+        {
+            GetUI<Button>("SpawnButton").interactable = true;
+            GetUI<Button>("SpecialSpawnButton").interactable = true;
+        }
+    }
+
+    // To Do: 네트워크에러시 모든 버튼 비활성화
+    // To Do: 시간 멈춤
+    // To Do: 배속
+    // To Do: 강화
+    // To Do: 타이머 보이게
+    // To Do: Wave 표시
+    // To Do: 몬스터 이미지 표시
+
+
     //[ContextMenu("FillSPrites")]
     //private void FillStageMobSprites()
     //{

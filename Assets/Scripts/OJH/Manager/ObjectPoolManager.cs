@@ -31,7 +31,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     //¿µ¿õ ¹× ¸÷ ÇöÀç ¼ö
     private int _mobNum; public int MobNum { get { return _mobNum; } set { _mobNum = value; } }
-    private int _heroNum; public int HeroNum { get { return _heroNum; } set { _heroNum = value; } }
+    private int[] _heroNum = new int[18]; public int[] HeroNum { get { return _heroNum; } set { _heroNum = value; } }
 
     private void Awake()
     {
@@ -78,6 +78,7 @@ public class ObjectPoolManager : MonoBehaviour
         if (select == null)
         {
             select = Instantiate(spawnobject[index], transform);
+            select.SetActive(true);
             pools[index].Add(select);
         }
         return select;
@@ -96,7 +97,5 @@ public class ObjectPoolManager : MonoBehaviour
                 break;
             }
         }
-    }
-
-    
+    }    
 }

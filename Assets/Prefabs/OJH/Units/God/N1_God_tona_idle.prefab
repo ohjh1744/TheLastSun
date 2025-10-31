@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1598379722840425428}
   - component: {fileID: -2156646342683445721}
   - component: {fileID: -6840614075418496142}
+  - component: {fileID: 3568282194988734572}
   m_Layer: 0
   m_Name: N1_God_tona_idle
   m_TagString: Untagged
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3568282194988734572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577139862595520409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadd44cfc655c24098be199555e746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _heroData: {fileID: 11400000, guid: 76223d239ca40ab4d8554aa7da38d4bb, type: 2}

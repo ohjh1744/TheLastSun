@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2548020264865658319}
   - component: {fileID: 801025322896278039}
   - component: {fileID: 8457969201049073195}
+  - component: {fileID: -1862413471967965763}
   m_Layer: 0
   m_Name: N3_God_xiu_idle
   m_TagString: Untagged
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1862413471967965763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8430999385092267874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadd44cfc655c24098be199555e746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _heroData: {fileID: 11400000, guid: da6a5ae7b3acd844ca3ac317922c3a9a, type: 2}
