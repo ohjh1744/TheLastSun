@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 4460630944137601099}
   - component: {fileID: 2607165801302845805}
   - component: {fileID: 8800942053845358513}
+  - component: {fileID: 6791764489029557384}
   m_Layer: 0
   m_Name: Rare_bomer_idle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8781979742667262903
 Transform:
   m_ObjectHideFlags: 0
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6791764489029557384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6368700138381318737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadd44cfc655c24098be199555e746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _heroData: {fileID: 11400000, guid: cc3255955a7671a4793d48c4ef4e5650, type: 2}

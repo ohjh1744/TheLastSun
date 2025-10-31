@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 4232035984058221642}
   - component: {fileID: -8783127541665373454}
   - component: {fileID: 5963941620721503216}
+  - component: {fileID: -764158389611009715}
   m_Layer: 0
   m_Name: Rare_warrior_attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8272987240700087273
 Transform:
   m_ObjectHideFlags: 0
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-764158389611009715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3953197130532171611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadd44cfc655c24098be199555e746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _heroData: {fileID: 0}

@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 8459921817946937906}
   - component: {fileID: -8689338467271019518}
   - component: {fileID: 6207843590640106427}
+  - component: {fileID: -1539821152964300674}
   m_Layer: 0
   m_Name: Ancient_archer_idle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1205933094490437512
 Transform:
   m_ObjectHideFlags: 0
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1539821152964300674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 386097251514986630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadd44cfc655c24098be199555e746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _heroData: {fileID: 11400000, guid: 0a75f8a799ae31d4c99058a978c3d3e0, type: 2}

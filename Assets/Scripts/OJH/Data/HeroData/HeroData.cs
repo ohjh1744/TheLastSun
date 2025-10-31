@@ -16,4 +16,6 @@ public class HeroData : ScriptableObject
 
     [SerializeField] private AudioClip _spawnClip;
     public AudioClip SpawnClip { get { return _spawnClip; } set { _spawnClip = value; } }
+
+    
 }

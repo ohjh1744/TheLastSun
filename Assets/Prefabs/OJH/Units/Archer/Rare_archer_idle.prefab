@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 3720672800109597596}
   - component: {fileID: 595470193622972848}
   - component: {fileID: 4601263527126331666}
+  - component: {fileID: 1319792823252795558}
   m_Layer: 0
   m_Name: Rare_archer_idle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8089445452319740138
 Transform:
   m_ObjectHideFlags: 0
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1319792823252795558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3423954715891009147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdadd44cfc655c24098be199555e746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _heroData: {fileID: 11400000, guid: 5d99d767d1cbb7842909dc3628e474fc, type: 2}

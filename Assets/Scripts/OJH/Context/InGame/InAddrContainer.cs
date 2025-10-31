@@ -47,10 +47,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
     //Prefab
     [Header("Hero")]
-    [SerializeField] List<AssetReferenceGameObject> _warriors;
-    [SerializeField] List<AssetReferenceGameObject> _archers;
-    [SerializeField] List<AssetReferenceGameObject> _bomers;
-    [SerializeField] List<AssetReferenceGameObject> _gods;
+    [SerializeField] List<AssetReferenceGameObject> _heros;
 
     [Header("Mob")]
     [SerializeField] List<AssetReferenceGameObject> _stage1Mobs;
@@ -59,8 +56,11 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     [SerializeField] List<AssetReferenceGameObject> _stage4Mobs;
     [SerializeField] List<AssetReferenceGameObject> _stage5Mobs;
 
+    [Header("Projectile")]
+    [SerializeField] List<AssetReferenceGameObject> _projectiles;
+
     [Header("HeroPlate")]
-    [SerializeField] List<AssetReferenceGameObject> _heroPlate;
+    [SerializeField] AssetReferenceGameObject _heroPlate;
 
     //SOund
     [Header("Sound")]
@@ -68,6 +68,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     [SerializeField] AssetReferenceT<AudioClip> _spawnClip;
     #endregion
 
+    [SerializeField] private GameObject _addressObjects;
 
     void Awake()
     {
@@ -99,7 +100,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("ShowJemBgImage").sprite = sprite;
             GetUI<Image>("ClearPanelSetFalseBgImage").sprite = sprite;
             GetUI<Image>("PausePanelSetFalseBgImage").sprite = sprite;
-            GetUI<Image>("SpecialSpawnlSetFalseButtonBgImage").sprite = sprite;
             GetUI<Image>("SellPanelSetFalseButtonBgImage").sprite = sprite;
 
         });
@@ -108,7 +108,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             _clearLoadAssetCount++;
             GetUI<Image>("ClearPanelSetFalseButton").sprite = sprite;
             GetUI<Image>("PausePanelSetFalseButton").sprite = sprite;
-            GetUI<Image>("SpecialSpawnSetFalseButton").sprite = sprite;
             GetUI<Image>("SellPanelSetFalseButton").sprite = sprite;
 
         });
@@ -135,7 +134,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("BottomPanel").sprite = sprite;
             GetUI<Image>("ClearPanel").sprite = sprite;
             GetUI<Image>("PausePanel").sprite = sprite;
-            GetUI<Image>("SpecialSpawnPanel").sprite = sprite;
             GetUI<Image>("SellPanel").sprite = sprite;
         });
         AddressableManager.Instance.LoadOnlySprite(_popUp_Title, (sprite) =>
@@ -143,7 +141,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             _clearLoadAssetCount++;
             GetUI<Image>("ClearPanelNameBgImage").sprite = sprite;
             GetUI<Image>("PausePanelNameBgImage").sprite = sprite;
-            GetUI<Image>("SpecialSpawnNameBgImage").sprite = sprite;
             GetUI<Image>("SellPanelNameBgImage").sprite = sprite;
         });
         AddressableManager.Instance.LoadOnlySprite(_resourceBar1, (sprite) => { 
@@ -178,7 +175,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         AddressableManager.Instance.LoadOnlySprite(_spawnButton, (sprite) => { _clearLoadAssetCount++; GetUI<Image>("SpawnButton").sprite = sprite; });
         AddressableManager.Instance.LoadOnlySprite(_specialSpawnButton, (sprite) => { 
             _clearLoadAssetCount++; 
-            GetUI<Image>("GoSpecialSpawnButton").sprite = sprite;
+            GetUI<Image>("SpecialSpawnButton").sprite = sprite;
             GetUI<Image>("SpecialSpawnButton").sprite = sprite;
         });
 
@@ -193,14 +190,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
                 {
                     GetUI<Image>("WarriorUpgradeButton").sprite = sprite;
                 }
-                if(index == (int)EHero.Legend)
-                {
-                    GetUI<Image>("SpecialSpawnLegendWarriorPortraitImage").sprite = sprite;
-                }
-                if (index == (int)EHero.Epic)
-                {
-                    GetUI<Image>("SpecialSpawnEpicWarriorPortraitImage").sprite = sprite;
-                }
             });
         }
         for (int i = 0; i < _archerPortraitSprites.Count; i++)
@@ -213,14 +202,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
                 if (index == (int)EHero.Normal)
                 {
                     GetUI<Image>("ArcherUpgradeButton").sprite = sprite;
-                }
-                if (index == (int)EHero.Legend)
-                {
-                    GetUI<Image>("SpecialSpawnLegendArcherPortraitImage").sprite = sprite;
-                }
-                if (index == (int)EHero.Epic)
-                {
-                    GetUI<Image>("SpecialSpawnEpicArcherPortraitImage").sprite = sprite;
                 }
             });
         }
@@ -235,28 +216,58 @@ public class InAddrContainer : UIBInder, IAssetLoadable
                 {
                     GetUI<Image>("BomerUpgradeButton").sprite = sprite;
                 }
-                if (index == (int)EHero.Legend)
-                {
-                    GetUI<Image>("SpecialSpawnLegendBomerPortraitImage ").sprite = sprite;
-                }
-                if (index == (int)EHero.Epic)
-                {
-                    GetUI<Image>("SpecialSpawnEpicBomerPortraitImage").sprite = sprite;
-                }
             });
         }
 
-        for(int i = 0; i < _godPortraitSprites.Count; i++)
-        {
-            int index = i;
-            AddressableManager.Instance.LoadOnlySprite(_godPortraitSprites[index], (sprite) =>
-            {
-                _clearLoadAssetCount++;
-                GetUI<Image>($"SpecialSPawnGod{index+1}PortraitImage").sprite = sprite;
-            });
-        }
         AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () => { _clearLoadAssetCount++; GetUI<AudioSource>("Bgm").Play(); });
         AddressableManager.Instance.LoadSound(_spawnClip, GetUI<AudioSource>("Sfx"), () => { _clearLoadAssetCount++;});
+
+        //아래부터는 프리펩 불러오고 미리 생성
+        for(int i = 0; i < _heros.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.GetObjectAndSave(_heros[index], ObjectPoolManager.Instance.Heros, (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false);});
+        }
+
+        LoadMob();
+
+        for (int i = 0; i < _projectiles.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.GetObjectAndSave(_projectiles[index], ObjectPoolManager.Instance.Projectiles,  (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
+        }
+
+    }
+
+    private void LoadMob()
+    {
+        List<AssetReferenceGameObject> _stageMobs;
+        switch (PlayerController.Instance.PlayerData.CurrentStage)
+        {
+            case 0:
+                _stageMobs = _stage1Mobs;
+                break;
+            case 1:
+                _stageMobs = _stage2Mobs;
+                break;
+            case 2:
+                _stageMobs = _stage3Mobs;
+                break;
+            case 3:
+                _stageMobs = _stage4Mobs;
+                break;
+            case 4:
+                _stageMobs = _stage5Mobs;
+                break;
+            default:
+                return;
+        }
+
+        for(int i= 0; i < _stageMobs.Count; i++)
+        {
+            int index = i;
+            AddressableManager.Instance.GetObjectAndSave(_stageMobs[index], ObjectPoolManager.Instance.Mobs, (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
+        }
     }
 
 
