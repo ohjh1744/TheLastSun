@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7cb68082ed8114e941277434f8be77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jemNum: 0
+  _jemNum: 10
 --- !u!1 &26522551
 GameObject:
   m_ObjectHideFlags: 0
@@ -11232,6 +11232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7fafa513c0f9b747b026e736dfcc259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _normalSpawnForJemNum: 5
+  _specialSpawnForJemNum: 20
   _normalSpawnRates:
   - 50
   - 30
