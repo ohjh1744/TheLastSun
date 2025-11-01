@@ -167,6 +167,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jemNum: 10
+  _speedUpIndex: 0
+  _speedUpRate:
+  - 1
+  - 2
+  - 3
+  _waveTimes:
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 90
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 30
+  - 90
+  _waveNum: 0
+  _mobNumForDefeat: 100
+  _mobNumForDefeatWarning: 80
+  _LoadingPanel: {fileID: 623132561}
+  _toturiolPanel: {fileID: 1746425236}
+  _clearPanel: {fileID: 306514648}
+  _gameState: 0
 --- !u!1 &26522551
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +827,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 114830248}
   m_CullTransparentMesh: 1
+--- !u!1 &182593135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 182593136}
+  m_Layer: 0
+  m_Name: ControlTowers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &182593136
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182593135}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.43623126, y: 1.6680593, z: 3.5436237}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1349575896}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &183662715
 GameObject:
   m_ObjectHideFlags: 0
@@ -3461,7 +3556,7 @@ GameObject:
   - component: {fileID: 505535777}
   - component: {fileID: 505535776}
   m_Layer: 5
-  m_Name: TutorialButtonText
+  m_Name: GoTutorialButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3941,7 +4036,7 @@ GameObject:
   - component: {fileID: 542030371}
   - component: {fileID: 542030370}
   m_Layer: 5
-  m_Name: TutorialButton
+  m_Name: GoTutorialButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8081,7 +8176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &829844522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9361,7 +9456,7 @@ MonoBehaviour:
     _currentStage: 0
     _isClearStage: 0000000000
     _isSound: 1
-    _isTutorial: 0
+    _isTutorial: 1
 --- !u!4 &1031710610
 Transform:
   m_ObjectHideFlags: 0
@@ -10586,32 +10681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab9f2989a2756c4397e792e80810468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadAssetUICount: 5
-  _bgImageSprite:
-    m_AssetGUID: 529209c5c1f3ec2419b285d0852a13aa
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _setFalseBgSprite:
-    m_AssetGUID: 3050cc0c07e4b5e4795d7b1dac11c65f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _setFalseSprite:
-    m_AssetGUID: dee97c568574f2e498a02e65bed237b2
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _buttonSprite:
-    m_AssetGUID: d0716103dab40e44182e440a85a4c172
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _pausePanelNameBgSprite:
-    m_AssetGUID: d7d9084bf3deddf48b8ab85281f1265a
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
+  _tutorialPanel: {fileID: 1746425236}
 --- !u!1 &1119040287
 GameObject:
   m_ObjectHideFlags: 0
@@ -12343,7 +12413,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: x 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12370,8 +12440,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12819,6 +12889,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346047558}
   m_CullTransparentMesh: 1
+--- !u!1 &1349575895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1349575896}
+  - component: {fileID: 1349575897}
+  m_Layer: 0
+  m_Name: MobControlTower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1349575896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349575895}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 182593136}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1349575897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349575895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d405ee6b055a0498e4f4b364324140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1360106784
 GameObject:
   m_ObjectHideFlags: 0
@@ -13482,6 +13596,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432519659}
   m_CullTransparentMesh: 1
+--- !u!1 &1444318980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1444318981}
+  m_Layer: 0
+  m_Name: --------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1444318981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444318980}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.43623126, y: 1.6680593, z: 3.5436237}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1444381265
 GameObject:
   m_ObjectHideFlags: 0
@@ -17999,15 +18144,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8934452710054463285, guid: cc172171f56e6ac4ab029298755d43a8, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8934452710054463285, guid: cc172171f56e6ac4ab029298755d43a8, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8934452710054463285, guid: cc172171f56e6ac4ab029298755d43a8, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8934452710054463285, guid: cc172171f56e6ac4ab029298755d43a8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -18033,6 +18178,8 @@ SceneRoots:
   - {fileID: 1032511894}
   - {fileID: 547631901}
   - {fileID: 864329750}
+  - {fileID: 1444318981}
+  - {fileID: 182593136}
   - {fileID: 1250543584417903825}
   - {fileID: 1267670646}
   - {fileID: 22204563}

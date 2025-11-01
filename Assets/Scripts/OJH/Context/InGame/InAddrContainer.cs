@@ -87,7 +87,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             _clearLoadAssetCount++;
             GetUI<Image>("GoSellButton").sprite = sprite;
             GetUI<Image>("ClearPanelGoLobbyButton").sprite = sprite;
-            GetUI<Image>("TutorialButton").sprite = sprite;
+            GetUI<Image>("GoTutorialButton").sprite = sprite;
             GetUI<Image>("PausePanelGoLobbyButton").sprite = sprite;
         });
         AddressableManager.Instance.LoadOnlySprite(_button_04, (sprite) =>

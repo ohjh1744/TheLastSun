@@ -20,8 +20,6 @@ public class LoadingPanel : UIBInder
 
     private Coroutine _routine;
 
-    StringBuilder _sb = new StringBuilder();
-
     private void Awake()
     {
         BindAll();
@@ -29,6 +27,7 @@ public class LoadingPanel : UIBInder
     private void Start()
     {
         Init();
+        Time.timeScale = 1f;
         _routine = StartCoroutine(CheckLoadAsset());
     }
 
@@ -51,8 +50,7 @@ public class LoadingPanel : UIBInder
 
         while (displayedProgress < 1f)
         {
-            Debug.Log($"{_assetLoadableObject.LoadAssetUICount}");
-            Debug.Log($"{_assetLoadableObject.ClearLoadAssetCount}");
+
             // 실제 진행률 계산
             float realProgress = (float)_assetLoadableObject.ClearLoadAssetCount / totalAssets;
 
@@ -69,8 +67,11 @@ public class LoadingPanel : UIBInder
 
             // 종료 조건: 실제 로딩 완료 + UI가 거의 100%
             if (_assetLoadableObject.ClearLoadAssetCount >= totalAssets && displayedProgress >= 0.99f)
+            {
+                Debug.Log($"{_assetLoadableObject.LoadAssetUICount}");
+                Debug.Log($"{_assetLoadableObject.ClearLoadAssetCount}");
                 break;
-
+            }
             yield return null;
         }
 
