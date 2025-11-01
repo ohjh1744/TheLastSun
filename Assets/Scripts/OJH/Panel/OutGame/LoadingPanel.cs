@@ -20,8 +20,6 @@ public class LoadingPanel : UIBInder
 
     private Coroutine _routine;
 
-    StringBuilder _sb = new StringBuilder();
-
     private void Awake()
     {
         BindAll();
@@ -29,6 +27,7 @@ public class LoadingPanel : UIBInder
     private void Start()
     {
         Init();
+        Time.timeScale = 1f;
         _routine = StartCoroutine(CheckLoadAsset());
     }
 
