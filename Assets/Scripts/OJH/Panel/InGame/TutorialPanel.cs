@@ -23,7 +23,7 @@ public class TutorialPanel : UIBInder
     }
     private void AddEvent()
     {
-
+       
     }
 
 

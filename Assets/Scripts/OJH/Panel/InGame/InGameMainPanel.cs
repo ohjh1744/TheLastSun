@@ -29,7 +29,6 @@ public class InGameMainPanel : UIBInder
 
     [SerializeField] private AudioSource _sfx;
     private AudioClip _spawnClip;
-
  
     private void Awake()
     {
@@ -43,7 +42,7 @@ public class InGameMainPanel : UIBInder
 
     private void Update()
     {
-        
+        SetAllButtons();
     }
 
     private void Init()
@@ -59,8 +58,13 @@ public class InGameMainPanel : UIBInder
     {
         GetUI<Button>("SpawnButton").onClick.AddListener(() => Spawn(true));
         GetUI<Button>("SpecialSpawnButton").onClick.AddListener(() => Spawn(false));
+        GetUI<Button>("PauseButton").onClick.AddListener(DoPause);
+        GetUI<Button>("TImeSpeedButton").onClick.AddListener(SpeedUpGame);
+        GetUI<Button>("GoSellButton").onClick.AddListener(ShowSellPanel);
         InGameManager.Instance.JemNumOnChanged += TurnOffNormalAndSpecialSpawnButton;
         InGameManager.Instance.JemNumOnChanged += ShowJem;
+        InGameManager.Instance.CurrentWaveTimeOnChanged += ShowTimer;
+        InGameManager.Instance.CurrentWaveNumOnChanged += ShowWaveNum;
     }
 
     private void Spawn(bool isNormalSpawn)
@@ -192,12 +196,75 @@ public class InGameMainPanel : UIBInder
         }
     }
 
-    // To Do: 네트워크에러시 모든 버튼 비활성화
-    // To Do: 시간 멈춤
-    // To Do: 배속
+    private void ShowTimer()
+    {
+        _sb.Clear();
+        int minutes = Mathf.FloorToInt(InGameManager.Instance.CurrentWaveTime / 60f);
+        int seconds = Mathf.FloorToInt(InGameManager.Instance.CurrentWaveTime % 60f);
+
+        _sb.AppendFormat("{0:00}:{1:00}", minutes, seconds);
+        GetUI<TextMeshProUGUI>("WaveInfoTimerText").SetText(_sb);
+    }
+
+    private void ShowWaveNum()
+    {
+        _sb.Clear();
+        _sb.Append($"Wave {InGameManager.Instance.WaveNum + 1}");
+        GetUI<TextMeshProUGUI>("WaveInfoIndexText").SetText(_sb);
+    }
+
+    private void DoPause()
+    {
+        InGameManager.Instance.GameState = EGameState.Pause;
+        GetUI("PausePanel").gameObject.SetActive(true);
+    }
+
+    private void SpeedUpGame()
+    {
+        _sb.Clear();
+        InGameManager.Instance.SpeedUpIndex = (InGameManager.Instance.SpeedUpIndex + 1)% InGameManager.Instance.SpeedUpRate.Length;
+        Debug.Log(InGameManager.Instance.SpeedUpIndex);
+        _sb.Append($"x {InGameManager.Instance.SpeedUpRate[InGameManager.Instance.SpeedUpIndex]}");
+        GetUI<TextMeshProUGUI>("TimeSpeedButtonText").SetText(_sb);
+    }
+
+    private void ShowSellPanel()
+    {
+        GetUI("SellPanel").SetActive(true);
+    }
+
+    private void SetAllButtons()
+    {
+        //설정패널 or 네트워크에러패널이 뜨는 경우
+        if (GetUI("ClearPanel").activeSelf == true || GetUI("PausePanel").activeSelf == true || NetworkCheckManager.Instance.IsConnected == false)
+        {
+            //mainPanel
+            GetUI<Button>("PauseButton").interactable = false;
+            GetUI<Button>("SoundButton").interactable = false;
+            GetUI<Button>("TImeSpeedButton").interactable = false;
+            GetUI<Button>("SpawnButton").interactable = false;
+            GetUI<Button>("SpecialSpawnButton").interactable = false;
+            GetUI<Button>("GoSellButton").interactable = false;
+            GetUI<Button>("WarriorUpgradeButton").interactable = false;
+            GetUI<Button>("ArcherUpgradeButton").interactable = false;
+            GetUI<Button>("BomerUpgradeButton").interactable = false;
+        }
+        // 설정패널 or 네트워크에러창이 꺼진 경우
+        else if (GetUI("ClearPanel").activeSelf == true || GetUI("PausePanel").activeSelf == false || NetworkCheckManager.Instance.IsConnected == true)
+        {
+            GetUI<Button>("PauseButton").interactable = true;
+            GetUI<Button>("SoundButton").interactable = true;
+            GetUI<Button>("TImeSpeedButton").interactable = true;
+            GetUI<Button>("SpawnButton").interactable = true;
+            GetUI<Button>("SpecialSpawnButton").interactable = true;
+            GetUI<Button>("GoSellButton").interactable = true;
+            GetUI<Button>("WarriorUpgradeButton").interactable = true;
+            GetUI<Button>("ArcherUpgradeButton").interactable = true;
+            GetUI<Button>("BomerUpgradeButton").interactable = true;
+        }
+    }
+
     // To Do: 강화
-    // To Do: 타이머 보이게
-    // To Do: Wave 표시
     // To Do: 몬스터 이미지 표시
 
 
