@@ -1,3 +1,4 @@
+using GooglePlayGames.BasicApi.SavedGame;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,29 +15,49 @@ public class InGameManager : MonoBehaviour
     private static InGameManager _instance;
     public static InGameManager Instance { get { return _instance; } set { _instance = value; } }
 
+    [Header("소유하는 보석 개수")]
     [SerializeField] private int _jemNum;
     public int JemNum { get { return _jemNum; } set { _jemNum = value; JemNumOnChanged?.Invoke(); } }
     public event UnityAction JemNumOnChanged;
 
-    [SerializeField] private int _speedUpIndex;public int SpeedUpIndex { get { return _speedUpIndex; } set { _speedUpIndex = value; } }
+    [Header("일반 소환 및 특수 소환 시 필요한 개수")]
+    [SerializeField] private int _normalSpawnForJemNum; public int NormalSpawnForJemNum { get { return _normalSpawnForJemNum; } private set {} }
+    [SerializeField] private int _specialSpawnForJemNum; public int SpecialSpawnForJemNum { get { return _specialSpawnForJemNum; } private set {} }
+
+    [Header("일반 소환 및 특수 소환 확률")]
+    [SerializeField] private float[] _normalSpawnRates; public float[] NormalSpawnRates { get { return _normalSpawnRates; } private set { } }
+    [SerializeField] private float[] _specialSpawnRates; public float[] SpecialSpawnRates { get { return _specialSpawnRates; } private set { } }
+
+    [Header("등급 별 보석 판매 개수")]
+    [SerializeField] private int[] _jemNumsForSell; public int[] JemNumsForSell { get { return _jemNumsForSell; } private set { } }
+
+    [Header("배속 관련")]
     [SerializeField] private float[] _speedUpRate; public float[] SpeedUpRate { get { return _speedUpRate; } private set { } }
+    private int _speedUpIndex;public int SpeedUpIndex { get { return _speedUpIndex; } set { _speedUpIndex = value; } }
+
     private float _playTime; public float PlayTime { get { return _playTime; } set { _playTime = value; } }
 
+    [Header("웨이브별 시간")]
     [SerializeField]private float[] _waveTimes; public float[] WaveTimes { get { return _waveTimes; } private set { } }
     private float _currentWaveTime; public float CurrentWaveTime { get { return _currentWaveTime; }  set { _currentWaveTime = value; CurrentWaveTimeOnChanged?.Invoke(); } }
     public event UnityAction CurrentWaveTimeOnChanged;
 
+    [Header("현재 웨이브")]
     [SerializeField] private int _waveNum; public int WaveNum { get { return _waveNum; } set { _waveNum = value; CurrentWaveNumOnChanged?.Invoke(); } }
     public event UnityAction CurrentWaveNumOnChanged;
 
+    [Header("실패 관련 최대 몬스터 수 ")]
     [SerializeField] private int _mobNumForDefeat; public int MobNumForDefeat { get { return _mobNumForDefeat; } private set { } }
 
+    [Header("몬스터 수에 따른 경고")]
     [SerializeField] private int _mobNumForDefeatWarning; public int MobNumForDefeatWarning { get { return _mobNumForDefeatWarning; } private set { } }
+
+    [Header("게임 상태")]
+    [SerializeField] private EGameState _gameState; public EGameState GameState { get { return _gameState; }set { _gameState = value; } }
 
     [SerializeField] private GameObject _LoadingPanel;
     [SerializeField] private GameObject _toturiolPanel;
     [SerializeField] private GameObject _clearPanel;
-    [SerializeField] private EGameState _gameState; public EGameState GameState { get { return _gameState; }set { _gameState = value; } }
 
     //리더보드 이름저장
     private List<string> _leaderboardString = new List<string>();
@@ -139,7 +160,7 @@ public class InGameManager : MonoBehaviour
         // 클리어 패널 열어주기
         if (_gameState == EGameState.Win)
         {
-            StartCoroutine(UpdateLeaderboard());
+            StartCoroutine(SaveDataAndUpdateLeaderboard());
         }
         else if(_gameState == EGameState.Defeat)
         {
@@ -148,20 +169,46 @@ public class InGameManager : MonoBehaviour
 
     }
 
-    IEnumerator UpdateLeaderboard()
+    IEnumerator SaveDataAndUpdateLeaderboard()
     {
         PlayerData playerData = PlayerController.Instance.PlayerData;
         playerData.ClearTimes[playerData.CurrentStage] = Mathf.Max(playerData.ClearTimes[playerData.CurrentStage], _playTime);
 
+        bool _isDataSave = false;
+
         // 안전하게 네트워크 체킹 한번더 
         while(NetworkCheckManager.Instance.IsConnected != true)
         {
-            yield return null;
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+        GpgsManager.Instance.SaveData((success) =>
+        {
+            if (success == SavedGameRequestStatus.Success)
+            {
+                _isDataSave = true;
+            }
+        });
+
+        // 데이터 세이브 이후에 랭킹업데이트하도록
+        while(_isDataSave == false)
+        {
+            if(_isDataSave == true)
+            {
+                break;
+            }
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+        // 안전하게 네트워크 체킹 한번더 
+        while (NetworkCheckManager.Instance.IsConnected != true)
+        {
+            yield return new WaitForSecondsRealtime(0.1f);
         }
 
         GpgsManager.Instance.UpdateTimeLeaderboard(playerData.ClearTimes[playerData.CurrentStage], _leaderboardString[playerData.CurrentStage], (success) =>
         {
-            if (success)
+            if (success == true)
             {
                 _clearPanel.SetActive(true);
             }

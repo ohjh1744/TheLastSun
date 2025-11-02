@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum EHeroPool {N_Warrior, R_Warrior, A_Warrior, L_Warrior, E_Warrior, 
     N_Archer, R_Archer, A_Archer, L_Archer, E_Archer, 
@@ -31,7 +32,7 @@ public class ObjectPoolManager : MonoBehaviour
 
     //영웅 및 몹 현재 수
     private int _mobNum; public int MobNum { get { return _mobNum; } set { _mobNum = value; } }
-    private int[] _heroNum = new int[18]; public int[] HeroNum { get { return _heroNum; } set { _heroNum = value; } }
+    private int[] _heroNum = new int[18];
 
     private void Awake()
     {
@@ -81,6 +82,7 @@ public class ObjectPoolManager : MonoBehaviour
             select.SetActive(true);
             pools[index].Add(select);
         }
+
         return select;
     }
 
@@ -97,5 +99,19 @@ public class ObjectPoolManager : MonoBehaviour
                 break;
             }
         }
-    }    
+    }
+
+    //에픽까지
+    public event UnityAction<int> HeroNumOnChanged;
+
+    public int GetHeroNum(int heroIndex)
+    {
+        return _heroNum[heroIndex];
+    }
+    public void SetHeroNum(int heroIndex, int newNum)
+    {
+        _heroNum[heroIndex] = newNum;
+        HeroNumOnChanged?.Invoke(heroIndex);
+    }
+
 }

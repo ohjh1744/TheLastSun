@@ -1,4 +1,5 @@
 using DG.Tweening;
+using GooglePlayGames.BasicApi.SavedGame;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,10 +16,6 @@ public class InGameMainPanel : UIBInder
     private int[,] _spawnIndex = { { 0, 5, 10 }, { 1, 6, 11 }, { 2, 7, 12 }, { 3, 8, 13 }, { 4, 9, 14 }, { 15, 16, 17 } };
 
     [Header("소환 관련")]
-    [SerializeField] private int _normalSpawnForJemNum;
-    [SerializeField] private int _specialSpawnForJemNum;
-    [SerializeField] private float[] _normalSpawnRates;
-    [SerializeField] private float[] _specialSpawnRates;
     [SerializeField] private Color[] _greatHeroSpawnTextColors;
 
     StringBuilder _sb = new StringBuilder();
@@ -27,8 +24,12 @@ public class InGameMainPanel : UIBInder
     [SerializeField] private float _setNotifyPaneldurate;
     private Tween _notifyTween;
 
+    [SerializeField] private AudioSource _bgm;
     [SerializeField] private AudioSource _sfx;
     private AudioClip _spawnClip;
+
+    private float _bgmTime;
+
  
     private void Awake()
     {
@@ -48,9 +49,9 @@ public class InGameMainPanel : UIBInder
     private void Init()
     {
         _spawnClip = _sfx.clip;
-        Debug.Log(_spawnClip);
-        ShowJem();
-        TurnOffNormalAndSpecialSpawnButton();
+        ShowCurrentJem();
+        ShowJemForSpawn();
+        SetNormalAndSpecialSpawnButton();
         AddEvent();
     }
 
@@ -59,64 +60,70 @@ public class InGameMainPanel : UIBInder
         GetUI<Button>("SpawnButton").onClick.AddListener(() => Spawn(true));
         GetUI<Button>("SpecialSpawnButton").onClick.AddListener(() => Spawn(false));
         GetUI<Button>("PauseButton").onClick.AddListener(DoPause);
+        GetUI<Button>("SoundButton").onClick.AddListener(SetSound);
+        GetUI<Button>("SoundMuteButton").onClick.AddListener(SetSound);
         GetUI<Button>("TImeSpeedButton").onClick.AddListener(SpeedUpGame);
         GetUI<Button>("GoSellButton").onClick.AddListener(ShowSellPanel);
-        InGameManager.Instance.JemNumOnChanged += TurnOffNormalAndSpecialSpawnButton;
-        InGameManager.Instance.JemNumOnChanged += ShowJem;
+        InGameManager.Instance.JemNumOnChanged += SetNormalAndSpecialSpawnButton;
+        InGameManager.Instance.JemNumOnChanged += ShowCurrentJem;
         InGameManager.Instance.CurrentWaveTimeOnChanged += ShowTimer;
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowWaveNum;
     }
 
     private void Spawn(bool isNormalSpawn)
     {
-        _sfx.PlayOneShot(_spawnClip);
+        //0. 사운드 
+        if(PlayerController.Instance.PlayerData.IsSound == true)
+        {
+            _sfx.PlayOneShot(_spawnClip);
+        }
+
         //1. 일반스폰확률, 스페셜스폰확률 결정 및 보석 소모
         float[] spawnRates;
         if (isNormalSpawn == true)
         {
-            InGameManager.Instance.JemNum -= _normalSpawnForJemNum;
-            Debug.Log(InGameManager.Instance.JemNum);
-            spawnRates = _normalSpawnRates;
+            InGameManager.Instance.JemNum -= InGameManager.Instance.NormalSpawnForJemNum;
+            spawnRates = InGameManager.Instance.NormalSpawnRates;
         }
         else
         {
-            InGameManager.Instance.JemNum -= _specialSpawnForJemNum;
-            spawnRates = _specialSpawnRates;
+            InGameManager.Instance.JemNum -= InGameManager.Instance.SpecialSpawnForJemNum;
+            spawnRates = InGameManager.Instance.SpecialSpawnRates;
         }
 
         //2.스폰확률에 따라 소환할 등급결정
         float randomGradeValue = Random.Range(0f, 100f);
         int spawnGradeIndex = 0;
         float maxValue =  spawnRates[0]-1;
+
+        //확률에 따라 비교 시작
         for (int i = 0; i < spawnRates.Length; i++)
         {
-            Debug.Log(maxValue);
+            //랜덤값이 해당확률 내라면 소환할 등급 결정 후 종료
             if (randomGradeValue < maxValue)
             {
-                //특수소환 실패라면
-                if(i == 0 && isNormalSpawn == false)
+                //특수소환
+                if (isNormalSpawn == false)
                 {
                     //특수소환 실패 알림 띄우고 return
-                    Debug.Log($"{maxValue}: {randomGradeValue}특수소환 실패");
-                    return;
-                }
-                else
-                {
-                    // 해당 등급 뽑기 결졍
+                    if (i == 0)
+                    {
+                        NotifySpawnFail();
+                        return;
+                    }
                     //특수소환의 경우 인덱스 2차이나기에 
-                    if(isNormalSpawn == false)
-                    {
-                        spawnGradeIndex = i + 2;
-                        Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)i+2}등급 특수소환뽑힘");
-                    }
-                    else
-                    {
-                        spawnGradeIndex = i;
-                        Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)i}등급 소환뽑힘");
-                    }
-                    break;
+                    spawnGradeIndex = i + 2;
+                    Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)i + 2}등급 특수소환뽑힘");
                 }
+                //일반소환
+                else if (isNormalSpawn == true)
+                {
+                    spawnGradeIndex = i;
+                    Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)i}등급 소환뽑힘");
+                }
+                break;
             }
+            //max값 누적
             if(i < spawnRates.Length - 1)
             {
                 maxValue = maxValue + spawnRates[i + 1];
@@ -127,32 +134,43 @@ public class InGameMainPanel : UIBInder
         int randomHeroValue = Random.Range(0, 3);
         GameObject hero = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.HeroPools, ObjectPoolManager.Instance.Heros, _spawnIndex[spawnGradeIndex, randomHeroValue]);
         hero.transform.position = Vector3.zero;
-        ObjectPoolManager.Instance.HeroNum[_spawnIndex[spawnGradeIndex, randomHeroValue]]++;
 
-        //4. 전설 등급 이상은 알림켜주기
+        //4. 유닛 마리수 증가
+        ObjectPoolManager.Instance.SetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue], ObjectPoolManager.Instance.GetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue]) + 1);
+
+        //5. 전설 등급 이상은 알림켜주기
         if (spawnGradeIndex >= (int)EHeroGrade.Legend)
         {
-            NotifySpawnGreatUnit(spawnGradeIndex, randomHeroValue);
+            NotifySpawnUnit(spawnGradeIndex, randomHeroValue);
         }
     }
 
-    private void NotifySpawnGreatUnit(int heroGradeIndex, int hero)
+    private void NotifySpawnFail()
+    {
+        _sb.Clear();
+        _sb.Append($"특수소환에 실패하였습니다!");
+        GetUI<TextMeshProUGUI>("NotifyText").SetText(_sb);
+        GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[0];
+        TurnSetNotifyPanel();
+    }
+
+    private void NotifySpawnUnit(int heroGradeIndex, int hero)
     {
         _sb.Clear();
         if(heroGradeIndex == (int)EHeroGrade.Legend)
         {
             _sb.Append($"전설의 아즈텍 {_heroName[hero]}가 등장합니다!");
-            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.Legend - 3];
+            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.Legend - 2];
         }
         else if (heroGradeIndex == (int)EHeroGrade.Epic)
         {
             _sb.Append($"드높은 긍지의 아즈텍 {_heroName[hero]}가 등장합니다!");
-            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.Epic - 3];
+            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.Epic - 2];
         }
         else if (heroGradeIndex == (int)EHeroGrade.God)
         {
             _sb.Append($"인간을 구원해줄 {_godname[hero]}가 강림합니다!");
-            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.God - 3];
+            GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.God - 2];
         }
         GetUI<TextMeshProUGUI>("NotifyText").SetText(_sb);
         TurnSetNotifyPanel();
@@ -171,21 +189,22 @@ public class InGameMainPanel : UIBInder
         });
     }
 
-    private void ShowJem()
+    
+    private void ShowCurrentJem()
     {
         _sb.Clear();
         _sb.Append(InGameManager.Instance.JemNum);
         GetUI<TextMeshProUGUI>("ShowJemText").SetText(_sb);
     }
 
-    private void TurnOffNormalAndSpecialSpawnButton()
+    private void SetNormalAndSpecialSpawnButton()
     {
-        if(InGameManager.Instance.JemNum < 5)
+        if(InGameManager.Instance.JemNum < InGameManager.Instance.NormalSpawnForJemNum)
         {
             GetUI<Button>("SpawnButton").interactable = false;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
         }
-        else if (InGameManager.Instance.JemNum < 10)
+        else if (InGameManager.Instance.JemNum < InGameManager.Instance.SpecialSpawnForJemNum)
         {
             GetUI<Button>("SpecialSpawnButton").interactable = false;
         }
@@ -195,6 +214,18 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("SpecialSpawnButton").interactable = true;
         }
     }
+
+    private void ShowJemForSpawn()
+    {
+        _sb.Clear();
+        _sb.Append(InGameManager.Instance.NormalSpawnForJemNum);
+        GetUI<TextMeshProUGUI>("SpawnButtonJemNumText").SetText(_sb);
+
+        _sb.Clear();
+        _sb.Append(InGameManager.Instance.SpecialSpawnForJemNum);
+        GetUI<TextMeshProUGUI>("SpecialSpawnJemNumText").SetText(_sb);
+    }
+
 
     private void ShowTimer()
     {
@@ -219,6 +250,30 @@ public class InGameMainPanel : UIBInder
         GetUI("PausePanel").gameObject.SetActive(true);
     }
 
+
+    private void SetSound()
+    {
+        if (NetworkCheckManager.Instance.IsConnected == true)
+        {
+            if (PlayerController.Instance.PlayerData.IsSound == true)
+            {
+                PlayerController.Instance.PlayerData.IsSound = false;
+                GetUI("SoundButton").SetActive(false);
+                GetUI("SoundMuteButton").SetActive(true);
+                _bgm.Pause();
+                _bgmTime = _bgm.time;
+            }
+            else if(PlayerController.Instance.PlayerData.IsSound == false)
+            {
+                PlayerController.Instance.PlayerData.IsSound = true;
+                GetUI("SoundButton").SetActive(true);
+                GetUI("SoundMuteButton").SetActive(false);
+                _bgm.time = _bgmTime;
+                _bgm.Play();
+            }
+        }
+    }
+
     private void SpeedUpGame()
     {
         _sb.Clear();
@@ -236,11 +291,12 @@ public class InGameMainPanel : UIBInder
     private void SetAllButtons()
     {
         //설정패널 or 네트워크에러패널이 뜨는 경우
-        if (GetUI("ClearPanel").activeSelf == true || GetUI("PausePanel").activeSelf == true || NetworkCheckManager.Instance.IsConnected == false)
+        if (InGameManager.Instance.GameState == EGameState.Win || InGameManager.Instance.GameState == EGameState.Defeat || InGameManager.Instance.GameState == EGameState.Pause || NetworkCheckManager.Instance.IsConnected == false)
         {
             //mainPanel
             GetUI<Button>("PauseButton").interactable = false;
             GetUI<Button>("SoundButton").interactable = false;
+            GetUI<Button>("SoundMuteButton").interactable = false;
             GetUI<Button>("TImeSpeedButton").interactable = false;
             GetUI<Button>("SpawnButton").interactable = false;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
@@ -250,10 +306,11 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("BomerUpgradeButton").interactable = false;
         }
         // 설정패널 or 네트워크에러창이 꺼진 경우
-        else if (GetUI("ClearPanel").activeSelf == true || GetUI("PausePanel").activeSelf == false || NetworkCheckManager.Instance.IsConnected == true)
+        else if (InGameManager.Instance.GameState == EGameState.Play || NetworkCheckManager.Instance.IsConnected == true)
         {
             GetUI<Button>("PauseButton").interactable = true;
             GetUI<Button>("SoundButton").interactable = true;
+            GetUI<Button>("SoundMuteButton").interactable = true;
             GetUI<Button>("TImeSpeedButton").interactable = true;
             GetUI<Button>("SpawnButton").interactable = true;
             GetUI<Button>("SpecialSpawnButton").interactable = true;
@@ -267,7 +324,7 @@ public class InGameMainPanel : UIBInder
     // To Do: 강화
     // To Do: 몬스터 이미지 표시
 
-
+    #region 주석처리
     //[ContextMenu("FillSPrites")]
     //private void FillStageMobSprites()
     //{
@@ -332,5 +389,5 @@ public class InGameMainPanel : UIBInder
     //    EditorUtility.SetDirty(this);
     //   // Debug.Log($"{_savedStage5MobColors.Count}개의 색상을 성공적으로 추가했습니다!");
     //}
-
+    #endregion
 }

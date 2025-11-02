@@ -20,6 +20,7 @@ public class MainPanel : UIBInder
     //Panel들
     [SerializeField] private GameObject _bossBookPanel;
     [SerializeField] private GameObject _settingPanel;
+    [SerializeField] private GameObject _readyForGamePanel;
 
     //난이도 관련 이미지 Object
     private GameObject _currentDifficultyLevelImage;
@@ -178,12 +179,23 @@ public class MainPanel : UIBInder
     private void PlayGame()
     {
         //1번째 스테이지나 해금된 스테이지만 할수있도록 
-        if(PlayerController.Instance.PlayerData.CurrentStage == 0 || PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage - 1] == true)
+        if (PlayerController.Instance.PlayerData.CurrentStage == 0 || PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage - 1] == true)
         {
-            //전투씬(인게임)으로 넘기기
-            SceneManager.LoadScene(2);
-        }
+            //안전하게 네트워크 체크한번더
+            if(NetworkCheckManager.Instance.IsConnected == true)
+            {
+                _readyForGamePanel.SetActive(true);
 
+                //데이터 저장후 씬 넘기기
+                GpgsManager.Instance.SaveData((success) => {
+                    if (success == SavedGameRequestStatus.Success)
+                    {
+                        Debug.Log("게임씬으로 이동");
+                        SceneManager.LoadScene(2);
+                    }
+                });
+            }
+        }
     }
 
     private void SetTrueRankLeaderBoards()

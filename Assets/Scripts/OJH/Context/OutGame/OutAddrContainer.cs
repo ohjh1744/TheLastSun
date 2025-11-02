@@ -155,6 +155,12 @@ public class OutAddrContainer : UIBInder, IAssetLoadable
                 AddressableManager.Instance.LoadOnlySprite(_bossLocSprites[index], (sprite) => { _clearLoadAssetCount++; GetUI<Image>($"BossPortraitButton{index + 1}").sprite = sprite; });
             }                   
         }
-        AddressableManager.Instance.LoadSound(_bgm, GetUI<AudioSource>("Bgm"), () => { _clearLoadAssetCount++; GetUI<AudioSource>("Bgm").Play(); });
+        AddressableManager.Instance.LoadSound(_bgm, GetUI<AudioSource>("Bgm"), () =>
+        {
+            _clearLoadAssetCount++;
+            if (PlayerController.Instance.PlayerData.IsSound == true) {
+                GetUI<AudioSource>("Bgm").Play();
+            }
+        });
     }
 }
