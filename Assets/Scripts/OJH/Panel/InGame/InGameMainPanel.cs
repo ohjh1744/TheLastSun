@@ -83,17 +83,8 @@ public class InGameMainPanel : UIBInder
         }
 
         //1. 일반스폰확률, 스페셜스폰확률 결정 및 보석 소모
-        float[] spawnRates;
-        if (isNormalSpawn == true)
-        {
-            InGameManager.Instance.JemNum -= InGameManager.Instance.NormalSpawnForJemNum;
-            spawnRates = InGameManager.Instance.NormalSpawnRates;
-        }
-        else
-        {
-            InGameManager.Instance.JemNum -= InGameManager.Instance.SpecialSpawnForJemNum;
-            spawnRates = InGameManager.Instance.SpecialSpawnRates;
-        }
+        float[] spawnRates = isNormalSpawn ? InGameManager.Instance.NormalSpawnRates : InGameManager.Instance.SpecialSpawnRates;
+        InGameManager.Instance.JemNum -= isNormalSpawn ? InGameManager.Instance.NormalSpawnForJemNum : InGameManager.Instance.SpecialSpawnForJemNum;
 
         //2.스폰확률에 따라 소환할 등급결정
         float randomGradeValue = Random.Range(0f, 100f);
@@ -106,25 +97,14 @@ public class InGameMainPanel : UIBInder
             //랜덤값이 해당확률 내라면 소환할 등급 결정 후 종료
             if (randomGradeValue < maxValue)
             {
-                //특수소환
-                if (isNormalSpawn == false)
+                //특수소환 실패 알림 띄우고 return
+                if (i == 0 && isNormalSpawn == false)
                 {
-                    //특수소환 실패 알림 띄우고 return
-                    if (i == 0)
-                    {
-                        NotifySpawnFail();
-                        return;
-                    }
-                    //특수소환의 경우 인덱스 2차이나기에 
-                    spawnGradeIndex = i + 2;
-                    Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)i + 2}등급 특수소환뽑힘");
+                    NotifySpawnFail();
+                    return;
                 }
-                //일반소환
-                else if (isNormalSpawn == true)
-                {
-                    spawnGradeIndex = i;
-                    Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)i}등급 소환뽑힘");
-                }
+                spawnGradeIndex = isNormalSpawn ? i : i + 2;
+                Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)(isNormalSpawn ? i : i + 2)}등급 {(isNormalSpawn ? "소환" : "특수소환")}뽑힘");
                 break;
             }
             //max값 누적
@@ -208,8 +188,9 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("SpawnButton").interactable = false;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
         }
-        else if (InGameManager.Instance.JemNum < InGameManager.Instance.SpecialSpawnForJemNum)
+        else if (InGameManager.Instance.JemNum >= InGameManager.Instance.NormalSpawnForJemNum && InGameManager.Instance.JemNum < InGameManager.Instance.SpecialSpawnForJemNum)
         {
+            GetUI<Button>("SpawnButton").interactable = true;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
         }
         else
