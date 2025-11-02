@@ -219,7 +219,13 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             });
         }
 
-        AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () => { _clearLoadAssetCount++; GetUI<AudioSource>("Bgm").Play(); });
+        AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () => {
+            _clearLoadAssetCount++;
+            if (PlayerController.Instance.PlayerData.IsSound == true)
+            {
+                GetUI<AudioSource>("Bgm").Play();
+            }
+        });
         AddressableManager.Instance.LoadSound(_spawnClip, GetUI<AudioSource>("Sfx"), () => { _clearLoadAssetCount++;});
 
         //아래부터는 프리펩 불러오고 미리 생성

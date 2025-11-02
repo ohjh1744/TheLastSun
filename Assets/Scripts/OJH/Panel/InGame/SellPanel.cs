@@ -144,7 +144,11 @@ public class SellPanel : UIBInder
         if(ObjectPoolManager.Instance.GetHeroNum(heroIndex) != 0)
         {
             //사운드
-            _sfx.PlayOneShot(_sellClip);
+            if(PlayerController.Instance.PlayerData.IsSound == true)
+            {
+                _sfx.PlayOneShot(_sellClip);
+            }
+
             //영웅 제거
             ObjectPoolManager.Instance.RemoveObject(ObjectPoolManager.Instance.HeroPools, heroIndex);
 

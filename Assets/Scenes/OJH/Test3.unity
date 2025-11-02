@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7cb68082ed8114e941277434f8be77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jemNum: 100000
+  _jemNum: 10000
   _normalSpawnForJemNum: 5
   _specialSpawnForJemNum: 20
   _normalSpawnRates:
@@ -6382,7 +6382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &560974946
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10279,7 +10279,7 @@ MonoBehaviour:
     - 0
     _currentStage: 0
     _isClearStage: 0000000000
-    _isSound: 1
+    _isSound: 0
     _isTutorial: 1
 --- !u!4 &1031710610
 Transform:
@@ -11409,7 +11409,7 @@ Transform:
   m_GameObject: {fileID: 1103886627}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 628.1912, y: 552.52466, z: 4.503224}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12398,10 +12398,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _greatHeroSpawnTextColors:
+  - {r: 1, g: 1, b: 1, a: 1}
   - {r: 0.8867924, g: 0.8162406, b: 0.17150229, a: 1}
   - {r: 0.0041384934, g: 0.8773585, b: 0.59571195, a: 1}
   - {r: 0.8867924, g: 0.24679601, b: 0.24679601, a: 1}
   _setNotifyPaneldurate: 2
+  _bgm: {fileID: 1103886628}
   _sfx: {fileID: 2081190520}
 --- !u!1 &1160405740
 GameObject:
@@ -18567,7 +18569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb80366bc125ef547aab708b21495b47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eheroType: 0
+  _sfx: {fileID: 2081190520}
 --- !u!1 &1986524271
 GameObject:
   m_ObjectHideFlags: 0
@@ -19197,7 +19199,7 @@ Transform:
   m_GameObject: {fileID: 2081190518}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 628.1912, y: 552.52466, z: 4.503224}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19985,7 +19987,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2127360683
 MonoBehaviour:
   m_ObjectHideFlags: 0

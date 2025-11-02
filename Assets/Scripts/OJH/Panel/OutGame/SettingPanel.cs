@@ -69,7 +69,7 @@ public class SettingPanel : UIBInder
             {
                 GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
                 //사운드 끄기
-                _audio.Stop();
+                _audio.Pause();
                 //Text 변환
                 _sb.Clear();
                 _sb.Append("사운드OFF");
@@ -84,7 +84,7 @@ public class SettingPanel : UIBInder
             {
                 GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
                 //사운드 켜기
-                _audio.Play();
+                _audio.UnPause();
                 //Text 변환
                 _sb.Clear();
                 _sb.Append("사운드ON");
