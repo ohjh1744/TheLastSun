@@ -27,6 +27,7 @@ public class PausePanel : UIBInder
     {
         GetUI<Button>("GoTutorialButton").onClick.AddListener(GoTutorial);
         GetUI<Button>("PausePanelGoLobbyButton").onClick.AddListener(GoLobby);
+        GetUI<Button>("PausePanelSetFalseButton").onClick.AddListener(SetFalsePanel);
     }
 
     private void GoTutorial()
@@ -37,6 +38,13 @@ public class PausePanel : UIBInder
     private void GoLobby()
     {
         SceneManager.LoadScene(1);
+    }
+
+    //패널 끄면서 다시 Play로 바꿔주기
+    private void SetFalsePanel()
+    {
+        gameObject.SetActive(false);
+        InGameManager.Instance.GameState = EGameState.Play;
     }
 
 

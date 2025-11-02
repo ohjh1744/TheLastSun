@@ -291,7 +291,7 @@ public class InGameMainPanel : UIBInder
     private void SetAllButtons()
     {
         //설정패널 or 네트워크에러패널이 뜨는 경우
-        if (GetUI("ClearPanel").activeSelf == true || GetUI("PausePanel").activeSelf == true || NetworkCheckManager.Instance.IsConnected == false)
+        if (InGameManager.Instance.GameState == EGameState.Win || InGameManager.Instance.GameState == EGameState.Defeat || InGameManager.Instance.GameState == EGameState.Pause || NetworkCheckManager.Instance.IsConnected == false)
         {
             //mainPanel
             GetUI<Button>("PauseButton").interactable = false;
@@ -306,7 +306,7 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("BomerUpgradeButton").interactable = false;
         }
         // 설정패널 or 네트워크에러창이 꺼진 경우
-        else if (GetUI("ClearPanel").activeSelf == true || GetUI("PausePanel").activeSelf == false || NetworkCheckManager.Instance.IsConnected == true)
+        else if (InGameManager.Instance.GameState == EGameState.Play || NetworkCheckManager.Instance.IsConnected == true)
         {
             GetUI<Button>("PauseButton").interactable = true;
             GetUI<Button>("SoundButton").interactable = true;
