@@ -20,8 +20,8 @@ public class InGameManager : MonoBehaviour
     public event UnityAction JemNumOnChanged;
 
     [Header("일반 소환 및 특수 소환 시 필요한 개수")]
-    [SerializeField] private int _normalSpawnForJemNum; public int NormalSpawnForJemNum { get { return _normalSpawnForJemNum; } set { _normalSpawnForJemNum = value; } }
-    [SerializeField] private int _specialSpawnForJemNum; public int SpecialSpawnForJemNum { get { return _specialSpawnForJemNum; } set { _specialSpawnForJemNum = value; } }
+    [SerializeField] private int _normalSpawnForJemNum; public int NormalSpawnForJemNum { get { return _normalSpawnForJemNum; } private set {} }
+    [SerializeField] private int _specialSpawnForJemNum; public int SpecialSpawnForJemNum { get { return _specialSpawnForJemNum; } private set {} }
 
     [Header("일반 소환 및 특수 소환 확률")]
     [SerializeField] private float[] _normalSpawnRates; public float[] NormalSpawnRates { get { return _normalSpawnRates; } private set { } }

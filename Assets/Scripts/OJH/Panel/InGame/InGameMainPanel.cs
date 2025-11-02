@@ -44,9 +44,9 @@ public class InGameMainPanel : UIBInder
     private void Init()
     {
         _spawnClip = _sfx.clip;
-        Debug.Log(_spawnClip);
-        ShowJem();
-        TurnOffNormalAndSpecialSpawnButton();
+        ShowCurrentJem();
+        ShowSpawnJem();
+        SetNormalAndSpecialSpawnButton();
         AddEvent();
     }
 
@@ -57,8 +57,8 @@ public class InGameMainPanel : UIBInder
         GetUI<Button>("PauseButton").onClick.AddListener(DoPause);
         GetUI<Button>("TImeSpeedButton").onClick.AddListener(SpeedUpGame);
         GetUI<Button>("GoSellButton").onClick.AddListener(ShowSellPanel);
-        InGameManager.Instance.JemNumOnChanged += TurnOffNormalAndSpecialSpawnButton;
-        InGameManager.Instance.JemNumOnChanged += ShowJem;
+        InGameManager.Instance.JemNumOnChanged += SetNormalAndSpecialSpawnButton;
+        InGameManager.Instance.JemNumOnChanged += ShowCurrentJem;
         InGameManager.Instance.CurrentWaveTimeOnChanged += ShowTimer;
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowWaveNum;
     }
@@ -167,21 +167,22 @@ public class InGameMainPanel : UIBInder
         });
     }
 
-    private void ShowJem()
+    
+    private void ShowCurrentJem()
     {
         _sb.Clear();
         _sb.Append(InGameManager.Instance.JemNum);
         GetUI<TextMeshProUGUI>("ShowJemText").SetText(_sb);
     }
 
-    private void TurnOffNormalAndSpecialSpawnButton()
+    private void SetNormalAndSpecialSpawnButton()
     {
-        if(InGameManager.Instance.JemNum < 5)
+        if(InGameManager.Instance.JemNum < InGameManager.Instance.NormalSpawnForJemNum)
         {
             GetUI<Button>("SpawnButton").interactable = false;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
         }
-        else if (InGameManager.Instance.JemNum < 10)
+        else if (InGameManager.Instance.JemNum < InGameManager.Instance.SpecialSpawnForJemNum)
         {
             GetUI<Button>("SpecialSpawnButton").interactable = false;
         }
@@ -191,6 +192,18 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("SpecialSpawnButton").interactable = true;
         }
     }
+
+    private void ShowSpawnJem()
+    {
+        _sb.Clear();
+        _sb.Append(InGameManager.Instance.NormalSpawnForJemNum);
+        GetUI<TextMeshProUGUI>("SpawnButtonJemNumText").SetText(_sb);
+
+        _sb.Clear();
+        _sb.Append(InGameManager.Instance.SpecialSpawnForJemNum);
+        GetUI<TextMeshProUGUI>("SpecialSpawnJemNumText").SetText(_sb);
+    }
+
 
     private void ShowTimer()
     {
