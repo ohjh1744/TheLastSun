@@ -262,6 +262,8 @@ public class InGameMainPanel : UIBInder
             if (PlayerController.Instance.PlayerData.IsSound == true)
             {
                 PlayerController.Instance.PlayerData.IsSound = false;
+                GpgsManager.Instance.SaveData((success) => { });
+                Debug.Log($"인게임 사운드 바꿈{PlayerController.Instance.PlayerData.IsSound}");
                 GetUI("SoundButton").SetActive(false);
                 GetUI("SoundMuteButton").SetActive(true);
                 _bgm.Pause();
@@ -270,6 +272,8 @@ public class InGameMainPanel : UIBInder
             else if(PlayerController.Instance.PlayerData.IsSound == false)
             {
                 PlayerController.Instance.PlayerData.IsSound = true;
+                GpgsManager.Instance.SaveData((success) => { });
+                Debug.Log($"인게임 사운드 바꿈{PlayerController.Instance.PlayerData.IsSound}");
                 GetUI("SoundButton").SetActive(true);
                 GetUI("SoundMuteButton").SetActive(false);
                 _bgm.time = _bgmTime;
