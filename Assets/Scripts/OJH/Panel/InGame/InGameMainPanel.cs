@@ -15,10 +15,6 @@ public class InGameMainPanel : UIBInder
     private int[,] _spawnIndex = { { 0, 5, 10 }, { 1, 6, 11 }, { 2, 7, 12 }, { 3, 8, 13 }, { 4, 9, 14 }, { 15, 16, 17 } };
 
     [Header("소환 관련")]
-    [SerializeField] private int _normalSpawnForJemNum;
-    [SerializeField] private int _specialSpawnForJemNum;
-    [SerializeField] private float[] _normalSpawnRates;
-    [SerializeField] private float[] _specialSpawnRates;
     [SerializeField] private Color[] _greatHeroSpawnTextColors;
 
     StringBuilder _sb = new StringBuilder();
@@ -74,14 +70,14 @@ public class InGameMainPanel : UIBInder
         float[] spawnRates;
         if (isNormalSpawn == true)
         {
-            InGameManager.Instance.JemNum -= _normalSpawnForJemNum;
+            InGameManager.Instance.JemNum -= InGameManager.Instance.NormalSpawnForJemNum;
             Debug.Log(InGameManager.Instance.JemNum);
-            spawnRates = _normalSpawnRates;
+            spawnRates = InGameManager.Instance.NormalSpawnRates;
         }
         else
         {
-            InGameManager.Instance.JemNum -= _specialSpawnForJemNum;
-            spawnRates = _specialSpawnRates;
+            InGameManager.Instance.JemNum -= InGameManager.Instance.SpecialSpawnForJemNum;
+            spawnRates = InGameManager.Instance.SpecialSpawnRates;
         }
 
         //2.스폰확률에 따라 소환할 등급결정
@@ -127,8 +123,8 @@ public class InGameMainPanel : UIBInder
         int randomHeroValue = Random.Range(0, 3);
         GameObject hero = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.HeroPools, ObjectPoolManager.Instance.Heros, _spawnIndex[spawnGradeIndex, randomHeroValue]);
         hero.transform.position = Vector3.zero;
-        ObjectPoolManager.Instance.HeroNum[_spawnIndex[spawnGradeIndex, randomHeroValue]]++;
-
+        ObjectPoolManager.Instance.SetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue], ObjectPoolManager.Instance.GetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue]) + 1);
+        Debug.Log((EHeroPool)_spawnIndex[spawnGradeIndex, randomHeroValue]);
         //4. 전설 등급 이상은 알림켜주기
         if (spawnGradeIndex >= (int)EHeroGrade.Legend)
         {
