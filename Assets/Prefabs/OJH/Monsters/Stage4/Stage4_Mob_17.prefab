@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6758133703446851785}
   - component: {fileID: 1437615773608587030}
   - component: {fileID: -8813853405135714054}
-  - component: {fileID: -2586260426749522781}
   - component: {fileID: 1717298340027616019}
   m_Layer: 6
   m_Name: Stage4_Mob_17
@@ -144,33 +143,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!50 &-2586260426749522781
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3343941413376766188}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &1717298340027616019
 MonoBehaviour:
   m_ObjectHideFlags: 0

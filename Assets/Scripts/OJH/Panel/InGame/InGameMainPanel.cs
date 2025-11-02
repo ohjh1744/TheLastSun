@@ -30,7 +30,6 @@ public class InGameMainPanel : UIBInder
 
     private float _bgmTime;
 
- 
     private void Awake()
     {
         BindAll();
@@ -72,6 +71,11 @@ public class InGameMainPanel : UIBInder
 
     private void Spawn(bool isNormalSpawn)
     {
+        if(InGameManager.Instance.JemNum <= 0)
+        {
+            Debug.Log("젬없음");
+            return;
+        }
         //0. 사운드 
         if(PlayerController.Instance.PlayerData.IsSound == true)
         {
@@ -312,8 +316,7 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("SoundButton").interactable = true;
             GetUI<Button>("SoundMuteButton").interactable = true;
             GetUI<Button>("TImeSpeedButton").interactable = true;
-            GetUI<Button>("SpawnButton").interactable = true;
-            GetUI<Button>("SpecialSpawnButton").interactable = true;
+            SetNormalAndSpecialSpawnButton();
             GetUI<Button>("GoSellButton").interactable = true;
             GetUI<Button>("WarriorUpgradeButton").interactable = true;
             GetUI<Button>("ArcherUpgradeButton").interactable = true;

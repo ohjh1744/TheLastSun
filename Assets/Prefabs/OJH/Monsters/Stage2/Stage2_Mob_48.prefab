@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4342778150099475275}
   - component: {fileID: 2564880367236882405}
   - component: {fileID: -6145579477510801773}
-  - component: {fileID: -3454144664677991899}
   - component: {fileID: -2090096392042165481}
   m_Layer: 6
   m_Name: Stage2_Mob_48
@@ -144,33 +143,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!50 &-3454144664677991899
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5828118778582022043}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &-2090096392042165481
 MonoBehaviour:
   m_ObjectHideFlags: 0
