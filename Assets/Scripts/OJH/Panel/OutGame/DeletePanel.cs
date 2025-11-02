@@ -9,10 +9,7 @@ public class DeletePanel : MonoBehaviour
     [SerializeField] private GameObject _updatePanel;
     [SerializeField] private TextMeshProUGUI _text;
 
-    private void Start()
-    {
-        GpgsManager.Instance.Login();
-    }
+
     public void ResetData()
     {
         GpgsManager.Instance.DeleteData((callback) =>

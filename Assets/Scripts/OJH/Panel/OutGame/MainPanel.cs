@@ -185,9 +185,9 @@ public class MainPanel : UIBInder
             if(NetworkCheckManager.Instance.IsConnected == true)
             {
                 _readyForGamePanel.SetActive(true);
-
                 //데이터 저장후 씬 넘기기
-                GpgsManager.Instance.SaveData((success) => {
+                GpgsManager.Instance.SaveData((success) =>
+                {
                     if (success == SavedGameRequestStatus.Success)
                     {
                         Debug.Log("게임씬으로 이동");

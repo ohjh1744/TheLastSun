@@ -22,19 +22,22 @@ public class SettingPanel : UIBInder
     private void Awake()
     {
         BindAll();
+        _packageName = Application.identifier;
+    }
+
+    private void OnEnable()
+    {
+        Init();
     }
     private void Start()
     {
-        Init();
+        AddEvent();
     }
 
     private void Init()
     {
-
-        _packageName = Application.identifier;
-        
         //사운드 Text 초기화
-        if(PlayerController.Instance.PlayerData.IsSound == true)
+        if (PlayerController.Instance.PlayerData.IsSound == true)
         {
             _sb.Clear();
             _sb.Append("사운드ON");
@@ -46,8 +49,6 @@ public class SettingPanel : UIBInder
             _sb.Append("사운드OFF");
             GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
-
-        AddEvent();
     }
     private void AddEvent()
     {
@@ -66,10 +67,10 @@ public class SettingPanel : UIBInder
     {
         if (PlayerController.Instance.PlayerData.IsSound == true)
         {
-            //변수 false로 변경 및 저장
-            PlayerController.Instance.PlayerData.IsSound = false;
             if(NetworkCheckManager.Instance.IsConnected == true)
             {
+                //변수 false로 변경 및 저장
+                PlayerController.Instance.PlayerData.IsSound = false;
                 GpgsManager.Instance.SaveData((success) => { });
                 //사운드 끄기
                 _audio.Pause();
@@ -78,14 +79,15 @@ public class SettingPanel : UIBInder
                 _sb.Clear();
                 _sb.Append("사운드OFF");
                 GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
+                Debug.Log($"사운드 off로 변환{PlayerController.Instance.PlayerData.IsSound}");
             }
         }
         else if (PlayerController.Instance.PlayerData.IsSound == false)
         {
-            //변수 true로 변경 및 저장
-            PlayerController.Instance.PlayerData.IsSound = true;
             if(NetworkCheckManager.Instance.IsConnected == true)
             {
+                //변수 true로 변경 및 저장
+                PlayerController.Instance.PlayerData.IsSound = true;
                 GpgsManager.Instance.SaveData((success) => { });
                 //사운드 켜기
                 _bgmTime = _audio.time;
@@ -94,6 +96,7 @@ public class SettingPanel : UIBInder
                 _sb.Clear();
                 _sb.Append("사운드ON");
                 GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
+                Debug.Log($"사운드 ON으로 변환{PlayerController.Instance.PlayerData.IsSound}");
             }
         }
     }
