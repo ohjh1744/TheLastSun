@@ -16,6 +16,8 @@ public class SettingPanel : UIBInder
 
     private string _packageName;
 
+    private float _bgmTime;
+
     private void Awake()
     {
         BindAll();
@@ -70,6 +72,7 @@ public class SettingPanel : UIBInder
                 GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
                 //사운드 끄기
                 _audio.Pause();
+                _bgmTime = _audio.time;
                 //Text 변환
                 _sb.Clear();
                 _sb.Append("사운드OFF");
@@ -84,7 +87,8 @@ public class SettingPanel : UIBInder
             {
                 GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
                 //사운드 켜기
-                _audio.UnPause();
+                _bgmTime = _audio.time;
+                _audio.Play();
                 //Text 변환
                 _sb.Clear();
                 _sb.Append("사운드ON");

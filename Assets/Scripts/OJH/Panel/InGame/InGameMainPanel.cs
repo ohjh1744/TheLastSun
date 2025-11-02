@@ -28,6 +28,8 @@ public class InGameMainPanel : UIBInder
     [SerializeField] private AudioSource _sfx;
     private AudioClip _spawnClip;
 
+    private float _bgmTime;
+
  
     private void Awake()
     {
@@ -147,6 +149,7 @@ public class InGameMainPanel : UIBInder
     {
         _sb.Clear();
         _sb.Append($"특수소환에 실패하였습니다!");
+        GetUI<TextMeshProUGUI>("NotifyText").SetText(_sb);
         GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[0];
         TurnSetNotifyPanel();
     }
@@ -258,13 +261,15 @@ public class InGameMainPanel : UIBInder
                 GetUI("SoundButton").SetActive(false);
                 GetUI("SoundMuteButton").SetActive(true);
                 _bgm.Pause();
+                _bgmTime = _bgm.time;
             }
-            else
+            else if(PlayerController.Instance.PlayerData.IsSound == false)
             {
                 PlayerController.Instance.PlayerData.IsSound = true;
                 GetUI("SoundButton").SetActive(true);
                 GetUI("SoundMuteButton").SetActive(false);
-                _bgm.UnPause();
+                _bgm.time = _bgmTime;
+                _bgm.Play();
             }
             //GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
         }
