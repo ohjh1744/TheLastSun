@@ -160,7 +160,7 @@ public class InGameManager : MonoBehaviour
         // 클리어 패널 열어주기
         if (_gameState == EGameState.Win)
         {
-            StartCoroutine(UpdateLeaderboard());
+            StartCoroutine(SaveDataAndUpdateLeaderboard());
         }
         else if(_gameState == EGameState.Defeat)
         {
@@ -169,7 +169,7 @@ public class InGameManager : MonoBehaviour
 
     }
 
-    IEnumerator UpdateLeaderboard()
+    IEnumerator SaveDataAndUpdateLeaderboard()
     {
         PlayerData playerData = PlayerController.Instance.PlayerData;
         playerData.ClearTimes[playerData.CurrentStage] = Mathf.Max(playerData.ClearTimes[playerData.CurrentStage], _playTime);

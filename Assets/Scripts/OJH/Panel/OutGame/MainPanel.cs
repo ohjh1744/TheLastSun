@@ -178,17 +178,23 @@ public class MainPanel : UIBInder
 
     private void PlayGame()
     {
-        _readyForGamePanel.SetActive(true);
-
         //1번째 스테이지나 해금된 스테이지만 할수있도록 
         if (PlayerController.Instance.PlayerData.CurrentStage == 0 || PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage - 1] == true)
         {
-            GpgsManager.Instance.SaveData((success) => {
-                if(success == SavedGameRequestStatus.Success)
-                {
-                    SceneManager.LoadScene(2);
-                }
-            });
+            //안전하게 네트워크 체크한번더
+            if(NetworkCheckManager.Instance.IsConnected == true)
+            {
+                _readyForGamePanel.SetActive(true);
+
+                //데이터 저장후 씬 넘기기
+                GpgsManager.Instance.SaveData((success) => {
+                    if (success == SavedGameRequestStatus.Success)
+                    {
+                        Debug.Log("게임씬으로 이동");
+                        SceneManager.LoadScene(2);
+                    }
+                });
+            }
         }
     }
 
