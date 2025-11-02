@@ -2998,7 +2998,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!1 &371762212
 GameObject:
@@ -7230,6 +7230,7 @@ GameObject:
   - component: {fileID: 623132565}
   - component: {fileID: 623132564}
   - component: {fileID: 623132563}
+  - component: {fileID: 623132566}
   m_Layer: 5
   m_Name: LoadingPanel
   m_TagString: Untagged
@@ -7255,7 +7256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00024414062}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &623132563
@@ -7314,6 +7315,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 623132561}
   m_CullTransparentMesh: 1
+--- !u!114 &623132566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623132561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6857135d765a0db4b89717181f2fe427, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rectTransform: {fileID: 623132562}
 --- !u!1 &635356436
 GameObject:
   m_ObjectHideFlags: 0
@@ -17342,7 +17356,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: -2
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!1 &1828366146
 GameObject:
@@ -20148,7 +20162,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1667586053239601958, guid: cc172171f56e6ac4ab029298755d43a8, type: 3}
       propertyPath: m_SortingOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6475158164650495200, guid: cc172171f56e6ac4ab029298755d43a8, type: 3}
       propertyPath: m_Name
