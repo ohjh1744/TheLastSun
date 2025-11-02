@@ -1,9 +1,10 @@
+using GooglePlayGames.BasicApi.SavedGame;
 using System.Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
-using GooglePlayGames.BasicApi.SavedGame;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class SettingPanel : UIBInder
 {
 
@@ -69,7 +70,7 @@ public class SettingPanel : UIBInder
             PlayerController.Instance.PlayerData.IsSound = false;
             if(NetworkCheckManager.Instance.IsConnected == true)
             {
-                GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
+                GpgsManager.Instance.SaveData((success) => { });
                 //사운드 끄기
                 _audio.Pause();
                 _bgmTime = _audio.time;
@@ -81,11 +82,11 @@ public class SettingPanel : UIBInder
         }
         else if (PlayerController.Instance.PlayerData.IsSound == false)
         {
-            //변수 false로 변경 및 저장
+            //변수 true로 변경 및 저장
             PlayerController.Instance.PlayerData.IsSound = true;
             if(NetworkCheckManager.Instance.IsConnected == true)
             {
-                GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
+                GpgsManager.Instance.SaveData((success) => { });
                 //사운드 켜기
                 _bgmTime = _audio.time;
                 _audio.Play();
@@ -95,7 +96,6 @@ public class SettingPanel : UIBInder
                 GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
             }
         }
-
     }
 
     private void SetTrueCredit()

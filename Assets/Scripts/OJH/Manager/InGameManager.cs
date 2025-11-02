@@ -1,3 +1,4 @@
+using GooglePlayGames.BasicApi.SavedGame;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
@@ -173,15 +174,41 @@ public class InGameManager : MonoBehaviour
         PlayerData playerData = PlayerController.Instance.PlayerData;
         playerData.ClearTimes[playerData.CurrentStage] = Mathf.Max(playerData.ClearTimes[playerData.CurrentStage], _playTime);
 
+        bool _isDataSave = false;
+
         // 안전하게 네트워크 체킹 한번더 
         while(NetworkCheckManager.Instance.IsConnected != true)
         {
-            yield return null;
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+        GpgsManager.Instance.SaveData((success) =>
+        {
+            if (success == SavedGameRequestStatus.Success)
+            {
+                _isDataSave = true;
+            }
+        });
+
+        // 데이터 세이브 이후에 랭킹업데이트하도록
+        while(_isDataSave == false)
+        {
+            if(_isDataSave == true)
+            {
+                break;
+            }
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+
+        // 안전하게 네트워크 체킹 한번더 
+        while (NetworkCheckManager.Instance.IsConnected != true)
+        {
+            yield return new WaitForSecondsRealtime(0.1f);
         }
 
         GpgsManager.Instance.UpdateTimeLeaderboard(playerData.ClearTimes[playerData.CurrentStage], _leaderboardString[playerData.CurrentStage], (success) =>
         {
-            if (success)
+            if (success == true)
             {
                 _clearPanel.SetActive(true);
             }

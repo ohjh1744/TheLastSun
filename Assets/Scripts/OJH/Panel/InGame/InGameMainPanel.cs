@@ -271,7 +271,6 @@ public class InGameMainPanel : UIBInder
                 _bgm.time = _bgmTime;
                 _bgm.Play();
             }
-            //GpgsManager.Instance.SaveData((status) => { if (status == SavedGameRequestStatus.Success) { Debug.Log("사운드 설정 저장 성공"); } });
         }
     }
 
