@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class ObjectMaterialLoader : MonoBehaviour
 {
+    private static Material _defaultMat;
     void Start()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        // Default 매터리얼 가져오기
-        Material defaultMat = new Material(Shader.Find("Sprites/Default"));
+        // 한 번만 생성해서 모든 오브젝트가 공유
+        if (_defaultMat == null)
+        {
+            Debug.Log("한번만 생성");
+            _defaultMat = new Material(Shader.Find("Sprites/Default"));
+        }
 
-        // SpriteRenderer에 적용
-        sr.material = defaultMat;
+        sr.sharedMaterial = _defaultMat;
+        Debug.Log(sr.sharedMaterial);
     }
 }
