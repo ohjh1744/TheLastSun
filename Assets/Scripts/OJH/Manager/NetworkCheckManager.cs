@@ -10,8 +10,13 @@ public class NetworkCheckManager : MonoBehaviour
     private static NetworkCheckManager _instance;
     public static NetworkCheckManager Instance { get  {return _instance; } set { _instance = value; } }
 
-    private bool _isConnected;  // 인터넷 연결 상태를 나타내는 변수
-    public bool IsConnected {  get { return _isConnected; } private set { } }
+    //게임자체에서 인터넷 연결확인 변수
+    private bool _isConnected;  
+    public bool IsConnected {  get { return _isConnected; }  set { _isConnected = value; } }
+
+    //실제 인터넷 연결 확인
+    private bool _isCurConnected;
+    public bool IsCurConnected { get { return _isCurConnected; } private set { } }
 
     [SerializeField] private GameObject _netWorkErrorPanel;
 
@@ -35,6 +40,8 @@ public class NetworkCheckManager : MonoBehaviour
 
     void Start()
     {
+        _isConnected = true;
+        _isCurConnected = true;
         DoCheckInternetConnectionAlways();
     }
 
@@ -57,18 +64,19 @@ public class NetworkCheckManager : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                _isConnected = true;
+                _isCurConnected = true;
                 Debug.Log("인터넷 연결 확인됨");
             }
             else
             {
-                _isConnected = false;
+                _isCurConnected = false;
                 _netWorkErrorPanel.SetActive(true);
                 Debug.Log("인터넷 연결 실패");
             }
 
             // isConnected 값을 로그로 출력 (디버깅 용도)
-            Debug.Log("인터넷 연결 상태: " + _isConnected);
+            Debug.Log("실제 인터넷 연결 상태: " + _isCurConnected);
+            Debug.Log("게임내에서 체크한 인터넷 연결 상태: " + _isConnected);
 
             // _checkRateWs 만큼 대기 (Task.Delay로 대체)
             await Task.Delay(_checkConnectRate * 1000);

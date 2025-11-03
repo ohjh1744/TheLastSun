@@ -25,12 +25,14 @@ public class NetworkErrorPanel : UIBInder
     {
         // 정지
         Time.timeScale = 0f;
+        NetworkCheckManager.Instance.IsConnected = false;
     }
 
     private void OnDisable()
     {
         //시간 다시 켜기
         Time.timeScale = 1f;
+        NetworkCheckManager.Instance.IsConnected = true;
     }
 
     private void Start()
@@ -52,17 +54,11 @@ public class NetworkErrorPanel : UIBInder
         _isTryConnect = true;
         _retryConnectPanel.SetActive(true);
 
-        Debug.Log("리트라이커넥페널 열림");
-
-        Debug.Log($"네트워크네트워크1 {NetworkCheckManager.Instance.IsConnected}");
-
         // 비동기 대기 (예: 딜레이 후 체크)
-        // second 기준으로학이위하여 1000곱함
+        // second 기준으로하기위하여 1000곱함
         await Task.Delay(_tryConnectDelay * 1000);
 
-        Debug.Log($"네트워크네트워크2 {NetworkCheckManager.Instance.IsConnected}");
-
-        if (NetworkCheckManager.Instance.IsConnected)
+        if (NetworkCheckManager.Instance.IsCurConnected)
         {
             Debug.Log("연결 성공!");
             //패널들 다 꺼주기
