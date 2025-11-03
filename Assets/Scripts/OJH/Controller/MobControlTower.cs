@@ -46,7 +46,7 @@ public class MobControlTower : MonoBehaviour
 
     private void CheckWaveTime()
     {
-        if (_inGameManager.CurrentWaveTime <= 0f && _isWaveChange == false)
+        if (_inGameManager.CurrentWaveTime <= 0.1f && _isWaveChange == false)
         {
             _isWaveChange = true;
             _inGameManager.CurrentWaveTime = 0f;
