@@ -9,10 +9,16 @@ public class MobControlTower : MonoBehaviour
     [SerializeField] private Vector3[] _movPos;
 
     //한바퀴 도는데 걸리는 시간 
-    [SerializeField] private float[] _mobMoveTime;
+    [SerializeField] private float[] _mobMoveTimes;
 
     //웨이브 소환주기
     [SerializeField] private float _spawnDurate;
+
+    //웨이브별 소환유닛
+    [SerializeField] private int[] _spawnNumForWave;
+
+    private int _curSpawnNumForWave;
+
     WaitForSeconds _spawnDurateWs;
     Coroutine _spawnRotine;
 
@@ -47,6 +53,7 @@ public class MobControlTower : MonoBehaviour
             _inGameManager.WaveNum++;
             Debug.Log($"WaveNum증가{_inGameManager.WaveNum}");
             _inGameManager.CurrentWaveTime = _inGameManager.WaveTimes[_inGameManager.WaveNum];
+            _curSpawnNumForWave = 0;
         }
         _isWaveChange = false;
         _inGameManager.CurrentWaveTime -= Time.deltaTime;
@@ -60,12 +67,18 @@ public class MobControlTower : MonoBehaviour
         }
     }
 
-
+ 
     IEnumerator SpawnMobsAndMove()
     {
         while (true)
         {
+            if (_curSpawnNumForWave == _spawnNumForWave[_inGameManager.WaveNum])
+            {
+                yield return null;
+                continue;
+            }
             //1. 소환
+            _curSpawnNumForWave++;
             ObjectPoolManager.Instance.MobNum++;
             GameObject mob = _poolManager.GetObject(_poolManager.MobPools, _poolManager.Mobs, _inGameManager.WaveNum);
             mob.transform.position = _spawnPos;
@@ -73,7 +86,7 @@ public class MobControlTower : MonoBehaviour
             mob.transform.DOKill();
 
             //2. 소환 후 움직이도록
-            mob.transform.DOPath(_movPos, _mobMoveTime[_inGameManager.WaveNum], PathType.Linear, PathMode.TopDown2D)
+            mob.transform.DOPath(_movPos, _mobMoveTimes[_inGameManager.WaveNum], PathType.Linear, PathMode.TopDown2D)
                 .SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Restart);
 
