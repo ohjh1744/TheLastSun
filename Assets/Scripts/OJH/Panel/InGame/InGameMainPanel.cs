@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -11,6 +12,7 @@ using UnityEngine.UI;
 
 public class InGameMainPanel : UIBInder
 {
+    private enum ENotify {Spawn, MobNum };
     private enum ESpawn{Normal, Special};
     //일반,레어,고대,전설,에픽 신화 -> 전사,궁수,폭탄병순
     private int[,] _spawnIndex = { { 0, 5, 10 }, { 1, 6, 11 }, { 2, 7, 12 }, { 3, 8, 13 }, { 4, 9, 14 }, { 15, 16, 17 } };
@@ -22,13 +24,20 @@ public class InGameMainPanel : UIBInder
     private  string[] _heroName = { "전사", "궁수", "폭탄병" };
     private string[] _godname = { "토난친", "나나우아틀", "시우테쿠틀리" };
     [SerializeField] private float _setNotifyPaneldurate;
-    private Tween _notifyTween;
+    private Tween _notifySpawnTween;
 
     [SerializeField] private AudioSource _bgm;
     [SerializeField] private AudioSource _sfx;
     private AudioClip _spawnClip;
 
     private float _bgmTime;
+
+    // 몬스터 Info 갖고오기위해서 캐싱
+    private SpriteRenderer _mobSR;
+    private MobData _mobData;
+
+    [SerializeField] private Color _warnMobColor;
+    private Tween _notifyMobNumTween;
 
     private void Awake()
     {
@@ -51,6 +60,7 @@ public class InGameMainPanel : UIBInder
         ShowCurrentJem();
         ShowJemForSpawn();
         SetNormalAndSpecialSpawnButton();
+        ShowMobInfo();
         AddEvent();
     }
 
@@ -67,6 +77,8 @@ public class InGameMainPanel : UIBInder
         InGameManager.Instance.JemNumOnChanged += ShowCurrentJem;
         InGameManager.Instance.CurrentWaveTimeOnChanged += ShowTimer;
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowWaveNum;
+        InGameManager.Instance.CurrentWaveNumOnChanged += ShowMobInfo;
+        ObjectPoolManager.Instance.MobNumOnChanged += SHowMobNum;
     }
 
     private void Spawn(bool isNormalSpawn)
@@ -135,7 +147,7 @@ public class InGameMainPanel : UIBInder
         _sb.Append($"특수소환에 실패하였습니다!");
         GetUI<TextMeshProUGUI>("NotifyText").SetText(_sb);
         GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[0];
-        TurnSetNotifyPanel();
+        TurnSetNotifyPanel(ENotify.Spawn);
     }
 
     private void NotifySpawnUnit(int heroGradeIndex, int hero)
@@ -157,19 +169,22 @@ public class InGameMainPanel : UIBInder
             GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.God - 2];
         }
         GetUI<TextMeshProUGUI>("NotifyText").SetText(_sb);
-        TurnSetNotifyPanel();
+        TurnSetNotifyPanel(ENotify.Spawn);
     }
 
-    private void TurnSetNotifyPanel()
+    private void TurnSetNotifyPanel(ENotify eNotify)
     {
-        GetUI("NotifyPanel").SetActive(true);
+        GameObject _notifyPanel = (eNotify == ENotify.Spawn) ? GetUI("NotifyPanel") : GetUI("NotifyMobNumPanel");
+        _notifyPanel.SetActive(true);
 
-        _notifyTween?.Kill();
+        Tween _tween = (eNotify == ENotify.Spawn) ? _notifySpawnTween : _notifyMobNumTween;
+
+        _tween?.Kill();
 
         // 3초 후 비활성화
-        _notifyTween = DOVirtual.DelayedCall(_setNotifyPaneldurate, () =>
+        _tween = DOVirtual.DelayedCall(_setNotifyPaneldurate, () =>
         {
-            GetUI("NotifyPanel").SetActive(false);
+            _notifyPanel.SetActive(false);
         });
     }
 
@@ -220,6 +235,43 @@ public class InGameMainPanel : UIBInder
 
         _sb.AppendFormat("{0:00}:{1:00}", minutes, seconds);
         GetUI<TextMeshProUGUI>("WaveInfoTimerText").SetText(_sb);
+    }
+
+    private void ShowMobInfo()
+    {
+        // 1. 몬스터 이미지
+        _mobSR = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<SpriteRenderer>();
+        GetUI<Image>("WaveInfoMobImage").sprite = _mobSR.sprite;
+        GetUI<Image>("WaveInfoMobImage").color = _mobSR.color;
+
+        //2.몬스터 네임
+        //_mobData = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<MobData>();
+        // _sb.Clear();
+        // _sb.Append(_mobData.Name);
+        // GetUI<TextMeshProUGUI>("WaveInfoMobNameText").SetText(_sb);
+    }
+
+    private void SHowMobNum()
+    {
+        //텍스트 및 슬라이더 표시
+        _sb.Clear();
+        _sb.Append($"{ObjectPoolManager.Instance.MobNum} / {InGameManager.Instance.MobNumForDefeat}");
+        GetUI<TextMeshProUGUI>("MobNumText").SetText(_sb);
+
+        GetUI<Slider>("MobNumSlider").value = (float)ObjectPoolManager.Instance.MobNum / (float)InGameManager.Instance.MobNumForDefeat;
+
+        //경고 알람 띄우기
+        for(int i = 0; i < InGameManager.Instance.MobNumForDefeatWarning.Length; i++)
+        {
+            if (ObjectPoolManager.Instance.MobNum == InGameManager.Instance.MobNumForDefeatWarning[i])
+            {
+                _sb.Clear();
+                _sb.Append($"현재 몬스터가 {ObjectPoolManager.Instance.MobNum}가 넘습니다.");
+                GetUI<TextMeshProUGUI>("NotifyMobNumText").SetText(_sb);
+                GetUI<TextMeshProUGUI>("NotifyMobNumText").color = _warnMobColor;
+                TurnSetNotifyPanel(ENotify.MobNum);
+            }
+        }
     }
 
     private void ShowWaveNum()

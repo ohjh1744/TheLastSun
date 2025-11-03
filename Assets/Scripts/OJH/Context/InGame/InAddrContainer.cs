@@ -148,6 +148,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("ShowJemBgImage").sprite = sprite;
             GetUI<Image>("MobNumSliderBg").sprite = sprite;
             GetUI<Image>("NotifyPanel").sprite = sprite;
+            GetUI<Image>("NotifyMobNumPanel").sprite = sprite;
             GetUI<Image>("ChangeSellWarriorButton").sprite = sprite;
             GetUI<Image>("ChangeSellArcherButton").sprite = sprite;
             GetUI<Image>("ChangeSellBomerButton").sprite = sprite;

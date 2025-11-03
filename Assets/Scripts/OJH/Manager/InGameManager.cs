@@ -50,7 +50,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private int _mobNumForDefeat; public int MobNumForDefeat { get { return _mobNumForDefeat; } private set { } }
 
     [Header("몬스터 수에 따른 경고")]
-    [SerializeField] private int _mobNumForDefeatWarning; public int MobNumForDefeatWarning { get { return _mobNumForDefeatWarning; } private set { } }
+    [SerializeField] private int[] _mobNumForDefeatWarning; public int[] MobNumForDefeatWarning { get { return _mobNumForDefeatWarning; } private set { } }
 
     [Header("게임 상태")]
     [SerializeField] private EGameState _gameState; public EGameState GameState { get { return _gameState; }set { _gameState = value; } }
