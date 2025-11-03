@@ -50,7 +50,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private int _mobNumForDefeat; public int MobNumForDefeat { get { return _mobNumForDefeat; } private set { } }
 
     [Header("몬스터 수에 따른 경고")]
-    [SerializeField] private int _mobNumForDefeatWarning; public int MobNumForDefeatWarning { get { return _mobNumForDefeatWarning; } private set { } }
+    [SerializeField] private int[] _mobNumForDefeatWarning; public int[] MobNumForDefeatWarning { get { return _mobNumForDefeatWarning; } private set { } }
 
     [Header("게임 상태")]
     [SerializeField] private EGameState _gameState; public EGameState GameState { get { return _gameState; }set { _gameState = value; } }
@@ -140,7 +140,8 @@ public class InGameManager : MonoBehaviour
     // 정지와 배속에 따른 게임 스피드 조정
     private void SetGameSpeed()
     {
-        if(_gameState == EGameState.Pause || _gameState == EGameState.Defeat || _gameState == EGameState.Win)
+        //이게 있어야 로딩창 및 인게임중 네트워크 문제 생겨야 멈춤
+        if(NetworkCheckManager.Instance.IsConnected == false ||_gameState == EGameState.Pause || _gameState == EGameState.Defeat || _gameState == EGameState.Win)
         {
             Time.timeScale = 0;
         }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1871660633926188418}
   - component: {fileID: 6959629676045208765}
   - component: {fileID: 715476221925273845}
+  - component: {fileID: -4898044334871570377}
   m_Layer: 6
   m_Name: Stage2_Mob_24
   m_TagString: Monster
@@ -153,5 +154,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4898044334871570377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5996091351400234412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6239302b57a9d3b488df084d085a145c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -31,7 +31,8 @@ public class ObjectPoolManager : MonoBehaviour
     private List<GameObject>[] _projectilePools = new List<GameObject>[13]; public List<GameObject>[] ProjectilePools { get { return _projectilePools; } set { _projectilePools = value; } }
 
     //¿µ¿õ ¹× ¸÷ ÇöÀç ¼ö
-    private int _mobNum; public int MobNum { get { return _mobNum; } set { _mobNum = value; } }
+    private int _mobNum; public int MobNum { get { return _mobNum; } set { _mobNum = value; MobNumOnChanged?.Invoke(); } }
+    public event UnityAction MobNumOnChanged;
     private int[] _heroNum = new int[18];
 
     private void Awake()

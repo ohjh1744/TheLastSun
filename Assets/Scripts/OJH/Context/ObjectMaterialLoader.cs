@@ -17,6 +17,5 @@ public class ObjectMaterialLoader : MonoBehaviour
         }
 
         sr.sharedMaterial = _defaultMat;
-        Debug.Log(sr.sharedMaterial);
     }
 }
