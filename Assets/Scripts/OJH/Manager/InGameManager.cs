@@ -140,7 +140,8 @@ public class InGameManager : MonoBehaviour
     // 정지와 배속에 따른 게임 스피드 조정
     private void SetGameSpeed()
     {
-        if(_gameState == EGameState.Pause || _gameState == EGameState.Defeat || _gameState == EGameState.Win)
+        //이게 있어야 로딩창 및 인게임중 네트워크 문제 생겨야 멈춤
+        if(NetworkCheckManager.Instance.IsConnected == false ||_gameState == EGameState.Pause || _gameState == EGameState.Defeat || _gameState == EGameState.Win)
         {
             Time.timeScale = 0;
         }

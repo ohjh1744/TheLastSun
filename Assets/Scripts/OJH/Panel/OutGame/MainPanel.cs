@@ -47,7 +47,6 @@ public class MainPanel : UIBInder
     private void Start()
     {
         Debug.Log($"PlayerData: {JsonUtility.ToJson(PlayerController.Instance.PlayerData)}");
-        Time.timeScale = 1f;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         Init();
@@ -192,6 +191,10 @@ public class MainPanel : UIBInder
                     {
                         Debug.Log("게임씬으로 이동");
                         SceneManager.LoadScene(2);
+                    }
+                    else
+                    {
+                        _readyForGamePanel.SetActive(false);
                     }
                 });
             }
