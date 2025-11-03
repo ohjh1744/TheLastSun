@@ -27,7 +27,10 @@ public class LoadingPanel : UIBInder
     private void Start()
     {
         Init();
-        Time.timeScale = 1f;
+        if (NetworkCheckManager.Instance.IsConnected == true)
+        {
+            Time.timeScale = 1f;
+        }
         _routine = StartCoroutine(CheckLoadAsset());
     }
 
