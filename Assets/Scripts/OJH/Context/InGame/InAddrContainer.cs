@@ -98,7 +98,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("TImeSpeedButton").sprite = sprite;
             GetUI<Image>("WaveInfoPanel").sprite = sprite;
             GetUI<Image>("ShowJemBgImage").sprite = sprite;
-            GetUI<Image>("ClearPanelSetFalseBgImage").sprite = sprite;
             GetUI<Image>("PausePanelSetFalseBgImage").sprite = sprite;
             GetUI<Image>("SellPanelSetFalseButtonBgImage").sprite = sprite;
 
@@ -106,7 +105,6 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         AddressableManager.Instance.LoadOnlySprite(_cancel, (sprite) =>
         {
             _clearLoadAssetCount++;
-            GetUI<Image>("ClearPanelSetFalseButton").sprite = sprite;
             GetUI<Image>("PausePanelSetFalseButton").sprite = sprite;
             GetUI<Image>("SellPanelSetFalseButton").sprite = sprite;
 

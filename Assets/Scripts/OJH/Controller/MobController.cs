@@ -10,6 +10,8 @@ public class MobController : MonoBehaviour
     private int _curHp;
     public int CurHp { get { return _curHp; } set { _curHp = value; } }
 
+
+
     private void OnDisable()
     {
         Die();

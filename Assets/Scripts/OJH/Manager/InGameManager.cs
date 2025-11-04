@@ -64,7 +64,9 @@ public class InGameManager : MonoBehaviour
 
     //게임 시작, 종료 관리
 
-    WaitForSeconds _clearWs = new WaitForSeconds(0.1f);
+    WaitForSecondsRealtime _clearWs = new WaitForSecondsRealtime(0.1f);
+
+    Coroutine _endGameRoutine;
     private void Awake()
     {
         if(_instance == null)
@@ -87,6 +89,7 @@ public class InGameManager : MonoBehaviour
     {
         SetGameSpeed();
         PlayGame();
+        CheckEndGame();
     }
 
 
@@ -130,20 +133,11 @@ public class InGameManager : MonoBehaviour
         }
     }
 
-    private void PlayGame()
-    {
-        if(_gameState == EGameState.Play)
-        {
-            CheckPlayTime();
-            CheckEndGame();
-        }
-    }
-
     // 정지와 배속에 따른 게임 스피드 조정
     private void SetGameSpeed()
     {
         //이게 있어야 로딩창 및 인게임중 네트워크 문제 생겨야 멈춤
-        if(NetworkCheckManager.Instance.IsConnected == false ||_gameState == EGameState.Pause || _gameState == EGameState.Defeat || _gameState == EGameState.Win)
+        if (NetworkCheckManager.Instance.IsConnected == false || _gameState == EGameState.Pause || _gameState == EGameState.Defeat || _gameState == EGameState.Win)
         {
             Time.timeScale = 0;
         }
@@ -153,9 +147,21 @@ public class InGameManager : MonoBehaviour
         }
     }
 
+    private void PlayGame()
+    {
+        if(_gameState == EGameState.Play)
+        {
+            CheckPlayTime();
+        }
+    }
     private void CheckPlayTime()
     {
         _playTime += Time.deltaTime;
+    }
+
+    public void TempClearGame()
+    {
+        _gameState = EGameState.Win;
     }
     private void CheckEndGame()
     {
@@ -163,7 +169,10 @@ public class InGameManager : MonoBehaviour
         // 클리어 패널 열어주기
         if (_gameState == EGameState.Win)
         {
-            StartCoroutine(SaveDataAndUpdateLeaderboard());
+            if(_endGameRoutine == null)
+            {
+                _endGameRoutine = StartCoroutine(SaveDataAndUpdateLeaderboard());
+            }
         }
         else if(_gameState == EGameState.Defeat)
         {
