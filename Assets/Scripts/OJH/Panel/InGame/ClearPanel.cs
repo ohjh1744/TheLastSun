@@ -40,7 +40,7 @@ public class ClearPanel : UIBInder
 
         //웨이브숫자
         _sb.Clear();
-        _sb.Append($"Wave {InGameManager.Instance.WaveNum}");
+        _sb.Append($"Wave {InGameManager.Instance.WaveNum + 1}");
         GetUI<TextMeshProUGUI>("ClearPanelWaveInfoText").SetText(_sb);
 
         //플레이타임
