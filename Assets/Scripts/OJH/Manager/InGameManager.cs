@@ -63,6 +63,8 @@ public class InGameManager : MonoBehaviour
     private List<string> _leaderboardString = new List<string>();
 
     //게임 시작, 종료 관리
+
+    WaitForSeconds _clearWs = new WaitForSeconds(0.1f);
     private void Awake()
     {
         if(_instance == null)
@@ -178,42 +180,38 @@ public class InGameManager : MonoBehaviour
         bool _isDataSave = false;
 
         // 안전하게 네트워크 체킹 한번더 
-        while(NetworkCheckManager.Instance.IsConnected != true)
+        while(NetworkCheckManager.Instance.IsConnected == false)
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return _clearWs;
         }
 
-        GpgsManager.Instance.SaveData((success) =>
+        if (NetworkCheckManager.Instance.IsConnected)
         {
-            if (success == SavedGameRequestStatus.Success)
+            GpgsManager.Instance.SaveData((success) =>
             {
-                _isDataSave = true;
-            }
-        });
-
-        // 데이터 세이브 이후에 랭킹업데이트하도록
-        while(_isDataSave == false)
-        {
-            if(_isDataSave == true)
-            {
-                break;
-            }
-            yield return new WaitForSecondsRealtime(0.1f);
+                if (success == SavedGameRequestStatus.Success)
+                {
+                    _isDataSave = true;
+                }
+            });
         }
 
-        // 안전하게 네트워크 체킹 한번더 
-        while (NetworkCheckManager.Instance.IsConnected != true)
+        // 네트워크 연결 & 데이터 세이브 완료 대기
+        while (NetworkCheckManager.Instance.IsConnected == false || _isDataSave == false)
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return _clearWs;
         }
 
-        GpgsManager.Instance.UpdateTimeLeaderboard(playerData.ClearTimes[playerData.CurrentStage], _leaderboardString[playerData.CurrentStage], (success) =>
+        if (NetworkCheckManager.Instance.IsConnected)
         {
-            if (success == true)
+            GpgsManager.Instance.UpdateTimeLeaderboard(playerData.ClearTimes[playerData.CurrentStage], _leaderboardString[playerData.CurrentStage], (success) =>
             {
-                _clearPanel.SetActive(true);
-            }
-        });
+                if (success == true)
+                {
+                    _clearPanel.SetActive(true);
+                }
+            });
+        }
     }
 
 }
