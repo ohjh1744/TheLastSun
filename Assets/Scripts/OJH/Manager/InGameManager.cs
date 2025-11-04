@@ -63,6 +63,10 @@ public class InGameManager : MonoBehaviour
     private List<string> _leaderboardString = new List<string>();
 
     //게임 시작, 종료 관리
+
+    WaitForSecondsRealtime _clearWs = new WaitForSecondsRealtime(0.1f);
+
+    Coroutine _endGameRoutine;
     private void Awake()
     {
         if(_instance == null)
@@ -85,6 +89,7 @@ public class InGameManager : MonoBehaviour
     {
         SetGameSpeed();
         PlayGame();
+        CheckEndGame();
     }
 
 
@@ -128,20 +133,11 @@ public class InGameManager : MonoBehaviour
         }
     }
 
-    private void PlayGame()
-    {
-        if(_gameState == EGameState.Play)
-        {
-            CheckPlayTime();
-            CheckEndGame();
-        }
-    }
-
     // 정지와 배속에 따른 게임 스피드 조정
     private void SetGameSpeed()
     {
         //이게 있어야 로딩창 및 인게임중 네트워크 문제 생겨야 멈춤
-        if(NetworkCheckManager.Instance.IsConnected == false ||_gameState == EGameState.Pause || _gameState == EGameState.Defeat || _gameState == EGameState.Win)
+        if (NetworkCheckManager.Instance.IsConnected == false || _gameState == EGameState.Pause || _gameState == EGameState.Defeat || _gameState == EGameState.Win)
         {
             Time.timeScale = 0;
         }
@@ -151,9 +147,21 @@ public class InGameManager : MonoBehaviour
         }
     }
 
+    private void PlayGame()
+    {
+        if(_gameState == EGameState.Play)
+        {
+            CheckPlayTime();
+        }
+    }
     private void CheckPlayTime()
     {
         _playTime += Time.deltaTime;
+    }
+
+    public void TempClearGame()
+    {
+        _gameState = EGameState.Win;
     }
     private void CheckEndGame()
     {
@@ -161,7 +169,10 @@ public class InGameManager : MonoBehaviour
         // 클리어 패널 열어주기
         if (_gameState == EGameState.Win)
         {
-            StartCoroutine(SaveDataAndUpdateLeaderboard());
+            if(_endGameRoutine == null)
+            {
+                _endGameRoutine = StartCoroutine(SaveDataAndUpdateLeaderboard());
+            }
         }
         else if(_gameState == EGameState.Defeat)
         {
@@ -178,42 +189,38 @@ public class InGameManager : MonoBehaviour
         bool _isDataSave = false;
 
         // 안전하게 네트워크 체킹 한번더 
-        while(NetworkCheckManager.Instance.IsConnected != true)
+        while(NetworkCheckManager.Instance.IsConnected == false)
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return _clearWs;
         }
 
-        GpgsManager.Instance.SaveData((success) =>
+        if (NetworkCheckManager.Instance.IsConnected)
         {
-            if (success == SavedGameRequestStatus.Success)
+            GpgsManager.Instance.SaveData((success) =>
             {
-                _isDataSave = true;
-            }
-        });
-
-        // 데이터 세이브 이후에 랭킹업데이트하도록
-        while(_isDataSave == false)
-        {
-            if(_isDataSave == true)
-            {
-                break;
-            }
-            yield return new WaitForSecondsRealtime(0.1f);
+                if (success == SavedGameRequestStatus.Success)
+                {
+                    _isDataSave = true;
+                }
+            });
         }
 
-        // 안전하게 네트워크 체킹 한번더 
-        while (NetworkCheckManager.Instance.IsConnected != true)
+        // 네트워크 연결 & 데이터 세이브 완료 대기
+        while (NetworkCheckManager.Instance.IsConnected == false || _isDataSave == false)
         {
-            yield return new WaitForSecondsRealtime(0.1f);
+            yield return _clearWs;
         }
 
-        GpgsManager.Instance.UpdateTimeLeaderboard(playerData.ClearTimes[playerData.CurrentStage], _leaderboardString[playerData.CurrentStage], (success) =>
+        if (NetworkCheckManager.Instance.IsConnected)
         {
-            if (success == true)
+            GpgsManager.Instance.UpdateTimeLeaderboard(playerData.ClearTimes[playerData.CurrentStage], _leaderboardString[playerData.CurrentStage], (success) =>
             {
-                _clearPanel.SetActive(true);
-            }
-        });
+                if (success == true)
+                {
+                    _clearPanel.SetActive(true);
+                }
+            });
+        }
     }
 
 }

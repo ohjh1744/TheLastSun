@@ -65,13 +65,11 @@ public class NetworkCheckManager : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 _isCurConnected = true;
-                Debug.Log("인터넷 연결 확인됨");
             }
             else
             {
                 _isCurConnected = false;
                 _netWorkErrorPanel.SetActive(true);
-                Debug.Log("인터넷 연결 실패");
             }
 
             // isConnected 값을 로그로 출력 (디버깅 용도)

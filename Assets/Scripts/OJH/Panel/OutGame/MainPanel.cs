@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 public class MainPanel : UIBInder
 {
-    private enum EMainButton { StageChangeLeftButton, StageChangeRightButton, PlayButton, CheckRankButton, BossBookButton, SettingButton , Length};
+    private enum EMainButton { StageChangeLeftButton, StageChangeRightButton, PlayButton, CheckRankButton, BossBookButton, SettingButton, Length };
 
 
     //Panel들
@@ -38,6 +38,9 @@ public class MainPanel : UIBInder
     [SerializeField] private StageData[] _stageDatas;
 
     private StringBuilder _sb = new StringBuilder();
+
+    Coroutine _playRoutine;
+    WaitForSeconds _playGameWs = new WaitForSeconds(0.2f);
 
     private void Awake()
     {
@@ -67,17 +70,17 @@ public class MainPanel : UIBInder
     private void GetUI()
     {
         //자주사용하는 UI불러오고 저장
-        for(int i = 0; i < _difficultyLevelImages.Count; i++)
+        for (int i = 0; i < _difficultyLevelImages.Count; i++)
         {
-            _difficultyLevelImages[i] = GetUI<Image>($"DifficultyLevelImage{i+1}");
+            _difficultyLevelImages[i] = GetUI<Image>($"DifficultyLevelImage{i + 1}");
         }
-        for(int i = 0; i < (int)EMainButton.Length; i++)
+        for (int i = 0; i < (int)EMainButton.Length; i++)
         {
             _buttons.Add(GetUI<Button>($"{((EMainButton)i).ToString()}"));
         }
         for (int i = 0; i < _stageDatas.Length; i++)
         {
-            _stageImages.Add(GetUI<Image>($"Stage{i+1}Image"));
+            _stageImages.Add(GetUI<Image>($"Stage{i + 1}Image"));
         }
     }
 
@@ -122,7 +125,7 @@ public class MainPanel : UIBInder
     }
 
     //Stage Level, Name , Sprite 변경
-    private void ChangeStageLevelNameImage (int playerChoiceStage)
+    private void ChangeStageLevelNameImage(int playerChoiceStage)
     {
         //Stage Level
         _sb.Clear();
@@ -180,24 +183,35 @@ public class MainPanel : UIBInder
         //1번째 스테이지나 해금된 스테이지만 할수있도록 
         if (PlayerController.Instance.PlayerData.CurrentStage == 0 || PlayerController.Instance.PlayerData.IsClearStage[PlayerController.Instance.PlayerData.CurrentStage - 1] == true)
         {
-            //안전하게 네트워크 체크한번더
-            if(NetworkCheckManager.Instance.IsConnected == true)
+            StartCoroutine(GoInGame());
+        }
+    }
+
+    IEnumerator GoInGame()
+    {
+        //네트워크체크
+        while (NetworkCheckManager.Instance.IsConnected == false)
+        {
+            yield return _playGameWs;
+        }
+
+        //안전하게 네트워크 체크한번더
+        if (NetworkCheckManager.Instance.IsConnected == true)
+        {
+            _readyForGamePanel.SetActive(true);
+            //데이터 저장후 씬 넘기기
+            GpgsManager.Instance.SaveData((success) =>
             {
-                _readyForGamePanel.SetActive(true);
-                //데이터 저장후 씬 넘기기
-                GpgsManager.Instance.SaveData((success) =>
+                if (success == SavedGameRequestStatus.Success)
                 {
-                    if (success == SavedGameRequestStatus.Success)
-                    {
-                        Debug.Log("게임씬으로 이동");
-                        SceneManager.LoadScene(2);
-                    }
-                    else
-                    {
-                        _readyForGamePanel.SetActive(false);
-                    }
-                });
-            }
+                    Debug.Log("게임씬으로 이동");
+                    SceneManager.LoadScene(2);
+                }
+                else
+                {
+                    _readyForGamePanel.SetActive(false);
+                }
+            });
         }
     }
 
