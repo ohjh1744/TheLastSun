@@ -28,9 +28,7 @@ public class MobControlTower : MonoBehaviour
     private bool _isWaveChange = false;
     private void Start()
     {
-        _poolManager = ObjectPoolManager.Instance;
-        _inGameManager = InGameManager.Instance;
-        _spawnDurateWs = new WaitForSeconds(_spawnDurate);
+        Init();
     }
 
     private void Update()
@@ -42,6 +40,14 @@ public class MobControlTower : MonoBehaviour
 
         CheckWaveTime();
         StartSpawnMobAndMove();
+    }
+
+    private void Init()
+    {
+        _poolManager = ObjectPoolManager.Instance;
+        _inGameManager = InGameManager.Instance;
+        _spawnDurateWs = new WaitForSeconds(_spawnDurate);
+        _poolManager.MobNumOnChanged += ClearFail;
     }
 
     private void CheckWaveTime()
@@ -79,7 +85,7 @@ public class MobControlTower : MonoBehaviour
             }
             //1. 소환
             _curSpawnNumForWave++;
-            ObjectPoolManager.Instance.MobNum++;
+            _poolManager.MobNum++;
             GameObject mob = _poolManager.GetObject(_poolManager.MobPools, _poolManager.Mobs, _inGameManager.WaveNum);
             mob.transform.position = _spawnPos;
 
@@ -91,6 +97,24 @@ public class MobControlTower : MonoBehaviour
                 .SetLoops(-1, LoopType.Restart);
 
             yield return _spawnDurateWs;
+        }
+    }
+
+    private void ClearFail()
+    {
+        //100마리 넘엇을 시 
+        if(_poolManager.MobNum >= _inGameManager.MobNumForDefeat)
+        {
+            _inGameManager.GameState = EGameState.Defeat;
+        }
+
+        //중간보스, 보스 안죽엇을시
+        if(_inGameManager.WaveNum == 26 || _inGameManager.WaveNum == 50))
+        {
+            if(_poolManager.MobPools[_inGameManager.WaveNum][0].activeSelf == true)
+            {
+                _inGameManager.GameState = EGameState.Defeat;
+            }
         }
     }
 
