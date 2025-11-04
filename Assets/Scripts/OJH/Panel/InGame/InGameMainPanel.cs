@@ -77,8 +77,25 @@ public class InGameMainPanel : UIBInder
         InGameManager.Instance.JemNumOnChanged += ShowCurrentJem;
         InGameManager.Instance.CurrentWaveTimeOnChanged += ShowTimer;
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowWaveNum;
+        InGameManager.Instance.CurrentWaveNumOnChanged += ShowWarnBossText;
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowMobInfo;
         ObjectPoolManager.Instance.MobNumOnChanged += SHowMobNum;
+    }
+
+    private void ShowWarnBossText()
+    {
+        if(InGameManager.Instance.WaveNum == 24 || InGameManager.Instance.WaveNum == 49)
+        {
+            //_mobData = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<MobData>();
+            _sb.Clear();
+            _sb.Append($"제한 시간 내에 {_mobData?.Name}를 처치해야 합니다!");
+            GetUI<TextMeshProUGUI>("WarnBossText").SetText(_sb);
+            GetUI("WarnBossText").SetActive(true);
+        }
+        else
+        {
+            GetUI("WarnBossText").SetActive(false);
+        }
     }
 
     private void Spawn(bool isNormalSpawn)
@@ -187,8 +204,7 @@ public class InGameMainPanel : UIBInder
             _notifyPanel.SetActive(false);
         });
     }
-
-    
+   
     private void ShowCurrentJem()
     {
         _sb.Clear();
