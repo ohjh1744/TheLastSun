@@ -109,7 +109,7 @@ public class MobControlTower : MonoBehaviour
         }
 
         //중간보스, 보스 안죽엇을시
-        if(_inGameManager.WaveNum == 26 || _inGameManager.WaveNum == 50))
+        if(_inGameManager.WaveNum == 26 || _inGameManager.WaveNum == 50)
         {
             if(_poolManager.MobPools[_inGameManager.WaveNum][0].activeSelf == true)
             {
