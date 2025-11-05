@@ -13,6 +13,8 @@ public class MobController : UIBInder, IDamagable
 {
     [SerializeField] private MobData _mobData;
 
+    [SerializeField] private TextMeshProUGUI _hpText;
+
     private int _curHp;
     public int CurHp { get { return _curHp; } set { _curHp = value; } }
 
