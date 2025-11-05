@@ -37,6 +37,11 @@ public class SellPanel : UIBInder
         ShowJemNum();
     }
 
+    private void Update()
+    {
+        SetAllButtons();
+    }
+
 
     private void Init()
     {
@@ -185,6 +190,66 @@ public class SellPanel : UIBInder
         _sb.Clear();
         _sb.Append(ObjectPoolManager.Instance.GetHeroNum(heroIndex));
         _heroNumSellTexts[heroIndex].SetText(_sb);
+    }
+
+    private void SetAllButtons()
+    {
+        //설정패널 or 네트워크에러패널이 뜨는 경우
+        if (InGameManager.Instance.GameState == EGameState.Win || InGameManager.Instance.GameState == EGameState.Defeat || InGameManager.Instance.GameState == EGameState.Pause || NetworkCheckManager.Instance.IsConnected == false)
+        {
+            GetUI<Button>("SellPanelSetFalseButton").interactable = false;
+            GetUI<Button>("ChangeSellWarriorButton").interactable = false;
+            GetUI<Button>("ChangeSellArcherButton").interactable = false;
+            GetUI<Button>("ChangeSellBomerButton").interactable = false;
+
+            GetUI<Button>("NormalWarriorSellButton").interactable = false;
+            GetUI<Button>("NormalArcherSellButton").interactable = false;
+            GetUI<Button>("NormalBomerSellButton").interactable = false;
+
+            GetUI<Button>("RareWarriorSellButton").interactable = false;
+            GetUI<Button>("RareArcherSellButton").interactable = false;
+            GetUI<Button>("RareBomerSellButton").interactable = false;
+
+            GetUI<Button>("AncientWarriorSellButton").interactable = false;
+            GetUI<Button>("AncientArcherSellButton").interactable = false;
+            GetUI<Button>("AncientBomerSellButton").interactable = false;
+
+            GetUI<Button>("LegendWarriorSellButton").interactable = false;
+            GetUI<Button>("LegendArcherSellButton").interactable = false;   
+            GetUI<Button>("LegendBomerSellButton").interactable = false;
+
+            GetUI<Button>("EpicWarriorSellButton").interactable = false;
+            GetUI<Button>("EpicArcherSellButton").interactable = false;
+            GetUI<Button>("EpicBomerSellButton").interactable = false;
+        }
+        // 설정패널 or 네트워크에러창이 꺼진 경우
+        else if (InGameManager.Instance.GameState == EGameState.Play || NetworkCheckManager.Instance.IsConnected == true)
+        {
+            GetUI<Button>("SellPanelSetFalseButton").interactable = true;
+            GetUI<Button>("ChangeSellWarriorButton").interactable = true;
+            GetUI<Button>("ChangeSellArcherButton").interactable = true;
+            GetUI<Button>("ChangeSellBomerButton").interactable = true;
+
+            GetUI<Button>("NormalWarriorSellButton").interactable = true;
+            GetUI<Button>("NormalArcherSellButton").interactable = true;
+            GetUI<Button>("NormalBomerSellButton").interactable = true;
+
+            GetUI<Button>("RareWarriorSellButton").interactable = true;
+            GetUI<Button>("RareArcherSellButton").interactable = true;
+            GetUI<Button>("RareBomerSellButton").interactable = true;
+
+            GetUI<Button>("AncientWarriorSellButton").interactable = true;
+            GetUI<Button>("AncientArcherSellButton").interactable = true;
+            GetUI<Button>("AncientBomerSellButton").interactable = true;
+
+            GetUI<Button>("LegendWarriorSellButton").interactable = true;
+            GetUI<Button>("LegendArcherSellButton").interactable = true;
+            GetUI<Button>("LegendBomerSellButton").interactable = true;
+
+            GetUI<Button>("EpicWarriorSellButton").interactable = true;
+            GetUI<Button>("EpicArcherSellButton").interactable = true;
+            GetUI<Button>("EpicBomerSellButton").interactable = true;
+        }
     }
 
 
