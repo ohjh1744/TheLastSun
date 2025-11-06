@@ -66,13 +66,19 @@ public class TutorialPanel : UIBInder
     {
         _tutorialIndex++;
 
+        //튜토리얼 다봤을경우
         if(_tutorialIndex == _tutorialMaxIndex)
         {
             for (int i = 0; i < _tutorialMaxIndex; i++)
             {
                 GetUI($"TutorialImage{i}").SetActive(false);
+                if(InGameManager.Instance.GameState == EGameState.Ready)
+                {
+                    InGameManager.Instance.GameState = EGameState.Play;
+                }
             }
         }
+        //아직 다 안봤을경우
         else
         {
             for (int i = 0; i < _tutorialMaxIndex; i++)
