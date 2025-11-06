@@ -34,6 +34,9 @@ public class TutorialPanel : UIBInder
 
     private void Init()
     {
+        //튜토리얼 인덱스 초기화
+        _tutorialIndex = 0;
+
         //IsToturial false인 경우에만 해주기
         if (PlayerController.Instance.PlayerData.IsTutorial == false)
         {
@@ -69,13 +72,10 @@ public class TutorialPanel : UIBInder
         //튜토리얼 다봤을경우
         if(_tutorialIndex == _tutorialMaxIndex)
         {
-            for (int i = 0; i < _tutorialMaxIndex; i++)
+            gameObject.SetActive(false);
+            if (InGameManager.Instance.GameState == EGameState.Ready)
             {
-                GetUI($"TutorialImage{i}").SetActive(false);
-                if(InGameManager.Instance.GameState == EGameState.Ready)
-                {
-                    InGameManager.Instance.GameState = EGameState.Play;
-                }
+                InGameManager.Instance.GameState = EGameState.Play;
             }
         }
         //아직 다 안봤을경우
