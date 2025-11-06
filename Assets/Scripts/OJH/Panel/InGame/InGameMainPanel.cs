@@ -34,7 +34,7 @@ public class InGameMainPanel : UIBInder
 
     // 몬스터 Info 갖고오기위해서 캐싱
     private SpriteRenderer _mobSR;
-    private MobData _mobData;
+    private MobController _mobController;
 
     [SerializeField] private Color _warnMobColor;
     private Tween _notifyMobNumTween;
@@ -73,6 +73,7 @@ public class InGameMainPanel : UIBInder
         GetUI<Button>("SoundMuteButton").onClick.AddListener(SetSound);
         GetUI<Button>("TImeSpeedButton").onClick.AddListener(SpeedUpGame);
         GetUI<Button>("GoSellButton").onClick.AddListener(ShowSellPanel);
+        GetUI<Button>("ShowSpawnRateButton").onClick.AddListener(ShowSpawnRatePanel);
         InGameManager.Instance.JemNumOnChanged += SetNormalAndSpecialSpawnButton;
         InGameManager.Instance.JemNumOnChanged += ShowCurrentJem;
         InGameManager.Instance.CurrentWaveTimeOnChanged += ShowTimer;
@@ -88,7 +89,7 @@ public class InGameMainPanel : UIBInder
         {
             //_mobData = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<MobData>();
             _sb.Clear();
-            _sb.Append($"제한 시간 내에 {_mobData?.Name}를 처치해야 합니다!");
+            _sb.Append($"제한 시간 내에 {_mobController?.MobData.Name}를 처치해야 합니다!");
             GetUI<TextMeshProUGUI>("WarnBossText").SetText(_sb);
             GetUI("WarnBossText").SetActive(true);
         }
@@ -161,7 +162,7 @@ public class InGameMainPanel : UIBInder
     private void NotifySpawnFail()
     {
         _sb.Clear();
-        _sb.Append($"특수소환에 실패하였습니다!");
+        _sb.Append($"특수소환에 실패하였습니다.");
         GetUI<TextMeshProUGUI>("NotifyText").SetText(_sb);
         GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[0];
         TurnSetNotifyPanel(ENotify.Spawn);
@@ -261,10 +262,10 @@ public class InGameMainPanel : UIBInder
         GetUI<Image>("WaveInfoMobImage").color = _mobSR.color;
 
         //2.몬스터 네임
-        //_mobData = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<MobData>();
-        // _sb.Clear();
-        // _sb.Append(_mobData.Name);
-        // GetUI<TextMeshProUGUI>("WaveInfoMobNameText").SetText(_sb);
+        _mobController = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<MobController>();
+        _sb.Clear();
+        _sb.Append(_mobController.MobData.Name);
+        GetUI<TextMeshProUGUI>("WaveInfoMobNameText").SetText(_sb);
     }
 
     private void SHowMobNum()
@@ -299,7 +300,6 @@ public class InGameMainPanel : UIBInder
 
     private void DoPause()
     {
-        InGameManager.Instance.GameState = EGameState.Pause;
         GetUI("PausePanel").gameObject.SetActive(true);
     }
 
@@ -345,6 +345,12 @@ public class InGameMainPanel : UIBInder
         GetUI("SellPanel").SetActive(true);
     }
 
+    private void ShowSpawnRatePanel()
+    {
+        GetUI("SpawnRatePanel").SetActive(true);
+        GetUI<Button>("ShowSpawnRateButton").interactable = false;
+    }
+
     private void SetAllButtons()
     {
         //설정패널 or 네트워크에러패널이 뜨는 경우
@@ -357,6 +363,7 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("TImeSpeedButton").interactable = false;
             GetUI<Button>("SpawnButton").interactable = false;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
+            GetUI<Button>("ShowSpawnRateButton").interactable = false;
             GetUI<Button>("GoSellButton").interactable = false;
             GetUI<Button>("WarriorUpgradeButton").interactable = false;
             GetUI<Button>("ArcherUpgradeButton").interactable = false;
@@ -370,6 +377,7 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("SoundMuteButton").interactable = true;
             GetUI<Button>("TImeSpeedButton").interactable = true;
             SetNormalAndSpecialSpawnButton();
+            GetUI<Button>("ShowSpawnRateButton").interactable = true;
             GetUI<Button>("GoSellButton").interactable = true;
             GetUI<Button>("WarriorUpgradeButton").interactable = true;
             GetUI<Button>("ArcherUpgradeButton").interactable = true;

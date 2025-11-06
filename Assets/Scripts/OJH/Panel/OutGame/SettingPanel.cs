@@ -79,7 +79,7 @@ public class SettingPanel : UIBInder
                 _sb.Clear();
                 _sb.Append("사운드OFF");
                 GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
-                Debug.Log($"사운드 off로 변환{PlayerController.Instance.PlayerData.IsSound}");
+                Debug.Log($"사운드 Off로 변환{PlayerController.Instance.PlayerData.IsSound}");
             }
         }
         else if (PlayerController.Instance.PlayerData.IsSound == false)

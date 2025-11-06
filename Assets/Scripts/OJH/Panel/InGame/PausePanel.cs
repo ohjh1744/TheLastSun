@@ -13,6 +13,11 @@ public class PausePanel : UIBInder
     {
         BindAll();
     }
+
+    private void OnEnable()
+    {
+        InGameManager.Instance.GameState = EGameState.Pause;
+    }
     void Start()
     {
         Init();

@@ -86,6 +86,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         {
             _clearLoadAssetCount++;
             GetUI<Image>("GoSellButton").sprite = sprite;
+            GetUI<Image>("ShowSpawnRateButton").sprite = sprite;
             GetUI<Image>("ClearPanelGoLobbyButton").sprite = sprite;
             GetUI<Image>("GoTutorialButton").sprite = sprite;
             GetUI<Image>("PausePanelGoLobbyButton").sprite = sprite;
@@ -100,6 +101,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("ShowJemBgImage").sprite = sprite;
             GetUI<Image>("PausePanelSetFalseBgImage").sprite = sprite;
             GetUI<Image>("SellPanelSetFalseButtonBgImage").sprite = sprite;
+            GetUI<Image>("SpawnRatePanelSetFalseBgImage").sprite = sprite;
 
         });
         AddressableManager.Instance.LoadOnlySprite(_cancel, (sprite) =>
@@ -107,6 +109,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             _clearLoadAssetCount++;
             GetUI<Image>("PausePanelSetFalseButton").sprite = sprite;
             GetUI<Image>("SellPanelSetFalseButton").sprite = sprite;
+            GetUI<Image>("SpawnRatePanelSetFalseButton").sprite = sprite;
 
         });
         AddressableManager.Instance.LoadOnlySprite(_diamond, (sprite) =>
@@ -130,6 +133,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         {
             _clearLoadAssetCount++;
             GetUI<Image>("BottomPanel").sprite = sprite;
+            GetUI<Image>("SpawnRatePanel").sprite = sprite;
             GetUI<Image>("ClearPanel").sprite = sprite;
             GetUI<Image>("PausePanel").sprite = sprite;
             GetUI<Image>("SellPanel").sprite = sprite;

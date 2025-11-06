@@ -187,6 +187,7 @@ public class InGameManager : MonoBehaviour
         playerData.ClearTimes[playerData.CurrentStage] = Mathf.Max(playerData.ClearTimes[playerData.CurrentStage], _playTime);
 
         bool _isDataSave = false;
+        bool _isUpdateTime = false;
 
         // 안전하게 네트워크 체킹 한번더 
         while(NetworkCheckManager.Instance.IsConnected == false)
@@ -194,33 +195,29 @@ public class InGameManager : MonoBehaviour
             yield return _clearWs;
         }
 
-        if (NetworkCheckManager.Instance.IsConnected)
+        GpgsManager.Instance.SaveData((success) =>
         {
-            GpgsManager.Instance.SaveData((success) =>
+            if (success == SavedGameRequestStatus.Success)
             {
-                if (success == SavedGameRequestStatus.Success)
-                {
-                    _isDataSave = true;
-                }
-            });
-        }
+                _isDataSave = true;
+            }
+        });
 
-        // 네트워크 연결 & 데이터 세이브 완료 대기
-        while (NetworkCheckManager.Instance.IsConnected == false || _isDataSave == false)
+        GpgsManager.Instance.UpdateTimeLeaderboard(playerData.ClearTimes[playerData.CurrentStage], _leaderboardString[playerData.CurrentStage], (success) =>
+        {
+            if (success == true)
+            {
+                _isUpdateTime = true;
+            }
+        });
+
+        // 네트워크 연결 & 데이터 세이브 & 업데이트 완료 시까지 기다리기
+        while (NetworkCheckManager.Instance.IsConnected == false || _isDataSave == false || _isUpdateTime == false)
         {
             yield return _clearWs;
         }
 
-        if (NetworkCheckManager.Instance.IsConnected)
-        {
-            GpgsManager.Instance.UpdateTimeLeaderboard(playerData.ClearTimes[playerData.CurrentStage], _leaderboardString[playerData.CurrentStage], (success) =>
-            {
-                if (success == true)
-                {
-                    _clearPanel.SetActive(true);
-                }
-            });
-        }
+        _clearPanel.SetActive(true);
     }
 
 }
