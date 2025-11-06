@@ -86,6 +86,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         {
             _clearLoadAssetCount++;
             GetUI<Image>("GoSellButton").sprite = sprite;
+            GetUI<Image>("ShowSpawnRateButton").sprite = sprite;
             GetUI<Image>("ClearPanelGoLobbyButton").sprite = sprite;
             GetUI<Image>("GoTutorialButton").sprite = sprite;
             GetUI<Image>("PausePanelGoLobbyButton").sprite = sprite;

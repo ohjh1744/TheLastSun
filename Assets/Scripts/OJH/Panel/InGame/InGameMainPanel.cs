@@ -357,6 +357,7 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("TImeSpeedButton").interactable = false;
             GetUI<Button>("SpawnButton").interactable = false;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
+            GetUI<Button>("ShowSpawnRateButton").interactable = false;
             GetUI<Button>("GoSellButton").interactable = false;
             GetUI<Button>("WarriorUpgradeButton").interactable = false;
             GetUI<Button>("ArcherUpgradeButton").interactable = false;
@@ -370,6 +371,7 @@ public class InGameMainPanel : UIBInder
             GetUI<Button>("SoundMuteButton").interactable = true;
             GetUI<Button>("TImeSpeedButton").interactable = true;
             SetNormalAndSpecialSpawnButton();
+            GetUI<Button>("ShowSpawnRateButton").interactable = true;
             GetUI<Button>("GoSellButton").interactable = true;
             GetUI<Button>("WarriorUpgradeButton").interactable = true;
             GetUI<Button>("ArcherUpgradeButton").interactable = true;
