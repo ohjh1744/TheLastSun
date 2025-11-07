@@ -99,7 +99,7 @@ public class TutorialPanel : UIBInder
 
     private void SetIsTutorialTrue()
     {
-        NetworkCheckManager.Instance.IsConnected = true;
+        PlayerController.Instance.PlayerData.IsTutorial = true;
         StartCoroutine(OnSetIsTutorialTrue());
     }
 
