@@ -40,6 +40,7 @@ public class TutorialPanel : UIBInder
         //IsToturial false인 경우에만 해주기
         if (PlayerController.Instance.PlayerData.IsTutorial == false)
         {
+            Debug.Log("튜토리얼 첫시작함!");
             SetIsTutorialTrue();
         }
 
@@ -98,6 +99,7 @@ public class TutorialPanel : UIBInder
 
     private void SetIsTutorialTrue()
     {
+        NetworkCheckManager.Instance.IsConnected = true;
         StartCoroutine(OnSetIsTutorialTrue());
     }
 
