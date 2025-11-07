@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.Hardware;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public enum EMobType {Normal, Boss }
