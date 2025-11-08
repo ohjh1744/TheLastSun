@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +33,6 @@ public class HeroControlTower : MonoBehaviour
                 if (_heroControllers[i].CurrentAttackTimer <= 0)
                 {
                     TryAttack(_heroControllers[i], i);
-                    _heroControllers[i].CurrentAttackTimer = _heroControllers[i].HeroData.AttackDelay;
                 }
             }
         }
@@ -40,19 +40,20 @@ public class HeroControlTower : MonoBehaviour
 
     private void TryAttack(HeroController hero, int index)
     {
-        int count = Physics2D.OverlapCircleNonAlloc(hero.transform.position, hero.HeroData.AttackRange, _detectResults, _enemyLayerMask);
+        int count = Physics2D.OverlapCircleNonAlloc(hero.AttackPoint.position, hero.HeroData.AttackRange, _detectResults, _enemyLayerMask);
 
+        Debug.Log($"{count}카운트!");
         if (count == 0)
             return;
+
 
         // 가장 가까운 적 찾기
         Transform nearest = null;
         float nearestDist = Mathf.Infinity;
-        Vector3 heroPos = hero.transform.position;
 
         for (int i = 0; i < count; i++)
         {
-            float dist = Vector3.SqrMagnitude(_detectResults[i].transform.position - heroPos);
+            float dist = Vector3.SqrMagnitude(_detectResults[i].transform.position - hero.AttackPoint.position);
             if (dist < nearestDist)
             {
                 nearestDist = dist;
@@ -60,21 +61,41 @@ public class HeroControlTower : MonoBehaviour
             }
         }
 
-        //전사나 신이면 따른 코드 추가
+        //투사체가 없는 직업의 경우
         if(hero.HeroData.HeroProjectileIndex == EProjectilePool.Null)
         {
-            return;
+            HitWithOutProjectile(hero, nearest, index);
+        }
+        else
+        {
+            ShootProjectile(hero, nearest, index);
         }
 
-        if (nearest != null)
-            ShootProjectile(hero, nearest, index);
+        //공격하고나면 공격주기 초기화
+        _heroControllers[index].CurrentAttackTimer = _heroControllers[index].HeroData.AttackDelay;
+
+    }
+
+    private void HitWithOutProjectile(HeroController hero, Transform target, int index)
+    {
+        //투사체 방향에 따른 각도 계산
+        Vector2 direction = (target.position - hero.AttackPoint.position).normalized;
+
+        // 영웅 flip처리     
+        _heroSpriteRenderers[index].flipX = direction.x > 0; // 왼쪽이면 flip
+
+        //영웅 애니메이션 처리
+        _heroAnimators[index].Play(_unitAttackhash, -1, 0);
+        target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
+        Debug.Log(target.gameObject.name);
+        Debug.Log("때림!");
     }
 
     private void ShootProjectile(HeroController hero, Transform target, int index)
     {
         GameObject proj = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.ProjectilePools, ObjectPoolManager.Instance.Projectiles, (int)hero.HeroData.HeroProjectileIndex);
         proj.transform.DOKill();
-        proj.transform.position = hero.SHootPoint.position;
+        proj.transform.position = hero.AttackPoint.position;
 
         //투사체 방향에 따른 각도 계산
         Vector2 direction = (target.position - proj.transform.position).normalized;
@@ -82,10 +103,7 @@ public class HeroControlTower : MonoBehaviour
         proj.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         // 영웅 flip처리     
-        if (_heroSpriteRenderers[index] != null)
-        {
-            _heroSpriteRenderers[index].flipX = direction.x > 0; // 왼쪽이면 flip
-        }
+        _heroSpriteRenderers[index].flipX = direction.x > 0; // 왼쪽이면 flip
 
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);

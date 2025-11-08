@@ -13,8 +13,8 @@ public class HeroController : MonoBehaviour
     private float _currentAttackTimer;
     public float CurrentAttackTimer { get { return _currentAttackTimer; } set { _currentAttackTimer = value; } }
 
-    [SerializeField] Transform _shootPoint;
-    public Transform SHootPoint { get { return _shootPoint; } set { _shootPoint = value; } }
+    [SerializeField] Transform _attackPoint;
+    public Transform AttackPoint { get { return _attackPoint; } set { _attackPoint = value; } }
 
     private void OnEnable()
     {
@@ -40,7 +40,7 @@ public class HeroController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         // 중심: hero 위치
-        Vector3 center = _shootPoint.position;
+        Vector3 center = _attackPoint.position;
 
         // 색상 지정
         Gizmos.color = Color.red;
