@@ -7,8 +7,11 @@ public class HeroControlTower : MonoBehaviour
 {
     //소환된 영웅들
     private List<HeroController> _heroControllers = new List<HeroController>();
+    private List<Animator> _heroAnimators = new List<Animator>();
+    private List<SpriteRenderer> _heroSpriteRenderers = new List<SpriteRenderer>();
+
     // OverlapSphereNonAlloc 을 위한 캐시 (쓰레기 안 만듦)
-    private Collider2D[] _detectResults = new Collider2D[20];
+    private Collider2D[] _detectResults = new Collider2D[100];
 
     [SerializeField] private LayerMask _enemyLayerMask;
 
@@ -26,17 +29,17 @@ public class HeroControlTower : MonoBehaviour
                 _heroControllers[i].CurrentAttackTimer -= Time.deltaTime;
                 if (_heroControllers[i].CurrentAttackTimer <= 0)
                 {
-                    TryAttack(_heroControllers[i]);
+                    TryAttack(_heroControllers[i], i);
                     _heroControllers[i].CurrentAttackTimer = _heroControllers[i].HeroData.AttackDelay;
                 }
             }
         }
     }
 
-    private void TryAttack(HeroController hero)
+    private void TryAttack(HeroController hero, int index)
     {
         int count = Physics2D.OverlapCircleNonAlloc(hero.transform.position, hero.HeroData.AttackRange, _detectResults, _enemyLayerMask);
-        Debug.Log(hero.transform.position);
+
         if (count == 0)
             return;
 
@@ -62,15 +65,28 @@ public class HeroControlTower : MonoBehaviour
         }
 
         if (nearest != null)
-            ShootProjectile(hero, nearest);
+            ShootProjectile(hero, nearest, index);
     }
 
-    private void ShootProjectile(HeroController hero, Transform target)
+    private void ShootProjectile(HeroController hero, Transform target, int index)
     {
         GameObject proj = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.ProjectilePools, ObjectPoolManager.Instance.Projectiles, (int)hero.HeroData.HeroProjectileIndex);
         proj.transform.DOKill();
         //proj.transform.position = hero.SHootPoint.position;
         proj.transform.position = hero.transform.position;
+
+        //투사체 방향에 따른 각도 계산
+        Vector2 direction = (target.position - proj.transform.position).normalized;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        proj.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        // 영웅 flip처리     
+        if (_heroSpriteRenderers[index] != null)
+        {
+            _heroSpriteRenderers[index].flipX = direction.x > 0; // 왼쪽이면 flip
+        }
+
+        //영웅 애니메이션 처리
 
         proj.transform
             .DOMove(target.position, 0.1f)
@@ -86,9 +102,20 @@ public class HeroControlTower : MonoBehaviour
     public void OnHeroActivated(GameObject heroObj)
     {
         HeroController heroController = heroObj.GetComponent<HeroController>();
+        Animator heroAnimator = heroObj.GetComponent<Animator>();
+        SpriteRenderer heroSR = heroObj.GetComponent<SpriteRenderer>();
+
         if (_heroControllers.Contains(heroController) == false)
         {
             _heroControllers.Add(heroController);
+        }
+        if(_heroAnimators.Contains(heroAnimator) == false)
+        {
+            _heroAnimators.Add(heroAnimator);
+        }
+        if (_heroSpriteRenderers.Contains(heroSR) == false)
+        {
+            _heroSpriteRenderers.Add(heroSR);
         }
     }
 
