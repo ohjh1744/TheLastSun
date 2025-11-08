@@ -10,9 +10,10 @@ public enum EHeroGrade { Normal, Rare, Ancient, Legend, Epic, God };
 
 public enum EProjectilePool
 {
+    E_Warrior,
     N_Archer, R_Archer, A_Archer, L_Archer, E_Archer,
     N_Bomer, R_Bomer, A_Bomer, L_Bomer, E_Bomer,
-    God_1, God_2, God_3
+    God_1, God_2, God_3, Null
 };
 
 public class ObjectPoolManager : MonoBehaviour
@@ -28,7 +29,7 @@ public class ObjectPoolManager : MonoBehaviour
     // Pool
     private List<GameObject>[] _heroPools = new List<GameObject>[18]; public List<GameObject>[] HeroPools { get { return _heroPools; } set { _heroPools = value; } }
     private List<GameObject>[] _mobPools = new List<GameObject>[50]; public List<GameObject>[] MobPools { get { return _mobPools; } set { _mobPools = value; } }
-    private List<GameObject>[] _projectilePools = new List<GameObject>[13]; public List<GameObject>[] ProjectilePools { get { return _projectilePools; } set { _projectilePools = value; } }
+    private List<GameObject>[] _projectilePools = new List<GameObject>[14]; public List<GameObject>[] ProjectilePools { get { return _projectilePools; } set { _projectilePools = value; } }
 
     //¿µ¿õ ¹× ¸÷ ÇöÀç ¼ö
     private int _mobNum; public int MobNum { get { return _mobNum; } set { _mobNum = value; MobNumOnChanged?.Invoke(); } }

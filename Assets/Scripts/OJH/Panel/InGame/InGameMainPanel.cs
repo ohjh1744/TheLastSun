@@ -39,6 +39,8 @@ public class InGameMainPanel : UIBInder
     [SerializeField] private Color _warnMobColor;
     private Tween _notifyMobNumTween;
 
+    [SerializeField] HeroControlTower _heroControlTower;
+
     private void Awake()
     {
         BindAll();
@@ -87,7 +89,6 @@ public class InGameMainPanel : UIBInder
     {
         if(InGameManager.Instance.WaveNum == 24 || InGameManager.Instance.WaveNum == 49)
         {
-            //_mobData = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<MobData>();
             _sb.Clear();
             _sb.Append($"제한 시간 내에 {_mobController?.MobData.Name}를 처치해야 합니다!");
             GetUI<TextMeshProUGUI>("WarnBossText").SetText(_sb);
@@ -148,6 +149,7 @@ public class InGameMainPanel : UIBInder
         int randomHeroValue = Random.Range(0, 3);
         GameObject hero = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.HeroPools, ObjectPoolManager.Instance.Heros, _spawnIndex[spawnGradeIndex, randomHeroValue]);
         hero.transform.position = Vector3.zero;
+        _heroControlTower.OnHeroActivated(hero);
 
         //4. 유닛 마리수 증가
         ObjectPoolManager.Instance.SetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue], ObjectPoolManager.Instance.GetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue]) + 1);
