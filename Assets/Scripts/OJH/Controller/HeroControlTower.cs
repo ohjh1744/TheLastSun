@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,7 +60,7 @@ public class HeroControlTower : MonoBehaviour
         }
 
         //투사체가 없는 직업의 경우
-        if(hero.HeroData.HeroProjectileIndex == EProjectilePool.Null)
+        if (hero.HeroData.HeroProjectileIndex == EProjectilePool.Null)
         {
             HitWithOutProjectile(hero, nearest, index);
         }
@@ -86,9 +84,10 @@ public class HeroControlTower : MonoBehaviour
 
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
-        target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
-        Debug.Log(target.gameObject.name);
-        Debug.Log("때림!");
+
+        if (target.gameObject.activeSelf == true)
+            target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
+
     }
 
     private void ShootProjectile(HeroController hero, Transform target, int index)
@@ -108,15 +107,22 @@ public class HeroControlTower : MonoBehaviour
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
 
-        proj.transform
-            .DOMove(target.position, 0.15f)
-            .SetEase(Ease.Linear)
-            .OnComplete(() =>
-            {
-                target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
-                proj.SetActive(false);
-                Debug.Log($"{proj.activeSelf}프로젝트 끄기!");
-            });
+        if (target.gameObject.activeSelf == true)
+        {
+            proj.transform
+               .DOMove(target.position, 0.15f)
+               .SetEase(Ease.Linear)
+               .OnComplete(() =>
+               {
+                   if(target.gameObject.activeSelf == true)
+                   {
+                       target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
+                   }
+
+                   proj.SetActive(false);
+               });
+        }
+
     }
 
     public void OnHeroActivated(GameObject heroObj)
@@ -129,7 +135,7 @@ public class HeroControlTower : MonoBehaviour
         {
             _heroControllers.Add(heroController);
         }
-        if(_heroAnimators.Contains(heroAnimator) == false)
+        if (_heroAnimators.Contains(heroAnimator) == false)
         {
             _heroAnimators.Add(heroAnimator);
         }
