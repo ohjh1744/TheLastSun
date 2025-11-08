@@ -15,6 +15,8 @@ public class HeroControlTower : MonoBehaviour
 
     [SerializeField] private LayerMask _enemyLayerMask;
 
+    private int _unitAttackhash = Animator.StringToHash("Attack");
+
     private void Update()
     {
         //게임상태가 플레이가 아니거나, 네트워크문제있으면 return.
@@ -72,8 +74,7 @@ public class HeroControlTower : MonoBehaviour
     {
         GameObject proj = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.ProjectilePools, ObjectPoolManager.Instance.Projectiles, (int)hero.HeroData.HeroProjectileIndex);
         proj.transform.DOKill();
-        //proj.transform.position = hero.SHootPoint.position;
-        proj.transform.position = hero.transform.position;
+        proj.transform.position = hero.SHootPoint.position;
 
         //투사체 방향에 따른 각도 계산
         Vector2 direction = (target.position - proj.transform.position).normalized;
@@ -87,9 +88,10 @@ public class HeroControlTower : MonoBehaviour
         }
 
         //영웅 애니메이션 처리
+        _heroAnimators[index].Play(_unitAttackhash, -1, 0);
 
         proj.transform
-            .DOMove(target.position, 0.1f)
+            .DOMove(target.position, 0.15f)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {

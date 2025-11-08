@@ -10,7 +10,7 @@ public class HeroController : MonoBehaviour
 
     [SerializeField] private AudioSource _audio;
 
-    [SerializeField] private float _currentAttackTimer;
+    private float _currentAttackTimer;
     public float CurrentAttackTimer { get { return _currentAttackTimer; } set { _currentAttackTimer = value; } }
 
     [SerializeField] Transform _shootPoint;
@@ -40,7 +40,7 @@ public class HeroController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         // 중심: hero 위치
-        Vector3 center = transform.position;
+        Vector3 center = _shootPoint.position;
 
         // 색상 지정
         Gizmos.color = Color.red;
