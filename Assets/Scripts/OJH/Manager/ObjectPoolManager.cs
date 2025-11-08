@@ -12,7 +12,7 @@ public enum EProjectilePool
 {
     N_Archer, R_Archer, A_Archer, L_Archer, E_Archer,
     N_Bomer, R_Bomer, A_Bomer, L_Bomer, E_Bomer,
-    God_1, God_2, God_3
+    God_1, God_2, God_3, Null
 };
 
 public class ObjectPoolManager : MonoBehaviour

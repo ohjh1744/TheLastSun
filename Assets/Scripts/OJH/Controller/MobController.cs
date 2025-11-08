@@ -25,6 +25,15 @@ public class MobController : UIBInder, IDamagable
         BindAll();
     }
 
+    private void OnEnable()
+    {
+        _curHp = _mobData.MaxHp;
+        _sb.Clear();
+        _sb.Append(_curHp);
+        GetUI<TextMeshProUGUI>("HpText").SetText(_sb);
+    }
+
+
     private void OnDisable()
     {
         Die();
@@ -38,6 +47,7 @@ public class MobController : UIBInder, IDamagable
             _curHp = 0;
             gameObject.SetActive(false);
         }
+        _sb.Clear();
         _sb.Append(_curHp);
         GetUI<TextMeshProUGUI>("HpText").SetText(_sb);
     }
@@ -46,6 +56,5 @@ public class MobController : UIBInder, IDamagable
     {
         ObjectPoolManager.Instance.MobNum--;
         transform.DOKill();
-        _curHp = _mobData.MaxHp;
     }
 }
