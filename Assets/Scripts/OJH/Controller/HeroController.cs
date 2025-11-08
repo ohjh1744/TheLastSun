@@ -11,14 +11,19 @@ public class HeroController : MonoBehaviour
     [SerializeField] private AudioSource _audio;
 
     [SerializeField] private float _currentAttackTimer;
+    public float CurrentAttackTimer { get { return _currentAttackTimer; } set { _currentAttackTimer = value; } }
 
     [SerializeField] Transform _shootPoint;
     public Transform SHootPoint { get { return _shootPoint; } set { _shootPoint = value; } }
-    public float CurrentAttackTimer { get { return _currentAttackTimer; } set { _currentAttackTimer = value; } }
 
     private void OnEnable()
     {
         SetSpawnSound();
+    }
+
+    private void OnDisable()
+    {
+        _currentAttackTimer = 0f;
     }
 
     private void SetSpawnSound()
