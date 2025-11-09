@@ -1,20 +1,24 @@
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HeroControlTower : MonoBehaviour
 {
     //소환된 영웅들
-    private List<HeroController> _heroControllers = new List<HeroController>();
+    private List<(HeroController, EHeroPool)> _heroControllers = new List<(HeroController, EHeroPool)>();
     private List<Animator> _heroAnimators = new List<Animator>();
     private List<SpriteRenderer> _heroSpriteRenderers = new List<SpriteRenderer>();
+    private List<AudioSource> _heroAudios = new List<AudioSource>();
+    [SerializeField] private int[] _heroAttackNumForType;
 
     // OverlapSphereNonAlloc 을 위한 캐시 (쓰레기 안 만듦)
     private Collider2D[] _detectResults = new Collider2D[100];
 
     [SerializeField] private LayerMask _enemyLayerMask;
-
     private int _unitAttackhash = Animator.StringToHash("Attack");
+
+    [SerializeField] private int _maxAttackSfxCount;
 
     private void Update()
     {
@@ -25,23 +29,25 @@ public class HeroControlTower : MonoBehaviour
         for (int i = 0; i < _heroControllers.Count; i++)
         {
             //만약 살아있다면
-            if (_heroControllers[i].gameObject.activeSelf == true)
+            if (_heroControllers[i].Item1.gameObject.activeSelf == true)
             {
-                _heroControllers[i].CurrentAttackTimer -= Time.deltaTime;
-                if (_heroControllers[i].CurrentAttackTimer <= 0)
+                _heroControllers[i].Item1.CurrentAttackTimer -= Time.deltaTime;
+                if (_heroControllers[i].Item1.CurrentAttackTimer <= 0)
                 {
-                    TryAttack(_heroControllers[i], i);
+                    TryAttack(_heroControllers[i].Item1, i, _heroControllers[i].Item2);
                 }
             }
         }
     }
 
-    private void TryAttack(HeroController hero, int index)
+    private void TryAttack(HeroController hero, int index, EHeroPool heroType)
     {
         int count = Physics2D.OverlapCircleNonAlloc(hero.AttackPoint.position, hero.HeroData.AttackRange, _detectResults, _enemyLayerMask);
 
         if (count == 0)
             return;
+        //공격하는 유닛 수 증가
+        _heroAttackNumForType[(int)heroType]++;
 
         // 거리 계산용 리스트 (struct로 할당 최소화)
         List<(Transform target, float dist)> detectedList = new List<(Transform, float)>(count);
@@ -59,30 +65,52 @@ public class HeroControlTower : MonoBehaviour
         // 앞에서부터 maxAttackCount 만큼 가져오기
         int attackCount = Mathf.Min(hero.HeroData.MaxAttackCount, count);
 
+        //사운드
+        if (_heroAttackNumForType[(int)heroType] <= _maxAttackSfxCount && PlayerController.Instance.PlayerData.IsSound == true)
+        {
+            _heroAudios[index].PlayOneShot(hero.HeroData.AttackClip);
+        }
+
         for (int i = 0; i < attackCount; i++)
         {
             Transform target = detectedList[i].target;
 
             if (hero.HeroData.HeroProjectileIndex == EProjectilePool.Null)
-                HitWithOutProjectile(hero, target, index);
+                HitWithOutProjectile(hero, target, index, heroType);
             else if (hero.HeroData.HeroProjectileIndex == EProjectilePool.God_1 || hero.HeroData.HeroProjectileIndex == EProjectilePool.God_2 || hero.HeroData.HeroProjectileIndex == EProjectilePool.God_3)
-                HitWithProjectile(hero, target, index);
+                HitWithProjectile(hero, target, index, heroType);
             else
-                ShootProjectile(hero, target, index);
+                ShootProjectile(hero, target, index, heroType);
         }
+
+        //1초후에 heroAttackNumForType[(int)heroType] 감소
+        DOVirtual.DelayedCall(0.5f, () =>
+        {
+            _heroAttackNumForType[(int)heroType]--;
+            if (_heroAttackNumForType[(int)heroType] < 0)
+                _heroAttackNumForType[(int)heroType] = 0; // 음수 방지
+        });
+
 
         // 공격 후 타이머 초기화
         hero.CurrentAttackTimer = hero.HeroData.AttackDelay;
     }
 
     //투사체 없이 공격
-    private void HitWithOutProjectile(HeroController hero, Transform target, int index)
+    private void HitWithOutProjectile(HeroController hero, Transform target, int index, EHeroPool heroType)
     {
         //투사체 방향에 따른 각도 계산
         Vector2 direction = (target.position - hero.AttackPoint.position).normalized;
 
         // 영웅 flip처리     
         _heroSpriteRenderers[index].flipX = direction.x > 0; // 왼쪽이면 flip
+
+
+        //사운드
+        if (_heroAttackNumForType[(int)heroType] < hero.HeroData.MaxAttackCount)
+        {
+            _heroAudios[index].PlayOneShot(hero.HeroData.AttackClip);
+        }
 
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
@@ -93,12 +121,17 @@ public class HeroControlTower : MonoBehaviour
     }
 
     //투사체 즉시 공격
-    private void HitWithProjectile(HeroController hero, Transform target, int index)
+    private void HitWithProjectile(HeroController hero, Transform target, int index, EHeroPool heroType)
     {
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
 
-        
+        //사운드
+        if (_heroAttackNumForType[(int)heroType] < hero.HeroData.MaxAttackCount)
+        {
+            _heroAudios[index].PlayOneShot(hero.HeroData.AttackClip);
+        }
+
         GameObject proj = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.ProjectilePools, ObjectPoolManager.Instance.Projectiles, (int)hero.HeroData.HeroProjectileIndex);
 
         proj.transform.position = target.position;
@@ -114,7 +147,7 @@ public class HeroControlTower : MonoBehaviour
     }
 
     //투사체 날리는 공격
-    private void ShootProjectile(HeroController hero, Transform target, int index)
+    private void ShootProjectile(HeroController hero, Transform target, int index, EHeroPool heroType)
     {
         GameObject proj = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.ProjectilePools, ObjectPoolManager.Instance.Projectiles, (int)hero.HeroData.HeroProjectileIndex);
         proj.transform.DOKill();
@@ -130,6 +163,12 @@ public class HeroControlTower : MonoBehaviour
 
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
+
+        //영웅 사운드처리
+        if (_heroAttackNumForType[(int)heroType] < hero.HeroData.MaxAttackCount)
+        {
+            _heroAudios[index].PlayOneShot(hero.HeroData.AttackClip);
+        }
 
         if (target.gameObject.activeSelf == true)
         {
@@ -149,15 +188,16 @@ public class HeroControlTower : MonoBehaviour
 
     }
 
-    public void OnHeroActivated(GameObject heroObj)
+    public void OnHeroActivated(GameObject heroObj, EHeroPool heroType)
     {
         HeroController heroController = heroObj.GetComponent<HeroController>();
         Animator heroAnimator = heroObj.GetComponent<Animator>();
         SpriteRenderer heroSR = heroObj.GetComponent<SpriteRenderer>();
+        AudioSource heroAudio = heroObj.GetComponent<AudioSource>();
 
-        if (_heroControllers.Contains(heroController) == false)
+        if (!_heroControllers.Exists(x => x.Item1 == heroController))
         {
-            _heroControllers.Add(heroController);
+            _heroControllers.Add((heroController, heroType));
         }
         if (_heroAnimators.Contains(heroAnimator) == false)
         {
@@ -166,6 +206,10 @@ public class HeroControlTower : MonoBehaviour
         if (_heroSpriteRenderers.Contains(heroSR) == false)
         {
             _heroSpriteRenderers.Add(heroSR);
+        }
+        if (_heroAudios.Contains(heroAudio) == false)
+        {
+            _heroAudios.Add(heroAudio);
         }
     }
 

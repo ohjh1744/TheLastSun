@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "HeroData")]
 public class HeroData : ScriptableObject
 {
+    [SerializeField] EHeroPool _heroType;
+    public EHeroPool HeroType { get { return _heroType; } set { _heroType = value; } }
+
     [SerializeField] EProjectilePool _heroProjectileIndex;
     public EProjectilePool HeroProjectileIndex { get { return _heroProjectileIndex; } set { _heroProjectileIndex = value; } }
 
@@ -22,5 +25,8 @@ public class HeroData : ScriptableObject
 
     [SerializeField] private AudioClip _spawnClip;
     public AudioClip SpawnClip { get { return _spawnClip; } set { _spawnClip = value; } }
+
+    [SerializeField] private AudioClip _attackClip;
+    public AudioClip AttackClip { get { return _attackClip; } set { _attackClip = value; } }
 
 }

@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c21ae5b6c94bab4c9e4393404e93855, type: 3}
   m_Name: Epic_Archer
   m_EditorClassIdentifier: 
+  _heroType: 9
   _heroProjectileIndex: 5
   _baseDamage: 52
   _attackRange: 3
   _attackDelay: 1
   _maxAttackCount: 2
   _spawnClip: {fileID: 8300000, guid: 987cf93a5ebf27f419044ee3f1324421, type: 3}
+  _attackClip: {fileID: 8300000, guid: 4249e4651e8a42d4e8a7aa38cc8c6431, type: 3}

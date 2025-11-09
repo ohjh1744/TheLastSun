@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c21ae5b6c94bab4c9e4393404e93855, type: 3}
   m_Name: Epic_Warrior
   m_EditorClassIdentifier: 
+  _heroType: 4
   _heroProjectileIndex: 0
   _baseDamage: 50
   _attackRange: 3
   _attackDelay: 1
   _maxAttackCount: 2
   _spawnClip: {fileID: 8300000, guid: 987cf93a5ebf27f419044ee3f1324421, type: 3}
+  _attackClip: {fileID: 8300000, guid: 0b0b44024df6966438524d5f37081a51, type: 3}

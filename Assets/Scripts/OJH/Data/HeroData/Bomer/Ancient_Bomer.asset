@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c21ae5b6c94bab4c9e4393404e93855, type: 3}
   m_Name: Ancient_Bomer
   m_EditorClassIdentifier: 
+  _heroType: 12
   _heroProjectileIndex: 8
   _baseDamage: 38
   _attackRange: 1.2
   _attackDelay: 1
   _maxAttackCount: 1
   _spawnClip: {fileID: 0}
+  _attackClip: {fileID: 8300000, guid: 85e33837036aa2b40ad307108bb1cd20, type: 3}
