@@ -65,6 +65,8 @@ public class HeroControlTower : MonoBehaviour
 
             if (hero.HeroData.HeroProjectileIndex == EProjectilePool.Null)
                 HitWithOutProjectile(hero, target, index);
+            else if (hero.HeroData.HeroProjectileIndex == EProjectilePool.God_1 || hero.HeroData.HeroProjectileIndex == EProjectilePool.God_2 || hero.HeroData.HeroProjectileIndex == EProjectilePool.God_3)
+                HitWithProjectile(hero, target, index);
             else
                 ShootProjectile(hero, target, index);
         }
@@ -73,6 +75,7 @@ public class HeroControlTower : MonoBehaviour
         hero.CurrentAttackTimer = hero.HeroData.AttackDelay;
     }
 
+    //투사체 없이 공격
     private void HitWithOutProjectile(HeroController hero, Transform target, int index)
     {
         //투사체 방향에 따른 각도 계산
@@ -89,6 +92,28 @@ public class HeroControlTower : MonoBehaviour
 
     }
 
+    //투사체 즉시 공격
+    private void HitWithProjectile(HeroController hero, Transform target, int index)
+    {
+        //영웅 애니메이션 처리
+        _heroAnimators[index].Play(_unitAttackhash, -1, 0);
+
+        
+        GameObject proj = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.ProjectilePools, ObjectPoolManager.Instance.Projectiles, (int)hero.HeroData.HeroProjectileIndex);
+
+        proj.transform.position = target.position;
+
+        if (target.gameObject.activeSelf == true)
+            target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
+
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            proj.SetActive(false);
+        });
+
+    }
+
+    //투사체 날리는 공격
     private void ShootProjectile(HeroController hero, Transform target, int index)
     {
         GameObject proj = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.ProjectilePools, ObjectPoolManager.Instance.Projectiles, (int)hero.HeroData.HeroProjectileIndex);

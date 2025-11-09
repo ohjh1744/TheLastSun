@@ -135,7 +135,7 @@ public class InGameMainPanel : UIBInder
                     return;
                 }
                 spawnGradeIndex = isNormalSpawn ? i : i + 2;
-                Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)(isNormalSpawn ? i : i + 2)}등급 {(isNormalSpawn ? "소환" : "특수소환")}뽑힘");
+                Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)(isNormalSpawn ? i : i + 2)}등급 {(isNormalSpawn ? "소환" : "특수소환")}뽑힘 {spawnGradeIndex}");
                 break;
             }
             //max값 누적
