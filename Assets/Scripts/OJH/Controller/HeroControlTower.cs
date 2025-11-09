@@ -40,38 +40,37 @@ public class HeroControlTower : MonoBehaviour
     {
         int count = Physics2D.OverlapCircleNonAlloc(hero.AttackPoint.position, hero.HeroData.AttackRange, _detectResults, _enemyLayerMask);
 
-        Debug.Log($"{count}카운트!");
         if (count == 0)
             return;
 
+        // 거리 계산용 리스트 (struct로 할당 최소화)
+        List<(Transform target, float dist)> detectedList = new List<(Transform, float)>(count);
 
-        // 가장 가까운 적 찾기
-        Transform nearest = null;
-        float nearestDist = Mathf.Infinity;
-
+        //거리계산해서 리스트에 저장
         for (int i = 0; i < count; i++)
         {
             float dist = Vector3.SqrMagnitude(_detectResults[i].transform.position - hero.AttackPoint.position);
-            if (dist < nearestDist)
-            {
-                nearestDist = dist;
-                nearest = _detectResults[i].transform;
-            }
+            detectedList.Add((_detectResults[i].transform, dist));
         }
 
-        //투사체가 없는 직업의 경우
-        if (hero.HeroData.HeroProjectileIndex == EProjectilePool.Null)
+        // 거리순 정렬
+        detectedList.Sort((a, b) => a.dist.CompareTo(b.dist));
+
+        // 앞에서부터 maxAttackCount 만큼 가져오기
+        int attackCount = Mathf.Min(hero.HeroData.MaxAttackCount, count);
+
+        for (int i = 0; i < attackCount; i++)
         {
-            HitWithOutProjectile(hero, nearest, index);
-        }
-        else
-        {
-            ShootProjectile(hero, nearest, index);
+            Transform target = detectedList[i].target;
+
+            if (hero.HeroData.HeroProjectileIndex == EProjectilePool.Null)
+                HitWithOutProjectile(hero, target, index);
+            else
+                ShootProjectile(hero, target, index);
         }
 
-        //공격하고나면 공격주기 초기화
-        _heroControllers[index].CurrentAttackTimer = _heroControllers[index].HeroData.AttackDelay;
-
+        // 공격 후 타이머 초기화
+        hero.CurrentAttackTimer = hero.HeroData.AttackDelay;
     }
 
     private void HitWithOutProjectile(HeroController hero, Transform target, int index)
