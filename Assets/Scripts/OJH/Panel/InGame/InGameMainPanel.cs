@@ -135,7 +135,7 @@ public class InGameMainPanel : UIBInder
                     return;
                 }
                 spawnGradeIndex = isNormalSpawn ? i : i + 2;
-                Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)(isNormalSpawn ? i : i + 2)}등급 {(isNormalSpawn ? "소환" : "특수소환")}뽑힘");
+                Debug.Log($"{maxValue}: {randomGradeValue}{(EHeroGrade)(isNormalSpawn ? i : i + 2)}등급 {(isNormalSpawn ? "소환" : "특수소환")}뽑힘 {spawnGradeIndex}");
                 break;
             }
             //max값 누적
@@ -149,7 +149,7 @@ public class InGameMainPanel : UIBInder
         int randomHeroValue = Random.Range(0, 3);
         GameObject hero = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.HeroPools, ObjectPoolManager.Instance.Heros, _spawnIndex[spawnGradeIndex, randomHeroValue]);
         hero.transform.position = Vector3.zero;
-        _heroControlTower.OnHeroActivated(hero);
+        _heroControlTower.OnHeroActivated(hero, (EHeroPool)_spawnIndex[spawnGradeIndex, randomHeroValue]);
 
         //4. 유닛 마리수 증가
         ObjectPoolManager.Instance.SetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue], ObjectPoolManager.Instance.GetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue]) + 1);

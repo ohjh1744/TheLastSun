@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c21ae5b6c94bab4c9e4393404e93855, type: 3}
   m_Name: Normal_Archer
   m_EditorClassIdentifier: 
+  _heroType: 5
   _heroProjectileIndex: 1
   _baseDamage: 12
   _attackRange: 0.8
   _attackDelay: 1
+  _maxAttackCount: 1
   _spawnClip: {fileID: 0}
+  _attackClip: {fileID: 8300000, guid: 012ec37baf5b6e14a8ff29159f343ee2, type: 3}

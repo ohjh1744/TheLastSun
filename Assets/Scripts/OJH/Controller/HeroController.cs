@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HeroController : MonoBehaviour
 {
+
     [SerializeField] private HeroData _heroData;
 
     public HeroData HeroData { get { return _heroData; } set { _heroData = value; } }
@@ -21,6 +22,7 @@ public class HeroController : MonoBehaviour
         SetSpawnSound();
     }
 
+
     private void OnDisable()
     {
         _currentAttackTimer = 0f;
@@ -28,7 +30,7 @@ public class HeroController : MonoBehaviour
 
     private void SetSpawnSound()
     {
-        if(PlayerController.Instance.PlayerData.IsSound == true)
+        if (PlayerController.Instance.PlayerData.IsSound == true)
         {
             if(_heroData.SpawnClip != null)
             {
@@ -36,6 +38,7 @@ public class HeroController : MonoBehaviour
             }
         }
     }
+
 
     private void OnDrawGizmosSelected()
     {
