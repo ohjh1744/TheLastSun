@@ -23,9 +23,14 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     [SerializeField] private Vector2 _minBound;
     [SerializeField] private Vector2 _maxBound;
 
+    private bool _isMove;
+    public bool IsMove { get { return _isMove; } set { _isMove = value; } }
+
+
     private void Awake()
     {
         _cam = Camera.main;
+        SetSizeAttackRange();
     }
 
     private void OnEnable()
@@ -67,6 +72,8 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     {
         Debug.Log("hhhi");
         _originalPosition = transform.position;
+        _attackPoint.gameObject.SetActive(true);
+        _isMove = true;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -82,7 +89,22 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        _attackPoint.gameObject.SetActive(false);
+        _isMove = false;
+    }
 
+    private void SetSizeAttackRange()
+    {
+        float diameter = _heroData.AttackRange * 2f;
+
+        // 부모 스케일을 고려해서 자식 스케일 계산
+        Vector3 parentScale = transform.lossyScale;
+
+        _attackPoint.transform.localScale = new Vector3(
+            diameter / parentScale.x,
+            diameter / parentScale.y,
+            1f
+        );
     }
 
 
