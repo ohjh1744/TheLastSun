@@ -28,8 +28,8 @@ public class HeroControlTower : MonoBehaviour
 
         for (int i = 0; i < _heroControllers.Count; i++)
         {
-            //만약 살아있다면
-            if (_heroControllers[i].Item1.gameObject.activeSelf == true)
+            //만약 살아있고, 이동중이 아니라면
+            if (_heroControllers[i].Item1.gameObject.activeSelf == true && _heroControllers[i].Item1.IsMove == false)
             {
                 _heroControllers[i].Item1.CurrentAttackTimer -= Time.deltaTime;
                 if (_heroControllers[i].Item1.CurrentAttackTimer <= 0)

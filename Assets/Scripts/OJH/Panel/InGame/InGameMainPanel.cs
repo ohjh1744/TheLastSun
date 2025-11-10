@@ -41,6 +41,10 @@ public class InGameMainPanel : UIBInder
 
     [SerializeField] HeroControlTower _heroControlTower;
 
+    [Header("Set변경해야하는 panel들")]
+    [SerializeField] private GameObject _pausePanel;
+    [SerializeField] private GameObject _spawnRatePanel;
+
     private void Awake()
     {
         BindAll();
@@ -120,7 +124,7 @@ public class InGameMainPanel : UIBInder
         //2.스폰확률에 따라 소환할 등급결정
         float randomGradeValue = Random.Range(0f, 100f);
         int spawnGradeIndex = 0;
-        float maxValue =  spawnRates[0]-1;
+        float maxValue =  spawnRates[0];
 
         //확률에 따라 비교 시작
         for (int i = 0; i < spawnRates.Length; i++)
@@ -131,6 +135,7 @@ public class InGameMainPanel : UIBInder
                 //특수소환 실패 알림 띄우고 return
                 if (i == 0 && isNormalSpawn == false)
                 {
+                    Debug.Log("hi");
                     NotifySpawnFail();
                     return;
                 }
@@ -141,7 +146,7 @@ public class InGameMainPanel : UIBInder
             //max값 누적
             if(i < spawnRates.Length - 1)
             {
-                maxValue = maxValue + spawnRates[i + 1];
+                maxValue += spawnRates[i + 1];
             }
         }
 
@@ -302,7 +307,7 @@ public class InGameMainPanel : UIBInder
 
     private void DoPause()
     {
-        GetUI("PausePanel").gameObject.SetActive(true);
+        _pausePanel.SetActive(true);
     }
 
 
@@ -349,8 +354,7 @@ public class InGameMainPanel : UIBInder
 
     private void ShowSpawnRatePanel()
     {
-        GetUI("SpawnRatePanel").SetActive(true);
-        GetUI<Button>("ShowSpawnRateButton").interactable = false;
+        _spawnRatePanel.SetActive(true);
     }
 
     private void SetAllButtons()

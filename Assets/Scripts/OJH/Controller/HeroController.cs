@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class HeroController : MonoBehaviour
+public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
 
     [SerializeField] private HeroData _heroData;
@@ -16,6 +17,21 @@ public class HeroController : MonoBehaviour
 
     [SerializeField] Transform _attackPoint;
     public Transform AttackPoint { get { return _attackPoint; } set { _attackPoint = value; } }
+
+    private Vector2 _originalPosition;
+    private Camera _cam;
+    [SerializeField] private Vector2 _minBound;
+    [SerializeField] private Vector2 _maxBound;
+
+    private bool _isMove;
+    public bool IsMove { get { return _isMove; } set { _isMove = value; } }
+
+
+    private void Awake()
+    {
+        _cam = Camera.main;
+        SetSizeAttackRange();
+    }
 
     private void OnEnable()
     {
@@ -51,4 +67,45 @@ public class HeroController : MonoBehaviour
         // 원 그리기
         Gizmos.DrawWireSphere(center, _heroData.AttackRange);
     }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log("hhhi");
+        _originalPosition = transform.position;
+        _attackPoint.gameObject.SetActive(true);
+        _isMove = true;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        Debug.Log("hhhia");
+        Vector2 worldPos = _cam.ScreenToWorldPoint(eventData.position);
+
+        worldPos.x = Mathf.Clamp(worldPos.x, _minBound.x, _maxBound.x);
+        worldPos.y = Mathf.Clamp(worldPos.y, _minBound.y, _maxBound.y);
+
+        transform.position = worldPos;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _attackPoint.gameObject.SetActive(false);
+        _isMove = false;
+    }
+
+    private void SetSizeAttackRange()
+    {
+        float diameter = _heroData.AttackRange * 2f;
+
+        // 부모 스케일을 고려해서 자식 스케일 계산
+        Vector3 parentScale = transform.lossyScale;
+
+        _attackPoint.transform.localScale = new Vector3(
+            diameter / parentScale.x,
+            diameter / parentScale.y,
+            1f
+        );
+    }
+
+
 }
