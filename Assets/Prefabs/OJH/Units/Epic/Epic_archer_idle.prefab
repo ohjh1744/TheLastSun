@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 1862799185, guid: b6a598e7a3e410e46afbdd49220ee1de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -170,10 +170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdadd44cfc655c24098be199555e746e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sfxNumForMaxHero: 1
   _heroData: {fileID: 11400000, guid: 5dc3443c5eba12844a3ae2058ce981a1, type: 2}
   _audio: {fileID: 7009343905877670072}
   _attackPoint: {fileID: 6882405238383557361}
+  _minBound: {x: -1.2, y: -0.7}
+  _maxBound: {x: 1.2, y: 1.7}
 --- !u!82 &7009343905877670072
 AudioSource:
   m_ObjectHideFlags: 0
