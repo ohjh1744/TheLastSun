@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HeroController : MonoBehaviour,IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
 
     [SerializeField] private HeroData _heroData;
@@ -66,16 +66,14 @@ public class HeroController : MonoBehaviour,IPointerDownHandler, IDragHandler, I
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("hhhi");
-        _originalPosition = transform.position;  // 누른 순간 위치 저장
+        _originalPosition = transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         Debug.Log("hhhia");
-        // 마우스(터치)를 월드좌표로 변환
         Vector2 worldPos = _cam.ScreenToWorldPoint(eventData.position);
 
-        // 사각형 영역 안으로 Clamp
         worldPos.x = Mathf.Clamp(worldPos.x, _minBound.x, _maxBound.x);
         worldPos.y = Mathf.Clamp(worldPos.y, _minBound.y, _maxBound.y);
 
@@ -86,4 +84,6 @@ public class HeroController : MonoBehaviour,IPointerDownHandler, IDragHandler, I
     {
 
     }
+
+
 }

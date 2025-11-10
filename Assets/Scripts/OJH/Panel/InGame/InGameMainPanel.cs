@@ -41,6 +41,10 @@ public class InGameMainPanel : UIBInder
 
     [SerializeField] HeroControlTower _heroControlTower;
 
+    [Header("Set변경해야하는 panel들")]
+    [SerializeField] private GameObject _pausePanel;
+    [SerializeField] private GameObject _spawnRatePanel;
+
     private void Awake()
     {
         BindAll();
@@ -303,7 +307,7 @@ public class InGameMainPanel : UIBInder
 
     private void DoPause()
     {
-        GetUI("PausePanel").gameObject.SetActive(true);
+        _pausePanel.SetActive(true);
     }
 
 
@@ -350,8 +354,7 @@ public class InGameMainPanel : UIBInder
 
     private void ShowSpawnRatePanel()
     {
-        GetUI("SpawnRatePanel").SetActive(true);
-        GetUI<Button>("ShowSpawnRateButton").interactable = false;
+        _spawnRatePanel.SetActive(true);
     }
 
     private void SetAllButtons()
