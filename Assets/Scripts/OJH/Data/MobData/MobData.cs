@@ -12,5 +12,9 @@ public class MobData : ScriptableObject
     [SerializeField] private string _name;
     public string Name { get { return _name; } set { _name = value; } }
 
+    [SerializeField] private int _jemForKill;
+
+    public int JemForKill { get { return _jemForKill; } set { _jemForKill = value; } }
+
 
 }

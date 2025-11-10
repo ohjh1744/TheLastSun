@@ -54,6 +54,7 @@ public class MobController : UIBInder, IDamagable
 
     private void Die()
     {
+        InGameManager.Instance.JemNum += _mobData.JemForKill;
         ObjectPoolManager.Instance.MobNum--;
         transform.DOKill();
     }
