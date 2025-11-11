@@ -60,7 +60,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     [SerializeField] List<AssetReferenceGameObject> _projectiles;
 
     [Header("HeroPlate")]
-    [SerializeField] AssetReferenceGameObject _heroPlate;
+    [SerializeField] List<AssetReferenceGameObject> _heroPlates;
 
     //SOund
     [Header("Sound")]
@@ -245,6 +245,9 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             int index = i;
             AddressableManager.Instance.GetObjectAndSave(_projectiles[index], ObjectPoolManager.Instance.Projectiles,  (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
         }
+
+        AddressableManager.Instance.GetObject(_heroPlates[PlayerController.Instance.PlayerData.CurrentStage], (obj) => { });
+
 
     }
 
