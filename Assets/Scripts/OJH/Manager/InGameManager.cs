@@ -10,6 +10,7 @@ using UnityEngine.Events;
 using UnityEngine.UIElements;
 
 public enum EGameState {Ready,Pause, Play, Defeat, Win }
+public enum EUpgrade { Warrior, Archer, Bomer}
 public class InGameManager : MonoBehaviour
 {
     private static InGameManager _instance;
@@ -54,6 +55,12 @@ public class InGameManager : MonoBehaviour
 
     [Header("게임 상태")]
     [SerializeField] private EGameState _gameState; public EGameState GameState { get { return _gameState; }set { _gameState = value; } }
+
+    [Header("강화 관련")]
+    [SerializeField] private int[] _jemNumsForUpgrade; public int[] JemNumsForUpgrade { get { return _jemNumsForUpgrade; } set { _jemNumsForUpgrade = value; } }
+    [SerializeField] private int[] _jemNumPlusForUpgrade; public int[] JemNumPlusForUpgrade { get { return _jemNumPlusForUpgrade; } set { _jemNumPlusForUpgrade = value; } }
+    [SerializeField] private int[] _upgradeLevels; public int[] UpgradeLevels { get { return _upgradeLevels; } set { _upgradeLevels = value; } }
+    [SerializeField] private int[] _upgradeStats; public int[] UpgradeStats { get { return _upgradeStats; } set { _upgradeStats = value; } }
 
     [SerializeField] private GameObject _LoadingPanel;
     [SerializeField] private GameObject _toturiolPanel;

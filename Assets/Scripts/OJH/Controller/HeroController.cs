@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -20,11 +22,19 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     private Vector2 _originalPosition;
     private Camera _cam;
+
     [SerializeField] private Vector2 _minBound;
     [SerializeField] private Vector2 _maxBound;
 
+    [SerializeField] private GameObject _canvas;
+    [SerializeField] private TextMeshProUGUI _infoText;
+
+    StringBuilder _sb = new StringBuilder();
+
     private bool _isMove;
     public bool IsMove { get { return _isMove; } set { _isMove = value; } }
+
+    private int _curAtk;
 
 
     private void Awake()
@@ -36,6 +46,8 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     private void OnEnable()
     {
         SetSpawnSound();
+        
+        //cur Atk 강화공격력 더해주기
     }
 
 
@@ -68,17 +80,24 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         Gizmos.DrawWireSphere(center, _heroData.AttackRange);
     }
 
+    private void ShowInfo()
+    {
+        _sb.Clear();
+        _sb.Append($"공격력 : {_heroData.BaseDamage} \n공격주기 : {_heroData.AttackDelay}\n공격대상 : {_heroData.MaxAttackCount} ");
+        _infoText.SetText(_sb);
+        _canvas.SetActive(true);
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("hhhi");
         _originalPosition = transform.position;
         _attackPoint.gameObject.SetActive(true);
         _isMove = true;
+        ShowInfo();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("hhhia");
         Vector2 worldPos = _cam.ScreenToWorldPoint(eventData.position);
 
         worldPos.x = Mathf.Clamp(worldPos.x, _minBound.x, _maxBound.x);
@@ -91,6 +110,7 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     {
         _attackPoint.gameObject.SetActive(false);
         _isMove = false;
+        _canvas.SetActive(false);
     }
 
     private void SetSizeAttackRange()

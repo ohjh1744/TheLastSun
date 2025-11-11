@@ -80,6 +80,9 @@ public class InGameMainPanel : UIBInder
         GetUI<Button>("TImeSpeedButton").onClick.AddListener(SpeedUpGame);
         GetUI<Button>("GoSellButton").onClick.AddListener(ShowSellPanel);
         GetUI<Button>("ShowSpawnRateButton").onClick.AddListener(ShowSpawnRatePanel);
+        GetUI<Button>("WarriorUpgradeButton").onClick.AddListener(() =>UpgardeHero(EUpgrade.Warrior));
+        GetUI<Button>("ArcherUpgradeButton").onClick.AddListener(() => UpgardeHero(EUpgrade.Archer));
+        GetUI<Button>("BomerUpgradeButton").onClick.AddListener(() => UpgardeHero(EUpgrade.Bomer));
         InGameManager.Instance.JemNumOnChanged += SetNormalAndSpecialSpawnButton;
         InGameManager.Instance.JemNumOnChanged += ShowCurrentJem;
         InGameManager.Instance.CurrentWaveTimeOnChanged += ShowTimer;
@@ -362,7 +365,6 @@ public class InGameMainPanel : UIBInder
         //설정패널 or 네트워크에러패널이 뜨는 경우
         if (InGameManager.Instance.GameState == EGameState.Win || InGameManager.Instance.GameState == EGameState.Defeat || InGameManager.Instance.GameState == EGameState.Pause || NetworkCheckManager.Instance.IsConnected == false)
         {
-            //mainPanel
             GetUI<Button>("PauseButton").interactable = false;
             GetUI<Button>("SoundButton").interactable = false;
             GetUI<Button>("SoundMuteButton").interactable = false;
@@ -392,7 +394,20 @@ public class InGameMainPanel : UIBInder
     }
 
     // To Do: 강화
-    // To Do: 몬스터 이미지 표시
+    private void UpgardeHero(EUpgrade _upgradeHero)
+    {
+        if(InGameManager.Instance.JemNum < InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero])
+        {
+            return;
+        }
+
+        ////젬 개수 감소
+        //InGameManager.Instance.JemNum -= InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero];
+        ////강화 젬 개수 증가
+        //InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero] += InGameManager.Instance.JemNumPlusForUpgrade[(int)_upgradeHero];
+        ////레벨 증가
+
+    }
 
     #region 주석처리
     //[ContextMenu("FillSPrites")]

@@ -134,8 +134,8 @@ public class MobControlTower : MonoBehaviour
             }
         }
 
-        //보스 죽었을시 클리어
-        if (_inGameManager.WaveNum == 49 && _inGameManager.CurrentWaveTime <= 0.2f)
+        //보스 죽었을시 즉시 클리어
+        if (_inGameManager.WaveNum == 49)
         {
             if (_poolManager.MobPools[_inGameManager.WaveNum].Count != 0 && _poolManager.MobPools[_inGameManager.WaveNum][0].activeSelf == false)
             {
