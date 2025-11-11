@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "HeroData")]
 public class HeroData : ScriptableObject
 {
+
     [SerializeField] EHeroPool _heroType;
     public EHeroPool HeroType { get { return _heroType; } set { _heroType = value; } }
 

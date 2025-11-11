@@ -83,7 +83,24 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     private void ShowInfo()
     {
         _sb.Clear();
-        _sb.Append($"공격력 : {_heroData.BaseDamage} \n공격주기 : {_heroData.AttackDelay}\n공격대상 : {_heroData.MaxAttackCount} ");
+        int level = 0;
+        int upgradeStat = 0;
+        if((int)_heroData.HeroType <= (int)EHeroPool.E_Warrior)
+        {
+            level = InGameManager.Instance.UpgradeLevels[(int)EUpgrade.Warrior];
+            upgradeStat = InGameManager.Instance.UpgradeStats[(int)EUpgrade.Warrior];
+        }
+        else if ((int)_heroData.HeroType <= (int)EHeroPool.E_Archer)
+        {
+            level = InGameManager.Instance.UpgradeLevels[(int)EUpgrade.Archer];
+            upgradeStat = InGameManager.Instance.UpgradeStats[(int)EUpgrade.Archer];
+        }
+        else if ((int)_heroData.HeroType <= (int)EHeroPool.E_Bomer)
+        {
+            level = InGameManager.Instance.UpgradeLevels[(int)EUpgrade.Bomer];
+            upgradeStat = InGameManager.Instance.UpgradeStats[(int)EUpgrade.Bomer];
+        }
+        _sb.Append($"공격력 : {_heroData.BaseDamage + (level * upgradeStat)} \n공격주기 : {_heroData.AttackDelay}\n공격대상 : {_heroData.MaxAttackCount} ");
         _infoText.SetText(_sb);
         _canvas.SetActive(true);
     }

@@ -1,19 +1,13 @@
 using DG.Tweening;
-using GooglePlayGames.BasicApi.SavedGame;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 public class InGameMainPanel : UIBInder
 {
-    private enum ENotify {Spawn, MobNum };
-    private enum ESpawn{Normal, Special};
+    private enum ENotify { Spawn, MobNum };
+    private enum ESpawn { Normal, Special };
     //일반,레어,고대,전설,에픽 신화 -> 전사,궁수,폭탄병순
     private int[,] _spawnIndex = { { 0, 5, 10 }, { 1, 6, 11 }, { 2, 7, 12 }, { 3, 8, 13 }, { 4, 9, 14 }, { 15, 16, 17 } };
 
@@ -21,7 +15,7 @@ public class InGameMainPanel : UIBInder
     [SerializeField] private Color[] _greatHeroSpawnTextColors;
 
     StringBuilder _sb = new StringBuilder();
-    private  string[] _heroName = { "전사", "궁수", "폭탄병" };
+    private string[] _heroName = { "전사", "궁수", "폭탄병" };
     private string[] _godname = { "토난친", "나나우아틀", "시우테쿠틀리" };
     [SerializeField] private float _setNotifyPaneldurate;
     private Tween _notifySpawnTween;
@@ -44,6 +38,10 @@ public class InGameMainPanel : UIBInder
     [Header("Set변경해야하는 panel들")]
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private GameObject _spawnRatePanel;
+
+    private bool _isSpawnWarrior;
+    private bool _isSpawnArcher;
+    private bool _isSpawnBomer;
 
     private void Awake()
     {
@@ -68,6 +66,9 @@ public class InGameMainPanel : UIBInder
         SetNormalAndSpecialSpawnButton();
         ShowMobInfo();
         AddEvent();
+        ShowJemNumForUpgrade(EUpgrade.Warrior);
+        ShowJemNumForUpgrade(EUpgrade.Archer);
+        ShowJemNumForUpgrade(EUpgrade.Bomer);
     }
 
     private void AddEvent()
@@ -80,7 +81,7 @@ public class InGameMainPanel : UIBInder
         GetUI<Button>("TImeSpeedButton").onClick.AddListener(SpeedUpGame);
         GetUI<Button>("GoSellButton").onClick.AddListener(ShowSellPanel);
         GetUI<Button>("ShowSpawnRateButton").onClick.AddListener(ShowSpawnRatePanel);
-        GetUI<Button>("WarriorUpgradeButton").onClick.AddListener(() =>UpgardeHero(EUpgrade.Warrior));
+        GetUI<Button>("WarriorUpgradeButton").onClick.AddListener(() => UpgardeHero(EUpgrade.Warrior));
         GetUI<Button>("ArcherUpgradeButton").onClick.AddListener(() => UpgardeHero(EUpgrade.Archer));
         GetUI<Button>("BomerUpgradeButton").onClick.AddListener(() => UpgardeHero(EUpgrade.Bomer));
         InGameManager.Instance.JemNumOnChanged += SetNormalAndSpecialSpawnButton;
@@ -94,7 +95,7 @@ public class InGameMainPanel : UIBInder
 
     private void ShowWarnBossText()
     {
-        if(InGameManager.Instance.WaveNum == 24 || InGameManager.Instance.WaveNum == 49)
+        if (InGameManager.Instance.WaveNum == 24 || InGameManager.Instance.WaveNum == 49)
         {
             _sb.Clear();
             _sb.Append($"제한 시간 내에 {_mobController?.MobData.Name}를 처치해야 합니다!");
@@ -109,13 +110,13 @@ public class InGameMainPanel : UIBInder
 
     private void Spawn(bool isNormalSpawn)
     {
-        if(InGameManager.Instance.JemNum <= 0)
+        if (InGameManager.Instance.JemNum <= 0)
         {
             Debug.Log("젬없음");
             return;
         }
         //0. 사운드 
-        if(PlayerController.Instance.PlayerData.IsSound == true)
+        if (PlayerController.Instance.PlayerData.IsSound == true)
         {
             _sfx.PlayOneShot(_spawnClip);
         }
@@ -127,7 +128,7 @@ public class InGameMainPanel : UIBInder
         //2.스폰확률에 따라 소환할 등급결정
         float randomGradeValue = Random.Range(0f, 100f);
         int spawnGradeIndex = 0;
-        float maxValue =  spawnRates[0];
+        float maxValue = spawnRates[0];
 
         //확률에 따라 비교 시작
         for (int i = 0; i < spawnRates.Length; i++)
@@ -147,7 +148,7 @@ public class InGameMainPanel : UIBInder
                 break;
             }
             //max값 누적
-            if(i < spawnRates.Length - 1)
+            if (i < spawnRates.Length - 1)
             {
                 maxValue += spawnRates[i + 1];
             }
@@ -161,6 +162,20 @@ public class InGameMainPanel : UIBInder
 
         //4. 유닛 마리수 증가
         ObjectPoolManager.Instance.SetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue], ObjectPoolManager.Instance.GetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue]) + 1);
+
+        //해당 직업 소환됐는지 확인
+        if (_spawnIndex[spawnGradeIndex, randomHeroValue] >= (int)EHeroPool.N_Warrior && _spawnIndex[spawnGradeIndex, randomHeroValue] <= (int)EHeroPool.E_Warrior)
+        {
+            _isSpawnWarrior = true;
+        }
+        else if (_spawnIndex[spawnGradeIndex, randomHeroValue] >= (int)EHeroPool.N_Archer && _spawnIndex[spawnGradeIndex, randomHeroValue] <= (int)EHeroPool.E_Archer)
+        {
+            _isSpawnArcher = true;
+        }
+        else if (_spawnIndex[spawnGradeIndex, randomHeroValue] >= (int)EHeroPool.N_Bomer && _spawnIndex[spawnGradeIndex, randomHeroValue] <= (int)EHeroPool.E_Bomer)
+        {
+            _isSpawnBomer = true;
+        }
 
         //5. 전설 등급 이상은 알림켜주기
         if (spawnGradeIndex >= (int)EHeroGrade.Legend)
@@ -181,7 +196,7 @@ public class InGameMainPanel : UIBInder
     private void NotifySpawnUnit(int heroGradeIndex, int hero)
     {
         _sb.Clear();
-        if(heroGradeIndex == (int)EHeroGrade.Legend)
+        if (heroGradeIndex == (int)EHeroGrade.Legend)
         {
             _sb.Append($"전설의 아즈텍 {_heroName[hero]}가 등장합니다!");
             GetUI<TextMeshProUGUI>("NotifyText").color = _greatHeroSpawnTextColors[(int)EHeroGrade.Legend - 2];
@@ -215,7 +230,7 @@ public class InGameMainPanel : UIBInder
             _notifyPanel.SetActive(false);
         });
     }
-   
+
     private void ShowCurrentJem()
     {
         _sb.Clear();
@@ -225,7 +240,7 @@ public class InGameMainPanel : UIBInder
 
     private void SetNormalAndSpecialSpawnButton()
     {
-        if(InGameManager.Instance.JemNum < InGameManager.Instance.NormalSpawnForJemNum)
+        if (InGameManager.Instance.JemNum < InGameManager.Instance.NormalSpawnForJemNum)
         {
             GetUI<Button>("SpawnButton").interactable = false;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
@@ -288,7 +303,7 @@ public class InGameMainPanel : UIBInder
         GetUI<Slider>("MobNumSlider").value = (float)ObjectPoolManager.Instance.MobNum / (float)InGameManager.Instance.MobNumForDefeat;
 
         //경고 알람 띄우기
-        for(int i = 0; i < InGameManager.Instance.MobNumForDefeatWarning.Length; i++)
+        for (int i = 0; i < InGameManager.Instance.MobNumForDefeatWarning.Length; i++)
         {
             if (ObjectPoolManager.Instance.MobNum == InGameManager.Instance.MobNumForDefeatWarning[i])
             {
@@ -328,7 +343,7 @@ public class InGameMainPanel : UIBInder
                 _bgm.Pause();
                 _bgmTime = _bgm.time;
             }
-            else if(PlayerController.Instance.PlayerData.IsSound == false)
+            else if (PlayerController.Instance.PlayerData.IsSound == false)
             {
                 PlayerController.Instance.PlayerData.IsSound = true;
                 GpgsManager.Instance.SaveData((success) => { });
@@ -344,7 +359,7 @@ public class InGameMainPanel : UIBInder
     private void SpeedUpGame()
     {
         _sb.Clear();
-        InGameManager.Instance.SpeedUpIndex = (InGameManager.Instance.SpeedUpIndex + 1)% InGameManager.Instance.SpeedUpRate.Length;
+        InGameManager.Instance.SpeedUpIndex = (InGameManager.Instance.SpeedUpIndex + 1) % InGameManager.Instance.SpeedUpRate.Length;
         Debug.Log(InGameManager.Instance.SpeedUpIndex);
         _sb.Append($"x {InGameManager.Instance.SpeedUpRate[InGameManager.Instance.SpeedUpIndex]}");
         GetUI<TextMeshProUGUI>("TimeSpeedButtonText").SetText(_sb);
@@ -387,26 +402,99 @@ public class InGameMainPanel : UIBInder
             SetNormalAndSpecialSpawnButton();
             GetUI<Button>("ShowSpawnRateButton").interactable = true;
             GetUI<Button>("GoSellButton").interactable = true;
-            GetUI<Button>("WarriorUpgradeButton").interactable = true;
-            GetUI<Button>("ArcherUpgradeButton").interactable = true;
-            GetUI<Button>("BomerUpgradeButton").interactable = true;
+            SetUpgradeButton();
         }
     }
 
     // To Do: 강화
+    private void ShowJemNumForUpgrade(EUpgrade _upgradeHero)
+    {
+        switch (_upgradeHero)
+        {
+            case EUpgrade.Warrior:
+                _sb.Clear();
+                _sb.Append(InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero]);
+                GetUI<TextMeshProUGUI>("ShowWarriorUpgradeInfoText").SetText(_sb);
+                break;
+            case EUpgrade.Archer:
+                _sb.Clear();
+                _sb.Append(InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero]);
+                GetUI<TextMeshProUGUI>("ShowArcherUpgradeInfoJemText").SetText(_sb);
+                break;
+            case EUpgrade.Bomer:
+                _sb.Clear();
+                _sb.Append(InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero]);
+                GetUI<TextMeshProUGUI>("ShowBomerUpgradeInfoJemText").SetText(_sb);
+                break;
+        }
+    }
+
+    private void SetUpgradeButton()
+    {
+        if(InGameManager.Instance.JemNum < InGameManager.Instance.JemNumsForUpgrade[(int)EUpgrade.Warrior] || _isSpawnWarrior == false)
+        {
+            GetUI<Button>("WarriorUpgradeButton").interactable = false;
+        }
+        else
+        {
+            GetUI<Button>("WarriorUpgradeButton").interactable = true;
+        }
+
+        if (InGameManager.Instance.JemNum < InGameManager.Instance.JemNumsForUpgrade[(int)EUpgrade.Archer] || _isSpawnArcher == false)
+        {
+            GetUI<Button>("ArcherUpgradeButton").interactable = false;
+        }
+        else
+        {
+            GetUI<Button>("ArcherUpgradeButton").interactable = true;
+        }
+
+        if (InGameManager.Instance.JemNum < InGameManager.Instance.JemNumsForUpgrade[(int)EUpgrade.Bomer] || _isSpawnBomer == false)
+        {
+            GetUI<Button>("BomerUpgradeButton").interactable = false;
+        }
+        else
+        {
+            GetUI<Button>("BomerUpgradeButton").interactable = true;
+        }
+    }
+
     private void UpgardeHero(EUpgrade _upgradeHero)
     {
-        if(InGameManager.Instance.JemNum < InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero])
+        if (InGameManager.Instance.JemNum < InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero])
         {
             return;
         }
 
-        ////젬 개수 감소
-        //InGameManager.Instance.JemNum -= InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero];
-        ////강화 젬 개수 증가
-        //InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero] += InGameManager.Instance.JemNumPlusForUpgrade[(int)_upgradeHero];
-        ////레벨 증가
+        //젬 개수 감소
+        InGameManager.Instance.JemNum -= InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero];
+        //강화 젬 개수 증가
+        InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero] += InGameManager.Instance.JemNumPlusForUpgrade[(int)_upgradeHero];
+        //레벨 증가
+        InGameManager.Instance.UpgradeLevels[(int)_upgradeHero]++;
 
+        //업그레이드에 필요한 젬 개수 및 Level 표시
+        switch (_upgradeHero)
+        {
+            case EUpgrade.Warrior:
+                ShowJemNumForUpgrade(EUpgrade.Warrior);
+                _sb.Clear();
+                _sb.Append($"Lv {InGameManager.Instance.UpgradeLevels[(int)_upgradeHero] + 1}");
+                GetUI<TextMeshProUGUI>("WarriorUpgradeButtonText").SetText(_sb);
+                break;
+            case EUpgrade.Archer:
+                ShowJemNumForUpgrade(EUpgrade.Archer);
+                _sb.Clear();
+                _sb.Append($"Lv {InGameManager.Instance.UpgradeLevels[(int)_upgradeHero] + 1}");
+                GetUI<TextMeshProUGUI>("ArcherUpgradeButtonText").SetText(_sb);
+                break;
+            case EUpgrade.Bomer:
+                ShowJemNumForUpgrade(EUpgrade.Bomer);
+                _sb.Clear();
+                _sb.Append($"Lv {InGameManager.Instance.UpgradeLevels[(int)_upgradeHero] + 1}");
+                GetUI<TextMeshProUGUI>("BomerUpgradeButtonText").SetText(_sb);
+                break;
+        }
     }
 
     #region 주석처리
