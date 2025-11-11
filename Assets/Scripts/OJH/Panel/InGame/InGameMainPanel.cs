@@ -466,6 +466,12 @@ public class InGameMainPanel : UIBInder
             return;
         }
 
+        //사운드
+        if (PlayerController.Instance.PlayerData.IsSound == true)
+        {
+            _sfx.PlayOneShot(_spawnClip);
+        }
+
         //젬 개수 감소
         InGameManager.Instance.JemNum -= InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero];
         //강화 젬 개수 증가
