@@ -18,6 +18,7 @@ public class HeroControlTower : MonoBehaviour
     [SerializeField] private LayerMask _enemyLayerMask;
     private int _unitAttackhash = Animator.StringToHash("Attack");
 
+    [Header("유닛별 공격 사운드 개수")]
     [SerializeField] private int _maxAttackSfxCount;
 
     private void Update()
