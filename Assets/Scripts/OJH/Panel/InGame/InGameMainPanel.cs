@@ -66,6 +66,7 @@ public class InGameMainPanel : UIBInder
         SetNormalAndSpecialSpawnButton();
         ShowMobInfo();
         AddEvent();
+        ShowHeroMaxNum();
         ShowJemNumForUpgrade(EUpgrade.Warrior);
         ShowJemNumForUpgrade(EUpgrade.Archer);
         ShowJemNumForUpgrade(EUpgrade.Bomer);
@@ -91,6 +92,7 @@ public class InGameMainPanel : UIBInder
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowWarnBossText;
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowMobInfo;
         ObjectPoolManager.Instance.MobNumOnChanged += SHowMobNum;
+        ObjectPoolManager.Instance.HeroAllNumOnChanged += ShowHeroMaxNum;
     }
 
     private void ShowWarnBossText()
@@ -110,9 +112,8 @@ public class InGameMainPanel : UIBInder
 
     private void Spawn(bool isNormalSpawn)
     {
-        if (InGameManager.Instance.JemNum <= 0)
+        if (InGameManager.Instance.JemNum <= 0 || ObjectPoolManager.Instance.GetHeroAllNum() == InGameManager.Instance.MaxHeroNum)
         {
-            Debug.Log("젬없음");
             return;
         }
         //0. 사운드 
@@ -161,7 +162,7 @@ public class InGameMainPanel : UIBInder
         _heroControlTower.OnHeroActivated(hero, (EHeroPool)_spawnIndex[spawnGradeIndex, randomHeroValue]);
 
         //4. 유닛 마리수 증가
-        ObjectPoolManager.Instance.SetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue], ObjectPoolManager.Instance.GetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue]) + 1);
+        ObjectPoolManager.Instance.SetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue], ObjectPoolManager.Instance.GetHeroNum(_spawnIndex[spawnGradeIndex, randomHeroValue]) + 1, true);
 
         //해당 직업 소환됐는지 확인
         if (_spawnIndex[spawnGradeIndex, randomHeroValue] >= (int)EHeroPool.N_Warrior && _spawnIndex[spawnGradeIndex, randomHeroValue] <= (int)EHeroPool.E_Warrior)
@@ -240,7 +241,7 @@ public class InGameMainPanel : UIBInder
 
     private void SetNormalAndSpecialSpawnButton()
     {
-        if (InGameManager.Instance.JemNum < InGameManager.Instance.NormalSpawnForJemNum)
+        if (InGameManager.Instance.JemNum < InGameManager.Instance.NormalSpawnForJemNum || ObjectPoolManager.Instance.GetHeroAllNum() == InGameManager.Instance.MaxHeroNum)
         {
             GetUI<Button>("SpawnButton").interactable = false;
             GetUI<Button>("SpecialSpawnButton").interactable = false;
@@ -501,6 +502,13 @@ public class InGameMainPanel : UIBInder
                 GetUI<TextMeshProUGUI>("BomerUpgradeButtonText").SetText(_sb);
                 break;
         }
+    }
+
+    private void ShowHeroMaxNum()
+    {
+        _sb.Clear();
+        _sb.Append($"최대 영웅 유닛 수\n {ObjectPoolManager.Instance.GetHeroAllNum()} / {InGameManager.Instance.MaxHeroNum}");
+        GetUI<TextMeshProUGUI>("ShowMaxHeroNumText").SetText(_sb);
     }
 
     #region 주석처리

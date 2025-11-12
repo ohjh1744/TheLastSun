@@ -158,7 +158,7 @@ public class SellPanel : UIBInder
             ObjectPoolManager.Instance.RemoveObject(ObjectPoolManager.Instance.HeroPools, heroIndex);
 
             //¿µ¿õ ¼ö ÁÙ¿©ÁÖ±â
-            ObjectPoolManager.Instance.SetHeroNum(heroIndex, ObjectPoolManager.Instance.GetHeroNum(heroIndex) - 1);
+            ObjectPoolManager.Instance.SetHeroNum(heroIndex, ObjectPoolManager.Instance.GetHeroNum(heroIndex) - 1, false);
 
             //Áª È¹µæ
             if(heroIndex == (int)EHeroPool.N_Warrior || heroIndex == (int)EHeroPool.N_Archer || heroIndex == (int)EHeroPool.N_Bomer)
