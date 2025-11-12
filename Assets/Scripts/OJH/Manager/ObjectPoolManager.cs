@@ -34,7 +34,12 @@ public class ObjectPoolManager : MonoBehaviour
     //영웅 및 몹 현재 수
     private int _mobNum; public int MobNum { get { return _mobNum; } set { _mobNum = value; MobNumOnChanged?.Invoke(); } }
     public event UnityAction MobNumOnChanged;
-    private int[] _heroNum = new int[18];
+
+    private int[] _heroNum = new int[18]; 
+    public event UnityAction<int> HeroNumOnChanged;
+
+    private int _heroAllNum;
+    public event UnityAction HeroAllNumOnChanged;
 
     private void Awake()
     {
@@ -103,16 +108,20 @@ public class ObjectPoolManager : MonoBehaviour
         }
     }
 
-    //에픽까지
-    public event UnityAction<int> HeroNumOnChanged;
-
     public int GetHeroNum(int heroIndex)
     {
         return _heroNum[heroIndex];
     }
-    public void SetHeroNum(int heroIndex, int newNum)
+
+    public int GetHeroAllNum()
+    {
+        return _heroAllNum;
+    }
+    public void SetHeroNum(int heroIndex, int newNum, bool isPlus)
     {
         _heroNum[heroIndex] = newNum;
+        _heroAllNum += isPlus ? 1 : -1;
+        HeroAllNumOnChanged?.Invoke();
         HeroNumOnChanged?.Invoke(heroIndex);
     }
 

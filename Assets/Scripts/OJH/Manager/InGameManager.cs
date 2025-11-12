@@ -62,6 +62,9 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private int[] _upgradeLevels; public int[] UpgradeLevels { get { return _upgradeLevels; } set { _upgradeLevels = value; } }
     [SerializeField] private int[] _upgradeStats; public int[] UpgradeStats { get { return _upgradeStats; } set { _upgradeStats = value; } }
 
+    [Header("소환할 수 있는 최대 영웅 수")]
+    [SerializeField] private int _maxHeroNum; public int MaxHeroNum { get { return _maxHeroNum; } private set { }}
+
     [SerializeField] private GameObject _LoadingPanel;
     [SerializeField] private GameObject _toturiolPanel;
     [SerializeField] private GameObject _clearPanel;
@@ -69,11 +72,10 @@ public class InGameManager : MonoBehaviour
     //리더보드 이름저장
     private List<string> _leaderboardString = new List<string>();
 
-    //게임 시작, 종료 관리
-
     WaitForSecondsRealtime _clearWs = new WaitForSecondsRealtime(0.1f);
-
     Coroutine _endGameRoutine;
+
+
     private void Awake()
     {
         if(_instance == null)
