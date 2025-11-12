@@ -7,15 +7,19 @@ using UnityEngine.UIElements;
 
 public class MobControlTower : MonoBehaviour
 {
+    [Header("몬스터 소환 위치 및 이동 위치")]
     [SerializeField] private Vector3 _spawnPos;
     [SerializeField] private Vector3[] _movPos;
 
+    [Header("한바퀴 도는데 걸리는 이동 시간")]
     //한바퀴 도는데 걸리는 시간 
     [SerializeField] private float[] _mobMoveTimes;
 
+    [Header("몬스터 소환 주기")]
     //웨이브 소환주기
     [SerializeField] private float _spawnDurate;
 
+    [Header("웨이브 별 몬스터 소환 갯수")]
     //웨이브별 소환유닛
     [SerializeField] private int[] _spawnNumForWave;
 
