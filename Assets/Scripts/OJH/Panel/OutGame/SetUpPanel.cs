@@ -119,10 +119,6 @@ public class SetUpPanel : UIBInder
             // 다운로드할 파일이 존재하면 다운로드 패널을 열기
             if (downSIze > decimal.Zero)
             {
-                //기존 캐시 제거
-                Caching.ClearCache();
-                Debug.Log("Cache 제거");
-
                 // CheckDownLoad 패널을 닫고, 다운로드 패널을 열기, 다운받을 용량 Text 내용 Update.
                 _checkDownLoadPanel.SetActive(false);
                 _doDownLoadPanel.SetActive(true);

@@ -107,12 +107,6 @@ public class HeroControlTower : MonoBehaviour
         _heroSpriteRenderers[index].flipX = direction.x > 0; // 왼쪽이면 flip
 
 
-        //사운드
-        if (_heroAttackNumForType[(int)heroType] < hero.HeroData.MaxAttackCount)
-        {
-            _heroAudios[index].PlayOneShot(hero.HeroData.AttackClip);
-        }
-
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
 
@@ -126,12 +120,6 @@ public class HeroControlTower : MonoBehaviour
     {
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
-
-        //사운드
-        if (_heroAttackNumForType[(int)heroType] < hero.HeroData.MaxAttackCount)
-        {
-            _heroAudios[index].PlayOneShot(hero.HeroData.AttackClip);
-        }
 
         GameObject proj = ObjectPoolManager.Instance.GetObject(ObjectPoolManager.Instance.ProjectilePools, ObjectPoolManager.Instance.Projectiles, (int)hero.HeroData.HeroProjectileIndex);
 
@@ -165,11 +153,6 @@ public class HeroControlTower : MonoBehaviour
         //영웅 애니메이션 처리
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
 
-        //영웅 사운드처리
-        if (_heroAttackNumForType[(int)heroType] < hero.HeroData.MaxAttackCount)
-        {
-            _heroAudios[index].PlayOneShot(hero.HeroData.AttackClip);
-        }
 
         if (target.gameObject.activeSelf == true)
         {
