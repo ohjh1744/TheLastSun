@@ -68,6 +68,9 @@ public class LoadingPanel : UIBInder
             sb.Append("%");
             GetUI<TextMeshProUGUI>("LoadingText").SetText(sb);
 
+            Debug.Log($"{_assetLoadableObject.LoadAssetUICount}");
+            Debug.Log($"{_assetLoadableObject.ClearLoadAssetCount}");
+
             // 종료 조건: 실제 로딩 완료 + UI가 거의 100%
             if (_assetLoadableObject.ClearLoadAssetCount >= totalAssets && displayedProgress >= 0.99f)
             {

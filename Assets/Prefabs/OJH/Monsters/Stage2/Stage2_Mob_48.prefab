@@ -259,6 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eMaterial: 0
+  _pf: {fileID: 0}
 --- !u!114 &4940882080094514014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +286,7 @@ GameObject:
   - component: {fileID: 1091619836684813971}
   - component: {fileID: 2100989376201700864}
   - component: {fileID: 8931804918770011763}
+  - component: {fileID: 7400369739582188502}
   m_Layer: 6
   m_Name: HpText
   m_TagString: Untagged
@@ -407,3 +410,17 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7400369739582188502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994219507639276589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eMaterial: 1
+  _pf: {fileID: 6857979320589214222, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}

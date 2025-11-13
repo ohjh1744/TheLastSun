@@ -1,21 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
+public enum EMaterial {Default, PF }
 public class ObjectMaterialLoader : MonoBehaviour
 {
+    [SerializeField] EMaterial eMaterial;
+    [SerializeField] Material _pf;
+
     private static Material _defaultMat;
+
     void Start()
     {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-
-        // 한 번만 생성해서 모든 오브젝트가 공유
-        if (_defaultMat == null)
+        if (eMaterial == EMaterial.Default)
         {
-            Debug.Log("한번만 생성");
-            _defaultMat = new Material(Shader.Find("Sprites/Default"));
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            // 한 번만 생성해서 모든 오브젝트가 공유
+            if (_defaultMat == null)
+            {
+                _defaultMat = new Material(Shader.Find("Sprites/Default"));
+            }
+
+            sr.sharedMaterial = _defaultMat;
+        }
+        else if ((eMaterial == EMaterial.PF))
+        {
+            TextMeshProUGUI tmp = GetComponent<TextMeshProUGUI>();
+            Debug.Log(tmp);
+            tmp.fontMaterial = _pf;
         }
 
-        sr.sharedMaterial = _defaultMat;
+
     }
 }
