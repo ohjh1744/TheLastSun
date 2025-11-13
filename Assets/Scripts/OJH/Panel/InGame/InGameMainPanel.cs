@@ -89,8 +89,8 @@ public class InGameMainPanel : UIBInder
         InGameManager.Instance.JemNumOnChanged += ShowCurrentJem;
         InGameManager.Instance.CurrentWaveTimeOnChanged += ShowTimer;
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowWaveNum;
-        InGameManager.Instance.CurrentWaveNumOnChanged += ShowWarnBossText;
         InGameManager.Instance.CurrentWaveNumOnChanged += ShowMobInfo;
+        InGameManager.Instance.CurrentWaveNumOnChanged += ShowWarnBossText;
         ObjectPoolManager.Instance.MobNumOnChanged += SHowMobNum;
         ObjectPoolManager.Instance.HeroAllNumOnChanged += ShowHeroMaxNum;
     }
@@ -283,12 +283,12 @@ public class InGameMainPanel : UIBInder
     private void ShowMobInfo()
     {
         // 1. 몬스터 이미지
-        _mobSR = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<SpriteRenderer>();
+        _mobSR = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponentInChildren<SpriteRenderer>();
         GetUI<Image>("WaveInfoMobImage").sprite = _mobSR.sprite;
         GetUI<Image>("WaveInfoMobImage").color = _mobSR.color;
 
         //2.몬스터 네임
-        _mobController = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponent<MobController>();
+        _mobController = ObjectPoolManager.Instance.Mobs[InGameManager.Instance.WaveNum].GetComponentInChildren<MobController>();
         _sb.Clear();
         _sb.Append(_mobController.MobData.Name);
         GetUI<TextMeshProUGUI>("WaveInfoMobNameText").SetText(_sb);

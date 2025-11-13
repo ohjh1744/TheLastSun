@@ -27,7 +27,6 @@ public class ObjectMaterialLoader : MonoBehaviour
         else if ((eMaterial == EMaterial.PF))
         {
             TextMeshProUGUI tmp = GetComponent<TextMeshProUGUI>();
-            Debug.Log(tmp);
             tmp.fontMaterial = _pf;
         }
 
