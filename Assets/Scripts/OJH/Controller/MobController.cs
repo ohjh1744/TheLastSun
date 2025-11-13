@@ -44,7 +44,14 @@ public class MobController : MonoBehaviour, IDamagable
         if (_curHp <= 0)
         {
             _curHp = 0;
-            gameObject.SetActive(false);
+            if (_isBoss == true)
+            {
+                transform.parent.gameObject.SetActive(false);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
         _sb.Clear();
         _sb.Append(_curHp);
