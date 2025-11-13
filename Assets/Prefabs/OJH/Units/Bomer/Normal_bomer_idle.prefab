@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8506892533290141573}
   - component: {fileID: 4119636902655510678}
+  - component: {fileID: 8490880164848266986}
   m_Layer: 0
   m_Name: AttackPos
   m_TagString: Untagged
@@ -84,6 +85,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8490880164848266986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2439080661360932003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389d91fb8bad287459acb531625a1bf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eMaterial: 0
+  _pf: {fileID: 0}
 --- !u!1 &3816968817648432890
 GameObject:
   m_ObjectHideFlags: 0

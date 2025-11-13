@@ -7,9 +7,9 @@ public enum EMaterial {Default, PF }
 public class ObjectMaterialLoader : MonoBehaviour
 {
     [SerializeField] EMaterial eMaterial;
-    [SerializeField] Material _pf;
 
     private static Material _defaultMat;
+    private static Material _pfMat;
 
     void Start()
     {
@@ -27,7 +27,17 @@ public class ObjectMaterialLoader : MonoBehaviour
         else if ((eMaterial == EMaterial.PF))
         {
             TextMeshProUGUI tmp = GetComponent<TextMeshProUGUI>();
-            tmp.fontMaterial = _pf;
+
+            // PF용 Shader 적용 (Distance Field 기반)
+            if(_pfMat == null)
+            {
+                _pfMat = Resources.Load<Material>("PFStardust 3 Material");
+                //이걸 Tmp Shader에 적용하기
+            }
+
+            tmp.fontMaterial = _pfMat;        // 인스턴스용
+            tmp.fontSharedMaterial = _pfMat;  // 공유용
+
         }
 
 
