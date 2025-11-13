@@ -193,6 +193,7 @@ public class InGameManager : MonoBehaviour
     IEnumerator SaveDataAndUpdateLeaderboard()
     {
         PlayerData playerData = PlayerController.Instance.PlayerData;
+        playerData.IsClearStage[playerData.CurrentStage] = true;
         playerData.ClearTimes[playerData.CurrentStage] = Mathf.Max(playerData.ClearTimes[playerData.CurrentStage], _playTime);
 
         bool _isDataSave = false;

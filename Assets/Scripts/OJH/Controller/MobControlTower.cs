@@ -32,6 +32,10 @@ public class MobControlTower : MonoBehaviour
     InGameManager _inGameManager;
 
     private bool _isWaveChange = false;
+
+    MobController _bossController;
+    Canvas _bossCanvas;
+
     private void Start()
     {
         Init();
@@ -92,30 +96,42 @@ public class MobControlTower : MonoBehaviour
             _poolManager.MobNum++;
             GameObject mob = _poolManager.GetObject(_poolManager.MobPools, _poolManager.Mobs, _inGameManager.WaveNum);
             mob.transform.position = _spawnPos;
-
             mob.transform.DOKill();
 
-            Vector3 originalScale = mob.transform.localScale;
+            if(_inGameManager.WaveNum == _inGameManager.WaveTimes.Length - 1)
+            {
+                _bossController = mob.GetComponentInChildren<MobController>();
+                _bossCanvas = mob.GetComponentInChildren<Canvas>();
 
-            //2. 소환 후 움직이도록
-            mob.transform.DOPath(_movPos, _mobMoveTimes[_inGameManager.WaveNum], PathType.Linear, PathMode.TopDown2D)
-                .SetEase(Ease.Linear)
-                .SetLoops(-1, LoopType.Restart)
-                 .OnWaypointChange((index) =>
-                 {
-                     Vector3 scale = mob.transform.localScale;
+                Vector3 originalScale = _bossController.transform.localScale;
+                Vector3 canvasOriginalScale = _bossCanvas.transform.localScale;
 
-                     //보스만 flip
-                     if (index == 2 && _inGameManager.WaveNum == 50)
+                //2. 보스는 소환 후 flip하며 움직이도록
+                mob.transform.DOPath(_movPos, _mobMoveTimes[_inGameManager.WaveNum], PathType.Linear, PathMode.TopDown2D)
+                    .SetEase(Ease.Linear)
+                    .SetLoops(-1, LoopType.Restart)
+                     .OnWaypointChange((index) =>
                      {
-                         scale.x = -Mathf.Abs(originalScale.x); // 반전된 방향
-                     }
-                     else if(index == 4 && _inGameManager.WaveNum == 50)
-                     {
-                         scale.x = Mathf.Abs(originalScale.x);  // 원래 방향
-                     }
-                     mob.transform.localScale = scale;
-                 });
+                         Vector3 scale = _bossController.transform.localScale;
+                         if (index == 2 && _bossController.IsBoss == true)
+                         {
+                             scale.x = -Mathf.Abs(originalScale.x); // 반전된 방향
+                         }
+                         else if (index == 4 && _bossController.IsBoss == true)
+                         {
+                             scale.x = Mathf.Abs(originalScale.x);  // 원래 방향
+                         }
+                         _bossController.transform.localScale = scale;
+                         _bossCanvas.transform.localScale = canvasOriginalScale;
+                     });
+            }
+            else
+            {
+                //2. 일반 몹들은 소환 후 움직이도록
+                mob.transform.DOPath(_movPos, _mobMoveTimes[_inGameManager.WaveNum], PathType.Linear, PathMode.TopDown2D)
+                    .SetEase(Ease.Linear)
+                    .SetLoops(-1, LoopType.Restart);
+            }
 
             yield return _spawnDurateWs;
         }
