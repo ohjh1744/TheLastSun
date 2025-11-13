@@ -288,6 +288,7 @@ public class AddressableManager : MonoBehaviour
             _downSize += handle.Result;
         }
 
+        Debug.Log($"다운로드 총용량: {_downSize}");
         // _downSize 값을 콜백을 통해 반환
         callback(_downSize);
 
@@ -413,7 +414,7 @@ public class AddressableManager : MonoBehaviour
             Debug.Log($"check 중! 현재 {downPercentSlider.value}%, {total}Size만큼 다운받음");
 
             //다운로드가 다 완료 됏다면
-            if (total == _downSize)
+            if (total >= _downSize)
             {
 
                 yield return _delayTofinishDownLoadWs;
