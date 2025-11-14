@@ -10,7 +10,7 @@ using UnityEngine.Events;
 using UnityEngine.UIElements;
 
 public enum EGameState {Ready,Pause, Play, Defeat, Win }
-public enum EUpgrade { Warrior, Archer, Bomer}
+public enum EUpgrade { Warrior, Archer, Bomer, None}
 public class InGameManager : MonoBehaviour
 {
     private static InGameManager _instance;
@@ -60,7 +60,9 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private int[] _jemNumsForUpgrade; public int[] JemNumsForUpgrade { get { return _jemNumsForUpgrade; } set { _jemNumsForUpgrade = value; } }
     [SerializeField] private int[] _jemNumPlusForUpgrade; public int[] JemNumPlusForUpgrade { get { return _jemNumPlusForUpgrade; } set { _jemNumPlusForUpgrade = value; } }
     [SerializeField] private int[] _upgradeLevels; public int[] UpgradeLevels { get { return _upgradeLevels; } set { _upgradeLevels = value; } }
+    public UnityAction<EUpgrade>[] OnChangedUpgradeLevels = new UnityAction<EUpgrade>[3];
     [SerializeField] private int[] _upgradeStats; public int[] UpgradeStats { get { return _upgradeStats; } set { _upgradeStats = value; } }
+
 
     [Header("소환할 수 있는 최대 영웅 수")]
     [SerializeField] private int _maxHeroNum; public int MaxHeroNum { get { return _maxHeroNum; } private set { }}
@@ -228,6 +230,12 @@ public class InGameManager : MonoBehaviour
         }
 
         _clearPanel.SetActive(true);
+    }
+
+    public void SetUpgradeLevel(EUpgrade upgradeType, int newLevel)
+    {
+        _upgradeLevels[(int)upgradeType] = newLevel;
+        OnChangedUpgradeLevels[(int)upgradeType]?.Invoke(upgradeType);
     }
 
 }

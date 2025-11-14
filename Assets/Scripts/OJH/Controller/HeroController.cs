@@ -35,19 +35,23 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     public bool IsMove { get { return _isMove; } set { _isMove = value; } }
 
     private int _curAtk;
-
+    public int CurAtk { get { return _curAtk; } set { _curAtk = value; } }
 
     private void Awake()
     {
         _cam = Camera.main;
+    }
+
+    private void Start()
+    {
         SetSizeAttackRange();
+        UpgradeAttack(_heroData.UpgradeType);
+        InGameManager.Instance.OnChangedUpgradeLevels[(int)_heroData.UpgradeType] += UpgradeAttack;
     }
 
     private void OnEnable()
     {
         SetSpawnSound();
-        
-        //cur Atk 강화공격력 더해주기
     }
 
 
@@ -67,7 +71,6 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         }
     }
 
-
     private void OnDrawGizmosSelected()
     {
         // 중심: hero 위치
@@ -80,27 +83,26 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         Gizmos.DrawWireSphere(center, _heroData.AttackRange);
     }
 
+    private void UpgradeAttack(EUpgrade _heroType)
+    {
+        if(_heroType == EUpgrade.None)
+        {
+            _curAtk = _heroData.BaseDamage;
+        }
+        else
+        {
+            int level = 0;
+            int upgradeStat = 0;
+            level = InGameManager.Instance.UpgradeLevels[(int)_heroType];
+            upgradeStat = InGameManager.Instance.UpgradeStats[(int)_heroType];
+            _curAtk = _heroData.BaseDamage + (level * upgradeStat);
+        }
+    }
+
     private void ShowInfo()
     {
         _sb.Clear();
-        int level = 0;
-        int upgradeStat = 0;
-        if((int)_heroData.HeroType <= (int)EHeroPool.E_Warrior)
-        {
-            level = InGameManager.Instance.UpgradeLevels[(int)EUpgrade.Warrior];
-            upgradeStat = InGameManager.Instance.UpgradeStats[(int)EUpgrade.Warrior];
-        }
-        else if ((int)_heroData.HeroType <= (int)EHeroPool.E_Archer)
-        {
-            level = InGameManager.Instance.UpgradeLevels[(int)EUpgrade.Archer];
-            upgradeStat = InGameManager.Instance.UpgradeStats[(int)EUpgrade.Archer];
-        }
-        else if ((int)_heroData.HeroType <= (int)EHeroPool.E_Bomer)
-        {
-            level = InGameManager.Instance.UpgradeLevels[(int)EUpgrade.Bomer];
-            upgradeStat = InGameManager.Instance.UpgradeStats[(int)EUpgrade.Bomer];
-        }
-        _sb.Append($"공격력 : {_heroData.BaseDamage + (level * upgradeStat)} \n공격주기 : {_heroData.AttackDelay}\n공격대상 : {_heroData.MaxAttackCount} ");
+        _sb.Append($"공격력 : {_curAtk} \n공격주기 : {_heroData.AttackDelay}\n공격대상 : {_heroData.MaxAttackCount} ");
         _infoText.SetText(_sb);
         _canvas.SetActive(true);
     }

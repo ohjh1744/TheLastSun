@@ -478,7 +478,7 @@ public class InGameMainPanel : UIBInder
         //강화 젬 개수 증가
         InGameManager.Instance.JemNumsForUpgrade[(int)_upgradeHero] += InGameManager.Instance.JemNumPlusForUpgrade[(int)_upgradeHero];
         //레벨 증가
-        InGameManager.Instance.UpgradeLevels[(int)_upgradeHero]++;
+        InGameManager.Instance.SetUpgradeLevel(_upgradeHero, InGameManager.Instance.UpgradeLevels[(int)_upgradeHero] + 1);
 
         //업그레이드에 필요한 젬 개수 및 Level 표시
         switch (_upgradeHero)
