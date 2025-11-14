@@ -111,7 +111,7 @@ public class HeroControlTower : MonoBehaviour
         _heroAnimators[index].Play(_unitAttackhash, -1, 0);
 
         if (target.gameObject.activeSelf == true)
-            target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
+            target.GetComponent<IDamagable>().TakeDamage(hero.CurAtk);
 
     }
 
@@ -126,7 +126,7 @@ public class HeroControlTower : MonoBehaviour
         proj.transform.position = target.position;
 
         if (target.gameObject.activeSelf == true)
-            target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
+            target.GetComponent<IDamagable>().TakeDamage(hero.CurAtk);
 
         DOVirtual.DelayedCall(1f, () =>
         {
@@ -163,7 +163,7 @@ public class HeroControlTower : MonoBehaviour
                {
                    if(target.gameObject.activeSelf == true)
                    {
-                       target.GetComponent<IDamagable>().TakeDamage(hero.HeroData.BaseDamage);
+                       target.GetComponent<IDamagable>().TakeDamage(hero.CurAtk);
                    }
 
                    proj.SetActive(false);

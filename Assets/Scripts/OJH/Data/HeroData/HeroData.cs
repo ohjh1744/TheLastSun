@@ -9,6 +9,9 @@ public class HeroData : ScriptableObject
     [SerializeField] EHeroPool _heroType;
     public EHeroPool HeroType { get { return _heroType; } set { _heroType = value; } }
 
+    [SerializeField] EUpgrade _upgradeType;
+    public EUpgrade UpgradeType { get { return _upgradeType; } set { _upgradeType = value; } }
+
     [SerializeField] EProjectilePool _heroProjectileIndex;
     public EProjectilePool HeroProjectileIndex { get { return _heroProjectileIndex; } set { _heroProjectileIndex = value; } }
 
