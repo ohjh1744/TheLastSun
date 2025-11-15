@@ -97,13 +97,13 @@ public class HeroController : MonoBehaviour, IPointerDownHandler, IDragHandler, 
             upgradeStat = InGameManager.Instance.UpgradeStats[(int)_heroType];
             _curAtk = _heroData.BaseDamage + (level * upgradeStat);
         }
+        _sb.Clear();
+        _sb.Append($"공격력 : {_curAtk} \n공격주기 : {_heroData.AttackDelay}\n공격대상 : {_heroData.MaxAttackCount} ");
+        _infoText.SetText(_sb);
     }
 
     private void ShowInfo()
     {
-        _sb.Clear();
-        _sb.Append($"공격력 : {_curAtk} \n공격주기 : {_heroData.AttackDelay}\n공격대상 : {_heroData.MaxAttackCount} ");
-        _infoText.SetText(_sb);
         _canvas.SetActive(true);
     }
 
