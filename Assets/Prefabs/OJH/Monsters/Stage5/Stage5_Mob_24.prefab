@@ -60,7 +60,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -4
   m_TargetDisplay: 0
 --- !u!114 &8555262909425509622
 MonoBehaviour:
@@ -250,7 +250,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eMaterial: 1
-  _pf: {fileID: 6857979320589214222, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
 --- !u!1 &8647156240474678538
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +327,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -4
   m_Sprite: {fileID: 1478507243, guid: eae839a0cf4d9f34690c940b3c0eb4c6, type: 3}
   m_Color: {r: 0.5315065, g: 0.45696867, b: 0.5943396, a: 1}
   m_FlipX: 0
@@ -409,7 +408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eMaterial: 0
-  _pf: {fileID: 0}
 --- !u!114 &-3521238701578967299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,4 +421,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mobData: {fileID: 11400000, guid: 6b5d743be2e177146812e66ae8fb231b, type: 2}
+  _isBoss: 0
   _hpText: {fileID: 7989979570532368587}
