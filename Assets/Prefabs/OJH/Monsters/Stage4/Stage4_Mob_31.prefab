@@ -148,7 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eMaterial: 1
-  _pf: {fileID: 6857979320589214222, guid: e44aed53f2f393646a810d36d144d2ab, type: 2}
 --- !u!1 &6144858087076462775
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +225,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -4
   m_Sprite: {fileID: 593418389, guid: 0a9cb998074f1f942bbc64d6ed91bfcf, type: 3}
   m_Color: {r: 0.3160377, g: 0.6576836, b: 1, a: 1}
   m_FlipX: 0
@@ -307,7 +306,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eMaterial: 0
-  _pf: {fileID: 0}
 --- !u!114 &-6561443373782592535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mobData: {fileID: 11400000, guid: 9e146af9c8824dd4e81ff4be04de3db2, type: 2}
+  _isBoss: 0
   _hpText: {fileID: 7156280346827376524}
 --- !u!1 &7840154794891635731
 GameObject:
@@ -382,7 +381,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -4
   m_TargetDisplay: 0
 --- !u!114 &4344936361235606981
 MonoBehaviour:
