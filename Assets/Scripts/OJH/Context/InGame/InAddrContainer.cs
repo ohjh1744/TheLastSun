@@ -147,6 +147,7 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         });
         AddressableManager.Instance.LoadOnlySprite(_resourceBar1, (sprite) => { 
             _clearLoadAssetCount++;
+            GetUI<Image>("ShowMaxHeroBgImage").sprite = sprite;
             GetUI<Image>("ShowJemBgImage").sprite = sprite;
             GetUI<Image>("MobNumSliderBg").sprite = sprite;
             GetUI<Image>("NotifyPanel").sprite = sprite;
