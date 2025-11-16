@@ -158,6 +158,8 @@ public class SetUpPanel : UIBInder
     {
         if(NetworkCheckManager.Instance.IsConnected == false && _doDownLoadPanel.activeSelf == true)
         {
+            //다운로드 버튼 비활성화
+            GetUI<Button>("DownLoadButton").interactable = false;
             _doDownLoadQuitGamePanel.SetActive(true);
         }
     }
