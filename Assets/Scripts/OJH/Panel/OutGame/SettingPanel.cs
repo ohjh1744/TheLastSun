@@ -40,13 +40,13 @@ public class SettingPanel : UIBInder
         if (PlayerController.Instance.PlayerData.IsSound == true)
         {
             _sb.Clear();
-            _sb.Append("사운드ON");
+            _sb.Append("음향 켜기");
             GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
         else
         {
             _sb.Clear();
-            _sb.Append("사운드OFF");
+            _sb.Append("음향 끄기");
             GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
         }
     }
@@ -77,7 +77,7 @@ public class SettingPanel : UIBInder
                 _bgmTime = _audio.time;
                 //Text 변환
                 _sb.Clear();
-                _sb.Append("사운드OFF");
+                _sb.Append("음향 끄기");
                 GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
                 Debug.Log($"사운드 Off로 변환{PlayerController.Instance.PlayerData.IsSound}");
             }
@@ -94,7 +94,7 @@ public class SettingPanel : UIBInder
                 _audio.Play();
                 //Text 변환
                 _sb.Clear();
-                _sb.Append("사운드ON");
+                _sb.Append("음향 켜기");
                 GetUI<TextMeshProUGUI>("SetMusicButtonText").SetText(_sb);
                 Debug.Log($"사운드 ON으로 변환{PlayerController.Instance.PlayerData.IsSound}");
             }
