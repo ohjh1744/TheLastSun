@@ -527,22 +527,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7cb68082ed8114e941277434f8be77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jemNum: 10000
+  _jemNum: 50
   _normalSpawnForJemNum: 5
-  _specialSpawnForJemNum: 20
+  _specialSpawnForJemNum: 15
   _normalSpawnRates:
-  - 50
-  - 30
-  - 15
-  - 3
-  - 1.5
-  - 0.5
-  _specialSpawnRates:
-  - 60
+  - 70
   - 20
-  - 15
-  - 5
-  _jemNumsForSell: 050000000a0000000a0000000f00000014000000
+  - 7
+  - 2
+  - 0.7
+  - 0.3
+  _specialSpawnRates:
+  - 70
+  - 20
+  - 7.5
+  - 2.5
+  _jemNumsForSell: 03000000040000000a000000140000001e000000
   _speedUpRate:
   - 1
   - 2
@@ -602,10 +602,10 @@ MonoBehaviour:
   _mobNumForDefeat: 100
   _mobNumForDefeatWarning: 46000000500000005a000000
   _gameState: 0
-  _jemNumsForUpgrade: 050000000500000005000000
-  _jemNumPlusForUpgrade: 050000000500000005000000
+  _jemNumsForUpgrade: 030000000300000003000000
+  _jemNumPlusForUpgrade: 020000000200000002000000
   _upgradeLevels: 000000000000000000000000
-  _upgradeStats: 050000000500000005000000
+  _upgradeStats: 030000000500000007000000
   _maxHeroNum: 30
   _LoadingPanel: {fileID: 316218959}
   _toturiolPanel: {fileID: 184466450}
@@ -19902,7 +19902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1818451716
 MonoBehaviour:
   m_ObjectHideFlags: 0

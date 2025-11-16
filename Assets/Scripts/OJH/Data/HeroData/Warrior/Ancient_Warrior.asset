@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Ancient_Warrior
   m_EditorClassIdentifier: 
   _heroType: 0
+  _upgradeType: 0
   _heroProjectileIndex: 14
   _baseDamage: 30
   _attackRange: 1.2
-  _attackDelay: 1
+  _attackDelay: 0.8
   _maxAttackCount: 1
   _spawnClip: {fileID: 0}
   _attackClip: {fileID: 8300000, guid: 2ddeab8a5c4b29e48a0f8eb6ba815b4d, type: 3}
