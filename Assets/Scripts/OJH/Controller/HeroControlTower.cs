@@ -85,7 +85,7 @@ public class HeroControlTower : MonoBehaviour
         }
 
         //1초후에 heroAttackNumForType[(int)heroType] 감소
-        DOVirtual.DelayedCall(0.5f, () =>
+        DOVirtual.DelayedCall(0.1f, () =>
         {
             _heroAttackNumForType[(int)heroType]--;
             if (_heroAttackNumForType[(int)heroType] < 0)
