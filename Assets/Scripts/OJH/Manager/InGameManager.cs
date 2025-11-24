@@ -196,7 +196,18 @@ public class InGameManager : MonoBehaviour
     {
         PlayerData playerData = PlayerController.Instance.PlayerData;
         playerData.IsClearStage[playerData.CurrentStage] = true;
-        playerData.ClearTimes[playerData.CurrentStage] = Mathf.Max(playerData.ClearTimes[playerData.CurrentStage], _playTime);
+
+        //아직 클리어하지않은 경우 즉, 0으로 되어있다면.
+        if (playerData.ClearTimes[playerData.CurrentStage] < 1f){
+            playerData.ClearTimes[playerData.CurrentStage] = _playTime;
+        }
+        //클리어한적이 있다면 가장 작은값을 기록
+        else
+        {
+            playerData.ClearTimes[playerData.CurrentStage] = Mathf.Min(playerData.ClearTimes[playerData.CurrentStage], _playTime);
+        }
+
+        Debug.Log(playerData.ClearTimes[playerData.CurrentStage]);
 
         bool _isDataSave = false;
         bool _isUpdateTime = false;
