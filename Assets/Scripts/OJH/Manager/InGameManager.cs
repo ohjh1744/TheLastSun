@@ -207,6 +207,8 @@ public class InGameManager : MonoBehaviour
             playerData.ClearTimes[playerData.CurrentStage] = Mathf.Min(playerData.ClearTimes[playerData.CurrentStage], _playTime);
         }
 
+        Debug.Log(playerData.ClearTimes[playerData.CurrentStage]);
+
         bool _isDataSave = false;
         bool _isUpdateTime = false;
 
