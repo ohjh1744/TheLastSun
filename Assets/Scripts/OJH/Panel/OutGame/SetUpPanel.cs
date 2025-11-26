@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class SetUpPanel : UIBInder
 {
@@ -161,6 +162,22 @@ public class SetUpPanel : UIBInder
             //다운로드 버튼 비활성화
             GetUI<Button>("DownLoadButton").interactable = false;
             _doDownLoadQuitGamePanel.SetActive(true);
+        }
+    }
+
+    public  void ClearUnityCacheFolder()
+    {
+        
+        string cachePath = Path.Combine(Application.persistentDataPath, "UnityCache");
+
+        if (Directory.Exists(cachePath))
+        {
+            Directory.Delete(cachePath, true); // 강제 삭제
+            Debug.Log("UnityCache 제거 완료");
+        }
+        else
+        {
+            Debug.Log("UnityCache 제거할거 없음.");
         }
     }
 
