@@ -22,25 +22,26 @@ https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
 <div markdown="1">
 
 ### 로그인 및 업데이트 확인
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/59b0beff-bbc0-41e0-b074-851abb613e09" />
+<img width="286" height="499" alt="image" src="https://github.com/user-attachments/assets/c401791b-5eba-42e0-9088-de074191736c" />
 
 ### 리소스 다운
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/e0f19809-40f2-4445-99d1-bd7e66c46cc9" />
+<img width="288" height="503" alt="image" src="https://github.com/user-attachments/assets/09c9936f-6daf-4c09-aec1-d90edc6213f8" />
 
 ### 로비
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/0b7afec0-17c1-466f-bb73-a5f71a7b17be" />
+<img width="292" height="502" alt="image" src="https://github.com/user-attachments/assets/a009729e-56e6-43fd-b824-ba09c762f635" />
 
 ### 도감
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/3b25e1cd-e9e5-4a80-831d-41c9a3aa9c21" />
+<img width="292" height="496" alt="image" src="https://github.com/user-attachments/assets/47a38c99-c4c4-41d9-8145-b0e513f22ae5" />
 
 ### 랭킹
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/49e9620d-f252-46f0-846b-9caef7f688d6" />
+<img width="296" height="502" alt="image" src="https://github.com/user-attachments/assets/d2cfb32f-c43c-46f7-b994-9ceaccac50ce" />
 
 ### 인게임
-<img width="287" height="587" alt="image" src="https://github.com/user-attachments/assets/e13391b5-60c1-426b-8a9a-020a4db62ef9" />
+<img width="286" height="495" alt="image" src="https://github.com/user-attachments/assets/0a4cb24b-0ac4-4aeb-aeab-5c0fe108a0de" />
 
-### 클리어 
-<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/f97e46cc-4e12-40a6-b469-7d705b9a1a74" />
+### 클리어 창
+<img width="292" height="502" alt="image" src="https://github.com/user-attachments/assets/4a269672-1d5a-4ee8-b3f7-35750fc14107" />
+
 
 </div>
 </details>
