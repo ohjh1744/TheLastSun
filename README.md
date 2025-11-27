@@ -1,7 +1,9 @@
-아즈텍 신화의 다섯개의 태양을 배경으로한 Android 2D Defense Game
+아즈텍 신화의 다섯개의 태양을 배경으로한 Android 2D Defense Game입니다.
 
 프로젝트 관리 : https://ionian-army-8a2.notion.site/The-Last-Sun-Indians-1913b9c6dab48095beeecaa87f7aa03e?source=copy_link
 
+## PlayStroe링크
+https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
 ## 개발 기간 📅
 2025.7.29 ~ ing
 
@@ -14,15 +16,38 @@
 | 양윤석| Designer | 기획 |
 
 
-### 인 게임씬 미리보기 🔎
-<img width="282" height="597" alt="image" src="https://github.com/user-attachments/assets/53ac4814-4126-4c41-afb7-5d33f9fbd2a7" />
-<img width="285" height="598" alt="image" src="https://github.com/user-attachments/assets/85237302-8fca-45a2-9eca-11a34e85f22d" />
-<img width="288" height="599" alt="image" src="https://github.com/user-attachments/assets/491d2aa0-03bc-4e25-9fad-c52fbae75b98" />
-<img width="290" height="571" alt="image" src="https://github.com/user-attachments/assets/ad5ea0fd-741a-4806-81f6-91ddb4e42204" />
-<img width="290" height="565" alt="image" src="https://github.com/user-attachments/assets/827fed47-d9d4-4866-b42a-2d4feef9d337" />
+### 인게임씬 🔎
+<details>
+<summary>접기/펼치기 버튼</summary> 
+<div markdown="1">
+
+### 로그인 및 업데이트 확인
+<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/59b0beff-bbc0-41e0-b074-851abb613e09" />
+
+### 리소스 다운
+<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/e0f19809-40f2-4445-99d1-bd7e66c46cc9" />
+
+### 로비
+<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/0b7afec0-17c1-466f-bb73-a5f71a7b17be" />
+
+### 도감
+<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/3b25e1cd-e9e5-4a80-831d-41c9a3aa9c21" />
+
+### 랭킹
+<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/49e9620d-f252-46f0-846b-9caef7f688d6" />
+
+### 인게임
+<img width="287" height="587" alt="image" src="https://github.com/user-attachments/assets/e13391b5-60c1-426b-8a9a-020a4db62ef9" />
+
+### 클리어 
+<img width="1080" height="2340" alt="image" src="https://github.com/user-attachments/assets/f97e46cc-4e12-40a6-b469-7d705b9a1a74" />
+
+</div>
+</details>
+
 
 
 
 ## 기술 스택 💻
-GPGS, Addressable, Unity 
+GPGS, Addressable, Unity , Dotween
 
