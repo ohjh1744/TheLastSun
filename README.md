@@ -12,7 +12,7 @@ https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
 | 이름 | 개인 역할 | 담당 역할 및 기능 |
 | ------ | ---------- | ------ |
 | 오준혁 | Pm, Developer | 개발 |
-| 김민성 | Gd, Designer | 기획 |
+| 김민성 | Designer | 기획 |
 | 양윤석| Designer | 기획 |
 
 
