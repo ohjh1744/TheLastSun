@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c21ae5b6c94bab4c9e4393404e93855, type: 3}
+  m_Name: God_1
+  m_EditorClassIdentifier: 
+  _heroType: 15
+  _upgradeType: 3
+  _heroProjectileIndex: 11
+  _baseDamage: 78
+  _attackRange: 2.8
+  _attackDelay: 1.1
+  _maxAttackCount: 10
+  _spawnClip: {fileID: 8300000, guid: abaf8137e2c7e374381b20fba5795c92, type: 3}
+  _attackClip: {fileID: 8300000, guid: fe3d4b0b9c14878448e5bb8af19ab3ad, type: 3}
