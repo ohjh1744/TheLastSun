@@ -15,8 +15,10 @@ https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
 | 김민성 | Designer | 기획 |
 | 양윤석| Designer | 기획 |
 
+## 시연 영상
+https://www.youtube.com/watch?v=4HPzqmSJ7c0
 
-### 인게임씬 🔎
+## 인게임씬 🔎
 <details>
 <summary>접기/펼치기 버튼</summary> 
 <div markdown="1">
