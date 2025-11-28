@@ -1,6 +1,7 @@
 아즈텍 신화의 다섯개의 태양을 배경으로한 Android 2D Defense Game입니다.
 
-프로젝트 관리 : https://ionian-army-8a2.notion.site/The-Last-Sun-Indians-1913b9c6dab48095beeecaa87f7aa03e?source=copy_link
+## 프로젝트 관리
+https://ionian-army-8a2.notion.site/The-Last-Sun-Indians-1913b9c6dab48095beeecaa87f7aa03e?source=copy_link
 
 ## PlayStroe링크
 https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
@@ -15,8 +16,10 @@ https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
 | 김민성 | Designer | 기획 |
 | 양윤석| Designer | 기획 |
 
+## 시연 영상
+https://www.youtube.com/watch?v=4HPzqmSJ7c0
 
-### 인게임씬 🔎
+## 인게임씬 🔎
 <details>
 <summary>접기/펼치기 버튼</summary> 
 <div markdown="1">
@@ -50,5 +53,5 @@ https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
 
 
 ## 기술 스택 💻
-GPGS, Addressable, Unity , Dotween
+Unity, C#, GPGS, InAppUpdate, Addressable, Aws, Dotween
 
