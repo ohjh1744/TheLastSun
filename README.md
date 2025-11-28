@@ -6,7 +6,7 @@ https://ionian-army-8a2.notion.site/The-Last-Sun-Indians-1913b9c6dab48095beeecaa
 ## PlayStroe링크
 https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
 ## 개발 기간 📅
-2025.7.29 ~ ing
+2025.7~ 2025.11
 
 ## 역할 분담 🧑‍💻
 ### 프로젝트 인원 : 3명 [팀프로젝트]
