@@ -50,5 +50,5 @@ https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
 
 
 ## 기술 스택 💻
-GPGS, Addressable, Unity , Dotween
+Unity, C#, GPGS, InAppUpdate, Addressable, Aws, Dotween
 
