@@ -1,6 +1,7 @@
 아즈텍 신화의 다섯개의 태양을 배경으로한 Android 2D Defense Game입니다.
 
-프로젝트 관리 : https://ionian-army-8a2.notion.site/The-Last-Sun-Indians-1913b9c6dab48095beeecaa87f7aa03e?source=copy_link
+## 프로젝트 관리
+https://ionian-army-8a2.notion.site/The-Last-Sun-Indians-1913b9c6dab48095beeecaa87f7aa03e?source=copy_link
 
 ## PlayStroe링크
 https://play.google.com/store/apps/details?id=com.OJH.TheLastSun
