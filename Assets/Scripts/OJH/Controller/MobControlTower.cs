@@ -5,6 +5,8 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+// 여러 몬스터들이 각자의 Update에서 행동하여 프레임 드랍이 발생하는 문제를 예방하기 위해,
+// Tower를 통해서 몬스터 웨이브 및 소환된 몬스터를 제어해주는 컨트롤러 입니다.
 public class MobControlTower : MonoBehaviour
 {
     [Header("몬스터 소환 위치 및 이동 위치")]
@@ -23,16 +25,17 @@ public class MobControlTower : MonoBehaviour
     //웨이브별 소환유닛
     [SerializeField] private int[] _spawnNumForWave;
 
-    private int _curSpawnNumForWave;
 
+    //코루틴
     WaitForSeconds _spawnDurateWs;
     Coroutine _spawnRotine;
 
+    //매니저
     ObjectPoolManager _poolManager;
     InGameManager _inGameManager;
 
+    private int _curSpawnNumForWave;
     private bool _isWaveChange = false;
-
     MobController _bossController;
     Canvas _bossCanvas;
 
@@ -59,6 +62,7 @@ public class MobControlTower : MonoBehaviour
         _spawnDurateWs = new WaitForSeconds(_spawnDurate);
     }
 
+    //해당 웨이브 타임 체크 -> 웨이브 타임이 종료되면 다음 웨이브로 넘어가면서 타임 초기화.
     private void CheckWaveTime()
     {
         if (_inGameManager.CurrentWaveTime <= 0.1f && _isWaveChange == false)
@@ -73,6 +77,7 @@ public class MobControlTower : MonoBehaviour
         _inGameManager.CurrentWaveTime -= Time.deltaTime;
     }
 
+    //몬스터 소환 및 이동 제어시작
     private void StartSpawnMobAndMove()
     {
         if(_spawnRotine == null)
@@ -81,7 +86,7 @@ public class MobControlTower : MonoBehaviour
         }
     }
 
- 
+    //몬스터 소환 및 이동 제어 코루틴
     IEnumerator SpawnMobsAndMove()
     {
         while (true)
@@ -127,7 +132,7 @@ public class MobControlTower : MonoBehaviour
             }
             else
             {
-                //2. 일반 몹들은 소환 후 움직이도록
+                //3. 일반 몹들은 소환 후 움직이도록
                 mob.transform.DOPath(_movPos, _mobMoveTimes[_inGameManager.WaveNum], PathType.Linear, PathMode.TopDown2D)
                     .SetEase(Ease.Linear)
                     .SetLoops(-1, LoopType.Restart);
@@ -137,6 +142,7 @@ public class MobControlTower : MonoBehaviour
         }
     }
 
+    //중간보스, 보스웨이브에서 클리어 여부 체크
     private void CheckClearOrDefeat()
     {
         //100마리 넘엇을 시 실패
