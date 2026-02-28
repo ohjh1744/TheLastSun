@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class InAddrContainer : UIBInder, IAssetLoadable
 {
-    private enum EHero {Normal, Rare, Ancient, Legend, Epic}
+    private enum EHero { Normal, Rare, Ancient, Legend, Epic }
     #region IAssetLoadable 
     //어드레서블을 통해 불러와 적용할 에셋 개수
     [SerializeField] private int _loadAssetUICount;
@@ -77,9 +77,11 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
     void Start()
     {
-        LoadAsset();
+        //LoadAsset();
+        StartCoroutine(LoadAssetRoutine());
     }
 
+    //구버전
     void LoadAsset()
     {
         AddressableManager.Instance.LoadOnlySprite(_button_03, (sprite) =>
@@ -145,7 +147,8 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("PausePanelNameBgImage").sprite = sprite;
             GetUI<Image>("SellPanelNameBgImage").sprite = sprite;
         });
-        AddressableManager.Instance.LoadOnlySprite(_resourceBar1, (sprite) => { 
+        AddressableManager.Instance.LoadOnlySprite(_resourceBar1, (sprite) =>
+        {
             _clearLoadAssetCount++;
             GetUI<Image>("ShowMaxHeroBgImage").sprite = sprite;
             GetUI<Image>("ShowJemBgImage").sprite = sprite;
@@ -166,31 +169,33 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             GetUI<Image>("GetEpicJemInfoBgImage").sprite = sprite;
         });
         AddressableManager.Instance.LoadOnlySprite(_resourceBar2, (sprite) => { _clearLoadAssetCount++; GetUI<Image>("MobNumSliderFill").sprite = sprite; });
-        AddressableManager.Instance.LoadOnlySprite(_backgroundSprites[PlayerController.Instance.PlayerData.CurrentStage], (sprite) =>{_clearLoadAssetCount++;GetUI<Image>("InGameBgPanel").sprite= sprite;});
+        AddressableManager.Instance.LoadOnlySprite(_backgroundSprites[PlayerController.Instance.PlayerData.CurrentStage], (sprite) => { _clearLoadAssetCount++; GetUI<Image>("InGameBgPanel").sprite = sprite; });
         for (int i = 0; i < _tutorialSprites.Count; i++)
         {
             _clearLoadAssetCount++;
             int index = i;
-            AddressableManager.Instance.LoadOnlySprite(_tutorialSprites[index], (sprite) => {
+            AddressableManager.Instance.LoadOnlySprite(_tutorialSprites[index], (sprite) =>
+            {
                 GetUI<Image>($"TutorialImage{index}").sprite = sprite;
             });
         }
         AddressableManager.Instance.LoadOnlySprite(_wave1MobSprites[PlayerController.Instance.PlayerData.CurrentStage], (sprite) => { _clearLoadAssetCount++; GetUI<Image>("WaveInfoMobImage").sprite = sprite; });
         AddressableManager.Instance.LoadOnlySprite(_spawnButton, (sprite) => { _clearLoadAssetCount++; GetUI<Image>("SpawnButton").sprite = sprite; });
-        AddressableManager.Instance.LoadOnlySprite(_specialSpawnButton, (sprite) => { 
-            _clearLoadAssetCount++; 
+        AddressableManager.Instance.LoadOnlySprite(_specialSpawnButton, (sprite) =>
+        {
+            _clearLoadAssetCount++;
             GetUI<Image>("SpecialSpawnButton").sprite = sprite;
             GetUI<Image>("SpecialSpawnButton").sprite = sprite;
         });
 
-        for(int i = 0; i < _warriorPortraitSprites.Count; i++)
+        for (int i = 0; i < _warriorPortraitSprites.Count; i++)
         {
             int index = i;
             AddressableManager.Instance.LoadOnlySprite(_warriorPortraitSprites[index], (sprite) =>
             {
                 _clearLoadAssetCount++;
                 GetUI<Image>($"{((EHero)index).ToString()}WarriorSellButton").sprite = sprite;
-                if(index == (int)EHero.Normal)
+                if (index == (int)EHero.Normal)
                 {
                     GetUI<Image>("WarriorUpgradeButton").sprite = sprite;
                 }
@@ -223,20 +228,21 @@ public class InAddrContainer : UIBInder, IAssetLoadable
             });
         }
 
-        AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () => {
+        AddressableManager.Instance.LoadSound(_bgmClip[PlayerController.Instance.PlayerData.CurrentStage], GetUI<AudioSource>("Bgm"), () =>
+        {
             _clearLoadAssetCount++;
             if (PlayerController.Instance.PlayerData.IsSound == true)
             {
                 GetUI<AudioSource>("Bgm").Play();
             }
         });
-        AddressableManager.Instance.LoadSound(_spawnClip, GetUI<AudioSource>("Sfx"), () => { _clearLoadAssetCount++;});
+        AddressableManager.Instance.LoadSound(_spawnClip, GetUI<AudioSource>("Sfx"), () => { _clearLoadAssetCount++; });
 
         //아래부터는 프리펩 불러오고 미리 생성
-        for(int i = 0; i < _heros.Count; i++)
+        for (int i = 0; i < _heros.Count; i++)
         {
             int index = i;
-            AddressableManager.Instance.GetObjectAndSave(_heros[index], ObjectPoolManager.Instance.Heros, (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false);});
+            AddressableManager.Instance.GetObjectAndSave(_heros[index], ObjectPoolManager.Instance.Heros, (obj) => { _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
         }
 
         LoadMob();
@@ -244,10 +250,10 @@ public class InAddrContainer : UIBInder, IAssetLoadable
         for (int i = 0; i < _projectiles.Count; i++)
         {
             int index = i;
-            AddressableManager.Instance.GetObjectAndSave(_projectiles[index], ObjectPoolManager.Instance.Projectiles,  (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
+            AddressableManager.Instance.GetObjectAndSave(_projectiles[index], ObjectPoolManager.Instance.Projectiles, (obj) => { _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
         }
 
-        AddressableManager.Instance.GetObject(_heroPlates[PlayerController.Instance.PlayerData.CurrentStage], (obj) => { });
+        AddressableManager.Instance.GetObject(_heroPlates[PlayerController.Instance.PlayerData.CurrentStage], (obj) => { _clearLoadAssetCount++; });
 
 
     }
@@ -276,11 +282,342 @@ public class InAddrContainer : UIBInder, IAssetLoadable
                 return;
         }
 
-        for(int i= 0; i < _stageMobs.Count; i++)
+        for (int i = 0; i < _stageMobs.Count; i++)
         {
             int index = i;
-            AddressableManager.Instance.GetObjectAndSave(_stageMobs[index], ObjectPoolManager.Instance.Mobs, (obj) =>{ _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
+            AddressableManager.Instance.GetObjectAndSave(_stageMobs[index], ObjectPoolManager.Instance.Mobs, (obj) => { _clearLoadAssetCount++; obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false); });
         }
+    }
+
+    //신버전
+    IEnumerator LoadAssetRoutine()
+    {
+        // 버튼03
+        yield return LoadSpriteRoutine(_button_03, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("GoSellButton").sprite = sprite;
+            GetUI<Image>("ShowSpawnRateButton").sprite = sprite;
+            GetUI<Image>("ClearPanelGoLobbyButton").sprite = sprite;
+            GetUI<Image>("GoTutorialButton").sprite = sprite;
+            GetUI<Image>("PausePanelGoLobbyButton").sprite = sprite;
+        });
+
+        // 버튼04
+        yield return LoadSpriteRoutine(_button_04, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("PauseBgImage").sprite = sprite;
+            GetUI<Image>("SoundBgImage").sprite = sprite;
+            GetUI<Image>("TImeSpeedButton").sprite = sprite;
+            GetUI<Image>("WaveInfoPanel").sprite = sprite;
+            GetUI<Image>("ShowJemBgImage").sprite = sprite;
+            GetUI<Image>("PausePanelSetFalseBgImage").sprite = sprite;
+            GetUI<Image>("SellPanelSetFalseButtonBgImage").sprite = sprite;
+            GetUI<Image>("SpawnRatePanelSetFalseBgImage").sprite = sprite;
+        });
+
+        // cancel
+        yield return LoadSpriteRoutine(_cancel, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("PausePanelSetFalseButton").sprite = sprite;
+            GetUI<Image>("SellPanelSetFalseButton").sprite = sprite;
+            GetUI<Image>("SpawnRatePanelSetFalseButton").sprite = sprite;
+        });
+
+        // diamond
+        yield return LoadSpriteRoutine(_diamond, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("ShowJemImage").sprite = sprite;
+            GetUI<Image>("ShowJemImage").sprite = sprite;
+            GetUI<Image>("ShowWarriorUpgradeInfoJemImage").sprite = sprite;
+            GetUI<Image>("ShowArcherUpgradeInfoJemImage").sprite = sprite;
+            GetUI<Image>("ShowBomerUpgradeInfoJemImage").sprite = sprite;
+            GetUI<Image>("GetNormalJemImage").sprite = sprite;
+            GetUI<Image>("GetRareJemImage").sprite = sprite;
+            GetUI<Image>("GetAncientJemImage").sprite = sprite;
+            GetUI<Image>("GetLegendJemImage").sprite = sprite;
+            GetUI<Image>("GetEpicJemImage").sprite = sprite;
+        });
+
+        // sound icons
+        yield return LoadSpriteRoutine(_icon_Volume, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("SoundButton").sprite = sprite;
+            if (PlayerController.Instance.PlayerData.IsSound)
+                GetUI("SoundButton").SetActive(true);
+        });
+
+        yield return LoadSpriteRoutine(_icon_VolumeMute, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("SoundMuteButton").sprite = sprite;
+            if (!PlayerController.Instance.PlayerData.IsSound)
+                GetUI("SoundMuteButton").SetActive(true);
+        });
+
+        // pause
+        yield return LoadSpriteRoutine(_pause, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("PauseButton").sprite = sprite;
+        });
+
+        // popup
+        yield return LoadSpriteRoutine(_popUp, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("BottomPanel").sprite = sprite;
+            GetUI<Image>("SpawnRatePanel").sprite = sprite;
+            GetUI<Image>("ClearPanel").sprite = sprite;
+            GetUI<Image>("PausePanel").sprite = sprite;
+            GetUI<Image>("SellPanel").sprite = sprite;
+        });
+
+        // popup title
+        yield return LoadSpriteRoutine(_popUp_Title, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("ClearPanelNameBgImage").sprite = sprite;
+            GetUI<Image>("PausePanelNameBgImage").sprite = sprite;
+            GetUI<Image>("SellPanelNameBgImage").sprite = sprite;
+        });
+
+        // resourceBar1
+        yield return LoadSpriteRoutine(_resourceBar1, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("ShowMaxHeroBgImage").sprite = sprite;
+            GetUI<Image>("ShowJemBgImage").sprite = sprite;
+            GetUI<Image>("MobNumSliderBg").sprite = sprite;
+            GetUI<Image>("NotifyPanel").sprite = sprite;
+            GetUI<Image>("NotifyMobNumPanel").sprite = sprite;
+            GetUI<Image>("ChangeSellWarriorButton").sprite = sprite;
+            GetUI<Image>("ChangeSellArcherButton").sprite = sprite;
+            GetUI<Image>("ChangeSellBomerButton").sprite = sprite;
+            GetUI<Image>("ShowWarriorUpgradeInfoBgImage").sprite = sprite;
+            GetUI<Image>("ShowArcherUpgradeInfoBgImage ").sprite = sprite;
+            GetUI<Image>("ShowBomerUpgradeInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetNormalJemInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetRareJemInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetAncientJemInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetLegendJemInfoBgImage").sprite = sprite;
+            GetUI<Image>("GetEpicJemInfoBgImage").sprite = sprite;
+        });
+
+        // resourceBar2
+        yield return LoadSpriteRoutine(_resourceBar2, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("MobNumSliderFill").sprite = sprite;
+        });
+
+        // background
+        yield return LoadSpriteRoutine(_backgroundSprites[PlayerController.Instance.PlayerData.CurrentStage], sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("InGameBgPanel").sprite = sprite;
+        });
+
+        // tutorial images
+        for (int i = 0; i < _tutorialSprites.Count; i++)
+        {
+            int index = i;
+            yield return LoadSpriteRoutine(_tutorialSprites[index], sprite =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"TutorialImage{index}").sprite = sprite;
+            });
+        }
+
+        // wave mob image
+        yield return LoadSpriteRoutine(_wave1MobSprites[PlayerController.Instance.PlayerData.CurrentStage], sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("WaveInfoMobImage").sprite = sprite;
+        });
+
+        // spawn buttons
+        yield return LoadSpriteRoutine(_spawnButton, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("SpawnButton").sprite = sprite;
+        });
+
+        yield return LoadSpriteRoutine(_specialSpawnButton, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("SpecialSpawnButton").sprite = sprite;
+        });
+
+        // warrior portraits
+        for (int i = 0; i < _warriorPortraitSprites.Count; i++)
+        {
+            int index = i;
+            yield return LoadSpriteRoutine(_warriorPortraitSprites[index], sprite =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"{((EHero)index)}WarriorSellButton").sprite = sprite;
+
+                if (index == (int)EHero.Normal)
+                    GetUI<Image>("WarriorUpgradeButton").sprite = sprite;
+            });
+        }
+
+        // archer portraits
+        for (int i = 0; i < _archerPortraitSprites.Count; i++)
+        {
+            int index = i;
+            yield return LoadSpriteRoutine(_archerPortraitSprites[index], sprite =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"{((EHero)index)}ArcherSellButton").sprite = sprite;
+
+                if (index == (int)EHero.Normal)
+                    GetUI<Image>("ArcherUpgradeButton").sprite = sprite;
+            });
+        }
+
+        // bomer portraits
+        for (int i = 0; i < _bomerPortraitSprites.Count; i++)
+        {
+            int index = i;
+            yield return LoadSpriteRoutine(_bomerPortraitSprites[index], sprite =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"{((EHero)index)}BomerSellButton").sprite = sprite;
+
+                if (index == (int)EHero.Normal)
+                    GetUI<Image>("BomerUpgradeButton").sprite = sprite;
+            });
+        }
+
+        // BGM
+        yield return LoadSoundRoutine(
+            _bgmClip[PlayerController.Instance.PlayerData.CurrentStage],
+            GetUI<AudioSource>("Bgm"),
+            () =>
+            {
+                _clearLoadAssetCount++;
+                if (PlayerController.Instance.PlayerData.IsSound)
+                    GetUI<AudioSource>("Bgm").Play();
+            });
+
+        // SFX
+        yield return LoadSoundRoutine(_spawnClip,
+            GetUI<AudioSource>("Sfx"),
+            () => _clearLoadAssetCount++);
+
+        // hero preload
+        for (int i = 0; i < _heros.Count; i++)
+        {
+            int index = i;
+            yield return LoadObjectAndSaveRoutine(_heros[index], ObjectPoolManager.Instance.Heros, obj =>
+            {
+                _clearLoadAssetCount++;
+            });
+        }
+
+        // mob preload
+        yield return StartCoroutine(LoadMobRoutine());
+
+        // projectile preload
+        for (int i = 0; i < _projectiles.Count; i++)
+        {
+            int index = i;
+            yield return LoadObjectAndSaveRoutine(_projectiles[index], ObjectPoolManager.Instance.Projectiles, obj =>
+            {
+                _clearLoadAssetCount++;
+            });
+        }
+
+        // hero plate
+        yield return LoadObjectRoutine(
+            _heroPlates[PlayerController.Instance.PlayerData.CurrentStage],
+            obj => { _clearLoadAssetCount++; });
+
+        Debug.Log("전체 Addressable 로드 완료");
+    }
+    IEnumerator LoadSpriteRoutine(AssetReferenceSprite reference, Action<Sprite> onLoaded)
+    {
+        bool done = false;
+
+        AddressableManager.Instance.LoadOnlySprite(reference, sprite =>
+        {
+            onLoaded?.Invoke(sprite);
+            done = true;
+        });
+
+        yield return new WaitUntil(() => done);
+    }
+
+    IEnumerator LoadSoundRoutine(AssetReferenceT<AudioClip> reference, AudioSource source, Action onLoaded)
+    {
+        bool done = false;
+
+        AddressableManager.Instance.LoadSound(reference, source, () =>
+        {
+            onLoaded?.Invoke();
+            done = true;
+        });
+
+        yield return new WaitUntil(() => done);
+    }
+
+    IEnumerator LoadObjectAndSaveRoutine(AssetReferenceGameObject reference, List<GameObject> realObjects, Action<GameObject> onLoaded)
+    {
+        bool done = false;
+
+        AddressableManager.Instance.GetObjectAndSave(reference, realObjects, obj =>
+        {
+            obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false);
+            onLoaded?.Invoke(obj);
+            done = true;
+        });
+
+        yield return new WaitUntil(() => done);
+    }
+
+    IEnumerator LoadMobRoutine()
+    {
+        List<AssetReferenceGameObject> stageMobs;
+
+        switch (PlayerController.Instance.PlayerData.CurrentStage)
+        {
+            case 0: stageMobs = _stage1Mobs; break;
+            case 1: stageMobs = _stage2Mobs; break;
+            case 2: stageMobs = _stage3Mobs; break;
+            case 3: stageMobs = _stage4Mobs; break;
+            case 4: stageMobs = _stage5Mobs; break;
+            default: yield break;
+        }
+
+        for (int i = 0; i < stageMobs.Count; i++)
+        {
+            int index = i;
+
+            yield return LoadObjectAndSaveRoutine(stageMobs[index], ObjectPoolManager.Instance.Mobs, obj =>
+            {
+                _clearLoadAssetCount++;
+            });
+        }
+    }
+
+    IEnumerator LoadObjectRoutine(AssetReferenceGameObject reference, Action<GameObject> onLoaded)
+    {
+        bool done = false;
+        GameObject result = null;
+        AddressableManager.Instance.GetObject(reference, obj =>
+        {
+
+            onLoaded?.Invoke(result);
+            done = true;
+        });
+
+        yield return new WaitUntil(() => done);
     }
 
 

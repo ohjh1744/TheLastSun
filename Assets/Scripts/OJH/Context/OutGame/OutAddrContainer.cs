@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,7 +46,8 @@ public class OutAddrContainer : UIBInder, IAssetLoadable
     }
     void Start()
     {
-        LoadAsset();
+        StartCoroutine(LoadAssetSequential());
+        //LoadAsset();
     }
 
     void LoadAsset()
@@ -162,5 +164,183 @@ public class OutAddrContainer : UIBInder, IAssetLoadable
                 GetUI<AudioSource>("Bgm").Play();
             }
         });
+    }
+
+    IEnumerator LoadAssetSequential()
+    {
+        yield return LoadSpriteTask(_button_02, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("PlayButton").sprite = sprite;
+            GetUI<Image>("CheckRankButton").sprite = sprite;
+            GetUI<Image>("BossBookButton").sprite = sprite;
+            GetUI<Image>("SettingButton").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_button_03, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("SetMusicButton").sprite = sprite;
+            GetUI<Image>("ShowCreditButton").sprite = sprite;
+            GetUI<Image>("ReviewButton").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_button_04, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("BossBookSetFalseBgImage").sprite = sprite;
+            GetUI<Image>("SettingSetFalseBgImage").sprite = sprite;
+            GetUI<Image>("BossBookScrollView").sprite = sprite;
+            GetUI<Image>("BossBookExplainBgImage").sprite = sprite;
+            GetUI<Image>("CreditSetFalseBgImage").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_cancel, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("BossBookSetFalseButton").sprite = sprite;
+            GetUI<Image>("SettingSetFalseButton").sprite = sprite;
+            GetUI<Image>("CreditSetFalseButton").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_frame, sprite =>
+        {
+            _clearLoadAssetCount++;
+            for (int i = 1; i <= 5; i++)
+                GetUI<Image>($"BossPortraitBgImage{i}").sprite = sprite;
+
+            GetUI<Image>("BossBookExplainPortraitBgImage").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_icon_Lock, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("LockImage").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_popUp, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("SettingPanel").sprite = sprite;
+            GetUI<Image>("CreditPanel").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_popUp_Title, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("SettingNameBgImage").sprite = sprite;
+            GetUI<Image>("BossBookStateImage").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_difficultyImage, sprite =>
+        {
+            _clearLoadAssetCount++;
+
+            for (int i = 0; i < 6; i++)
+                GetUI<Image>($"DifficultyLevelImage{i + 1}").sprite = sprite;
+
+            int stage = PlayerController.Instance.PlayerData.CurrentStage;
+
+            if (stage == 0)
+                GetUI("DifficultyLevel1Images").SetActive(true);
+            else if (stage <= 2)
+                GetUI("DifficultyLevel2Images").SetActive(true);
+            else
+                GetUI("DifficultyLevel3Images").SetActive(true);
+        });
+
+        yield return LoadSpriteTask(_stageChangeLeftButton, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("StageChangeLeftButton").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_stageChangeRightButton, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("StageChangeRightButton").sprite = sprite;
+        });
+
+        yield return LoadSpriteTask(_resourceBar1, sprite =>
+        {
+            _clearLoadAssetCount++;
+            GetUI<Image>("BossBookExplainTextBgImage").sprite = sprite;
+        });
+
+        // background
+        for (int i = 0; i < _backgroundSprites.Count; i++)
+        {
+            int index = i;
+            yield return LoadSpriteTask(_backgroundSprites[index], sprite =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>(index == 0 ? "MainPanel" : "BossBookPanel").sprite = sprite;
+            });
+        }
+
+        // stage sprites
+        for (int i = 0; i < _stageSprites.Count; i++)
+        {
+            int index = i;
+            yield return LoadSpriteTask(_stageSprites[index], sprite =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"Stage{index + 1}Image").sprite = sprite;
+
+                if (PlayerController.Instance.PlayerData.CurrentStage == index)
+                    GetUI($"Stage{index + 1}Image").SetActive(true);
+            });
+        }
+
+        // boss sprites
+        for (int i = 0; i < _bossLocSprites.Count; i++)
+        {
+            int index = i;
+            var target = PlayerController.Instance.PlayerData.IsClearStage[index]
+                ? _bossUnLocSprites[index]
+                : _bossLocSprites[index];
+
+            yield return LoadSpriteTask(target, sprite =>
+            {
+                _clearLoadAssetCount++;
+                GetUI<Image>($"BossPortraitButton{index + 1}").sprite = sprite;
+            });
+        }
+
+        // sound
+        yield return LoadSoundTask(_bgm, GetUI<AudioSource>("Bgm"), () =>
+        {
+            _clearLoadAssetCount++;
+
+            if (PlayerController.Instance.PlayerData.IsSound)
+                GetUI<AudioSource>("Bgm").Play();
+        });
+
+    }
+    IEnumerator LoadSpriteTask(AssetReferenceSprite asset, Action<Sprite> onLoaded)
+    {
+        bool done = false;
+
+        AddressableManager.Instance.LoadOnlySprite(asset, sprite =>
+        {
+            onLoaded?.Invoke(sprite);
+            done = true;
+        });
+
+        yield return new WaitUntil(() => done);
+    }
+
+    IEnumerator LoadSoundTask(AssetReferenceT<AudioClip> clip, AudioSource source, Action onDone)
+    {
+        bool done = false;
+
+        AddressableManager.Instance.LoadSound(clip, source, () =>
+        {
+            onDone?.Invoke();
+            done = true;
+        });
+
+        yield return new WaitUntil(() => done);
+
     }
 }
