@@ -17,6 +17,10 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     //현재 어드레서블을 통해 적용끝난 에셋 개수
     private int _clearLoadAssetCount;
     public int ClearLoadAssetCount { get { return _clearLoadAssetCount; } set { _clearLoadAssetCount = value; } }
+
+    private readonly List<AssetReference> _loadedAssets = new List<AssetReference>();
+    private readonly List<GameObject> _loadedInstances = new List<GameObject>();
+    private const int LoadRetryCount = 3;
     #endregion
 
     #region Addressable Assets
@@ -292,6 +296,11 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     //신버전
     IEnumerator LoadAssetRoutine()
     {
+        yield return AddressableManager.Instance.WaitUntilInitialized();
+
+        if (!AddressableManager.Instance.IsInitialized)
+            yield break;
+
         // 버튼03
         yield return LoadSpriteRoutine(_button_03, sprite =>
         {
@@ -543,42 +552,101 @@ public class InAddrContainer : UIBInder, IAssetLoadable
     }
     IEnumerator LoadSpriteRoutine(AssetReferenceSprite reference, Action<Sprite> onLoaded)
     {
-        bool done = false;
-
-        AddressableManager.Instance.LoadOnlySprite(reference, sprite =>
+        for (int retry = 0; retry < LoadRetryCount; retry++)
         {
-            onLoaded?.Invoke(sprite);
-            done = true;
-        });
+            bool done = false;
+            Sprite loadedSprite = null;
 
-        yield return new WaitUntil(() => done);
+            AddressableManager.Instance.LoadOnlySprite(reference, sprite =>
+            {
+                loadedSprite = sprite;
+                done = true;
+            });
+
+            yield return new WaitUntil(() => done);
+
+            if (loadedSprite != null)
+            {
+                RegisterLoadedAsset(reference);
+
+                try
+                {
+                    onLoaded?.Invoke(loadedSprite);
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogError($"[InAddrContainer] Sprite apply failed. Key: {reference.RuntimeKey}, Error: {exception}");
+                }
+
+                yield break;
+            }
+
+            reference.ReleaseAsset();
+            Debug.LogWarning($"[InAddrContainer] Sprite load retry {retry + 1}/{LoadRetryCount}. Key: {reference.RuntimeKey}");
+            yield return null;
+        }
+
+        Debug.LogError($"[InAddrContainer] Sprite final load failed. Key: {reference.RuntimeKey}");
     }
 
     IEnumerator LoadSoundRoutine(AssetReferenceT<AudioClip> reference, AudioSource source, Action onLoaded)
     {
-        bool done = false;
-
-        AddressableManager.Instance.LoadSound(reference, source, () =>
+        for (int retry = 0; retry < LoadRetryCount; retry++)
         {
-            onLoaded?.Invoke();
-            done = true;
-        });
+            bool done = false;
+            bool success = false;
 
-        yield return new WaitUntil(() => done);
+            AddressableManager.Instance.LoadSound(reference, source, () =>
+            {
+                success = source != null && source.clip != null;
+                done = true;
+            });
+
+            yield return new WaitUntil(() => done);
+
+            if (success)
+            {
+                RegisterLoadedAsset(reference);
+                onLoaded?.Invoke();
+                yield break;
+            }
+
+            reference.ReleaseAsset();
+            Debug.LogWarning($"[InAddrContainer] Sound load retry {retry + 1}/{LoadRetryCount}. Key: {reference.RuntimeKey}");
+            yield return null;
+        }
+
+        Debug.LogError($"[InAddrContainer] Sound final load failed. Key: {reference.RuntimeKey}");
     }
 
     IEnumerator LoadObjectAndSaveRoutine(AssetReferenceGameObject reference, List<GameObject> realObjects, Action<GameObject> onLoaded)
     {
-        bool done = false;
-
-        AddressableManager.Instance.GetObjectAndSave(reference, realObjects, obj =>
+        for (int retry = 0; retry < LoadRetryCount; retry++)
         {
-            obj.transform.SetParent(_addressObjects.transform, worldPositionStays: false);
-            onLoaded?.Invoke(obj);
-            done = true;
-        });
+            bool done = false;
+            GameObject loadedObject = null;
 
-        yield return new WaitUntil(() => done);
+            AddressableManager.Instance.GetObjectAndSave(reference, realObjects, obj =>
+            {
+                loadedObject = obj;
+                done = true;
+            });
+
+            yield return new WaitUntil(() => done);
+
+            if (loadedObject != null)
+            {
+                _loadedInstances.Add(loadedObject);
+                loadedObject.transform.SetParent(_addressObjects.transform, worldPositionStays: false);
+                onLoaded?.Invoke(loadedObject);
+                yield break;
+            }
+
+            Debug.LogWarning($"[InAddrContainer] Object load retry {retry + 1}/{LoadRetryCount}. Key: {reference.RuntimeKey}");
+            yield return null;
+        }
+
+        Debug.LogError($"[InAddrContainer] Object final load failed. Key: {reference.RuntimeKey}");
     }
 
     IEnumerator LoadMobRoutine()
@@ -608,16 +676,56 @@ public class InAddrContainer : UIBInder, IAssetLoadable
 
     IEnumerator LoadObjectRoutine(AssetReferenceGameObject reference, Action<GameObject> onLoaded)
     {
-        bool done = false;
-        GameObject result = null;
-        AddressableManager.Instance.GetObject(reference, obj =>
+        for (int retry = 0; retry < LoadRetryCount; retry++)
         {
+            bool done = false;
+            GameObject loadedObject = null;
 
-            onLoaded?.Invoke(result);
-            done = true;
-        });
+            AddressableManager.Instance.GetObject(reference, obj =>
+            {
+                loadedObject = obj;
+                done = true;
+            });
 
-        yield return new WaitUntil(() => done);
+            yield return new WaitUntil(() => done);
+
+            if (loadedObject != null)
+            {
+                _loadedInstances.Add(loadedObject);
+                onLoaded?.Invoke(loadedObject);
+                yield break;
+            }
+
+            Debug.LogWarning($"[InAddrContainer] Object load retry {retry + 1}/{LoadRetryCount}. Key: {reference.RuntimeKey}");
+            yield return null;
+        }
+
+        Debug.LogError($"[InAddrContainer] Object final load failed. Key: {reference.RuntimeKey}");
+    }
+
+    private void RegisterLoadedAsset(AssetReference asset)
+    {
+        if (asset != null && !_loadedAssets.Contains(asset))
+            _loadedAssets.Add(asset);
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = _loadedInstances.Count - 1; i >= 0; i--)
+        {
+            if (_loadedInstances[i] != null)
+                AddressableManager.Instance.ReleaseInstance(_loadedInstances[i]);
+        }
+
+        _loadedInstances.Clear();
+
+        for (int i = _loadedAssets.Count - 1; i >= 0; i--)
+        {
+            if (_loadedAssets[i] != null)
+                _loadedAssets[i].ReleaseAsset();
+        }
+
+        _loadedAssets.Clear();
     }
 
 

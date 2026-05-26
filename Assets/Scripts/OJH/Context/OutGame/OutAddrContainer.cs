@@ -15,6 +15,9 @@ public class OutAddrContainer : UIBInder, IAssetLoadable
     //현재 어드레서블을 통해 적용끝난 에셋 개수
     private int _clearLoadAssetCount;
     public int ClearLoadAssetCount { get { return _clearLoadAssetCount; } set { _clearLoadAssetCount = value; } }
+
+    private readonly List<AssetReference> _loadedAssets = new List<AssetReference>();
+    private const int LoadRetryCount = 3;
     #endregion
 
     #region Addressable Assets
@@ -168,13 +171,18 @@ public class OutAddrContainer : UIBInder, IAssetLoadable
 
     IEnumerator LoadAssetSequential()
     {
+        yield return AddressableManager.Instance.WaitUntilInitialized();
+
+        if (!AddressableManager.Instance.IsInitialized)
+            yield break;
+
         yield return LoadSpriteTask(_button_02, sprite =>
         {
-            _clearLoadAssetCount++;
             GetUI<Image>("PlayButton").sprite = sprite;
             GetUI<Image>("CheckRankButton").sprite = sprite;
             GetUI<Image>("BossBookButton").sprite = sprite;
             GetUI<Image>("SettingButton").sprite = sprite;
+            _clearLoadAssetCount++;
         });
 
         yield return LoadSpriteTask(_button_03, sprite =>
@@ -319,28 +327,87 @@ public class OutAddrContainer : UIBInder, IAssetLoadable
     }
     IEnumerator LoadSpriteTask(AssetReferenceSprite asset, Action<Sprite> onLoaded)
     {
-        bool done = false;
-
-        AddressableManager.Instance.LoadOnlySprite(asset, sprite =>
+        for (int retry = 0; retry < LoadRetryCount; retry++)
         {
-            onLoaded?.Invoke(sprite);
-            done = true;
-        });
+            bool done = false;
+            Sprite loadedSprite = null;
 
-        yield return new WaitUntil(() => done);
+            AddressableManager.Instance.LoadOnlySprite(asset, sprite =>
+            {
+                loadedSprite = sprite;
+                done = true;
+            });
+
+            yield return new WaitUntil(() => done);
+
+            if (loadedSprite != null)
+            {
+                RegisterLoadedAsset(asset);
+
+                try
+                {
+                    onLoaded?.Invoke(loadedSprite);
+                }
+                catch (Exception exception)
+                {
+                    Debug.LogError($"[OutAddrContainer] Sprite apply failed. Key: {asset.RuntimeKey}, Error: {exception}");
+                }
+
+                yield break;
+            }
+
+            asset.ReleaseAsset();
+            Debug.LogWarning($"[OutAddrContainer] Sprite load retry {retry + 1}/{LoadRetryCount}. Key: {asset.RuntimeKey}");
+            yield return null;
+        }
+
+        Debug.LogError($"[OutAddrContainer] Sprite final load failed. Key: {asset.RuntimeKey}");
     }
 
     IEnumerator LoadSoundTask(AssetReferenceT<AudioClip> clip, AudioSource source, Action onDone)
     {
-        bool done = false;
-
-        AddressableManager.Instance.LoadSound(clip, source, () =>
+        for (int retry = 0; retry < LoadRetryCount; retry++)
         {
-            onDone?.Invoke();
-            done = true;
-        });
+            bool done = false;
+            bool success = false;
 
-        yield return new WaitUntil(() => done);
+            AddressableManager.Instance.LoadSound(clip, source, () =>
+            {
+                success = source != null && source.clip != null;
+                done = true;
+            });
 
+            yield return new WaitUntil(() => done);
+
+            if (success)
+            {
+                RegisterLoadedAsset(clip);
+                onDone?.Invoke();
+                yield break;
+            }
+
+            clip.ReleaseAsset();
+            Debug.LogWarning($"[OutAddrContainer] Sound load retry {retry + 1}/{LoadRetryCount}. Key: {clip.RuntimeKey}");
+            yield return null;
+        }
+
+        Debug.LogError($"[OutAddrContainer] Sound final load failed. Key: {clip.RuntimeKey}");
+    }
+
+    private void RegisterLoadedAsset(AssetReference asset)
+    {
+        if (asset != null && !_loadedAssets.Contains(asset))
+            _loadedAssets.Add(asset);
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = _loadedAssets.Count - 1; i >= 0; i--)
+        {
+            if (_loadedAssets[i] != null)
+                _loadedAssets[i].ReleaseAsset();
+        }
+
+        _loadedAssets.Clear();
     }
 }
